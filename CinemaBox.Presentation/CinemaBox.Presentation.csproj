@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="&quot;$(TargetDir)libs&quot;&#xD;&#xA;&#xD;&#xA;xcopy /Y /R /D &quot;$(TargetDir)*.dll&quot; &quot;$(TargetDir)libs\&quot;&#xD;&#xA;&#xD;&#xA;del &quot;$(TargetDir)*.dll&quot;" />
+  </Target>
+
+</Project>
