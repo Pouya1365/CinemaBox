@@ -20,4 +20,6 @@ public class MovieModelScrapping
     public byte? TopRank { get; set; }
     public byte? OscarNominations { get; set; }
     public byte? OscarWins { get; set; }
+    public List<string>? Genres { get; set; }
+    public Dictionary<string,string>? CountrieskeyValuePairs { get; set; }
 }
