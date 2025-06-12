@@ -13,5 +13,6 @@ public class MovieModelScrapping
     public long? ReleaseMonth { get; set; }
     public long? ReleaseDay { get; set; }
     public string? Certificate { get; set; }
-
+    public decimal? AggregateRating { get; set; }
+    public long? VoteCount { get; set; }
 }
