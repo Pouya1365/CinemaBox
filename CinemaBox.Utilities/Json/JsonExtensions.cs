@@ -9,13 +9,13 @@ public static class JsonExtensions
     {
         if (element.ValueKind == JsonValueKind.Object && element.TryGetProperty(propertyName, out var prop))        
             return prop;        
-        return null;
+        return default;
     }
 
     public static JsonElement? GetPropertySafe(this JsonElement? element, string propertyName)
     {
         if (element.HasValue && element.Value.ValueKind == JsonValueKind.Object && element.Value.TryGetProperty(propertyName, out var prop))        
            return prop;        
-        return null;
+        return default;
     }
 }
