@@ -15,4 +15,9 @@ public class MovieModelScrapping
     public string? Certificate { get; set; }
     public decimal? AggregateRating { get; set; }
     public long? VoteCount { get; set; }
+    public long? Winner { get; set; }
+    public long? Nomination { get; set; }
+    public byte? TopRank { get; set; }
+    public byte? OscarNominations { get; set; }
+    public byte? OscarWins { get; set; }
 }
