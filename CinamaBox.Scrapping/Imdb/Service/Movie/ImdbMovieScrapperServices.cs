@@ -2,7 +2,7 @@
 
 public class ImdbMovieScrapperServices
 {
-    public async Task<MovieModel> ScrapeAsync(string imdbId)
+    public async Task<MovieModelScrapping> ScrapeAsync(string imdbId)
     {
         var json = await JsonLoader.LoadImdbJsonAsync(imdbId);
         var movie = new MovieModel();
