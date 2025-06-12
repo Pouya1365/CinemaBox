@@ -31,4 +31,6 @@ public class MovieModelScrapping
     public List<string>? Locations { get; set; }
     public Dictionary<string,string>? Companies { get; set; }
     public List<CreditModel>? Credits { get; set; }
+    public string? EnPlot { get; set; }
+    public string? EnStoryline { get; set; }
 }
