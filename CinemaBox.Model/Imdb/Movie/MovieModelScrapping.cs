@@ -22,4 +22,5 @@ public class MovieModelScrapping
     public byte? OscarWins { get; set; }
     public List<string>? Genres { get; set; }
     public Dictionary<string,string>? CountrieskeyValuePairs { get; set; }
+    public Dictionary<string,string>? SpokenLanguageskeyValuePairs { get; set; }
 }
