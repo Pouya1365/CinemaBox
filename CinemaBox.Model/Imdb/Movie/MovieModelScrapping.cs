@@ -12,5 +12,6 @@ public class MovieModelScrapping
     public long? ReleaseYear { get; set; }
     public long? ReleaseMonth { get; set; }
     public long? ReleaseDay { get; set; }
+    public string? Certificate { get; set; }
 
 }

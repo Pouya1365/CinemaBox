@@ -17,6 +17,5 @@ public class  ReleaseDateExtractor: IGeneralInfoExtractor
         model.ReleaseMonth = data.GetPropertySafe("releaseDate").GetPropertySafe("month")?.GetInt64()??0;
         model.ReleaseDay = data.GetPropertySafe("releaseDate").GetPropertySafe("day")?.GetInt64()??0;
         return model;
-
     }
 }
