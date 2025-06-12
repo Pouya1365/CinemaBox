@@ -25,4 +25,5 @@ public class MovieModelScrapping
     public Dictionary<string,string>? SpokenLanguageskeyValuePairs { get; set; }
     public double? Budget { get; set; }
     public string? BudgetCurrency { get; set; }
+    public List<string>? Taglines { get; set; }
 }

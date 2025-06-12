@@ -18,7 +18,8 @@ public class SpokenLanguagesExtractor : IGeneralInfoExtractor
                                              let id = spokenLanguageitem.GetProperty("id").GetString()
                                              where !string.IsNullOrEmpty(id)
                                              let text = spokenLanguageitem.GetProperty("text").GetString()
-                                             select(id, text))
+                                             select (id, text))
             model.SpokenLanguageskeyValuePairs.Add(id, text);
         return model;
+    }
 }
