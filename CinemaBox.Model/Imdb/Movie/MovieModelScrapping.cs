@@ -33,4 +33,5 @@ public class MovieModelScrapping
     public List<CreditModel>? Credits { get; set; }
     public string? EnPlot { get; set; }
     public string? EnStoryline { get; set; }
+    public Dictionary<string, string>? KeywordskeyValuePairs { get; set; }
 }
