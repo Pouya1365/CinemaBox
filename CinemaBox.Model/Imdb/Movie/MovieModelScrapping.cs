@@ -1,9 +1,11 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using CinemaBox.Model.Imdb.Cast;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CinemaBox.Model.Imdb.Movie;
 
 public class MovieModelScrapping
 {
+    public string? ImdbId { get; set; }
     public string? EnTitle { get; set; }
     public string? OriginalTitle { get; set; }
     public long? StartYear { get; set; }
@@ -26,4 +28,7 @@ public class MovieModelScrapping
     public double? Budget { get; set; }
     public string? BudgetCurrency { get; set; }
     public List<string>? Taglines { get; set; }
+    public List<string>? Locations { get; set; }
+    public Dictionary<string,string>? Companies { get; set; }
+    public List<CreditModel>? Credits { get; set; }
 }

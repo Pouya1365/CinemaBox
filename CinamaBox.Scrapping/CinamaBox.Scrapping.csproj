@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CinemaBox.Enumeration\CinemaBox.Enumeration.csproj" />
     <ProjectReference Include="..\CinemaBox.Model\CinemaBox.Model.csproj" />
     <ProjectReference Include="..\CinemaBox.Scrapping.Interface\CinemaBox.Scrapping.Interface.csproj" />
     <ProjectReference Include="..\CinemaBox.Utilities\CinemaBox.Utilities.csproj" />
