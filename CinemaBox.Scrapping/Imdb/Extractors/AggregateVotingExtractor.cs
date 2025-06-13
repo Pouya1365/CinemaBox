@@ -3,17 +3,17 @@ using CinemaBox.Scrapping.Interface.Imdb.Extractors;
 using CinemaBox.Utilities.Json;
 using System.Text.Json;
 
-namespace CinamaBox.Scrapping.Imdb.Extractors;
+namespace CinemaBox.Scrapping.Imdb.Extractors;
 
-internal class CertificateExtractor : IGeneralInfoExtractor
+public class AggregateVotingExtractor : IGeneralInfoExtractor
 {
     public MovieModelScrapping Extract(MovieModelScrapping model, JsonDocument json)
     {
         JsonElement? data = json.RootElement.GetPropertySafe("props")?
           .GetPropertySafe("pageProps")?
           .GetPropertySafe("aboveTheFoldData");
-        model.Certificate = data.GetPropertySafe("certificate").GetPropertySafe("rating")?.GetString();
+        model.AggregateRating = data.GetPropertySafe("ratingsSummary").GetPropertySafe("aggregateRating")?.GetDecimal();
+        model.VoteCount = data.GetPropertySafe("ratingsSummary").GetPropertySafe("voteCount")?.GetInt64();
         return model;
-      
     }
 }

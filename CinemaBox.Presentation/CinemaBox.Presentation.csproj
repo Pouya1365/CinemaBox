@@ -12,4 +12,13 @@
     <Exec Command="&quot;$(TargetDir)libs&quot;&#xD;&#xA;&#xD;&#xA;xcopy /Y /R /D &quot;$(TargetDir)*.dll&quot; &quot;$(TargetDir)libs\&quot;&#xD;&#xA;&#xD;&#xA;del &quot;$(TargetDir)*.dll&quot;" />
   </Target>
 
+  <ItemGroup>
+    <PackageReference Include="Ces.WinForm.UI" Version="1.18.5" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CinemaBox.Scrapping\CinemaBox.Scrapping.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -4,7 +4,7 @@ using CinemaBox.Utilities.Html;
 using CinemaBox.Utilities.Json;
 using System.Text.Json;
 
-namespace CinamaBox.Scrapping.Imdb.Extractors;
+namespace CinemaBox.Scrapping.Imdb.Extractors;
 
 public class PlotExtractor : IGeneralInfoExtractor
 {
@@ -19,15 +19,15 @@ public class PlotExtractor : IGeneralInfoExtractor
           .GetPropertySafe("edges");
         var summaries = data.Value.EnumerateArray().Take(2).ToArray();
         if (summaries.Length > 0)
-        { 
-           JsonElement? enPlot=  summaries[0].GetPropertySafe("node").GetPropertySafe("plotText").GetPropertySafe("plaidHtml");
-            model.EnPlot =  HtmlDecode.HtmlDecoding(input: enPlot?.GetString());
+        {
+            JsonElement? enPlot = summaries[0].GetPropertySafe("node").GetPropertySafe("plotText").GetPropertySafe("plaidHtml");
+            model.EnPlot = HtmlDecode.HtmlDecoding(input: enPlot?.GetString());
         }
-         if (summaries.Length > 1)
+        if (summaries.Length > 1)
         {
             JsonElement? enStoryline = summaries[1].GetPropertySafe("node").GetPropertySafe("plotText").GetPropertySafe("plaidHtml");
             model.EnStoryline = HtmlDecode.HtmlDecoding(input: enStoryline?.GetString());
-        }    
+        }
         return model;
     }
 }

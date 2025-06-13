@@ -3,7 +3,7 @@ using CinemaBox.Scrapping.Interface.Imdb.Extractors;
 using CinemaBox.Utilities.Json;
 using System.Text.Json;
 
-namespace CinamaBox.Scrapping.Imdb.Extractors;
+namespace CinemaBox.Scrapping.Imdb.Extractors;
 
 public class GenresExtractor : IGeneralInfoExtractor
 {

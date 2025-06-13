@@ -5,7 +5,7 @@ using CinemaBox.Scrapping.Interface.Imdb.Extractors;
 using CinemaBox.Utilities.Json;
 using System.Text.Json;
 
-namespace CinamaBox.Scrapping.Imdb.Extractors;
+namespace CinemaBox.Scrapping.Imdb.Extractors;
 
 public class CreditExtractor : IGeneralInfoExtractor
 {
@@ -21,7 +21,7 @@ public class CreditExtractor : IGeneralInfoExtractor
         int leadCount = 0;
         foreach (var category in data.Value.EnumerateArray())
         {
-            string? categoryId = category.GetPropertySafe("category")?.GetString();
+            string? categoryId = category.GetPropertySafe("category")?.GetPropertySafe("id")?.GetString();
 
             if (!Enum.TryParse(categoryId, ignoreCase: true, out CreditEnumeration creditType))
                 continue;
@@ -35,7 +35,7 @@ public class CreditExtractor : IGeneralInfoExtractor
                 string? imageUrl = null;
                 imageUrl = credit.GetPropertySafe("node").GetPropertySafe("name").GetPropertySafe("primaryImage").GetPropertySafe("url")?.GetString();
                 // شخصیت‌ها
-                string roleName = GetRoleNames(credit);
+                string? roleName = GetRoleNames(credit)==""?null: GetRoleNames(credit);
 
                 model.Credits.Add(new CreditModel
                 {
@@ -60,12 +60,12 @@ public class CreditExtractor : IGeneralInfoExtractor
 
         JsonElement? data = credit.GetPropertySafe("node").GetPropertySafe("characters");
         List<string> names = [];
-        foreach (var charItem in data.Value.EnumerateArray())
-        {
-            string? charName = charItem.GetPropertySafe("name")?.GetString();
-            names.Add(charName);
-        }
+        if (data != null)
+            foreach (var charItem in data.Value.EnumerateArray())
+            {
+                string? charName = charItem.GetPropertySafe("name")?.GetString();
+                names.Add(charName);
+            }
         return string.Join(" / ", names);
     }
 }
-

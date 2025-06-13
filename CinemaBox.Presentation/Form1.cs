@@ -1,10 +1,20 @@
-namespace CinemaBox.Presentation
+using Ces.WinForm.UI.CesForm;
+using CinemaBox.Model.Imdb.Movie;
+using CinemaBox.Scrapping.Interface.Imdb.Service;
+namespace CinemaBox.Presentation;
+public partial class Form1 : CesForm
 {
-    public partial class Form1 : Form
+    private readonly IImdbMovieScrapperServices _imdbScrapperServices;
+
+    public Form1(IImdbMovieScrapperServices imdbScrapperServices)
     {
-        public Form1()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+        _imdbScrapperServices = imdbScrapperServices;
+    }
+
+    private async void Btn_GetInfo_Click(object sender, EventArgs e)
+    {
+        MovieModelScrapping movie = await _imdbScrapperServices.ImdbScrapperServicesAsync(Txt_Search.CesText);
+
     }
 }

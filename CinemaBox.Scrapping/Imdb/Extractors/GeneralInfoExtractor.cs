@@ -1,11 +1,12 @@
 ﻿using CinemaBox.Model.Imdb.Movie;
 using CinemaBox.Scrapping.Interface.Imdb.Extractors;
 using CinemaBox.Utilities.Json;
+using System.Text;
 using System.Text.Json;
 
-namespace CinamaBox.Scrapping.Imdb.Extractors;
+namespace CinemaBox.Scrapping.Imdb.Extractors;
 
-public class GeneralInfoExtractor: IGeneralInfoExtractor
+public class GeneralInfoExtractor : IGeneralInfoExtractor
 {
     public MovieModelScrapping Extract(MovieModelScrapping model, JsonDocument json)
     {
@@ -19,5 +20,5 @@ public class GeneralInfoExtractor: IGeneralInfoExtractor
         model.RunTimeMinutes = seconds.HasValue ? seconds.Value / 60 : 0;
         model.ImageUrl = data?.GetPropertySafe("primaryImage")?.GetPropertySafe("url")?.GetString();
         return model;
-    }   
+    }
 }

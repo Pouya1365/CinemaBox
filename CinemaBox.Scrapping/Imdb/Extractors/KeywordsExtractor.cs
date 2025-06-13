@@ -1,10 +1,9 @@
 ﻿using CinemaBox.Model.Imdb.Movie;
 using CinemaBox.Scrapping.Interface.Imdb.Extractors;
-using CinemaBox.Utilities.Html;
 using CinemaBox.Utilities.Json;
 using System.Text.Json;
 
-namespace CinamaBox.Scrapping.Imdb.Extractors;
+namespace CinemaBox.Scrapping.Imdb.Extractors;
 
 public class KeywordsExtractor : IGeneralInfoExtractor
 {
@@ -28,7 +27,4 @@ public class KeywordsExtractor : IGeneralInfoExtractor
         return model;
     }
 }
-
-
-
 

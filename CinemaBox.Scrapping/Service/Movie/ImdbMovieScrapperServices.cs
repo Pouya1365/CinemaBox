@@ -1,15 +1,16 @@
-﻿using CinamaBox.Scrapping.Imdb.Extractors;
-using CinemaBox.Model.Imdb.Movie;
+﻿using CinemaBox.Model.Imdb.Movie;
+using CinemaBox.Scrapping.Imdb.Extractors;
 using CinemaBox.Scrapping.Interface.Imdb.Extractors;
+using CinemaBox.Scrapping.Interface.Imdb.Service;
 using CinemaBox.Utilities.Imdb.Json;
 using CinemaBox.Utilities.Imdb.Url;
 using CinemaBox.Utilities.Loader;
 using HtmlAgilityPack;
 using System.Text.Json;
 
-namespace CinamaBox.Scrapping.Imdb.Service.Movie;
+namespace CinemaBox.Scrapping.Service.Movie;
 
-public class ImdbMovieScrapperServices
+public class ImdbMovieScrapperServices: IImdbMovieScrapperServices
 {
     public async Task<MovieModelScrapping> ImdbScrapperServicesAsync(string imdbId)
     {
@@ -21,31 +22,31 @@ public class ImdbMovieScrapperServices
         List<IGeneralInfoExtractor> extractorsFromMainJson =
         [
         new GeneralInfoExtractor(),
-        new ReleaseDateExtractor(),
-        new CertificateExtractor(),
-        new AggregateVotingExtractor(),
-        new AwardsExtractor(),
-        new GenresExtractor(),
-        new CountriesExtractor(),
-        new SpokenLanguagesExtractor(),
-        new BudgetExtractor()
+    new ReleaseDateExtractor(),
+    new CertificateExtractor(),
+    new AggregateVotingExtractor(),
+    new AwardsExtractor(),
+    new GenresExtractor(),
+    new CountriesExtractor(),
+    new SpokenLanguagesExtractor(),
+    new BudgetExtractor()
     ];
         foreach (IGeneralInfoExtractor extractor in extractorsFromMainJson)
-            moviesModel = extractor.Extract(model: moviesModel,json: jsonDocument);
+            moviesModel = extractor.Extract(model: moviesModel, json: jsonDocument);
         // اکسترکتورهایی با مسیر JSON متفاوت
         (string Path, IGeneralInfoExtractor Extractor)[] extractorsWithPaths =
         [
         ("taglines", new TaglinesExtractor()),
-        ("locations", new LocationsExtractor()),
-        ("companycredits", new CompaniesExtractor()),
-        ("fullcredits", new CreditExtractor()),
-        ("plotsummary", new PlotExtractor()),
-        ("keywords", new KeywordsExtractor())
+    ("locations", new LocationsExtractor()),
+    ("companycredits", new CompaniesExtractor()),
+    ("fullcredits", new CreditExtractor()),
+    ("plotsummary", new PlotExtractor()),
+    ("keywords", new KeywordsExtractor())
         ];
-        foreach (var (path, extractor) in extractorsWithPaths)
+        foreach ((string path, IGeneralInfoExtractor extractor) in extractorsWithPaths)
         {
-             url = ImdbUrlBuilder.BuildTitleUrl(imdbId: imdbId, path: path);
-             loader = await HtmlLoader.LoadDocumentAsync(url: url);
+            url = ImdbUrlBuilder.BuildTitleUrl(imdbId: imdbId, path: path);
+            loader = await HtmlLoader.LoadDocumentAsync(url: url);
             jsonDocument = NextDataJsonParser.Parse(document: loader);
             moviesModel = extractor.Extract(model: moviesModel, json: jsonDocument);
         }

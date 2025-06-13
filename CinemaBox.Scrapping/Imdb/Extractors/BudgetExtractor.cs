@@ -1,9 +1,10 @@
 ﻿using CinemaBox.Model.Imdb.Movie;
 using CinemaBox.Scrapping.Interface.Imdb.Extractors;
 using CinemaBox.Utilities.Json;
+using System.Text;
 using System.Text.Json;
 
-namespace CinamaBox.Scrapping.Imdb.Extractors;
+namespace CinemaBox.Scrapping.Imdb.Extractors;
 
 public class BudgetExtractor : IGeneralInfoExtractor
 {
@@ -13,7 +14,7 @@ public class BudgetExtractor : IGeneralInfoExtractor
        .GetPropertySafe("pageProps")?
        .GetPropertySafe("mainColumnData");
         model.Budget = data.GetPropertySafe("productionBudget").GetPropertySafe("budget").GetPropertySafe("amount")?.GetDouble();
-        model.BudgetCurrency = data.GetPropertySafe("productionBudget").GetPropertySafe("budget").GetPropertySafe("currency")?.GetString();       
+        model.BudgetCurrency = data.GetPropertySafe("productionBudget").GetPropertySafe("budget").GetPropertySafe("currency")?.GetString();
         return model;
     }
 }
