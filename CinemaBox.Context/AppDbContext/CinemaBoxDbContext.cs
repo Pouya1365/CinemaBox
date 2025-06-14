@@ -13,6 +13,7 @@ using CinemaBox.Configuration.Entertainment.Link.MovieGenres;
 using CinemaBox.Configuration.Entertainment.Link.MovieKeywords;
 using CinemaBox.Configuration.Entertainment.Link.MovieLocations;
 using CinemaBox.Configuration.Entertainment.Link.MovieSpokenLanguages;
+using CinemaBox.Configuration.Entertainment.Link.MovieTaglines;
 using CinemaBox.Configuration.Entertainment.Movies;
 using CinemaBox.Configuration.Files.Files;
 using CinemaBox.Configuration.Person.PeopleFiles;
@@ -38,6 +39,7 @@ using CinemaBox.Domain.Entertainment.Link.MovieGenres;
 using CinemaBox.Domain.Entertainment.Link.MovieKeywords;
 using CinemaBox.Domain.Entertainment.Link.MovieLocations;
 using CinemaBox.Domain.Entertainment.Link.MovieSpokenLanguages;
+using CinemaBox.Domain.Entertainment.Link.MovieTaglines;
 using CinemaBox.Domain.Entertainment.Movies;
 using CinemaBox.Domain.Person.PeopleFiles;
 using CinemaBox.Domain.Person.Peoples;
@@ -79,9 +81,7 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
     public DbSet<MovieLocation> MovieLocations { get; set; }
     public DbSet<Language> Languages { get; set; }
     public DbSet<MovieSpokenLanguage> MovieSpokenLanguages { get; set; }
-    //public DbSet<MovieTagline> MovieTaglines { get; set; }
-    //
-    //
+    public DbSet<MovieTagline> MovieTaglines { get; set; }
     //public DbSet<Format> Formats { get; set; }
     //public DbSet<UserMovieVideo> UserMovieVideos { get; set; }
     //public DbSet<UserMovieAudio> UserMovieAudios { get; set; }
@@ -121,8 +121,7 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
         modelBuilder.ApplyConfiguration(new MovieLocationConfiguration());
         modelBuilder.ApplyConfiguration(new LanguageConfiguration());
         modelBuilder.ApplyConfiguration(new MovieSpokenLanguageConfiguration());
-        //modelBuilder.ApplyConfiguration(new MovieTaglineConfiguration());
-        //
+        modelBuilder.ApplyConfiguration(new MovieTaglineConfiguration());
 
         //modelBuilder.ApplyConfiguration(new FormatConfiguration());
         //modelBuilder.ApplyConfiguration(new UserMovieVideoConfiguration());
