@@ -3,6 +3,7 @@ using CinemaBox.Context.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaBox.Context.Migrations
 {
     [DbContext(typeof(CinemaBoxDbContext))]
-    partial class CinemaBoxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250614152117_InitialDb_V6")]
+    partial class InitialDb_V6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,47 +60,6 @@ namespace CinemaBox.Context.Migrations
                             Id = (byte)3,
                             CountryPartTypeName = "شهرستان"
                         });
-                });
-
-            modelBuilder.Entity("CinemaBox.Domain.Division.CountryParts.CountryPart", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("CountryPartId")
-                        .HasComment("شناسه کشور");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<byte?>("CountryPartTypeId")
-                        .HasColumnType("tinyint")
-                        .HasComment("شناسه نوع کشور");
-
-                    b.Property<string>("EnCountryPartName")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)")
-                        .HasComment("عنوان انگلیسی");
-
-                    b.Property<string>("FaCountryPartName")
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)")
-                        .HasComment("عنوان فارسی");
-
-                    b.Property<string>("IsoCode")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)")
-                        .HasComment("عنوان نوع تقسیم بندی");
-
-                    b.Property<long?>("ParentId")
-                        .HasColumnType("bigint")
-                        .HasComment("شناسه پدر");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CountryPartTypeId");
-
-                    b.ToTable("CountryParts", "Division");
                 });
 
             modelBuilder.Entity("CinemaBox.Domain.Entertainment.Certificates.Certificate", b =>
@@ -335,15 +297,6 @@ namespace CinemaBox.Context.Migrations
                     b.ToTable("Currencies", "Shared");
                 });
 
-            modelBuilder.Entity("CinemaBox.Domain.Division.CountryParts.CountryPart", b =>
-                {
-                    b.HasOne("CinemaBox.Domain.Division.CountryPartTypes.CountryPartType", "CountryPartType")
-                        .WithMany("CountryParts")
-                        .HasForeignKey("CountryPartTypeId");
-
-                    b.Navigation("CountryPartType");
-                });
-
             modelBuilder.Entity("CinemaBox.Domain.Entertainment.Link.MovieCompanies.MovieCompany", b =>
                 {
                     b.HasOne("CinemaBox.Domain.Entertainment.Coropration.Company", "Company")
@@ -382,11 +335,6 @@ namespace CinemaBox.Context.Migrations
                     b.Navigation("Collection");
 
                     b.Navigation("Currency");
-                });
-
-            modelBuilder.Entity("CinemaBox.Domain.Division.CountryPartTypes.CountryPartType", b =>
-                {
-                    b.Navigation("CountryParts");
                 });
 
             modelBuilder.Entity("CinemaBox.Domain.Entertainment.Certificates.Certificate", b =>
