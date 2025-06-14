@@ -35,7 +35,7 @@ public class CreditExtractor : IGeneralInfoExtractor
                 string? imageUrl = null;
                 imageUrl = credit.GetPropertySafe("node").GetPropertySafe("name").GetPropertySafe("primaryImage").GetPropertySafe("url")?.GetString();
                 // شخصیت‌ها
-                string? roleName = GetRoleNames(credit)==""?null: GetRoleNames(credit);
+                string? roleName = GetRoleNames(credit) == "" ? null : GetRoleNames(credit);
 
                 model.Credits.Add(new CreditModel
                 {
@@ -64,7 +64,8 @@ public class CreditExtractor : IGeneralInfoExtractor
             foreach (var charItem in data.Value.EnumerateArray())
             {
                 string? charName = charItem.GetPropertySafe("name")?.GetString();
-                names.Add(charName);
+                if (charName != null)
+                    names.Add(charName);
             }
         return string.Join(" / ", names);
     }

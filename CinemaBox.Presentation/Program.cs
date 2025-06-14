@@ -1,5 +1,8 @@
-﻿using CinemaBox.Scrapping.Interface.Imdb.Service;
+﻿using CinemaBox.Context.AppDbContext;
+using CinemaBox.Scrapping.Interface.Imdb.Service;
 using CinemaBox.Scrapping.Service.Movie;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -34,8 +37,18 @@ internal static class Program
         var serviceProvider = serviceCollection.BuildServiceProvider();
 
         // اجرای فرم با سرویس‌های تزریق شده
-        Form1 mainForm = Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<Form1>(serviceProvider);
+        Form1 mainForm = ServiceProviderServiceExtensions.GetRequiredService<Form1>(serviceProvider);
 
         Application.Run(mainForm);
     }
+    public class CinemaBoxDbContextFactory : IDesignTimeDbContextFactory<CinemaBoxDbContext>
+    {
+        public CinemaBoxDbContext CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<CinemaBoxDbContext>();
+            optionsBuilder.UseSqlServer(@"Server=DESKTOP-SD5KJ4K;Database=TvTime;Trusted_Connection=True;TrustServerCertificate=True");
+            return new CinemaBoxDbContext(optionsBuilder.Options);
+        }
+    }
+
 }

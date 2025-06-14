@@ -14,10 +14,15 @@
 
   <ItemGroup>
     <PackageReference Include="Ces.WinForm.UI" Version="1.18.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.6" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CinemaBox.Context\CinemaBox.Context.csproj" />
     <ProjectReference Include="..\CinemaBox.Scrapping\CinemaBox.Scrapping.csproj" />
   </ItemGroup>
 

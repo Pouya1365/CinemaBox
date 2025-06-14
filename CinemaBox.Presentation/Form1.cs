@@ -9,12 +9,12 @@ public partial class Form1 : CesForm
     public Form1(IImdbMovieScrapperServices imdbScrapperServices)
     {
         InitializeComponent();
-        _imdbScrapperServices = imdbScrapperServices;
+        _imdbScrapperServices = imdbScrapperServices ?? throw new ArgumentNullException(nameof(imdbScrapperServices));
     }
 
     private async void Btn_GetInfo_Click(object sender, EventArgs e)
     {
-        MovieModelScrapping movie = await _imdbScrapperServices.ImdbScrapperServicesAsync(Txt_Search.CesText);
+        MovieModelScrapping movie = await _imdbScrapperServices.ImdbScrapperServicesAsync(imdbId: Txt_Search.CesText);
 
     }
 }
