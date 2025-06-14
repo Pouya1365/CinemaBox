@@ -1,4 +1,5 @@
-﻿using CinemaBox.Domain.Persistent;
+﻿using CinemaBox.Domain.Entertainment.Link.MovieCredits;
+using CinemaBox.Domain.Persistent;
 using CinemaBox.Domain.Person.PeopleFiles;
 using CinemaBox.Domain.Shared.DeathCauses;
 
@@ -22,5 +23,5 @@ public class People : PersistentObject<string>
     public required DateOnly UpdatedDate { get; set; }
     public DeathCause? DeathCause { get; set; }
     public ICollection<PeopleFile> PeopleFiles { get; set; } = [];
-    //public ICollection<MovieCredit> MovieCredits { get; set; } = [];
+    public ICollection<MovieCredit> MovieCredits { get; set; } = [];
 }

@@ -2,6 +2,7 @@
 using CinemaBox.Domain.Entertainment.Collections;
 using CinemaBox.Domain.Entertainment.Link.MovieCompanies;
 using CinemaBox.Domain.Entertainment.Link.MovieCountries;
+using CinemaBox.Domain.Entertainment.Link.MovieCredits;
 using CinemaBox.Domain.Persistent;
 using CinemaBox.Domain.Shared.Currencies;
 
@@ -103,7 +104,7 @@ public class Movie : PersistentObject<string>
     public Collection? Collection { get; set; }
     public ICollection<MovieCompany> MovieCompanies { get; set; } = [];
     public ICollection<MovieCountry> MovieCountries { get; set; } = [];
-    //public ICollection<MovieCredit> MovieCredits { get; set; } = [];
+    public ICollection<MovieCredit> MovieCredits { get; set; } = [];
     //public ICollection<MovieFile> MovieFiles { get; set; } = [];
     //
 
