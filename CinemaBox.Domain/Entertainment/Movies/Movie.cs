@@ -1,8 +1,7 @@
-﻿using CinemaBox.Domain.Persistent;
+﻿using CinemaBox.Domain.Entertainment.Certificates;
+using CinemaBox.Domain.Persistent;
 
 namespace CinemaBox.Domain.Entertainment.Movies;
-
-
 public class Movie : PersistentObject<string>
 {
     /// <summary>
@@ -95,7 +94,7 @@ public class Movie : PersistentObject<string>
     public byte? BudgetCurrencyId { get; set; }
     public bool? IsTvShow { get; set; }
     public int? CollectionId { get; set; }
-    //public Certificate? Certificate { get; set; }
+    public Certificate? Certificate { get; set; }
     //public Currency? Currency { get; set; }
     //public ICollection<MovieCredit> MovieCredits { get; set; } = [];
     //public ICollection<MovieFile> MovieFiles { get; set; } = [];

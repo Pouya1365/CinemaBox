@@ -1,4 +1,6 @@
-﻿using CinemaBox.Configuration.Entertainment.Movies;
+﻿using CinemaBox.Configuration.Entertainment.Certificates;
+using CinemaBox.Configuration.Entertainment.Movies;
+using CinemaBox.Domain.Entertainment.Certificates;
 using CinemaBox.Domain.Entertainment.Movies;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +10,7 @@ namespace CinemaBox.Context.AppDbContext;
 public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : DbContext(options)
 {
     public DbSet<Movie> Movies { get; set; }
-    //public DbSet<Certificate> Certificates { get; set; }
+    public DbSet<Certificate> Certificates { get; set; }
     //public DbSet<People> Peoples { get; set; }
     //public DbSet<ServerType> ServerTypes { get; set; }
     //public DbSet<Server> Servers { get; set; }
@@ -47,7 +49,7 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfiguration(new MovieConfiguration());
-        //modelBuilder.ApplyConfiguration(new CertificateConfiguration());
+        modelBuilder.ApplyConfiguration(new CertificateConfiguration());
 
         //modelBuilder.ApplyConfiguration(new PeopleConfiguration());
         //modelBuilder.ApplyConfiguration(new ServerTypeConfiguration());

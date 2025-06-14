@@ -40,6 +40,6 @@ public class MovieConfiguration : IEntityTypeConfiguration<Movie>
         builder.Property(m => m.BudgetCurrencyId).HasComment(comment: "شناسه واحد پول بودجه");
         builder.Property(m => m.CollectionId).HasComment(comment: "شناسه کالکشن");
         builder.Property(m => m.IsTvShow).HasComment(comment: "سریال");
-       // builder.HasOne(m => m.Certificate).WithMany(m => m.Movies).HasForeignKey(x => x.CertificateId);
+        builder.HasOne(m => m.Certificate).WithMany(m => m.Movies).HasForeignKey(m => m.CertificateId);
     }
 }
