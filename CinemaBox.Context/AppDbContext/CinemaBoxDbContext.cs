@@ -6,6 +6,7 @@ using CinemaBox.Configuration.Entertainment.Coroprations;
 using CinemaBox.Configuration.Entertainment.Link.MovieCompanies;
 using CinemaBox.Configuration.Entertainment.Link.MovieCountries;
 using CinemaBox.Configuration.Entertainment.Movies;
+using CinemaBox.Configuration.Files.Files;
 using CinemaBox.Configuration.Person.Peoples;
 using CinemaBox.Configuration.Servers.Servers;
 using CinemaBox.Configuration.Servers.ServerTypes;
@@ -44,7 +45,7 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
     public DbSet<DeathCause> DeathCauses { get; set; }
     public DbSet<ServerType> ServerTypes { get; set; }
     public DbSet<Server> Servers { get; set; }
-    //public DbSet<Domain.Entities.Files.File> Files { get; set; }
+    public DbSet<Domain.Files.Files.File> Files { get; set; }
     //public DbSet<PeopleFile> PeopleFiles { get; set; }
     //public DbSet<CreditType> CreditTypes { get; set; }
     //public DbSet<MovieCredit> MovieCredits { get; set; }
@@ -87,7 +88,7 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
         modelBuilder.ApplyConfiguration(new DeathCauseConfiguration());
         modelBuilder.ApplyConfiguration(new ServerTypeConfiguration());
         modelBuilder.ApplyConfiguration(new ServerConfiguration());
-        //modelBuilder.ApplyConfiguration(new FileConfiguration());
+        modelBuilder.ApplyConfiguration(new FileConfiguration());
         //modelBuilder.ApplyConfiguration(new PeopleFileConfiguration());
         //modelBuilder.ApplyConfiguration(new CreditTypeConfiguration());
         //modelBuilder.ApplyConfiguration(new MovieCreditCounfiguration());
