@@ -1,5 +1,6 @@
 ﻿using CinemaBox.Domain.Entertainment.Certificates;
 using CinemaBox.Domain.Entertainment.Collections;
+using CinemaBox.Domain.Entertainment.Link.MovieCompanies;
 using CinemaBox.Domain.Persistent;
 using CinemaBox.Domain.Shared.Currencies;
 
@@ -99,9 +100,10 @@ public class Movie : PersistentObject<string>
     public Certificate? Certificate { get; set; }
     public Currency? Currency { get; set; }
     public Collection? Collection { get; set; }
+    public ICollection<MovieCompany> MovieCompanies { get; set; } = [];
     //public ICollection<MovieCredit> MovieCredits { get; set; } = [];
     //public ICollection<MovieFile> MovieFiles { get; set; } = [];
-    //public ICollection<MovieCompany> MovieCompanies { get; set; } = [];
+    //
     //public ICollection<MovieCountry> MovieCountries { get; set; } = [];
     //public ICollection<MovieGenre> MovieGenres { get; set; } = [];
     //public ICollection<MovieLocation> MovieLocations { get; set; } = [];
