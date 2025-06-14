@@ -7,6 +7,7 @@ using CinemaBox.Configuration.Entertainment.CreditTypes;
 using CinemaBox.Configuration.Entertainment.Link.MovieCompanies;
 using CinemaBox.Configuration.Entertainment.Link.MovieCountries;
 using CinemaBox.Configuration.Entertainment.Link.MovieCredits;
+using CinemaBox.Configuration.Entertainment.Link.MovieFiles;
 using CinemaBox.Configuration.Entertainment.Movies;
 using CinemaBox.Configuration.Files.Files;
 using CinemaBox.Configuration.Person.PeopleFiles;
@@ -24,6 +25,7 @@ using CinemaBox.Domain.Entertainment.CreditTypes;
 using CinemaBox.Domain.Entertainment.Link.MovieCompanies;
 using CinemaBox.Domain.Entertainment.Link.MovieCountries;
 using CinemaBox.Domain.Entertainment.Link.MovieCredits;
+using CinemaBox.Domain.Entertainment.Link.MovieFiles;
 using CinemaBox.Domain.Entertainment.Movies;
 using CinemaBox.Domain.Person.PeopleFiles;
 using CinemaBox.Domain.Person.Peoples;
@@ -55,8 +57,7 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
     public DbSet<PeopleFile> PeopleFiles { get; set; }
     public DbSet<CreditType> CreditTypes { get; set; }
     public DbSet<MovieCredit> MovieCredits { get; set; }
-    //
-    //public DbSet<MovieFile> MovieFiles { get; set; }
+    public DbSet<MovieFile> MovieFiles { get; set; }
     //
     //
     //public DbSet<Genre> Genres { get; set; }
@@ -98,8 +99,7 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
         modelBuilder.ApplyConfiguration(new PeopleFileConfiguration());
         modelBuilder.ApplyConfiguration(new CreditTypeConfiguration());
         modelBuilder.ApplyConfiguration(new MovieCreditCounfiguration());
-        //
-        //modelBuilder.ApplyConfiguration(new MovieFileConfiguration());
+        modelBuilder.ApplyConfiguration(new MovieFileConfiguration());
         //
         //
         //modelBuilder.ApplyConfiguration(new GenreConfiguration());
