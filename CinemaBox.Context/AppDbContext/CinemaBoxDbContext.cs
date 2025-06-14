@@ -4,6 +4,7 @@ using CinemaBox.Configuration.Entertainment.Certificates;
 using CinemaBox.Configuration.Entertainment.Collections;
 using CinemaBox.Configuration.Entertainment.Coroprations;
 using CinemaBox.Configuration.Entertainment.CreditTypes;
+using CinemaBox.Configuration.Entertainment.Genres;
 using CinemaBox.Configuration.Entertainment.Link.MovieCompanies;
 using CinemaBox.Configuration.Entertainment.Link.MovieCountries;
 using CinemaBox.Configuration.Entertainment.Link.MovieCredits;
@@ -22,6 +23,7 @@ using CinemaBox.Domain.Entertainment.Certificates;
 using CinemaBox.Domain.Entertainment.Collections;
 using CinemaBox.Domain.Entertainment.Coropration;
 using CinemaBox.Domain.Entertainment.CreditTypes;
+using CinemaBox.Domain.Entertainment.Genres;
 using CinemaBox.Domain.Entertainment.Link.MovieCompanies;
 using CinemaBox.Domain.Entertainment.Link.MovieCountries;
 using CinemaBox.Domain.Entertainment.Link.MovieCredits;
@@ -58,9 +60,7 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
     public DbSet<CreditType> CreditTypes { get; set; }
     public DbSet<MovieCredit> MovieCredits { get; set; }
     public DbSet<MovieFile> MovieFiles { get; set; }
-    //
-    //
-    //public DbSet<Genre> Genres { get; set; }
+    public DbSet<Genre> Genres { get; set; }
     //public DbSet<MovieGenre> MovieGenres { get; set; }
     //public DbSet<MovieLocation> MovieLocations { get; set; }
     //public DbSet<Language> Languages { get; set; }
@@ -100,9 +100,7 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
         modelBuilder.ApplyConfiguration(new CreditTypeConfiguration());
         modelBuilder.ApplyConfiguration(new MovieCreditCounfiguration());
         modelBuilder.ApplyConfiguration(new MovieFileConfiguration());
-        //
-        //
-        //modelBuilder.ApplyConfiguration(new GenreConfiguration());
+        modelBuilder.ApplyConfiguration(new GenreConfiguration());
         //modelBuilder.ApplyConfiguration(new MovieGenreConfiguration());
         //modelBuilder.ApplyConfiguration(new MovieLocationConfiguration());
         //modelBuilder.ApplyConfiguration(new LanguageConfiguration());
