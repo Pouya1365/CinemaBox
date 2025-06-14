@@ -4,6 +4,7 @@ using CinemaBox.Context.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaBox.Context.Migrations
 {
     [DbContext(typeof(CinemaBoxDbContext))]
-    partial class CinemaBoxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250614175818_InitialDb_V14")]
+    partial class InitialDb_V14
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -171,58 +174,6 @@ namespace CinemaBox.Context.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Companies", "Entertainment");
-                });
-
-            modelBuilder.Entity("CinemaBox.Domain.Entertainment.CreditTypes.CreditType", b =>
-                {
-                    b.Property<byte>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint")
-                        .HasColumnName("CreditTypeId")
-                        .HasComment("شناسه نوع عوامل");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<byte>("Id"));
-
-                    b.Property<string>("EnCreditTypeName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasComment("نوع عوامل انگلیسی");
-
-                    b.Property<string>("FaCreditTypeName")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasComment("نوع عوامل فارسی");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CreditTypes", "Entertainment");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = (byte)1,
-                            EnCreditTypeName = "Director",
-                            FaCreditTypeName = "کارگردان"
-                        },
-                        new
-                        {
-                            Id = (byte)2,
-                            EnCreditTypeName = "Writers",
-                            FaCreditTypeName = "نویسنده"
-                        },
-                        new
-                        {
-                            Id = (byte)3,
-                            EnCreditTypeName = "Cast",
-                            FaCreditTypeName = "بازیگران"
-                        },
-                        new
-                        {
-                            Id = (byte)4,
-                            EnCreditTypeName = "Producers",
-                            FaCreditTypeName = "تهیه کنندکان"
-                        });
                 });
 
             modelBuilder.Entity("CinemaBox.Domain.Entertainment.Link.MovieCompanies.MovieCompany", b =>
