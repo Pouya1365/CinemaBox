@@ -4,6 +4,7 @@ using CinemaBox.Context.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaBox.Context.Migrations
 {
     [DbContext(typeof(CinemaBoxDbContext))]
-    partial class CinemaBoxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250614190757_InitialDb_V24")]
+    partial class InitialDb_V24
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -418,26 +421,6 @@ namespace CinemaBox.Context.Migrations
                     b.HasIndex("MovieId");
 
                     b.ToTable("MovieLocations", "Entertainment");
-                });
-
-            modelBuilder.Entity("CinemaBox.Domain.Entertainment.Link.MovieSpokenLanguages.MovieSpokenLanguage", b =>
-                {
-                    b.Property<string>("MovieId")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("MovieId")
-                        .HasComment("شناسه فیلم");
-
-                    b.Property<byte>("LanguageId")
-                        .HasColumnType("tinyint")
-                        .HasColumnName("LanguageId")
-                        .HasComment("شناسه زبان");
-
-                    b.HasKey("MovieId", "LanguageId");
-
-                    b.HasIndex("LanguageId");
-
-                    b.ToTable("MovieSpokenLanguages", "Entertainment");
                 });
 
             modelBuilder.Entity("CinemaBox.Domain.Entertainment.Movies.Movie", b =>
@@ -1017,25 +1000,6 @@ namespace CinemaBox.Context.Migrations
                     b.Navigation("Movie");
                 });
 
-            modelBuilder.Entity("CinemaBox.Domain.Entertainment.Link.MovieSpokenLanguages.MovieSpokenLanguage", b =>
-                {
-                    b.HasOne("CinemaBox.Domain.Shared.Languages.Language", "Language")
-                        .WithMany("MovieSpokenLanguages")
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CinemaBox.Domain.Entertainment.Movies.Movie", "Movie")
-                        .WithMany("MovieSpokenLanguages")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Language");
-
-                    b.Navigation("Movie");
-                });
-
             modelBuilder.Entity("CinemaBox.Domain.Entertainment.Movies.Movie", b =>
                 {
                     b.HasOne("CinemaBox.Domain.Shared.Currencies.Currency", "Currency")
@@ -1155,8 +1119,6 @@ namespace CinemaBox.Context.Migrations
                     b.Navigation("MovieKeywords");
 
                     b.Navigation("MovieLocations");
-
-                    b.Navigation("MovieSpokenLanguages");
                 });
 
             modelBuilder.Entity("CinemaBox.Domain.Files.Files.File", b =>
@@ -1198,11 +1160,6 @@ namespace CinemaBox.Context.Migrations
             modelBuilder.Entity("CinemaBox.Domain.Shared.Keywords.Keyword", b =>
                 {
                     b.Navigation("MovieKeywords");
-                });
-
-            modelBuilder.Entity("CinemaBox.Domain.Shared.Languages.Language", b =>
-                {
-                    b.Navigation("MovieSpokenLanguages");
                 });
 #pragma warning restore 612, 618
         }

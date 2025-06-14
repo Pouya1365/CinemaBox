@@ -11,6 +11,8 @@ using CinemaBox.Configuration.Entertainment.Link.MovieCredits;
 using CinemaBox.Configuration.Entertainment.Link.MovieFiles;
 using CinemaBox.Configuration.Entertainment.Link.MovieGenres;
 using CinemaBox.Configuration.Entertainment.Link.MovieKeywords;
+using CinemaBox.Configuration.Entertainment.Link.MovieLocations;
+using CinemaBox.Configuration.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Configuration.Entertainment.Movies;
 using CinemaBox.Configuration.Files.Files;
 using CinemaBox.Configuration.Person.PeopleFiles;
@@ -20,6 +22,7 @@ using CinemaBox.Configuration.Servers.ServerTypes;
 using CinemaBox.Configuration.Shared.Currencies;
 using CinemaBox.Configuration.Shared.DeathCauses;
 using CinemaBox.Configuration.Shared.Keywords;
+using CinemaBox.Configuration.Shared.Languages;
 using CinemaBox.Domain.Division.CountryParts;
 using CinemaBox.Domain.Division.CountryPartTypes;
 using CinemaBox.Domain.Entertainment.Certificates;
@@ -33,6 +36,8 @@ using CinemaBox.Domain.Entertainment.Link.MovieCredits;
 using CinemaBox.Domain.Entertainment.Link.MovieFiles;
 using CinemaBox.Domain.Entertainment.Link.MovieGenres;
 using CinemaBox.Domain.Entertainment.Link.MovieKeywords;
+using CinemaBox.Domain.Entertainment.Link.MovieLocations;
+using CinemaBox.Domain.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Domain.Entertainment.Movies;
 using CinemaBox.Domain.Person.PeopleFiles;
 using CinemaBox.Domain.Person.Peoples;
@@ -41,6 +46,7 @@ using CinemaBox.Domain.Servers.ServerTypes;
 using CinemaBox.Domain.Shared.Currencies;
 using CinemaBox.Domain.Shared.DeathCauses;
 using CinemaBox.Domain.Shared.Keywords;
+using CinemaBox.Domain.Shared.Languages;
 using Microsoft.EntityFrameworkCore;
 
 namespace CinemaBox.Context.AppDbContext;
@@ -70,9 +76,9 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
     public DbSet<MovieGenre> MovieGenres { get; set; }
     public DbSet<Keyword> Keywords { get; set; }
     public DbSet<MovieKeyword> MovieKeywords { get; set; }
-    //public DbSet<MovieLocation> MovieLocations { get; set; }
-    //public DbSet<Language> Languages { get; set; }
-    //public DbSet<MovieSpokenLanguage> MovieSpokenLanguages { get; set; }
+    public DbSet<MovieLocation> MovieLocations { get; set; }
+    public DbSet<Language> Languages { get; set; }
+    public DbSet<MovieSpokenLanguage> MovieSpokenLanguages { get; set; }
     //public DbSet<MovieTagline> MovieTaglines { get; set; }
     //
     //
@@ -112,9 +118,9 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
         modelBuilder.ApplyConfiguration(new MovieGenreConfiguration());
         modelBuilder.ApplyConfiguration(new KeywordConfiguration());
         modelBuilder.ApplyConfiguration(new MovieKeywordConfiguration());
-        //modelBuilder.ApplyConfiguration(new MovieLocationConfiguration());
-        //modelBuilder.ApplyConfiguration(new LanguageConfiguration());
-        //modelBuilder.ApplyConfiguration(new MovieSpokenLanguageConfiguration());
+        modelBuilder.ApplyConfiguration(new MovieLocationConfiguration());
+        modelBuilder.ApplyConfiguration(new LanguageConfiguration());
+        modelBuilder.ApplyConfiguration(new MovieSpokenLanguageConfiguration());
         //modelBuilder.ApplyConfiguration(new MovieTaglineConfiguration());
         //
 
