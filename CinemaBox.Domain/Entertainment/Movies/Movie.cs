@@ -1,5 +1,7 @@
 ﻿using CinemaBox.Domain.Entertainment.Certificates;
+using CinemaBox.Domain.Entertainment.Collections;
 using CinemaBox.Domain.Persistent;
+using CinemaBox.Domain.Shared.Currencies;
 
 namespace CinemaBox.Domain.Entertainment.Movies;
 public class Movie : PersistentObject<string>
@@ -95,7 +97,8 @@ public class Movie : PersistentObject<string>
     public bool? IsTvShow { get; set; }
     public int? CollectionId { get; set; }
     public Certificate? Certificate { get; set; }
-    //public Currency? Currency { get; set; }
+    public Currency? Currency { get; set; }
+    public Collection? Collection { get; set; }
     //public ICollection<MovieCredit> MovieCredits { get; set; } = [];
     //public ICollection<MovieFile> MovieFiles { get; set; } = [];
     //public ICollection<MovieCompany> MovieCompanies { get; set; } = [];
@@ -107,5 +110,5 @@ public class Movie : PersistentObject<string>
     //public ICollection<MovieKeyword> MovieKeywords { get; set; } = [];
     //public ICollection<UserMovieVideo> UserMovieVideos { get; set; } = [];
     //public ICollection<UserMovieDisk> UserMovieDisks { get; set; } = [];
-    //public Collection? Collection { get; set; }
+    //
 }

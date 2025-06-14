@@ -3,6 +3,7 @@ using CinemaBox.Context.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaBox.Context.Migrations
 {
     [DbContext(typeof(CinemaBoxDbContext))]
-    partial class CinemaBoxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250614140855_InitialDb_V2")]
+    partial class InitialDb_V2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,33 +43,6 @@ namespace CinemaBox.Context.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Certificates", "Entertainment");
-                });
-
-            modelBuilder.Entity("CinemaBox.Domain.Entertainment.Collections.Collection", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("CollectionId")
-                        .HasComment("شناسه کالکشن");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("EnCollectionName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasComment("نام کالکشن انگلیسی");
-
-                    b.Property<string>("FaCollectionName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasComment("نام کالکشن فارسی");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Collections", "Entertainment");
                 });
 
             modelBuilder.Entity("CinemaBox.Domain.Entertainment.Movies.Movie", b =>
@@ -185,8 +161,6 @@ namespace CinemaBox.Context.Migrations
 
                     b.HasIndex("CertificateId");
 
-                    b.HasIndex("CollectionId");
-
                     b.ToTable("Movies", "Entertainment");
                 });
 
@@ -221,23 +195,12 @@ namespace CinemaBox.Context.Migrations
                         .WithMany("Movies")
                         .HasForeignKey("CertificateId");
 
-                    b.HasOne("CinemaBox.Domain.Entertainment.Collections.Collection", "Collection")
-                        .WithMany("Movies")
-                        .HasForeignKey("CollectionId");
-
                     b.Navigation("Certificate");
-
-                    b.Navigation("Collection");
 
                     b.Navigation("Currency");
                 });
 
             modelBuilder.Entity("CinemaBox.Domain.Entertainment.Certificates.Certificate", b =>
-                {
-                    b.Navigation("Movies");
-                });
-
-            modelBuilder.Entity("CinemaBox.Domain.Entertainment.Collections.Collection", b =>
                 {
                     b.Navigation("Movies");
                 });
