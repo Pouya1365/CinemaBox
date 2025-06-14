@@ -4,6 +4,7 @@ using CinemaBox.Context.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaBox.Context.Migrations
 {
     [DbContext(typeof(CinemaBoxDbContext))]
-    partial class CinemaBoxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250614184908_InitialDb_V19")]
+    partial class InitialDb_V19
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -370,25 +373,6 @@ namespace CinemaBox.Context.Migrations
                     b.HasIndex("GenreId");
 
                     b.ToTable("MovieGenres", "Entertainment");
-                });
-
-            modelBuilder.Entity("CinemaBox.Domain.Entertainment.Link.MovieKeywords.MovieKeyword", b =>
-                {
-                    b.Property<string>("MovieId")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasComment("شناسه فیلم");
-
-                    b.Property<string>("KeywordId")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasComment("شناسه کلمه کلیدی");
-
-                    b.HasKey("MovieId", "KeywordId");
-
-                    b.HasIndex("KeywordId");
-
-                    b.ToTable("MovieKeywords", "Entertainment");
                 });
 
             modelBuilder.Entity("CinemaBox.Domain.Entertainment.Movies.Movie", b =>
@@ -762,30 +746,6 @@ namespace CinemaBox.Context.Migrations
                     b.ToTable("DeathCauses", "Shared");
                 });
 
-            modelBuilder.Entity("CinemaBox.Domain.Shared.Keywords.Keyword", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("KeywordId")
-                        .HasComment("شناسه کلمه کلیدی");
-
-                    b.Property<string>("EnKeyowrdName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasComment("کلمه کلیدی انگلیسی");
-
-                    b.Property<string>("FaKeyowrdName")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasComment("کلمه کلیدی فارسی");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Keywords", "Shared");
-                });
-
             modelBuilder.Entity("CinemaBox.Domain.Division.CountryParts.CountryPart", b =>
                 {
                     b.HasOne("CinemaBox.Domain.Division.CountryPartTypes.CountryPartType", "CountryPartType")
@@ -907,25 +867,6 @@ namespace CinemaBox.Context.Migrations
                     b.Navigation("Movie");
                 });
 
-            modelBuilder.Entity("CinemaBox.Domain.Entertainment.Link.MovieKeywords.MovieKeyword", b =>
-                {
-                    b.HasOne("CinemaBox.Domain.Shared.Keywords.Keyword", "Keyword")
-                        .WithMany("MovieKeywords")
-                        .HasForeignKey("KeywordId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CinemaBox.Domain.Entertainment.Movies.Movie", "Movie")
-                        .WithMany("MovieKeywords")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Keyword");
-
-                    b.Navigation("Movie");
-                });
-
             modelBuilder.Entity("CinemaBox.Domain.Entertainment.Movies.Movie", b =>
                 {
                     b.HasOne("CinemaBox.Domain.Shared.Currencies.Currency", "Currency")
@@ -1041,8 +982,6 @@ namespace CinemaBox.Context.Migrations
                     b.Navigation("MovieFiles");
 
                     b.Navigation("MovieGenres");
-
-                    b.Navigation("MovieKeywords");
                 });
 
             modelBuilder.Entity("CinemaBox.Domain.Files.Files.File", b =>
@@ -1079,11 +1018,6 @@ namespace CinemaBox.Context.Migrations
             modelBuilder.Entity("CinemaBox.Domain.Shared.DeathCauses.DeathCause", b =>
                 {
                     b.Navigation("People");
-                });
-
-            modelBuilder.Entity("CinemaBox.Domain.Shared.Keywords.Keyword", b =>
-                {
-                    b.Navigation("MovieKeywords");
                 });
 #pragma warning restore 612, 618
         }

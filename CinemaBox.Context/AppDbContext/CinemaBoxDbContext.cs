@@ -9,6 +9,8 @@ using CinemaBox.Configuration.Entertainment.Link.MovieCompanies;
 using CinemaBox.Configuration.Entertainment.Link.MovieCountries;
 using CinemaBox.Configuration.Entertainment.Link.MovieCredits;
 using CinemaBox.Configuration.Entertainment.Link.MovieFiles;
+using CinemaBox.Configuration.Entertainment.Link.MovieGenres;
+using CinemaBox.Configuration.Entertainment.Link.MovieKeywords;
 using CinemaBox.Configuration.Entertainment.Movies;
 using CinemaBox.Configuration.Files.Files;
 using CinemaBox.Configuration.Person.PeopleFiles;
@@ -17,6 +19,7 @@ using CinemaBox.Configuration.Servers.Servers;
 using CinemaBox.Configuration.Servers.ServerTypes;
 using CinemaBox.Configuration.Shared.Currencies;
 using CinemaBox.Configuration.Shared.DeathCauses;
+using CinemaBox.Configuration.Shared.Keywords;
 using CinemaBox.Domain.Division.CountryParts;
 using CinemaBox.Domain.Division.CountryPartTypes;
 using CinemaBox.Domain.Entertainment.Certificates;
@@ -28,6 +31,8 @@ using CinemaBox.Domain.Entertainment.Link.MovieCompanies;
 using CinemaBox.Domain.Entertainment.Link.MovieCountries;
 using CinemaBox.Domain.Entertainment.Link.MovieCredits;
 using CinemaBox.Domain.Entertainment.Link.MovieFiles;
+using CinemaBox.Domain.Entertainment.Link.MovieGenres;
+using CinemaBox.Domain.Entertainment.Link.MovieKeywords;
 using CinemaBox.Domain.Entertainment.Movies;
 using CinemaBox.Domain.Person.PeopleFiles;
 using CinemaBox.Domain.Person.Peoples;
@@ -35,6 +40,7 @@ using CinemaBox.Domain.Servers.Servers;
 using CinemaBox.Domain.Servers.ServerTypes;
 using CinemaBox.Domain.Shared.Currencies;
 using CinemaBox.Domain.Shared.DeathCauses;
+using CinemaBox.Domain.Shared.Keywords;
 using Microsoft.EntityFrameworkCore;
 
 namespace CinemaBox.Context.AppDbContext;
@@ -61,13 +67,15 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
     public DbSet<MovieCredit> MovieCredits { get; set; }
     public DbSet<MovieFile> MovieFiles { get; set; }
     public DbSet<Genre> Genres { get; set; }
-    //public DbSet<MovieGenre> MovieGenres { get; set; }
+    public DbSet<MovieGenre> MovieGenres { get; set; }
+    public DbSet<Keyword> Keywords { get; set; }
+    public DbSet<MovieKeyword> MovieKeywords { get; set; }
     //public DbSet<MovieLocation> MovieLocations { get; set; }
     //public DbSet<Language> Languages { get; set; }
     //public DbSet<MovieSpokenLanguage> MovieSpokenLanguages { get; set; }
     //public DbSet<MovieTagline> MovieTaglines { get; set; }
-    //public DbSet<Keyword> Keywords { get; set; }
-    //public DbSet<MovieKeyword> MovieKeywords { get; set; }
+    //
+    //
     //public DbSet<Format> Formats { get; set; }
     //public DbSet<UserMovieVideo> UserMovieVideos { get; set; }
     //public DbSet<UserMovieAudio> UserMovieAudios { get; set; }
@@ -101,13 +109,15 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
         modelBuilder.ApplyConfiguration(new MovieCreditCounfiguration());
         modelBuilder.ApplyConfiguration(new MovieFileConfiguration());
         modelBuilder.ApplyConfiguration(new GenreConfiguration());
-        //modelBuilder.ApplyConfiguration(new MovieGenreConfiguration());
+        modelBuilder.ApplyConfiguration(new MovieGenreConfiguration());
+        modelBuilder.ApplyConfiguration(new KeywordConfiguration());
+        modelBuilder.ApplyConfiguration(new MovieKeywordConfiguration());
         //modelBuilder.ApplyConfiguration(new MovieLocationConfiguration());
         //modelBuilder.ApplyConfiguration(new LanguageConfiguration());
         //modelBuilder.ApplyConfiguration(new MovieSpokenLanguageConfiguration());
         //modelBuilder.ApplyConfiguration(new MovieTaglineConfiguration());
-        //modelBuilder.ApplyConfiguration(new KeywordConfiguration());
-        //modelBuilder.ApplyConfiguration(new MovieKeywordConfiguration());
+        //
+
         //modelBuilder.ApplyConfiguration(new FormatConfiguration());
         //modelBuilder.ApplyConfiguration(new UserMovieVideoConfiguration());
         //modelBuilder.ApplyConfiguration(new UserMovieAudioConfiguration());

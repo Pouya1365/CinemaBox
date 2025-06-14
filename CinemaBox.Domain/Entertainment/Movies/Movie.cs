@@ -4,6 +4,8 @@ using CinemaBox.Domain.Entertainment.Link.MovieCompanies;
 using CinemaBox.Domain.Entertainment.Link.MovieCountries;
 using CinemaBox.Domain.Entertainment.Link.MovieCredits;
 using CinemaBox.Domain.Entertainment.Link.MovieFiles;
+using CinemaBox.Domain.Entertainment.Link.MovieGenres;
+using CinemaBox.Domain.Entertainment.Link.MovieKeywords;
 using CinemaBox.Domain.Persistent;
 using CinemaBox.Domain.Shared.Currencies;
 
@@ -106,14 +108,13 @@ public class Movie : PersistentObject<string>
     public ICollection<MovieCompany> MovieCompanies { get; set; } = [];
     public ICollection<MovieCountry> MovieCountries { get; set; } = [];
     public ICollection<MovieCredit> MovieCredits { get; set; } = [];
-    public ICollection<MovieFile> MovieFiles { get; set; } = [];
-    //
-
-    //public ICollection<MovieGenre> MovieGenres { get; set; } = [];
+    public ICollection<MovieFile> MovieFiles { get; set; } = [];   
+    public ICollection<MovieGenre> MovieGenres { get; set; } = [];
+    public ICollection<MovieKeyword> MovieKeywords { get; set; } = [];
     //public ICollection<MovieLocation> MovieLocations { get; set; } = [];
     //public ICollection<MovieSpokenLanguage> MovieSpokenLanguages { get; set; } = [];
     //public ICollection<MovieTagline> MovieTaglines { get; set; } = [];
-    //public ICollection<MovieKeyword> MovieKeywords { get; set; } = [];
+    //
     //public ICollection<UserMovieVideo> UserMovieVideos { get; set; } = [];
     //public ICollection<UserMovieDisk> UserMovieDisks { get; set; } = [];
     //
