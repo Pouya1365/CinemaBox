@@ -7,6 +7,8 @@ using CinemaBox.Configuration.Entertainment.Link.MovieCompanies;
 using CinemaBox.Configuration.Entertainment.Link.MovieCountries;
 using CinemaBox.Configuration.Entertainment.Movies;
 using CinemaBox.Configuration.Person.Peoples;
+using CinemaBox.Configuration.Servers.Servers;
+using CinemaBox.Configuration.Servers.ServerTypes;
 using CinemaBox.Configuration.Shared.Currencies;
 using CinemaBox.Configuration.Shared.DeathCauses;
 using CinemaBox.Domain.Division.CountryParts;
@@ -18,6 +20,8 @@ using CinemaBox.Domain.Entertainment.Link.MovieCompanies;
 using CinemaBox.Domain.Entertainment.Link.MovieCountries;
 using CinemaBox.Domain.Entertainment.Movies;
 using CinemaBox.Domain.Person.Peoples;
+using CinemaBox.Domain.Servers.Servers;
+using CinemaBox.Domain.Servers.ServerTypes;
 using CinemaBox.Domain.Shared.Currencies;
 using CinemaBox.Domain.Shared.DeathCauses;
 using Microsoft.EntityFrameworkCore;
@@ -38,8 +42,8 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
     public DbSet<MovieCountry> MovieCountries { get; set; }
     public DbSet<People> Peoples { get; set; }
     public DbSet<DeathCause> DeathCauses { get; set; }
-    //public DbSet<ServerType> ServerTypes { get; set; }
-    //public DbSet<Server> Servers { get; set; }
+    public DbSet<ServerType> ServerTypes { get; set; }
+    public DbSet<Server> Servers { get; set; }
     //public DbSet<Domain.Entities.Files.File> Files { get; set; }
     //public DbSet<PeopleFile> PeopleFiles { get; set; }
     //public DbSet<CreditType> CreditTypes { get; set; }
@@ -81,8 +85,8 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
         modelBuilder.ApplyConfiguration(new MovieCountryConfiguration());
         modelBuilder.ApplyConfiguration(new PeopleConfiguration());
         modelBuilder.ApplyConfiguration(new DeathCauseConfiguration());
-        //modelBuilder.ApplyConfiguration(new ServerTypeConfiguration());
-        //modelBuilder.ApplyConfiguration(new ServerConfiguration());
+        modelBuilder.ApplyConfiguration(new ServerTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new ServerConfiguration());
         //modelBuilder.ApplyConfiguration(new FileConfiguration());
         //modelBuilder.ApplyConfiguration(new PeopleFileConfiguration());
         //modelBuilder.ApplyConfiguration(new CreditTypeConfiguration());

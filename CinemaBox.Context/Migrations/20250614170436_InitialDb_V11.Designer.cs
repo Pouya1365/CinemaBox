@@ -4,6 +4,7 @@ using CinemaBox.Context.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaBox.Context.Migrations
 {
     [DbContext(typeof(CinemaBoxDbContext))]
-    partial class CinemaBoxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250614170436_InitialDb_V11")]
+    partial class InitialDb_V11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -415,7 +418,7 @@ namespace CinemaBox.Context.Migrations
                     b.ToTable("Peoples", "Person");
                 });
 
-            modelBuilder.Entity("CinemaBox.Domain.Servers.ServerTypes.ServerType", b =>
+            modelBuilder.Entity("CinemaBox.Domain.Server.ServerTypes.ServerType", b =>
                 {
                     b.Property<byte>("Id")
                         .ValueGeneratedOnAdd()
@@ -445,53 +448,6 @@ namespace CinemaBox.Context.Migrations
                         {
                             Id = (byte)2,
                             ServerTypeName = "Movie"
-                        });
-                });
-
-            modelBuilder.Entity("CinemaBox.Domain.Servers.Servers.Server", b =>
-                {
-                    b.Property<byte>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint")
-                        .HasColumnName("ServerId")
-                        .HasComment("شناسه سرور");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<byte>("Id"));
-
-                    b.Property<string>("Path")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)")
-                        .HasComment("مسیر");
-
-                    b.Property<string>("ServerName")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasComment("عنوان سرور");
-
-                    b.Property<byte?>("ServerTypeId")
-                        .HasColumnType("tinyint")
-                        .HasComment("شناسه نوع سرور");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ServerTypeId");
-
-                    b.ToTable("Servers", "Server");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = (byte)1,
-                            Path = "Images/People",
-                            ServerName = "PeoplePrimaryImage",
-                            ServerTypeId = (byte)1
-                        },
-                        new
-                        {
-                            Id = (byte)2,
-                            Path = "Images/Movie",
-                            ServerName = "MoviePrimaryImage",
-                            ServerTypeId = (byte)2
                         });
                 });
 
@@ -619,15 +575,6 @@ namespace CinemaBox.Context.Migrations
                     b.Navigation("DeathCause");
                 });
 
-            modelBuilder.Entity("CinemaBox.Domain.Servers.Servers.Server", b =>
-                {
-                    b.HasOne("CinemaBox.Domain.Servers.ServerTypes.ServerType", "ServerType")
-                        .WithMany("Servers")
-                        .HasForeignKey("ServerTypeId");
-
-                    b.Navigation("ServerType");
-                });
-
             modelBuilder.Entity("CinemaBox.Domain.Division.CountryPartTypes.CountryPartType", b =>
                 {
                     b.Navigation("CountryParts");
@@ -658,11 +605,6 @@ namespace CinemaBox.Context.Migrations
                     b.Navigation("MovieCompanies");
 
                     b.Navigation("MovieCountries");
-                });
-
-            modelBuilder.Entity("CinemaBox.Domain.Servers.ServerTypes.ServerType", b =>
-                {
-                    b.Navigation("Servers");
                 });
 
             modelBuilder.Entity("CinemaBox.Domain.Shared.Currencies.Currency", b =>
