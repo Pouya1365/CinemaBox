@@ -4,6 +4,7 @@ using CinemaBox.Context.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaBox.Context.Migrations
 {
     [DbContext(typeof(CinemaBoxDbContext))]
-    partial class CinemaBoxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250614155556_InitialDb_V9")]
+    partial class InitialDb_V9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -410,8 +413,6 @@ namespace CinemaBox.Context.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DeathCauseId");
-
                     b.ToTable("Peoples", "Person");
                 });
 
@@ -434,32 +435,6 @@ namespace CinemaBox.Context.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Currencies", "Shared");
-                });
-
-            modelBuilder.Entity("CinemaBox.Domain.Shared.DeathCauses.DeathCause", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("DeathCauseId")
-                        .HasComment("شناسه نوع فوت");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("EnDeathCauseName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasComment("عنوان فوت انگلیسی");
-
-                    b.Property<string>("FaDeathCauseName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasComment("عنوان فوت فارسی");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DeathCauses", "Shared");
                 });
 
             modelBuilder.Entity("CinemaBox.Domain.Division.CountryParts.CountryPart", b =>
@@ -530,15 +505,6 @@ namespace CinemaBox.Context.Migrations
                     b.Navigation("Currency");
                 });
 
-            modelBuilder.Entity("CinemaBox.Domain.Person.Peoples.People", b =>
-                {
-                    b.HasOne("CinemaBox.Domain.Shared.DeathCauses.DeathCause", "DeathCause")
-                        .WithMany("People")
-                        .HasForeignKey("DeathCauseId");
-
-                    b.Navigation("DeathCause");
-                });
-
             modelBuilder.Entity("CinemaBox.Domain.Division.CountryPartTypes.CountryPartType", b =>
                 {
                     b.Navigation("CountryParts");
@@ -574,11 +540,6 @@ namespace CinemaBox.Context.Migrations
             modelBuilder.Entity("CinemaBox.Domain.Shared.Currencies.Currency", b =>
                 {
                     b.Navigation("Movies");
-                });
-
-            modelBuilder.Entity("CinemaBox.Domain.Shared.DeathCauses.DeathCause", b =>
-                {
-                    b.Navigation("People");
                 });
 #pragma warning restore 612, 618
         }

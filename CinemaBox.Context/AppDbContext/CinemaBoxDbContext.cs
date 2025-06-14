@@ -4,16 +4,22 @@ using CinemaBox.Configuration.Entertainment.Certificates;
 using CinemaBox.Configuration.Entertainment.Collections;
 using CinemaBox.Configuration.Entertainment.Coroprations;
 using CinemaBox.Configuration.Entertainment.Link.MovieCompanies;
+using CinemaBox.Configuration.Entertainment.Link.MovieCountries;
 using CinemaBox.Configuration.Entertainment.Movies;
+using CinemaBox.Configuration.Person.Peoples;
 using CinemaBox.Configuration.Shared.Currencies;
+using CinemaBox.Configuration.Shared.DeathCauses;
 using CinemaBox.Domain.Division.CountryParts;
 using CinemaBox.Domain.Division.CountryPartTypes;
 using CinemaBox.Domain.Entertainment.Certificates;
 using CinemaBox.Domain.Entertainment.Collections;
 using CinemaBox.Domain.Entertainment.Coropration;
 using CinemaBox.Domain.Entertainment.Link.MovieCompanies;
+using CinemaBox.Domain.Entertainment.Link.MovieCountries;
 using CinemaBox.Domain.Entertainment.Movies;
+using CinemaBox.Domain.Person.Peoples;
 using CinemaBox.Domain.Shared.Currencies;
+using CinemaBox.Domain.Shared.DeathCauses;
 using Microsoft.EntityFrameworkCore;
 
 namespace CinemaBox.Context.AppDbContext;
@@ -29,17 +35,19 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
     public DbSet<MovieCompany> MovieCompanies { get; set; }
     public DbSet<CountryPartType> CountryPartTypes { get; set; }
     public DbSet<CountryPart> CountryParts { get; set; }
-    //public DbSet<People> Peoples { get; set; }
+    public DbSet<MovieCountry> MovieCountries { get; set; }
+    public DbSet<People> Peoples { get; set; }
+    public DbSet<DeathCause> DeathCauses { get; set; }
     //public DbSet<ServerType> ServerTypes { get; set; }
     //public DbSet<Server> Servers { get; set; }
     //public DbSet<Domain.Entities.Files.File> Files { get; set; }
     //public DbSet<PeopleFile> PeopleFiles { get; set; }
     //public DbSet<CreditType> CreditTypes { get; set; }
     //public DbSet<MovieCredit> MovieCredits { get; set; }
-    //public DbSet<DeathCause> DeathCauses { get; set; }
+    //
     //public DbSet<MovieFile> MovieFiles { get; set; }
     //
-    //public DbSet<MovieCountry> MovieCountries { get; set; }
+    //
     //public DbSet<Genre> Genres { get; set; }
     //public DbSet<MovieGenre> MovieGenres { get; set; }
     //public DbSet<MovieLocation> MovieLocations { get; set; }
@@ -70,17 +78,19 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
         modelBuilder.ApplyConfiguration(new MovieCompanyConfiguration());
         modelBuilder.ApplyConfiguration(new CountryPartTypeConfiguration());
         modelBuilder.ApplyConfiguration(new CountryPartConfiguration());
-        //modelBuilder.ApplyConfiguration(new PeopleConfiguration());
+        modelBuilder.ApplyConfiguration(new MovieCountryConfiguration());
+        modelBuilder.ApplyConfiguration(new PeopleConfiguration());
+        modelBuilder.ApplyConfiguration(new DeathCauseConfiguration());
         //modelBuilder.ApplyConfiguration(new ServerTypeConfiguration());
         //modelBuilder.ApplyConfiguration(new ServerConfiguration());
         //modelBuilder.ApplyConfiguration(new FileConfiguration());
         //modelBuilder.ApplyConfiguration(new PeopleFileConfiguration());
         //modelBuilder.ApplyConfiguration(new CreditTypeConfiguration());
         //modelBuilder.ApplyConfiguration(new MovieCreditCounfiguration());
-        //modelBuilder.ApplyConfiguration(new DeathCauseConfiguration());
+        //
         //modelBuilder.ApplyConfiguration(new MovieFileConfiguration());
         //
-        //modelBuilder.ApplyConfiguration(new MovieCountryConfiguration());
+        //
         //modelBuilder.ApplyConfiguration(new GenreConfiguration());
         //modelBuilder.ApplyConfiguration(new MovieGenreConfiguration());
         //modelBuilder.ApplyConfiguration(new MovieLocationConfiguration());
