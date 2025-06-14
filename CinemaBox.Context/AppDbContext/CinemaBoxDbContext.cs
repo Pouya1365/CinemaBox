@@ -1,9 +1,11 @@
 ﻿using CinemaBox.Configuration.Entertainment.Certificates;
 using CinemaBox.Configuration.Entertainment.Collections;
+using CinemaBox.Configuration.Entertainment.Coroprations;
 using CinemaBox.Configuration.Entertainment.Movies;
 using CinemaBox.Configuration.Shared.Currencies;
 using CinemaBox.Domain.Entertainment.Certificates;
 using CinemaBox.Domain.Entertainment.Collections;
+using CinemaBox.Domain.Entertainment.Coropration;
 using CinemaBox.Domain.Entertainment.Movies;
 using CinemaBox.Domain.Shared.Currencies;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +19,7 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
     public DbSet<Certificate> Certificates { get; set; }
     public DbSet<Currency> Currencies { get; set; }
     public DbSet<Collection> Collections { get; set; }
+    public DbSet<Company> Companies { get; set; }
     //public DbSet<People> Peoples { get; set; }
     //public DbSet<ServerType> ServerTypes { get; set; }
     //public DbSet<Server> Servers { get; set; }
@@ -27,7 +30,7 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
     //public DbSet<DeathCause> DeathCauses { get; set; }
     //public DbSet<MovieFile> MovieFiles { get; set; }
 
-    //public DbSet<Company> Companies { get; set; }
+    //
     //public DbSet<MovieCompany> MovieCompanies { get; set; }
     //public DbSet<CountryPartType> CountryPartTypes { get; set; }
     //public DbSet<CountryPart> CountryParts { get; set; }
@@ -58,6 +61,7 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
         modelBuilder.ApplyConfiguration(new CertificateConfiguration());
         modelBuilder.ApplyConfiguration(new CurrencyConfiguration());
         modelBuilder.ApplyConfiguration(new CollectionConfiguration());
+        modelBuilder.ApplyConfiguration(new CompanyConfiguration());
         //modelBuilder.ApplyConfiguration(new PeopleConfiguration());
         //modelBuilder.ApplyConfiguration(new ServerTypeConfiguration());
         //modelBuilder.ApplyConfiguration(new ServerConfiguration());
@@ -68,7 +72,7 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
         //modelBuilder.ApplyConfiguration(new DeathCauseConfiguration());
         //modelBuilder.ApplyConfiguration(new MovieFileConfiguration());
 
-        //modelBuilder.ApplyConfiguration(new CompanyConfiguration());
+        //
         //modelBuilder.ApplyConfiguration(new MovieCompanyConfiguration());
         //modelBuilder.ApplyConfiguration(new CountryPartTypeConfiguration());
         //modelBuilder.ApplyConfiguration(new CountryPartConfiguration());
