@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CinemaBox.Context\CinemaBox.Context.csproj" />
+    <ProjectReference Include="..\CinemaBox.Repository.Interface\CinemaBox.Repository.Interface.csproj" />
+  </ItemGroup>
+
+</Project>
