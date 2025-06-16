@@ -24,6 +24,7 @@ using CinemaBox.Configuration.Shared.Currencies;
 using CinemaBox.Configuration.Shared.DeathCauses;
 using CinemaBox.Configuration.Shared.Keywords;
 using CinemaBox.Configuration.Shared.Languages;
+using CinemaBox.Configuration.Shared.Statuses;
 using CinemaBox.Configuration.Users.Users;
 using CinemaBox.Domain.Division.CountryParts;
 using CinemaBox.Domain.Division.CountryPartTypes;
@@ -50,6 +51,7 @@ using CinemaBox.Domain.Shared.Currencies;
 using CinemaBox.Domain.Shared.DeathCauses;
 using CinemaBox.Domain.Shared.Keywords;
 using CinemaBox.Domain.Shared.Languages;
+using CinemaBox.Domain.Shared.Statuses;
 using CinemaBox.Domain.Users.Users;
 using Microsoft.EntityFrameworkCore;
 
@@ -85,6 +87,7 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
     public DbSet<MovieSpokenLanguage> MovieSpokenLanguages { get; set; }
     public DbSet<MovieTagline> MovieTaglines { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<Status> Statuses { get; set; }
     //public DbSet<Format> Formats { get; set; }
     //public DbSet<UserMovieVideo> UserMovieVideos { get; set; }
     //public DbSet<UserMovieAudio> UserMovieAudios { get; set; }
@@ -126,6 +129,7 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
         modelBuilder.ApplyConfiguration(new MovieSpokenLanguageConfiguration());
         modelBuilder.ApplyConfiguration(new MovieTaglineConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
+        modelBuilder.ApplyConfiguration(new StatusConfiguration());
 
         //modelBuilder.ApplyConfiguration(new FormatConfiguration());
         //modelBuilder.ApplyConfiguration(new UserMovieVideoConfiguration());
