@@ -1,5 +1,5 @@
-﻿using CinemaBox.Domain.Persistent;
-using CinemaBox.Domain.Users.Link.UserMovieDisks;
+﻿using CinemaBox.Domain.Managment.Link.UserMovieDisks;
+using CinemaBox.Domain.Persistent;
 namespace CinemaBox.Domain.Shared.Statuses;
 public class Status : PersistentObject<byte>
 {

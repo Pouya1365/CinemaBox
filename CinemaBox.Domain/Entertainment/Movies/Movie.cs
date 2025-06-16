@@ -9,6 +9,7 @@ using CinemaBox.Domain.Entertainment.Link.MovieKeywords;
 using CinemaBox.Domain.Entertainment.Link.MovieLocations;
 using CinemaBox.Domain.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Domain.Entertainment.Link.MovieTaglines;
+using CinemaBox.Domain.Managment.Link.UserMovieDisks;
 using CinemaBox.Domain.Persistent;
 using CinemaBox.Domain.Shared.Currencies;
 
@@ -117,8 +118,8 @@ public class Movie : PersistentObject<string>
     public ICollection<MovieLocation> MovieLocations { get; set; } = [];
     public ICollection<MovieSpokenLanguage> MovieSpokenLanguages { get; set; } = [];
     public ICollection<MovieTagline> MovieTaglines { get; set; } = [];
-    //
+    public ICollection<UserMovieDisk> UserMovieDisks { get; set; } = [];
     //public ICollection<UserMovieVideo> UserMovieVideos { get; set; } = [];
-    //public ICollection<UserMovieDisk> UserMovieDisks { get; set; } = [];
+
     //
 }

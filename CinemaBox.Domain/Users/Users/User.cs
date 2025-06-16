@@ -1,4 +1,5 @@
-﻿using CinemaBox.Domain.Persistent;
+﻿using CinemaBox.Domain.Managment.Link.UserMovieDisks;
+using CinemaBox.Domain.Persistent;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace CinemaBox.Domain.Users.Users
     public class User:PersistentObject<string>
     {
         public required string Password { get; set; }
+        public ICollection<UserMovieDisk> UserMovieDisks { get; set; } = [];
     }
 }
