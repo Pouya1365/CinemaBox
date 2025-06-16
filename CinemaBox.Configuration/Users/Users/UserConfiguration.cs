@@ -13,5 +13,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasKey(c => c.Id);
         builder.Property(c => c.Id).HasMaxLength(10).HasColumnName("UserId").HasComment(comment: "شناسه کاربر");
         builder.Property(c => c.Password).HasMaxLength(250).IsRequired(true).HasComment(comment: "رمز عبور");
+        builder.HasData(new User { Id = "0078979013", Password = "1" });
     }
 }
