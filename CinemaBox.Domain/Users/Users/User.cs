@@ -1,5 +1,6 @@
 ﻿using CinemaBox.Domain.Managment.Link.UserMovieAudios;
 using CinemaBox.Domain.Managment.Link.UserMovieDisks;
+using CinemaBox.Domain.Managment.Link.UserMovieVideos;
 using CinemaBox.Domain.Persistent;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,6 @@ namespace CinemaBox.Domain.Users.Users
         public required string Password { get; set; }
         public ICollection<UserMovieDisk> UserMovieDisks { get; set; } = [];
         public ICollection<UserMovieAudio> UserMovieAudios { get; set; } = [];
+        public ICollection<UserMovieVideo> UserMovieVideos { get; set; } = [];
     }
 }

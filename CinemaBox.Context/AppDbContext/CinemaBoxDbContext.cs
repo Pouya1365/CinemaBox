@@ -18,6 +18,7 @@ using CinemaBox.Configuration.Entertainment.Movies;
 using CinemaBox.Configuration.Files.Files;
 using CinemaBox.Configuration.Managment.Link.UserMovieAudios;
 using CinemaBox.Configuration.Managment.Link.UserMovieDisks;
+using CinemaBox.Configuration.Managment.Link.UserMovieVideos;
 using CinemaBox.Configuration.Person.PeopleFiles;
 using CinemaBox.Configuration.Person.Peoples;
 using CinemaBox.Configuration.Servers.Servers;
@@ -48,6 +49,7 @@ using CinemaBox.Domain.Entertainment.Link.MovieTaglines;
 using CinemaBox.Domain.Entertainment.Movies;
 using CinemaBox.Domain.Managment.Link.UserMovieAudios;
 using CinemaBox.Domain.Managment.Link.UserMovieDisks;
+using CinemaBox.Domain.Managment.Link.UserMovieVideos;
 using CinemaBox.Domain.Person.PeopleFiles;
 using CinemaBox.Domain.Person.Peoples;
 using CinemaBox.Domain.Servers.Servers;
@@ -60,10 +62,7 @@ using CinemaBox.Domain.Shared.Languages;
 using CinemaBox.Domain.Shared.Statuses;
 using CinemaBox.Domain.Users.Users;
 using Microsoft.EntityFrameworkCore;
-
 namespace CinemaBox.Context.AppDbContext;
-
-
 public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : DbContext(options)
 {
     public DbSet<Movie> Movies { get; set; }
@@ -97,11 +96,7 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
     public DbSet<UserMovieDisk> UserMovieDisks { get; set; }
     public DbSet<Format> Formats { get; set; }
     public DbSet<UserMovieAudio> UserMovieAudios { get; set; }
-    //public DbSet<UserMovieVideo> UserMovieVideos { get; set; }
-    //
-    //
-    //
-
+    public DbSet<UserMovieVideo> UserMovieVideos { get; set; }  
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
@@ -141,11 +136,6 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
         modelBuilder.ApplyConfiguration(new UserMovieDiskConfiguration());
         modelBuilder.ApplyConfiguration(new FormatConfiguration());
         modelBuilder.ApplyConfiguration(new UserMovieAudioConfiguration());
-        //
-        //modelBuilder.ApplyConfiguration(new UserMovieVideoConfiguration());
-        //
-        //
-        //modelBuilder.ApplyConfigurationsFromAssembly(typeof(CinemaBoxDbContext).Assembly);
+        modelBuilder.ApplyConfiguration(new UserMovieVideoConfiguration());
     }
-
 }

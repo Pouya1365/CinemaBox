@@ -11,6 +11,7 @@ using CinemaBox.Domain.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Domain.Entertainment.Link.MovieTaglines;
 using CinemaBox.Domain.Managment.Link.UserMovieAudios;
 using CinemaBox.Domain.Managment.Link.UserMovieDisks;
+using CinemaBox.Domain.Managment.Link.UserMovieVideos;
 using CinemaBox.Domain.Persistent;
 using CinemaBox.Domain.Shared.Currencies;
 
@@ -121,5 +122,5 @@ public class Movie : PersistentObject<string>
     public ICollection<MovieTagline> MovieTaglines { get; set; } = [];
     public ICollection<UserMovieDisk> UserMovieDisks { get; set; } = [];
     public ICollection<UserMovieAudio> UserMovieAudios { get; set; } = [];
-
+    public ICollection<UserMovieVideo> UserMovieVideos { get; set; } = [];
 }
