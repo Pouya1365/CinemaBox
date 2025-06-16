@@ -4,6 +4,7 @@ using CinemaBox.Context.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaBox.Context.Migrations
 {
     [DbContext(typeof(CinemaBoxDbContext))]
-    partial class CinemaBoxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250616101618_InitialDb_V30")]
+    partial class InitialDb_V30
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -619,53 +622,6 @@ namespace CinemaBox.Context.Migrations
                     b.HasIndex("ServerId");
 
                     b.ToTable("Files", "Files");
-                });
-
-            modelBuilder.Entity("CinemaBox.Domain.Managment.Link.UserMovieAudios.UserMovieAudio", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("UserMovieAudioId")
-                        .HasComment("شناسه فایل صوت");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<byte?>("Channels")
-                        .HasColumnType("tinyint")
-                        .HasComment("فریم در ثانیه");
-
-                    b.Property<byte?>("FormatId")
-                        .HasColumnType("tinyint")
-                        .HasComment("شناسه نوع فرمت");
-
-                    b.Property<byte?>("LanguageId")
-                        .HasColumnType("tinyint")
-                        .HasComment("شناسه زبان");
-
-                    b.Property<string>("MovieId")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasComment("شناسه فیلم");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)")
-                        .HasComment("شناسه فرد");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FormatId");
-
-                    b.HasIndex("LanguageId");
-
-                    b.HasIndex("MovieId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserMovieAudios", "Managment");
                 });
 
             modelBuilder.Entity("CinemaBox.Domain.Managment.Link.UserMovieDisks.UserMovieDisk", b =>
@@ -1288,37 +1244,6 @@ namespace CinemaBox.Context.Migrations
                     b.Navigation("Server");
                 });
 
-            modelBuilder.Entity("CinemaBox.Domain.Managment.Link.UserMovieAudios.UserMovieAudio", b =>
-                {
-                    b.HasOne("CinemaBox.Domain.Shared.Formats.Format", "Format")
-                        .WithMany("UserMovieAudios")
-                        .HasForeignKey("FormatId");
-
-                    b.HasOne("CinemaBox.Domain.Shared.Languages.Language", "Language")
-                        .WithMany("UserMovieAudios")
-                        .HasForeignKey("LanguageId");
-
-                    b.HasOne("CinemaBox.Domain.Entertainment.Movies.Movie", "Movie")
-                        .WithMany("UserMovieAudios")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CinemaBox.Domain.Users.Users.User", "User")
-                        .WithMany("UserMovieAudios")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Format");
-
-                    b.Navigation("Language");
-
-                    b.Navigation("Movie");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("CinemaBox.Domain.Managment.Link.UserMovieDisks.UserMovieDisk", b =>
                 {
                     b.HasOne("CinemaBox.Domain.Entertainment.Movies.Movie", "Movie")
@@ -1436,8 +1361,6 @@ namespace CinemaBox.Context.Migrations
 
                     b.Navigation("MovieTaglines");
 
-                    b.Navigation("UserMovieAudios");
-
                     b.Navigation("UserMovieDisks");
                 });
 
@@ -1477,11 +1400,6 @@ namespace CinemaBox.Context.Migrations
                     b.Navigation("People");
                 });
 
-            modelBuilder.Entity("CinemaBox.Domain.Shared.Formats.Format", b =>
-                {
-                    b.Navigation("UserMovieAudios");
-                });
-
             modelBuilder.Entity("CinemaBox.Domain.Shared.Keywords.Keyword", b =>
                 {
                     b.Navigation("MovieKeywords");
@@ -1490,8 +1408,6 @@ namespace CinemaBox.Context.Migrations
             modelBuilder.Entity("CinemaBox.Domain.Shared.Languages.Language", b =>
                 {
                     b.Navigation("MovieSpokenLanguages");
-
-                    b.Navigation("UserMovieAudios");
                 });
 
             modelBuilder.Entity("CinemaBox.Domain.Shared.Statuses.Status", b =>
@@ -1501,8 +1417,6 @@ namespace CinemaBox.Context.Migrations
 
             modelBuilder.Entity("CinemaBox.Domain.Users.Users.User", b =>
                 {
-                    b.Navigation("UserMovieAudios");
-
                     b.Navigation("UserMovieDisks");
                 });
 #pragma warning restore 612, 618

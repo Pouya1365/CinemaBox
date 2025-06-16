@@ -16,12 +16,15 @@ using CinemaBox.Configuration.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Configuration.Entertainment.Link.MovieTaglines;
 using CinemaBox.Configuration.Entertainment.Movies;
 using CinemaBox.Configuration.Files.Files;
+using CinemaBox.Configuration.Managment.Link.UserMovieAudios;
+using CinemaBox.Configuration.Managment.Link.UserMovieDisks;
 using CinemaBox.Configuration.Person.PeopleFiles;
 using CinemaBox.Configuration.Person.Peoples;
 using CinemaBox.Configuration.Servers.Servers;
 using CinemaBox.Configuration.Servers.ServerTypes;
 using CinemaBox.Configuration.Shared.Currencies;
 using CinemaBox.Configuration.Shared.DeathCauses;
+using CinemaBox.Configuration.Shared.Formats;
 using CinemaBox.Configuration.Shared.Keywords;
 using CinemaBox.Configuration.Shared.Languages;
 using CinemaBox.Configuration.Shared.Statuses;
@@ -43,12 +46,15 @@ using CinemaBox.Domain.Entertainment.Link.MovieLocations;
 using CinemaBox.Domain.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Domain.Entertainment.Link.MovieTaglines;
 using CinemaBox.Domain.Entertainment.Movies;
+using CinemaBox.Domain.Managment.Link.UserMovieAudios;
+using CinemaBox.Domain.Managment.Link.UserMovieDisks;
 using CinemaBox.Domain.Person.PeopleFiles;
 using CinemaBox.Domain.Person.Peoples;
 using CinemaBox.Domain.Servers.Servers;
 using CinemaBox.Domain.Servers.ServerTypes;
 using CinemaBox.Domain.Shared.Currencies;
 using CinemaBox.Domain.Shared.DeathCauses;
+using CinemaBox.Domain.Shared.Formats;
 using CinemaBox.Domain.Shared.Keywords;
 using CinemaBox.Domain.Shared.Languages;
 using CinemaBox.Domain.Shared.Statuses;
@@ -88,10 +94,12 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
     public DbSet<MovieTagline> MovieTaglines { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<Status> Statuses { get; set; }
-    //public DbSet<Format> Formats { get; set; }
+    public DbSet<UserMovieDisk> UserMovieDisks { get; set; }
+    public DbSet<Format> Formats { get; set; }
+    public DbSet<UserMovieAudio> UserMovieAudios { get; set; }
     //public DbSet<UserMovieVideo> UserMovieVideos { get; set; }
-    //public DbSet<UserMovieAudio> UserMovieAudios { get; set; }
-    //public DbSet<UserMovieDisk> UserMovieDisks { get; set; }
+    //
+    //
     //
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -130,11 +138,13 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
         modelBuilder.ApplyConfiguration(new MovieTaglineConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new StatusConfiguration());
-
-        //modelBuilder.ApplyConfiguration(new FormatConfiguration());
+        modelBuilder.ApplyConfiguration(new UserMovieDiskConfiguration());
+        modelBuilder.ApplyConfiguration(new FormatConfiguration());
+        modelBuilder.ApplyConfiguration(new UserMovieAudioConfiguration());
+        //
         //modelBuilder.ApplyConfiguration(new UserMovieVideoConfiguration());
-        //modelBuilder.ApplyConfiguration(new UserMovieAudioConfiguration());
-        //modelBuilder.ApplyConfiguration(new UserMovieDiskConfiguration());
+        //
+        //
         //modelBuilder.ApplyConfigurationsFromAssembly(typeof(CinemaBoxDbContext).Assembly);
     }
 
