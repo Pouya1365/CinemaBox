@@ -9,30 +9,30 @@ using CinemaBox.UnitOfWork.Interface.UOW;
 
 namespace CinemaBox.Service.Entertainment.Movies;
 
-public class MovieServices(IUnitOfWork unitOfWork, ICertificateServices certificateServices,ICurrencyServices currencyServices) : IMovieServices
+public class MovieServices(IUnitOfWork unitOfWork, ICertificateServices certificateServices, ICurrencyServices currencyServices) : IMovieServices
 {
     public async Task<Movie> CreateOrUpdate(MovieModelScrapping model)
     {
         byte? certificateId = await GetCertificateIdAsync(model.Certificate);
         byte? currencyId = await GetCurrencyIdAsync(model.BudgetCurrency);
         Movie? movie = await GeMovieAsync(model.ImdbId);
-        bool d = movie.EnTitle == null ? false : true;
+        bool isNew = movie.EnTitle != null;
         UpdateMovieFields(movie, model, certificateId, currencyId);
-        if (d==true)        
-            unitOfWork.Repository<Movie>().Update(movie);       
+        if (isNew == true)
+            unitOfWork.Repository<Movie>().Update(movie);
         else
             await unitOfWork.Repository<Movie>().AddAsync(movie);
-       await unitOfWork.CompleteAsync();        
+        await unitOfWork.CompleteAsync();
         return movie;
     }
     private async Task<byte?> GetCertificateIdAsync(string? certificate) => certificate != null
             ? (await certificateServices.CreateOrGetCertificateAsync(certificate))?.Id
             : null;
-    private async Task<byte?> GetCurrencyIdAsync(string? currency)=> currency != null
-            ? (await  currencyServices.CreateOrGetCurrencyAsync(currency))?.Id
+    private async Task<byte?> GetCurrencyIdAsync(string? currency) => currency != null
+            ? (await currencyServices.CreateOrGetCurrencyAsync(currency))?.Id
             : null;
     public async Task<Movie?> GeMovieAsync(string? ImdbId) => ImdbId != null
-            ? await unitOfWork.Repository<Movie>().FindAsync(x => x.Id == ImdbId)?? new Movie { Id = ImdbId } : new Movie {Id=ImdbId };
+            ? await unitOfWork.Repository<Movie>().FindAsync(x => x.Id == ImdbId) ?? new Movie { Id = ImdbId } : new Movie { Id = ImdbId };
     private void UpdateMovieFields(Movie movie, MovieModelScrapping model, byte? certificateId, byte? currencyId)
     {
         movie.CertificateId = certificateId;
