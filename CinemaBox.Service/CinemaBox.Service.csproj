@@ -7,8 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CinemaBox.Domain\CinemaBox.Domain.csproj" />
     <ProjectReference Include="..\CinemaBox.Model\CinemaBox.Model.csproj" />
+    <ProjectReference Include="..\CinemaBox.Service.Interface\CinemaBox.Service.Interface.csproj" />
+    <ProjectReference Include="..\CinemaBox.UnitOfWork.Interface\CinemaBox.UnitOfWork.Interface.csproj" />
   </ItemGroup>
 
 </Project>

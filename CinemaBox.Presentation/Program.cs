@@ -1,6 +1,14 @@
 ﻿using CinemaBox.Context.AppDbContext;
 using CinemaBox.Scrapping.Interface.Imdb.Service;
 using CinemaBox.Scrapping.Service.Movie;
+using CinemaBox.Service.Entertainment.Certificates;
+using CinemaBox.Service.Entertainment.Movies;
+using CinemaBox.Service.Interface.Entertainment.Certificates;
+using CinemaBox.Service.Interface.Entertainment.Movies;
+using CinemaBox.Service.Interface.Shared.Currencies;
+using CinemaBox.Service.Shared.Currencies;
+using CinemaBox.UnitOfWork.Interface.UOW;
+using CinemaBox.UnitOfWork.UOW;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,45 +18,70 @@ namespace CinemaBox.Presentation;
 
 internal static class Program
 {
-    /// <summary>
-    ///  The main entry point for the application.
-    /// </summary>
     [STAThread]
     static void Main()
     {
-        // To customize application configuration such as set high DPI settings or default font,
-        // see https://aka.ms/applicationconfiguration.
         ApplicationConfiguration.Initialize();
         Application.SetCompatibleTextRenderingDefault(false);
 
-        // ساخت Container
-        var serviceCollection = new ServiceCollection();
-        serviceCollection.AddSingleton<IImdbMovieScrapperServices, ImdbMovieScrapperServices>();
+        // سرویس‌ها
+        IServiceCollection serviceCollection = ConfigureServices();
+        ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 
-        AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
-        {
-            string dllName = new AssemblyName(assemblyName: args.Name).Name + ".dll";
-            string dllPath = Path.Combine(path1: AppDomain.CurrentDomain.BaseDirectory, path2: "libs", path3: dllName);
-            return File.Exists(dllPath) ? Assembly.LoadFrom(dllPath) : null;
-        };
-        // رجیستر کردن فرم به عنوان Transient (یا Singleton)
-        serviceCollection.AddTransient<Form1>();
-
-        var serviceProvider = serviceCollection.BuildServiceProvider();
-
-        // اجرای فرم با سرویس‌های تزریق شده
-        Form1 mainForm = ServiceProviderServiceExtensions.GetRequiredService<Form1>(serviceProvider);
+        // اجرای فرم اصلی
+        Form1 mainForm =ServiceProviderServiceExtensions.GetRequiredService<Form1>(serviceProvider);
 
         Application.Run(mainForm);
     }
+
+    /// <summary>
+    /// پیکربندی سرویس‌ها و DI
+    /// </summary>
+    private static IServiceCollection ConfigureServices()
+    {
+        ServiceCollection services = new ServiceCollection();
+
+        // 🔧 اتصال به دیتابیس
+        const string connectionString = @"Server=DESKTOP-SD5KJ4K;Database=TvTime;Trusted_Connection=True;TrustServerCertificate=True";
+        services.AddDbContext<CinemaBoxDbContext>(options =>
+            options.UseSqlServer(connectionString));
+
+        // 🧠 سرویس‌ها (Scoped برای DbContext وابسته)
+        services.AddScoped<IImdbMovieScrapperServices, ImdbMovieScrapperServices>();
+        services.AddScoped<IUnitOfWork, UnitOfWork.UOW.UnitOfWork>();
+        services.AddScoped<IMovieServices, MovieServices>();
+        services.AddScoped<ICurrencyServices, CurrencyServices>();
+        services.AddScoped<ICertificateServices, CertificateServices>();
+
+        // 📦 رجیستر کردن فرم‌ها
+        services.AddTransient<Form1>();
+
+        // 📁 هندل لود داینامیک DLL از پوشه libs
+        AppDomain.CurrentDomain.AssemblyResolve += ResolveAssemblyFromLibs;
+
+        return services;
+    }
+
+    /// <summary>
+    /// لود داینامیک اسمبلی‌ها از مسیر libs
+    /// </summary>
+    private static Assembly? ResolveAssemblyFromLibs(object? sender, ResolveEventArgs args)
+    {
+        string dllName = new AssemblyName(args.Name).Name + ".dll";
+        string dllPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs", dllName);
+        return File.Exists(dllPath) ? Assembly.LoadFrom(dllPath) : null;
+    }
+
+    /// <summary>
+    /// برای EF Core Migration استفاده می‌شود
+    /// </summary>
     public class CinemaBoxDbContextFactory : IDesignTimeDbContextFactory<CinemaBoxDbContext>
     {
         public CinemaBoxDbContext CreateDbContext(string[] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<CinemaBoxDbContext>();
+            DbContextOptionsBuilder<CinemaBoxDbContext> optionsBuilder = new DbContextOptionsBuilder<CinemaBoxDbContext>();
             optionsBuilder.UseSqlServer(@"Server=DESKTOP-SD5KJ4K;Database=TvTime;Trusted_Connection=True;TrustServerCertificate=True");
             return new CinemaBoxDbContext(optionsBuilder.Options);
         }
     }
-
 }
