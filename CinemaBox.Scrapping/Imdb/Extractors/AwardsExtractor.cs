@@ -14,7 +14,7 @@ public class AwardsExtractor : IGeneralInfoExtractor
           .GetPropertySafe("mainColumnData");
         model.Winner = data.GetPropertySafe("wins").GetPropertySafe("total")?.GetInt64();
         model.Nomination = data.GetPropertySafe("nominationsExcludeWins").GetPropertySafe("total")?.GetInt64();
-        model.TopRank = data.GetPropertySafe("ratingsSummary").GetPropertySafe("topRanking").GetPropertySafe("rank")?.GetByte();
+        model.TopRank = data.GetPropertySafe("ratingsSummary").GetPropertySafe("topRanking").GetPropertySafe("rank")?.GetInt32();
         model.OscarNominations = data.GetPropertySafe("prestigiousAwardSummary").GetPropertySafe("nominations")?.GetByte();
         model.OscarNominations = data.GetPropertySafe("prestigiousAwardSummary").GetPropertySafe("nominations")?.GetByte();
         model.OscarWins = data.GetPropertySafe("prestigiousAwardSummary").GetPropertySafe("wins")?.GetByte();

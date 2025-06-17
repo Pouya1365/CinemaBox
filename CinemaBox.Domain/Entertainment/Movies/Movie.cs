@@ -93,7 +93,7 @@ public class Movie : PersistentObject<string>
     /// <summary>
     /// برترین فیلم
     /// </summary>
-    public byte? TopRank { get; set; }
+    public int? TopRank { get; set; }
     /// <summary>
     /// تعداد برنده اسکار
     /// </summary>
