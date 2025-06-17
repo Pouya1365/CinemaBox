@@ -15,12 +15,13 @@ public class MovieServices(IUnitOfWork unitOfWork, ICertificateServices certific
     {
         byte? certificateId = await GetCertificateIdAsync(model.Certificate);
         byte? currencyId = await GetCurrencyIdAsync(model.BudgetCurrency);
-        var movie = await GeMovieAsync(model.ImdbId);
+        Movie? movie = await GeMovieAsync(model.ImdbId);
+        bool d = movie.EnTitle == null ? false : true;
         UpdateMovieFields(movie, model, certificateId, currencyId);
-        if (movie.Id == model.ImdbId)        
-            unitOfWork.Movies.Update(movie);       
+        if (d==true)        
+            unitOfWork.Repository<Movie>().Update(movie);       
         else
-            await unitOfWork.Movies.AddAsync(movie);
+            await unitOfWork.Repository<Movie>().AddAsync(movie);
        await unitOfWork.CompleteAsync();        
         return movie;
     }
@@ -31,7 +32,7 @@ public class MovieServices(IUnitOfWork unitOfWork, ICertificateServices certific
             ? (await  currencyServices.CreateOrGetCurrencyAsync(currency))?.Id
             : null;
     public async Task<Movie?> GeMovieAsync(string? ImdbId) => ImdbId != null
-            ? await unitOfWork.Movies.FindAsync(x => x.Id == ImdbId) : new Movie {Id=ImdbId };
+            ? await unitOfWork.Repository<Movie>().FindAsync(x => x.Id == ImdbId)?? new Movie { Id = ImdbId } : new Movie {Id=ImdbId };
     private void UpdateMovieFields(Movie movie, MovieModelScrapping model, byte? certificateId, byte? currencyId)
     {
         movie.CertificateId = certificateId;

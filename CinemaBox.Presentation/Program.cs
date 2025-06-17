@@ -28,6 +28,7 @@ internal static class Program
         IServiceCollection serviceCollection = ConfigureServices();
         ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 
+
         // اجرای فرم اصلی
         Form1 mainForm =ServiceProviderServiceExtensions.GetRequiredService<Form1>(serviceProvider);
 
@@ -39,7 +40,7 @@ internal static class Program
     /// </summary>
     private static IServiceCollection ConfigureServices()
     {
-        ServiceCollection services = new ServiceCollection();
+        ServiceCollection services = new();
 
         // 🔧 اتصال به دیتابیس
         const string connectionString = @"Server=DESKTOP-SD5KJ4K;Database=TvTime;Trusted_Connection=True;TrustServerCertificate=True";

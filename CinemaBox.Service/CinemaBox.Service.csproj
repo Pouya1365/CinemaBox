@@ -7,9 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CinemaBox.Model\CinemaBox.Model.csproj" />
     <ProjectReference Include="..\CinemaBox.Service.Interface\CinemaBox.Service.Interface.csproj" />
     <ProjectReference Include="..\CinemaBox.UnitOfWork.Interface\CinemaBox.UnitOfWork.Interface.csproj" />
+    <ProjectReference Include="..\CinemaBox.Utilities\CinemaBox.Utilities.csproj" />
   </ItemGroup>
 
 </Project>
