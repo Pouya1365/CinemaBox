@@ -12,7 +12,7 @@ public class CertificateServices(IUnitOfWork unitOfWork) : ICertificateServices
     {
         if (string.IsNullOrWhiteSpace(certificateName))
             return null;
-        var certificate = await GetCertificateAsync(certificateName);
+        Certificate? certificate = await GetCertificateAsync(certificateName);
         if (certificate == null)
         {
             certificate = new Certificate { CertificateName = certificateName.Trim() };
