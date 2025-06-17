@@ -2,8 +2,10 @@
 using CinemaBox.Scrapping.Interface.Imdb.Service;
 using CinemaBox.Scrapping.Service.Movie;
 using CinemaBox.Service.Entertainment.Certificates;
+using CinemaBox.Service.Entertainment.Coropration;
 using CinemaBox.Service.Entertainment.Movies;
 using CinemaBox.Service.Interface.Entertainment.Certificates;
+using CinemaBox.Service.Interface.Entertainment.Coropration;
 using CinemaBox.Service.Interface.Entertainment.Movies;
 using CinemaBox.Service.Interface.Shared.Currencies;
 using CinemaBox.Service.Shared.Currencies;
@@ -53,6 +55,7 @@ internal static class Program
         services.AddScoped<IMovieServices, MovieServices>();
         services.AddScoped<ICurrencyServices, CurrencyServices>();
         services.AddScoped<ICertificateServices, CertificateServices>();
+        services.AddScoped<ICompanyServices, CompanyServices>();
 
         // 📦 رجیستر کردن فرم‌ها
         services.AddTransient<Form1>();
