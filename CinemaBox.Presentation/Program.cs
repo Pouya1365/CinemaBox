@@ -8,6 +8,7 @@ using CinemaBox.Service.Entertainment.Genres;
 using CinemaBox.Service.Entertainment.Link.MovieCompanies;
 using CinemaBox.Service.Entertainment.Link.MovieCountries;
 using CinemaBox.Service.Entertainment.Link.MovieGenres;
+using CinemaBox.Service.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Service.Entertainment.Movies;
 using CinemaBox.Service.Interface.Division.CountryParts;
 using CinemaBox.Service.Interface.Entertainment.Certificates;
@@ -16,9 +17,12 @@ using CinemaBox.Service.Interface.Entertainment.Genres;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCompanies;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCountries;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieGenres;
+using CinemaBox.Service.Interface.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Service.Interface.Entertainment.Movies;
 using CinemaBox.Service.Interface.Shared.Currencies;
+using CinemaBox.Service.Interface.Shared.Languages;
 using CinemaBox.Service.Shared.Currencies;
+using CinemaBox.Service.Shared.Languages;
 using CinemaBox.UnitOfWork.Interface.UOW;
 using CinemaBox.UnitOfWork.UOW;
 using Microsoft.EntityFrameworkCore;
@@ -71,6 +75,8 @@ internal static class Program
         services.AddScoped<IMovieCountryServices, MovieCountryServices>();
         services.AddScoped<IGenreServices,GenreServices>();
         services.AddScoped<IMovieGenreServices,MovieGenreServices>();
+        services.AddScoped<ILanguageServices,LanguageServices>();
+        services.AddScoped<IMovieSpokenLanguageServices, MovieSpokenLanguageServices>();
 
         // 📦 رجیستر کردن فرم‌ها
         services.AddTransient<Form1>();
