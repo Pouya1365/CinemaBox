@@ -5,6 +5,7 @@ using CinemaBox.Scrapping.Interface.Imdb.Service;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCompanies;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCountries;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieGenres;
+using CinemaBox.Service.Interface.Entertainment.Link.MovieKeywords;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieLocations;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieTaglines;
@@ -20,6 +21,7 @@ public partial class Form1 : CesForm
     private readonly IMovieSpokenLanguageServices _movieSpokenLanguageServices;
     private readonly IMovieTaglineServices _movieTaglineServices;
     private readonly IMovieLocationServices _movieLocationServices;
+    private readonly IMovieKeywordServices _movieKeywordServices;
     public Form1(IImdbMovieScrapperServices imdbScrapperServices,
         IMovieServices movieServices,
         IMovieCompanyServices movieCompanyServices,
@@ -27,7 +29,8 @@ public partial class Form1 : CesForm
         IMovieGenreServices movieGenreServices,
         IMovieSpokenLanguageServices movieSpokenLanguageServices,
         IMovieTaglineServices movieTaglineServices,
-        IMovieLocationServices movieLocationServices
+        IMovieLocationServices movieLocationServices,
+        IMovieKeywordServices movieKeywordServices
         )
     {
         InitializeComponent();
@@ -39,6 +42,7 @@ public partial class Form1 : CesForm
         _movieSpokenLanguageServices = movieSpokenLanguageServices ?? throw new ArgumentNullException(nameof(movieSpokenLanguageServices));
         _movieTaglineServices = movieTaglineServices ?? throw new ArgumentNullException(nameof(movieTaglineServices));
         _movieLocationServices = movieLocationServices ?? throw new ArgumentNullException(nameof(movieLocationServices));
+        _movieKeywordServices = movieKeywordServices ?? throw new ArgumentNullException(nameof(movieKeywordServices));
     }
 
     private async void Btn_GetInfo_Click(object sender, EventArgs e)
@@ -51,6 +55,7 @@ public partial class Form1 : CesForm
         await _movieSpokenLanguageServices.CreateOrGetMovieLanguage(LanguagekeyValuePairs: movieModelScrapping.SpokenLanguageskeyValuePairs, movieId: Txt_Search.CesText);
         await _movieTaglineServices.CreateMovieTagline(taglineModels: movieModelScrapping.Taglines, movieId: Txt_Search.CesText);
         await _movieLocationServices.CreateMovieLocation(locationModels: movieModelScrapping.Locations, movieId: Txt_Search.CesText);
+        await _movieKeywordServices.CreateOrGetMovieKeyword(keywordkeyValuePairs: movieModelScrapping.KeywordskeyValuePairs, movieId: Txt_Search.CesText);
 
     }
 }

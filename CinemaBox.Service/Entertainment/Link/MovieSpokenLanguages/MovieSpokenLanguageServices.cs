@@ -6,10 +6,10 @@ using CinemaBox.UnitOfWork.Interface.UOW;
 
 namespace CinemaBox.Service.Entertainment.Link.MovieSpokenLanguages;
 
-public class MovieSpokenLanguageServices(IUnitOfWork unitOfWork, ILanguageServices LanguageServices) : IMovieSpokenLanguageServices
+public class MovieSpokenLanguageServices(IUnitOfWork unitOfWork, ILanguageServices languageServices) : IMovieSpokenLanguageServices
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-    private readonly ILanguageServices _LanguageServices = LanguageServices ?? throw new ArgumentNullException(nameof(LanguageServices));
+    private readonly ILanguageServices _LanguageServices = languageServices ?? throw new ArgumentNullException(nameof(languageServices));
     public async Task<List<MovieSpokenLanguage>> CreateOrGetMovieLanguage(Dictionary<string, string> LanguagekeyValuePairs, string movieId)
     {
         List<MovieSpokenLanguage> movieSpokenLanguage = [];

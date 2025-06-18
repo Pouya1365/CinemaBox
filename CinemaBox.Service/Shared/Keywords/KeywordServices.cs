@@ -8,27 +8,24 @@ namespace CinemaBox.Service.Shared.Keywords;
 public class KeywordServices(IUnitOfWork unitOfWork) : IKeywordServices
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-    public async Task<Keyword?> CreateOrGetKeywordAsync(string? keywordName)
+    public async Task<Keyword?> CreateOrGetKeywordAsync(string? keywordId,string? keywordName)
     {
-        if (string.IsNullOrWhiteSpace(keywordName))
+        if (string.IsNullOrWhiteSpace(keywordId))
             return null;
         Keyword? Keyword = await GetKeywordAsync(keywordName);
         if (Keyword == null)
         {
-            Keyword = new Keyword { EnKeyowrdName = keywordName.Trim() };
+            Keyword = new Keyword { EnKeyowrdName = keywordName.Trim(),Id= keywordId };
             await _unitOfWork.Repository<Keyword>().AddAsync(Keyword);
             await _unitOfWork.CompleteAsync();
         }
         return Keyword;
     }
-    public async Task<Keyword?> GetKeywordAsync(string keywordName)
+    public async Task<Keyword?> GetKeywordAsync(string keywordId)
     {
-        if (string.IsNullOrWhiteSpace(keywordName))
-            return null;
-        string? nameToCompare = StringExtensions.NormalizeSafe(keywordName);
-        if (string.IsNullOrEmpty(nameToCompare))
+        if (string.IsNullOrEmpty(keywordId))
             return null;
         return await _unitOfWork.Repository<Keyword>()
-            .FindAsync(c => c.EnKeyowrdName.ToLower() == nameToCompare || c.FaKeyowrdName == keywordName);
+            .FindAsync(c => c.Id == keywordId);
     }
 }
