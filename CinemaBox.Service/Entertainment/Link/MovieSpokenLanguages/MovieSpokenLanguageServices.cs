@@ -27,5 +27,5 @@ public class MovieSpokenLanguageServices(IUnitOfWork unitOfWork, ILanguageServic
         await _unitOfWork.CompleteAsync();
         return movieSpokenLanguage;
     }
-    public async Task<Language> GetCountryPartAsync(string languageName,string isoCode) => await _LanguageServices.CreateOrGetLanguageAsync(LanguageName: languageName, isoCode:);
+    public async Task<Language> GetCountryPartAsync(string languageName,string isoCode) => await _LanguageServices.CreateOrGetLanguageAsync(LanguageName: languageName, isoCode: isoCode);
 }

@@ -8,7 +8,9 @@ using CinemaBox.Service.Entertainment.Genres;
 using CinemaBox.Service.Entertainment.Link.MovieCompanies;
 using CinemaBox.Service.Entertainment.Link.MovieCountries;
 using CinemaBox.Service.Entertainment.Link.MovieGenres;
+using CinemaBox.Service.Entertainment.Link.MovieLocations;
 using CinemaBox.Service.Entertainment.Link.MovieSpokenLanguages;
+using CinemaBox.Service.Entertainment.Link.MovieTaglines;
 using CinemaBox.Service.Entertainment.Movies;
 using CinemaBox.Service.Interface.Division.CountryParts;
 using CinemaBox.Service.Interface.Entertainment.Certificates;
@@ -17,14 +19,15 @@ using CinemaBox.Service.Interface.Entertainment.Genres;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCompanies;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCountries;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieGenres;
+using CinemaBox.Service.Interface.Entertainment.Link.MovieLocations;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieSpokenLanguages;
+using CinemaBox.Service.Interface.Entertainment.Link.MovieTaglines;
 using CinemaBox.Service.Interface.Entertainment.Movies;
 using CinemaBox.Service.Interface.Shared.Currencies;
 using CinemaBox.Service.Interface.Shared.Languages;
 using CinemaBox.Service.Shared.Currencies;
 using CinemaBox.Service.Shared.Languages;
 using CinemaBox.UnitOfWork.Interface.UOW;
-using CinemaBox.UnitOfWork.UOW;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.DependencyInjection;
@@ -77,6 +80,8 @@ internal static class Program
         services.AddScoped<IMovieGenreServices,MovieGenreServices>();
         services.AddScoped<ILanguageServices,LanguageServices>();
         services.AddScoped<IMovieSpokenLanguageServices, MovieSpokenLanguageServices>();
+        services.AddScoped<IMovieTaglineServices, MovieTaglineServices>();
+        services.AddScoped<IMovieLocationServices, MovieLocationServices>();
 
         // 📦 رجیستر کردن فرم‌ها
         services.AddTransient<Form1>();

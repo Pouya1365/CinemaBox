@@ -6,6 +6,7 @@ using CinemaBox.Service.Interface.Entertainment.Link.MovieCompanies;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCountries;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieGenres;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieSpokenLanguages;
+using CinemaBox.Service.Interface.Entertainment.Link.MovieTaglines;
 using CinemaBox.Service.Interface.Entertainment.Movies;
 namespace CinemaBox.Presentation;
 public partial class Form1 : CesForm
@@ -16,12 +17,14 @@ public partial class Form1 : CesForm
     private readonly IMovieCountryServices _movieCountryServices;
     private readonly IMovieGenreServices _movieGenreServices;
     private readonly IMovieSpokenLanguageServices _movieSpokenLanguageServices;
+    private readonly IMovieTaglineServices _movieTaglineServices;
     public Form1(IImdbMovieScrapperServices imdbScrapperServices,
         IMovieServices movieServices,
         IMovieCompanyServices movieCompanyServices,
         IMovieCountryServices movieCountryServices,
         IMovieGenreServices movieGenreServices,
-         IMovieSpokenLanguageServices movieSpokenLanguageServices
+         IMovieSpokenLanguageServices movieSpokenLanguageServices,
+         IMovieTaglineServices movieTaglineServices
         )
     {
         InitializeComponent();
@@ -31,6 +34,7 @@ public partial class Form1 : CesForm
         _movieCountryServices = movieCountryServices ?? throw new ArgumentNullException(nameof(movieCountryServices));
         _movieGenreServices = movieGenreServices ?? throw new ArgumentNullException(nameof(movieGenreServices));
         _movieSpokenLanguageServices = movieSpokenLanguageServices ?? throw new ArgumentNullException(nameof(movieSpokenLanguageServices));
+        _movieTaglineServices = movieTaglineServices ?? throw new ArgumentNullException(nameof(movieTaglineServices));
     }
 
     private async void Btn_GetInfo_Click(object sender, EventArgs e)
@@ -40,6 +44,7 @@ public partial class Form1 : CesForm
         await _movieCompanyServices.CreateOrGetMovieCompanyAsync(movieId: Txt_Search.CesText, companieskeyValuePairs: movieModelScrapping.Companies);
         await _movieCountryServices.CreateOrGetMovieCountry(countryModels: movieModelScrapping.CountrieskeyValuePairs, movieId: Txt_Search.CesText);
         await _movieGenreServices.CreateOrGetMovieGenre(genreModels: movieModelScrapping.Genres, movieId: Txt_Search.CesText);
-        await _movieSpokenLanguageServices.CreateOrGetMovieLanguage(LanguagekeyValuePairs:movieModelScrapping.SpokenLanguageskeyValuePairs, movieId: Txt_Search.CesText);
+        await _movieSpokenLanguageServices.CreateOrGetMovieLanguage(LanguagekeyValuePairs: movieModelScrapping.SpokenLanguageskeyValuePairs, movieId: Txt_Search.CesText);
+        await _movieTaglineServices.CreateMovieTagline(taglineModels: movieModelScrapping.Taglines, movieId: Txt_Search.CesText);
     }
 }
