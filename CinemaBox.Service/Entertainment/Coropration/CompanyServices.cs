@@ -1,7 +1,6 @@
 ﻿using CinemaBox.Domain.Entertainment.Coropration;
 using CinemaBox.Service.Interface.Entertainment.Coropration;
 using CinemaBox.UnitOfWork.Interface.UOW;
-using CinemaBox.Utilities.Strings;
 
 namespace CinemaBox.Service.Entertainment.Coropration;
 
