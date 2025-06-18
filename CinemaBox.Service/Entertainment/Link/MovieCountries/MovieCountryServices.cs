@@ -6,7 +6,7 @@ using CinemaBox.UnitOfWork.Interface.UOW;
 
 namespace CinemaBox.Service.Entertainment.Link.MovieCountries;
 
-public class MovieGenreServices(IUnitOfWork unitOfWork,ICountryPartServices countryPartServices) : IMovieCountryServices
+public class MovieCountryServices(IUnitOfWork unitOfWork,ICountryPartServices countryPartServices) : IMovieCountryServices
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     private readonly ICountryPartServices _countryPartServices = countryPartServices ?? throw new ArgumentNullException(nameof(countryPartServices));

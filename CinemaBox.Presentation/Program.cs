@@ -7,6 +7,7 @@ using CinemaBox.Service.Entertainment.Coropration;
 using CinemaBox.Service.Entertainment.Genres;
 using CinemaBox.Service.Entertainment.Link.MovieCompanies;
 using CinemaBox.Service.Entertainment.Link.MovieCountries;
+using CinemaBox.Service.Entertainment.Link.MovieGenres;
 using CinemaBox.Service.Entertainment.Movies;
 using CinemaBox.Service.Interface.Division.CountryParts;
 using CinemaBox.Service.Interface.Entertainment.Certificates;
@@ -14,6 +15,7 @@ using CinemaBox.Service.Interface.Entertainment.Coropration;
 using CinemaBox.Service.Interface.Entertainment.Genres;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCompanies;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCountries;
+using CinemaBox.Service.Interface.Entertainment.Link.MovieGenres;
 using CinemaBox.Service.Interface.Entertainment.Movies;
 using CinemaBox.Service.Interface.Shared.Currencies;
 using CinemaBox.Service.Shared.Currencies;
@@ -66,8 +68,9 @@ internal static class Program
         services.AddScoped<ICompanyServices, CompanyServices>();
         services.AddScoped<IMovieCompanyServices, MovieCompanyServices>();
         services.AddScoped<ICountryPartServices, CountryPartServices>();
-        services.AddScoped<IMovieCountryServices, MovieGenreServices>();
+        services.AddScoped<IMovieCountryServices, MovieCountryServices>();
         services.AddScoped<IGenreServices,GenreServices>();
+        services.AddScoped<IMovieGenreServices,MovieGenreServices>();
 
         // 📦 رجیستر کردن فرم‌ها
         services.AddTransient<Form1>();
