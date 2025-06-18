@@ -24,8 +24,10 @@ using CinemaBox.Service.Interface.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieTaglines;
 using CinemaBox.Service.Interface.Entertainment.Movies;
 using CinemaBox.Service.Interface.Shared.Currencies;
+using CinemaBox.Service.Interface.Shared.Keywords;
 using CinemaBox.Service.Interface.Shared.Languages;
 using CinemaBox.Service.Shared.Currencies;
+using CinemaBox.Service.Shared.Keywords;
 using CinemaBox.Service.Shared.Languages;
 using CinemaBox.UnitOfWork.Interface.UOW;
 using Microsoft.EntityFrameworkCore;
@@ -82,6 +84,7 @@ internal static class Program
         services.AddScoped<IMovieSpokenLanguageServices, MovieSpokenLanguageServices>();
         services.AddScoped<IMovieTaglineServices, MovieTaglineServices>();
         services.AddScoped<IMovieLocationServices, MovieLocationServices>();
+        services.AddScoped<IKeywordServices, KeywordServices>();
 
         // 📦 رجیستر کردن فرم‌ها
         services.AddTransient<Form1>();

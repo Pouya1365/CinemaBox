@@ -14,7 +14,7 @@ public class CurrencyServices(IUnitOfWork unitOfWork) : ICurrencyServices
     {
         if (string.IsNullOrWhiteSpace(CurrencyName))
             return null;
-        var Currency = await GetCurrencyAsync(CurrencyName);
+        Currency? Currency = await GetCurrencyAsync(CurrencyName);
         if (Currency == null)
         {
             Currency = new Currency { CurrencyName = CurrencyName.Trim() };
