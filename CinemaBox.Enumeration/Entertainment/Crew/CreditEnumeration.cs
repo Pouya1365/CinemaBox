@@ -1,4 +1,4 @@
-﻿namespace CinemaBox.Enumeration.Imdb.Crew;
+﻿namespace CinemaBox.Enumeration.Entertainment.Crew;
 
 public enum CreditEnumeration
 {

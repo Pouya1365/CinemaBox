@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CinemaBox.Enumeration\CinemaBox.Enumeration.csproj" />
     <ProjectReference Include="..\CinemaBox.Model\CinemaBox.Model.csproj" />
     <ProjectReference Include="..\CinemaBox.Service.Interface\CinemaBox.Service.Interface.csproj" />
     <ProjectReference Include="..\CinemaBox.UnitOfWork.Interface\CinemaBox.UnitOfWork.Interface.csproj" />
