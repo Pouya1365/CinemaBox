@@ -1,16 +1,12 @@
 ﻿using CinemaBox.Domain.Entertainment.Movies;
-using CinemaBox.Model.Imdb.Movie;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CinemaBox.Model.Entertainment.Movie.Movie;
+using CinemaBox.Model.Entertainment.Movie.ShowMovie;
 
-namespace CinemaBox.Service.Interface.Entertainment.Movies
+namespace CinemaBox.Service.Interface.Entertainment.Movies;
+
+public interface IMovieServices
 {
-    public interface IMovieServices
-    {
-        Task<Movie> CreateOrUpdate(MovieModelScrapping model);
-        Task<Movie?> GeMovieAsync(string? ImdbId);
-    }
+    Task<Movie> CreateOrUpdate(MovieModelScrapping model);
+    Task<Movie?> GeMovieAsync(string? ImdbId);
+    Task<List<ShowMovieModel>> GetMovieModelsAsync(string search);
 }

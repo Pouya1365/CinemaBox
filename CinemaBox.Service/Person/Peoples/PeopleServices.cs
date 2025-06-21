@@ -1,7 +1,7 @@
 ﻿using CinemaBox.Domain.Person.Peoples;
 using CinemaBox.Domain.Shared.DeathCauses;
-using CinemaBox.Model.Imdb.Cast;
-using CinemaBox.Model.Imdb.People;
+using CinemaBox.Model.Entertainment.Cast;
+using CinemaBox.Model.Entertainment.People;
 using CinemaBox.Scrapping.Interface.Imdb.Service.People;
 using CinemaBox.Service.Interface.Person.PeopleFiles;
 using CinemaBox.Service.Interface.Person.Peoples;
@@ -24,7 +24,8 @@ public class PeopleServices(IUnitOfWork unitOfWork, IImdbPeopleScrapperServices 
         {
             peopleModel = await GetPeopleModelFromImdb(creditModel.ImdbId);
             existingPerson = await CreatePeopleEntity(peopleModel);
-            await GetOrCreatePeopleFile(path: path, imageUrl: creditModel.ImageUrl, peopleId: existingPerson.Id, peopleName: existingPerson.EnFullName);
+            if (!string.IsNullOrEmpty(creditModel.ImageUrl))
+                await GetOrCreatePeopleFile(path: path, imageUrl: creditModel.ImageUrl, peopleId: existingPerson.Id, peopleName: existingPerson.EnFullName);
         }
         else if (existingPerson != null && existingPerson.UpdatedDate <= DateOnly.FromDateTime(DateTime.Today.AddYears(-1)))
         {
@@ -50,13 +51,13 @@ public class PeopleServices(IUnitOfWork unitOfWork, IImdbPeopleScrapperServices 
             BirthName = peopleModel.BirthName,
             BornPlace = peopleModel.BornPlace,
             EnMiniBiography = peopleModel.EnMiniBiography,
-            Height = peopleModel.Height,
+            Height = peopleModel?.Height,
             AddedDate = DateOnly.FromDateTime(DateTime.Today),
             UpdatedDate = DateOnly.FromDateTime(DateTime.Today),
             BornDate = Pcal.ToGeorgian(peopleModel.BornDate),
-            DeathDate = !string.IsNullOrWhiteSpace(peopleModel.DeathDate) ? Pcal.ToGeorgian(peopleModel.DeathDate) : null,
-            DeathPlace = !string.IsNullOrWhiteSpace(peopleModel.DeathPlace) ? peopleModel.DeathPlace : null,
-            DeathCauseId = !string.IsNullOrWhiteSpace(deathCause.EnDeathCauseName) ? deathCause.Id : null,
+            DeathDate = !string.IsNullOrWhiteSpace(peopleModel?.DeathDate) ? Pcal.ToGeorgian(peopleModel.DeathDate) : null,
+            DeathPlace = !string.IsNullOrWhiteSpace(peopleModel?.DeathPlace) ? peopleModel.DeathPlace : null,
+            DeathCauseId = !string.IsNullOrWhiteSpace(deathCause?.EnDeathCauseName) ? deathCause.Id : null,
         };
         await _unitOfWork.Repository<People>().AddAsync(people);
         await _unitOfWork.CompleteAsync();

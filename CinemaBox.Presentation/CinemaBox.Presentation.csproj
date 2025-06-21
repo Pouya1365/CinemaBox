@@ -6,11 +6,17 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+    <BaseOutputPath></BaseOutputPath>
   </PropertyGroup>
 
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="&quot;$(TargetDir)libs&quot;&#xD;&#xA;&#xD;&#xA;xcopy /Y /R /D &quot;$(TargetDir)*.dll&quot; &quot;$(TargetDir)libs\&quot;&#xD;&#xA;&#xD;&#xA;del &quot;$(TargetDir)*.dll&quot;" />
-  </Target>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Ces.WinForm.UI" Version="1.18.5" />
@@ -27,6 +33,7 @@
     <ProjectReference Include="..\CinemaBox.Service.Interface\CinemaBox.Service.Interface.csproj" />
     <ProjectReference Include="..\CinemaBox.Service\CinemaBox.Service.csproj" />
     <ProjectReference Include="..\CinemaBox.UnitOfWork\CinemaBox.UnitOfWork.csproj" />
+    <ProjectReference Include="..\CinemaBox.UserController\CinemaBox.UserController.csproj" />
   </ItemGroup>
 
 </Project>

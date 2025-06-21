@@ -1,7 +1,7 @@
-﻿using CinemaBox.Domain.Entertainment.Certificates;
+﻿
 using CinemaBox.Domain.Entertainment.Movies;
-using CinemaBox.Model.Imdb.Movie;
-using CinemaBox.Service.Entertainment.Certificates;
+using CinemaBox.Model.Entertainment.Movie.Movie;
+using CinemaBox.Model.Entertainment.Movie.ShowMovie;
 using CinemaBox.Service.Interface.Entertainment.Certificates;
 using CinemaBox.Service.Interface.Entertainment.Movies;
 using CinemaBox.Service.Interface.Shared.Currencies;
@@ -11,6 +11,9 @@ namespace CinemaBox.Service.Entertainment.Movies;
 
 public class MovieServices(IUnitOfWork unitOfWork, ICertificateServices certificateServices, ICurrencyServices currencyServices) : IMovieServices
 {
+    private readonly IUnitOfWork _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+    private readonly ICertificateServices _certificateServices = certificateServices ?? throw new ArgumentNullException(nameof(certificateServices));
+    private readonly ICurrencyServices _currencyServices = currencyServices ?? throw new ArgumentNullException(nameof(currencyServices));
     public async Task<Movie> CreateOrUpdate(MovieModelScrapping model)
     {
         byte? certificateId = await GetCertificateIdAsync(model.Certificate);
@@ -19,20 +22,20 @@ public class MovieServices(IUnitOfWork unitOfWork, ICertificateServices certific
         bool isNew = movie.EnTitle != null;
         UpdateMovieFields(movie, model, certificateId, currencyId);
         if (isNew == true)
-            unitOfWork.Repository<Movie>().Update(movie);
+            _unitOfWork.Repository<Movie>().Update(movie);
         else
-            await unitOfWork.Repository<Movie>().AddAsync(movie);
-        await unitOfWork.CompleteAsync();
+            await _unitOfWork.Repository<Movie>().AddAsync(movie);
+        await _unitOfWork.CompleteAsync();
         return movie;
     }
     private async Task<byte?> GetCertificateIdAsync(string? certificate) => certificate != null
-            ? (await certificateServices.CreateOrGetCertificateAsync(certificate))?.Id
+            ? (await _certificateServices.CreateOrGetCertificateAsync(certificate))?.Id
             : null;
     private async Task<byte?> GetCurrencyIdAsync(string? currency) => currency != null
-            ? (await currencyServices.CreateOrGetCurrencyAsync(currency))?.Id
+            ? (await _currencyServices.CreateOrGetCurrencyAsync(currency))?.Id
             : null;
     public async Task<Movie?> GeMovieAsync(string? ImdbId) => ImdbId != null
-            ? await unitOfWork.Repository<Movie>().FindAsync(x => x.Id == ImdbId) ?? new Movie { Id = ImdbId } : new Movie { Id = ImdbId };
+            ? await _unitOfWork.Repository<Movie>().FindAsync(x => x.Id == ImdbId) ?? new Movie { Id = ImdbId } : new Movie { Id = ImdbId };
     private void UpdateMovieFields(Movie movie, MovieModelScrapping model, byte? certificateId, byte? currencyId)
     {
         movie.CertificateId = certificateId;
@@ -55,4 +58,25 @@ public class MovieServices(IUnitOfWork unitOfWork, ICertificateServices certific
         movie.OscarNominations = model.OscarNominations;
         movie.OscarWins = model.OscarWins;
     }
+    public async Task<List<ShowMovieModel>> GetMovieModelsAsync(string search)
+    {
+        List<ShowMovieModel> showMovieModels;
+        IEnumerable<Movie> m = await _unitOfWork.Repository<Movie>().GetAllWithMultipleIncludesAsync(x => x.MovieFiles, x => x.File, x => x.Server);
+
+        showMovieModels = [.. m.Select(x => new ShowMovieModel
+        {
+            EndYear=x.EndYear,
+            EnTitle=x.EnTitle,
+            FaTitle=x.FaTitle,
+            MovieId=x.Id,
+            StartYear=x.StartYear,
+            PosterPath=Path.Combine( x.MovieFiles.FirstOrDefault()?.File.Server.Path,x.MovieFiles.FirstOrDefault().File.FileName)
+        })];
+
+        return showMovieModels;
+    }
+
+
+
+
 }

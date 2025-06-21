@@ -1,7 +1,6 @@
-﻿using CinemaBox.Model.Imdb.Cast;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using CinemaBox.Model.Entertainment.Cast;
 
-namespace CinemaBox.Model.Imdb.Movie;
+namespace CinemaBox.Model.Entertainment.Movie.Movie;
 
 public class MovieModelScrapping
 {

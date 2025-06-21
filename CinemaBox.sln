@@ -55,6 +55,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CinemaBox.Service", "Cinema
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CinemaBox.Service.Interface", "CinemaBox.Service.Interface\CinemaBox.Service.Interface.csproj", "{7C22EFFB-4E1B-42ED-BE82-B2A9BF2A0582}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserController", "UserController", "{7F3E8DFC-C3DC-4995-8B34-63C6C0701ABF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CinemaBox.UserController", "CinemaBox.UserController\CinemaBox.UserController.csproj", "{43DA1C5B-5348-4CC0-B2D0-01D417771D5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +125,10 @@ Global
 		{7C22EFFB-4E1B-42ED-BE82-B2A9BF2A0582}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C22EFFB-4E1B-42ED-BE82-B2A9BF2A0582}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C22EFFB-4E1B-42ED-BE82-B2A9BF2A0582}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43DA1C5B-5348-4CC0-B2D0-01D417771D5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43DA1C5B-5348-4CC0-B2D0-01D417771D5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43DA1C5B-5348-4CC0-B2D0-01D417771D5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43DA1C5B-5348-4CC0-B2D0-01D417771D5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -141,6 +149,7 @@ Global
 		{DE716E62-F7DB-453B-8D3D-7CFE53F2BBEA} = {0C634C71-2D0A-415B-BA36-BA0325B84B5B}
 		{AC9B36C4-26C2-4A18-856A-0B11F9930E9D} = {9B03E6D3-B566-4E5E-B8E1-CA1973E1E1D2}
 		{7C22EFFB-4E1B-42ED-BE82-B2A9BF2A0582} = {9B03E6D3-B566-4E5E-B8E1-CA1973E1E1D2}
+		{43DA1C5B-5348-4CC0-B2D0-01D417771D5A} = {7F3E8DFC-C3DC-4995-8B34-63C6C0701ABF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {35D7A348-96DA-4C7C-AA87-67F20B3FDB40}

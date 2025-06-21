@@ -3,9 +3,22 @@
 namespace CinemaBox.Utilities.Loader;
 public static class HtmlLoader
 {
-    public static async Task<HtmlDocument> LoadDocumentAsync(string url)
+    public static async Task<HtmlDocument?> LoadDocumentAsync(string url,int i=0)
     {
+     
         HtmlWeb web = new();
-        return await web.LoadFromWebAsync(url);
+		try
+		{
+            return await web.LoadFromWebAsync(url);
+        }
+		catch (Exception ex)
+		{
+            if (i >= 3)
+                return null;
+         return   await LoadDocumentAsync(url, i++);
+
+
+        }
+      
     }
 }

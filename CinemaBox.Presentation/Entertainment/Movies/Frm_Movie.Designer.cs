@@ -1,6 +1,6 @@
 ﻿namespace CinemaBox.Presentation
 {
-    partial class Form1
+    partial class Frm_Movie
     {
         /// <summary>
         ///  Required designer variable.
@@ -33,7 +33,9 @@
             Btn_Search = new Ces.WinForm.UI.CesButton.CesRoundedButton();
             Txt_Search = new Ces.WinForm.UI.CesTextBox();
             cesPanel2 = new Ces.WinForm.UI.CesPanel();
+            Flw_ShowMovie = new FlowLayoutPanel();
             Pnl_Search.SuspendLayout();
+            cesPanel2.SuspendLayout();
             SuspendLayout();
             // 
             // btnOptions
@@ -91,7 +93,7 @@
             // Btn_Search
             // 
             Btn_Search.BackColor = SystemColors.Control;
-            Btn_Search.CesBackColor = Color.FromArgb(0, 192, 0);
+            Btn_Search.CesBackColor = Color.Gray;
             Btn_Search.CesBorderColor = Color.FromArgb(64, 64, 64);
             Btn_Search.CesBorderRadius = 15;
             Btn_Search.CesBorderThickness = 1;
@@ -174,24 +176,34 @@
             cesPanel2.CesVisibleLeftBorder = true;
             cesPanel2.CesVisibleRightBorder = true;
             cesPanel2.CesVisibleTopBorder = true;
+            cesPanel2.Controls.Add(Flw_ShowMovie);
             cesPanel2.Dock = DockStyle.Bottom;
             cesPanel2.Location = new Point(2, 138);
             cesPanel2.Name = "cesPanel2";
             cesPanel2.Size = new Size(1147, 493);
             cesPanel2.TabIndex = 8;
             // 
-            // Form1
+            // Flw_ShowMovie
+            // 
+            Flw_ShowMovie.Location = new Point(9, 3);
+            Flw_ShowMovie.Name = "Flw_ShowMovie";
+            Flw_ShowMovie.Size = new Size(1133, 485);
+            Flw_ShowMovie.TabIndex = 0;
+            // 
+            // Frm_Movie
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1151, 633);
             Controls.Add(cesPanel2);
             Controls.Add(Pnl_Search);
-            Name = "Form1";
+            Name = "Frm_Movie";
             Text = "Form1";
+            Load += Frm_Movie_Load;
             Controls.SetChildIndex(Pnl_Search, 0);
             Controls.SetChildIndex(cesPanel2, 0);
             Pnl_Search.ResumeLayout(false);
+            cesPanel2.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -202,5 +214,6 @@
         private Ces.WinForm.UI.CesTextBox Txt_Search;
         private Ces.WinForm.UI.CesButton.CesRoundedButton Btn_Search;
         private Ces.WinForm.UI.CesButton.CesRoundedButton Btn_GetInfo;
+        private FlowLayoutPanel Flw_ShowMovie;
     }
 }

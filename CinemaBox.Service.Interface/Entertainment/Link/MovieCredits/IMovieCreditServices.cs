@@ -1,5 +1,5 @@
 ﻿using CinemaBox.Domain.Entertainment.Link.MovieCredits;
-using CinemaBox.Model.Imdb.Cast;
+using CinemaBox.Model.Entertainment.Cast;
 
 namespace CinemaBox.Service.Interface.Entertainment.Link.MovieCredits;
 

@@ -1,6 +1,6 @@
 ﻿using CinemaBox.Enumeration.Entertainment.Crew;
-using CinemaBox.Model.Imdb.Cast;
-using CinemaBox.Model.Imdb.Movie;
+using CinemaBox.Model.Entertainment.Cast;
+using CinemaBox.Model.Entertainment.Movie.Movie;
 using CinemaBox.Scrapping.Interface.Imdb.MovieExtractors;
 using CinemaBox.Utilities.Json;
 using System.Text.Json;

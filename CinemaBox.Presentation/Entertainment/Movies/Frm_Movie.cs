@@ -1,6 +1,6 @@
 using Ces.WinForm.UI.CesForm;
 using CinemaBox.Domain.Entertainment.Movies;
-using CinemaBox.Model.Imdb.Movie;
+using CinemaBox.Model.Entertainment.Movie.Movie;
 using CinemaBox.Scrapping.Interface.Imdb.Service.Movie;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCompanies;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCountries;
@@ -12,8 +12,9 @@ using CinemaBox.Service.Interface.Entertainment.Link.MovieLocations;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieTaglines;
 using CinemaBox.Service.Interface.Entertainment.Movies;
+using CinemaBox.UserController.Entertainment.Movies;
 namespace CinemaBox.Presentation;
-public partial class Form1 : CesForm
+public partial class Frm_Movie : CesForm
 {
     private readonly IImdbMovieScrapperServices _imdbScrapperServices;
     private readonly IMovieServices _movieServices;
@@ -26,7 +27,7 @@ public partial class Form1 : CesForm
     private readonly IMovieKeywordServices _movieKeywordServices;
     private readonly IMovieCreditServices _movieCreditServices;
     private readonly IMovieFileServices _movieFileServices;
-    public Form1(IImdbMovieScrapperServices imdbScrapperServices,
+    public Frm_Movie(IImdbMovieScrapperServices imdbScrapperServices,
         IMovieServices movieServices,
         IMovieCompanyServices movieCompanyServices,
         IMovieCountryServices movieCountryServices,
@@ -67,7 +68,37 @@ public partial class Form1 : CesForm
         string path = Application.StartupPath;
         await _movieCreditServices.CreateOrGetMovieCredit(creditModels: movieModelScrapping.Credits, path: path);
         string endYear = movie.EndYear != null ? @$"-{movie.EndYear}" : "";
-        string movieName = $@"{movie.EnTitle}-{movie.StartYear}{endYear}";
-        await _movieFileServices.CreateOrUpdateMovieImage(path: path, imageUrl: movieModelScrapping.ImageUrl,movieId:movie.Id,movieName: movieName);
+        string movieName = $@"{movie.EnTitle}_{movie.StartYear}{endYear}";
+        await _movieFileServices.CreateOrUpdateMovieImage(path: path, imageUrl: movieModelScrapping.ImageUrl, movieId: movie.Id, movieName: movieName);
+    }
+
+    private void Frm_Movie_Load(object sender, EventArgs e)
+    {
+        LoadMovie(null);
+    }
+    private async void LoadMovie(string search)
+    {
+
+        var t =await _movieServices.GetMovieModelsAsync(null);
+        List<ShowMovieIcon> ShowMovieIcons = [];
+        ShowMovieIcons.AddRange(from movie in t
+                                let control = new ShowMovieIcon(
+            posterPath: Path.Combine(Application.StartupPath, movie.PosterPath),
+            enTitle: movie.EnTitle,
+            faTitle: movie.FaTitle,
+            year: (long)movie.StartYear,
+            endYear: movie.EndYear, movieId: movie.MovieId)
+                               select AttachHandler(control));
+        ShowMovieIcon AttachHandler(ShowMovieIcon ctrl)
+        {
+            ctrl.PosterClicked += MovieBox_PosterClicked;
+            return ctrl;
+        }
+        Flw_ShowMovie.Controls.AddRange([.. ShowMovieIcons]);
+    }
+    private void MovieBox_PosterClicked(object sender, string movieId)
+    {
+        //Frm_EditMovie movie = new(unitOfWork: _unitOfWork, movieId: movieId);
+        //movie.ShowDialog();
     }
 }

@@ -1,5 +1,5 @@
 ﻿using CinemaBox.Enumeration.Entertainment.Company;
-using CinemaBox.Model.Imdb.Movie;
+using CinemaBox.Model.Entertainment.Movie.Movie;
 using CinemaBox.Scrapping.Interface.Imdb.MovieExtractors;
 using CinemaBox.Utilities.Json;
 using System.Text.Json;

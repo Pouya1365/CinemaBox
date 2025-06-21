@@ -55,11 +55,12 @@ using System.Reflection;
 
 namespace CinemaBox.Presentation;
 
-internal static class Program
+ static class Program
 {
     [STAThread]
     static void Main()
     {
+
         ApplicationConfiguration.Initialize();
         Application.SetCompatibleTextRenderingDefault(false);
 
@@ -69,7 +70,7 @@ internal static class Program
 
 
         // اجرای فرم اصلی
-        Form1 mainForm =ServiceProviderServiceExtensions.GetRequiredService<Form1>(serviceProvider);
+        Frm_Movie mainForm = ServiceProviderServiceExtensions.GetRequiredService<Frm_Movie>(serviceProvider);
 
         Application.Run(mainForm);
     }
@@ -96,9 +97,9 @@ internal static class Program
         services.AddScoped<IMovieCompanyServices, MovieCompanyServices>();
         services.AddScoped<ICountryPartServices, CountryPartServices>();
         services.AddScoped<IMovieCountryServices, MovieCountryServices>();
-        services.AddScoped<IGenreServices,GenreServices>();
-        services.AddScoped<IMovieGenreServices,MovieGenreServices>();
-        services.AddScoped<ILanguageServices,LanguageServices>();
+        services.AddScoped<IGenreServices, GenreServices>();
+        services.AddScoped<IMovieGenreServices, MovieGenreServices>();
+        services.AddScoped<ILanguageServices, LanguageServices>();
         services.AddScoped<IMovieSpokenLanguageServices, MovieSpokenLanguageServices>();
         services.AddScoped<IMovieTaglineServices, MovieTaglineServices>();
         services.AddScoped<IMovieLocationServices, MovieLocationServices>();
@@ -113,23 +114,14 @@ internal static class Program
         services.AddScoped<IFileServices, FileServices>();
         services.AddScoped<IMovieFileServices, MovieFileServices>();
         // 📦 رجیستر کردن فرم‌ها
-        services.AddTransient<Form1>();
+        services.AddTransient<Frm_Movie>();
 
         // 📁 هندل لود داینامیک DLL از پوشه libs
-        AppDomain.CurrentDomain.AssemblyResolve += ResolveAssemblyFromLibs;
+   
 
         return services;
     }
 
-    /// <summary>
-    /// لود داینامیک اسمبلی‌ها از مسیر libs
-    /// </summary>
-    private static Assembly? ResolveAssemblyFromLibs(object? sender, ResolveEventArgs args)
-    {
-        string dllName = new AssemblyName(args.Name).Name + ".dll";
-        string dllPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs", dllName);
-        return File.Exists(dllPath) ? Assembly.LoadFrom(dllPath) : null;
-    }
 
     /// <summary>
     /// برای EF Core Migration استفاده می‌شود

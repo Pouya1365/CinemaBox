@@ -1,17 +1,10 @@
 ﻿using CinemaBox.Domain.Person.Peoples;
-using CinemaBox.Model.Imdb.Cast;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CinemaBox.Model.Entertainment.Cast;
 
-namespace CinemaBox.Service.Interface.Person.Peoples
+namespace CinemaBox.Service.Interface.Person.Peoples;
+
+public interface IPeopleServices
 {
-    public interface IPeopleServices
-    {
-        Task<People> CreateOrUpdatePeople(CreditModel creditModel, string path);
-        Task<People> GetPeople(string peopleId);
-
-    }
+    Task<People> CreateOrUpdatePeople(CreditModel creditModel, string path);
+    Task<People> GetPeople(string peopleId);
 }

@@ -1,4 +1,4 @@
-﻿using CinemaBox.Model.Imdb.Movie;
+﻿using CinemaBox.Model.Entertainment.Movie.Movie;
 using CinemaBox.Scrapping.Interface.Imdb.MovieExtractors;
 using CinemaBox.Utilities.Html;
 using CinemaBox.Utilities.Json;
