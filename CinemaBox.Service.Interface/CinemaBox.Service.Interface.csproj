@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CinemaBox.Domain\CinemaBox.Domain.csproj" />
+    <ProjectReference Include="..\CinemaBox.Enumeration\CinemaBox.Enumeration.csproj" />
     <ProjectReference Include="..\CinemaBox.Model\CinemaBox.Model.csproj" />
   </ItemGroup>
 

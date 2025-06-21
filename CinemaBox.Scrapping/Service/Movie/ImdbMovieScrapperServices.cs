@@ -1,7 +1,7 @@
 ﻿using CinemaBox.Model.Imdb.Movie;
-using CinemaBox.Scrapping.Imdb.Extractors;
-using CinemaBox.Scrapping.Interface.Imdb.Extractors;
-using CinemaBox.Scrapping.Interface.Imdb.Service;
+using CinemaBox.Scrapping.Imdb.MovieExtractors;
+using CinemaBox.Scrapping.Interface.Imdb.MovieExtractors;
+using CinemaBox.Scrapping.Interface.Imdb.Service.Movie;
 using CinemaBox.Utilities.Imdb.Json;
 using CinemaBox.Utilities.Imdb.Url;
 using CinemaBox.Utilities.Loader;
@@ -19,7 +19,7 @@ public class ImdbMovieScrapperServices: IImdbMovieScrapperServices
         JsonDocument? jsonDocument = NextDataJsonParser.Parse(document: loader);
         MovieModelScrapping moviesModel = new() { ImdbId = imdbId };
         // اکسترکتورهایی که از JSON اصلی استفاده می‌کنند
-        List<IGeneralInfoExtractor> extractorsFromMainJson =
+        List<IMovieGeneralInfoExtractor> extractorsFromMainJson =
         [
         new GeneralInfoExtractor(),
     new ReleaseDateExtractor(),
@@ -31,10 +31,10 @@ public class ImdbMovieScrapperServices: IImdbMovieScrapperServices
     new SpokenLanguagesExtractor(),
     new BudgetExtractor()
     ];
-        foreach (IGeneralInfoExtractor extractor in extractorsFromMainJson)
+        foreach (IMovieGeneralInfoExtractor extractor in extractorsFromMainJson)
             moviesModel = extractor.Extract(model: moviesModel, json: jsonDocument);
         // اکسترکتورهایی با مسیر JSON متفاوت
-        (string Path, IGeneralInfoExtractor Extractor)[] extractorsWithPaths =
+        (string Path, IMovieGeneralInfoExtractor Extractor)[] extractorsWithPaths =
         [
         ("taglines", new TaglinesExtractor()),
     ("locations", new LocationsExtractor()),
@@ -43,7 +43,7 @@ public class ImdbMovieScrapperServices: IImdbMovieScrapperServices
     ("plotsummary", new PlotExtractor()),
     ("keywords", new KeywordsExtractor())
         ];
-        foreach ((string path, IGeneralInfoExtractor extractor) in extractorsWithPaths)
+        foreach ((string path, IMovieGeneralInfoExtractor extractor) in extractorsWithPaths)
         {
             url = ImdbUrlBuilder.BuildTitleUrl(imdbId: imdbId, path: path);
             loader = await HtmlLoader.LoadDocumentAsync(url: url);

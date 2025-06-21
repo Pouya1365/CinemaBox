@@ -1,6 +1,8 @@
 ﻿using CinemaBox.Context.AppDbContext;
-using CinemaBox.Scrapping.Interface.Imdb.Service;
+using CinemaBox.Scrapping.Interface.Imdb.Service.Movie;
+using CinemaBox.Scrapping.Interface.Imdb.Service.People;
 using CinemaBox.Scrapping.Service.Movie;
+using CinemaBox.Scrapping.Service.People;
 using CinemaBox.Service.Division.CountryParts;
 using CinemaBox.Service.Entertainment.Certificates;
 using CinemaBox.Service.Entertainment.Coropration;
@@ -88,7 +90,7 @@ internal static class Program
         services.AddScoped<IMovieLocationServices, MovieLocationServices>();
         services.AddScoped<IKeywordServices, KeywordServices>();
         services.AddScoped<IMovieKeywordServices, MovieKeywordServices>();
-
+        services.AddScoped<IImdbPeopleScrapperServices, ImdbPeopleScrapperServices>();
         // 📦 رجیستر کردن فرم‌ها
         services.AddTransient<Form1>();
 
