@@ -15,7 +15,7 @@ public class MovieSpokenLanguageServices(IUnitOfWork unitOfWork, ILanguageServic
         List<MovieSpokenLanguage> movieSpokenLanguage = [];
         foreach (var LanguagekeyValuePair in LanguagekeyValuePairs)
         {
-            Language language = await GetCountryPartAsync(languageName: LanguagekeyValuePair.Value,isoCode:LanguagekeyValuePair.Key);
+            Language language = await GetLanguageAsync(languageName: LanguagekeyValuePair.Value,isoCode:LanguagekeyValuePair.Key);
             if (language != null)
                 movieSpokenLanguage.Add(new MovieSpokenLanguage
                 {
@@ -27,5 +27,6 @@ public class MovieSpokenLanguageServices(IUnitOfWork unitOfWork, ILanguageServic
         await _unitOfWork.CompleteAsync();
         return movieSpokenLanguage;
     }
-    public async Task<Language> GetCountryPartAsync(string languageName,string isoCode) => await _LanguageServices.CreateOrGetLanguageAsync(LanguageName: languageName, isoCode: isoCode);
+    public async Task<Language> GetLanguageAsync(string languageName,string isoCode) => await _LanguageServices.CreateOrGetLanguageAsync(LanguageName: languageName, isoCode: isoCode);
+    public async Task<IEnumerable<MovieSpokenLanguage?>> GetMovieLanguageAsync(string movieId) => await _unitOfWork.Repository<MovieSpokenLanguage>().GetAllWithPredicateAsync(x=>x.MovieId== movieId,x=>x.Language);
 }

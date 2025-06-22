@@ -108,7 +108,10 @@ public partial class Frm_Movie : CesForm
             movieId:movieId,
             currencyServices: _currencyServices,
             movieGenreServices: _movieGenreServices,
-            movieCountryServices:_movieCountryServices);
+            movieCountryServices:_movieCountryServices,
+            movieSpokenLanguageServices:_movieSpokenLanguageServices
+            
+            );
         frm_EditForm.ShowDialog();
     }
 }

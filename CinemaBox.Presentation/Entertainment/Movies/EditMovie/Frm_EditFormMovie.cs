@@ -1,10 +1,13 @@
 ﻿using Ces.WinForm.UI.CesForm;
 using CinemaBox.Domain.Entertainment.Link.MovieCountries;
 using CinemaBox.Domain.Entertainment.Link.MovieGenres;
+using CinemaBox.Domain.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Domain.Entertainment.Movies;
 using CinemaBox.Domain.Shared.Currencies;
+using CinemaBox.Service.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCountries;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieGenres;
+using CinemaBox.Service.Interface.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Service.Interface.Entertainment.Movies;
 using CinemaBox.Service.Interface.Shared.Currencies;
 using CinemaBox.Utilities.DateTimeExtension.DateExtensions;
@@ -19,12 +22,14 @@ public partial class Frm_EditFormMovie : CesForm
     private readonly ICurrencyServices? _currencyServices;
     private readonly IMovieGenreServices? _movieGenreServices;
     private readonly IMovieCountryServices? _movieCountryServices;
+    private readonly IMovieSpokenLanguageServices? _movieSpokenLanguageServices;
     private readonly string? _movieId;
     public Frm_EditFormMovie(IMovieServices movieServices,
         string? movieId,
         ICurrencyServices? currencyServices,
         IMovieGenreServices? movieGenreServices,
-        IMovieCountryServices? movieCountryServices
+        IMovieCountryServices? movieCountryServices,
+        IMovieSpokenLanguageServices? movieSpokenLanguageServices
 
         )
     {
@@ -32,6 +37,7 @@ public partial class Frm_EditFormMovie : CesForm
         _currencyServices = currencyServices ?? throw new ArgumentNullException(nameof(currencyServices));
         _movieGenreServices = movieGenreServices ?? throw new ArgumentNullException(nameof(movieGenreServices));
         _movieCountryServices = movieCountryServices ?? throw new ArgumentNullException(nameof(movieCountryServices));
+        _movieSpokenLanguageServices = movieSpokenLanguageServices ?? throw new ArgumentNullException(nameof(movieSpokenLanguageServices));
         _movieId = movieId;
         InitializeComponent();
         _ = IntialData();
@@ -43,6 +49,7 @@ public partial class Frm_EditFormMovie : CesForm
         await SetMovieBasicFields();
         await SetMovieGenres();
         await SetMovieCountries();
+        await SetMovieLanguage();
     }
     private async Task SetMovieBasicFields()
     {
@@ -81,13 +88,19 @@ public partial class Frm_EditFormMovie : CesForm
         IEnumerable<MovieGenre?> genre = await GetMovieGenresAsync();
         CreateDynamicLabels<MovieGenre>(genre.ToList(), Flw_Genre,g=>g.Genre.FaGenreName??g.Genre.EnGenreName,5);
     }
+    private async Task<IEnumerable<MovieGenre?>> GetMovieGenresAsync() => await _movieGenreServices.GetMovieGenre(movieId: _movieId);
     private async Task SetMovieCountries()
     {
         IEnumerable<MovieCountry?> movieCountry = await GetMovieCountryAsync();
         CreateDynamicLabels<MovieCountry>(movieCountry.ToList(), Flw_Country, g => g.CountryPart.FaCountryPartName ?? g.CountryPart.EnCountryPartName, 5);
     }
-    private async Task<IEnumerable<MovieGenre?>> GetMovieGenresAsync() => await _movieGenreServices.GetMovieGenre(movieId: _movieId);
     private async Task<IEnumerable<MovieCountry?>> GetMovieCountryAsync() => await _movieCountryServices.GetMovieCountry(movieId: _movieId);
+    private async Task SetMovieLanguage()
+    {
+        IEnumerable<MovieSpokenLanguage?> movieSpokenLanguage = await GetMovieLanguageAsync();
+        CreateDynamicLabels<MovieSpokenLanguage>(movieSpokenLanguage.ToList(), Flw_Language, g => g.Language.FaLanguageName ?? g.Language.EnLanguageName, 5);
+    }
+    private async Task<IEnumerable<MovieSpokenLanguage?>> GetMovieLanguageAsync() => await _movieSpokenLanguageServices.GetMovieLanguageAsync(movieId: _movieId);
  
     #region CreateLabel
     public void CreateDynamicLabels<T>(List<T> items, FlowLayoutPanel container, Func<T, string> getText, int marginBottom = 0)
