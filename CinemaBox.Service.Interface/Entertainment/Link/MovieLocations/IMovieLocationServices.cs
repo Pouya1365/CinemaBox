@@ -5,4 +5,5 @@ namespace CinemaBox.Service.Interface.Entertainment.Link.MovieLocations;
 public interface IMovieLocationServices
 {
     Task<List<MovieLocation>> CreateMovieLocation(List<string> locationModels, string movieId);
+    Task<IEnumerable<MovieLocation?>> GetMovieLocationsAsync(string movieId);
 }

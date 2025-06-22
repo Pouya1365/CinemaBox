@@ -20,5 +20,6 @@ public class MovieLocationServices(IUnitOfWork unitOfWork) : IMovieLocationServi
         await _unitOfWork.CompleteAsync();
         return movieLocations;
     }
+    public async Task<IEnumerable<MovieLocation?>> GetMovieLocationsAsync(string movieId) =>await _unitOfWork.Repository<MovieLocation>().GetAllAsync(x => x.MovieId == movieId);
 
 }
