@@ -5,15 +5,18 @@ using CinemaBox.Domain.Entertainment.Link.MovieGenres;
 using CinemaBox.Domain.Entertainment.Link.MovieKeywords;
 using CinemaBox.Domain.Entertainment.Link.MovieLocations;
 using CinemaBox.Domain.Entertainment.Link.MovieSpokenLanguages;
+using CinemaBox.Domain.Entertainment.Link.MovieTaglines;
 using CinemaBox.Domain.Entertainment.Movies;
 using CinemaBox.Domain.Shared.Currencies;
 using CinemaBox.Service.Entertainment.Link.MovieSpokenLanguages;
+using CinemaBox.Service.Entertainment.Link.MovieTaglines;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCompanies;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCountries;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieGenres;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieKeywords;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieLocations;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieSpokenLanguages;
+using CinemaBox.Service.Interface.Entertainment.Link.MovieTaglines;
 using CinemaBox.Service.Interface.Entertainment.Movies;
 using CinemaBox.Service.Interface.Shared.Currencies;
 using CinemaBox.Utilities.DateTimeExtension.DateExtensions;
@@ -32,6 +35,7 @@ public partial class Frm_EditFormMovie : CesForm
     private readonly IMovieCompanyServices? _movieCompanyServices;
     private readonly IMovieLocationServices? _movieLocationServices;
     private readonly IMovieKeywordServices? _movieKeywordServices;
+    private readonly IMovieTaglineServices? _movieTaglineServices;
     private readonly string? _movieId;
     public Frm_EditFormMovie(IMovieServices movieServices,
         string? movieId,
@@ -41,7 +45,8 @@ public partial class Frm_EditFormMovie : CesForm
         IMovieSpokenLanguageServices? movieSpokenLanguageServices,
         IMovieCompanyServices? movieCompanyServices,
         IMovieLocationServices? movieLocationServices,
-        IMovieKeywordServices? movieKeywordServices
+        IMovieKeywordServices? movieKeywordServices,
+        IMovieTaglineServices? movieTaglineServices
 
         )
     {
@@ -53,6 +58,7 @@ public partial class Frm_EditFormMovie : CesForm
         _movieCompanyServices = movieCompanyServices ?? throw new ArgumentNullException(nameof(movieCompanyServices));
         _movieLocationServices = movieLocationServices ?? throw new ArgumentNullException(nameof(movieLocationServices));
         _movieKeywordServices = movieKeywordServices ?? throw new ArgumentNullException(nameof(movieKeywordServices));
+        _movieTaglineServices = movieTaglineServices ?? throw new ArgumentNullException(nameof(movieTaglineServices));
         _movieId = movieId;
         InitializeComponent();
         _ = IntialData();
@@ -68,6 +74,7 @@ public partial class Frm_EditFormMovie : CesForm
         await SetMovieCompany();
         await SetMovieLocation();
         await SetMovieKeyword();
+        await SeMovieTaglineAsync();
     }
     private async Task SetMovieBasicFields()
     {
@@ -137,6 +144,12 @@ public partial class Frm_EditFormMovie : CesForm
         CreateDynamicLabels<MovieKeyword>(movieKeyword.ToList(), Flw_Keyword, g => g.Keyword.FaKeyowrdName??g.Keyword.EnKeyowrdName, 5);
     }
     private async Task<IEnumerable<MovieKeyword?>> GetMovieKeywordAsync() => await _movieKeywordServices.GetMovieKeywordAsync(movieId: _movieId);
+    private async Task SeMovieTaglineAsync()
+    {
+        IEnumerable<MovieTagline?> movieTaglines = await GetMovieTaglineAsync();
+        CreateDynamicLabels<MovieTagline>(movieTaglines.ToList(), Flw_Tagline, g => g.FaTagline ?? g.EnTagline, 5);
+    }
+    private async Task<IEnumerable<MovieTagline?>> GetMovieTaglineAsync() => await _movieTaglineServices.GetMovieTagline(movieId: _movieId);
     #region CreateLabel
     public void CreateDynamicLabels<T>(List<T> items, FlowLayoutPanel container, Func<T, string> getText, int marginBottom = 0)
     {

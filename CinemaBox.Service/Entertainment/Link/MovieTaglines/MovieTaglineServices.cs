@@ -20,5 +20,5 @@ public class MovieTaglineServices(IUnitOfWork unitOfWork) : IMovieTaglineService
         await _unitOfWork.CompleteAsync();
         return MovieTaglines;
     }
-
+    public async Task<IEnumerable<MovieTagline?>> GetMovieTagline(string movieId) =>await _unitOfWork.Repository<MovieTagline>().GetAllAsync(x => x.MovieId == movieId);
 }
