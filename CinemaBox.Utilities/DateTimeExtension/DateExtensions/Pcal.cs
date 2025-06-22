@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace CinemaBox.Utilities.DateTimeExtension;
+namespace CinemaBox.Utilities.DateTimeExtension.DateExtensions;
 
 public static class Pcal
 {

@@ -1,6 +1,7 @@
 using Ces.WinForm.UI.CesForm;
 using CinemaBox.Domain.Entertainment.Movies;
 using CinemaBox.Model.Entertainment.Movie.Movie;
+using CinemaBox.Presentation.Entertainment.Movies.EditMovie;
 using CinemaBox.Scrapping.Interface.Imdb.Service.Movie;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCompanies;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCountries;
@@ -12,6 +13,7 @@ using CinemaBox.Service.Interface.Entertainment.Link.MovieLocations;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieTaglines;
 using CinemaBox.Service.Interface.Entertainment.Movies;
+using CinemaBox.Service.Interface.Shared.Currencies;
 using CinemaBox.UserController.Entertainment.Movies;
 namespace CinemaBox.Presentation;
 public partial class Frm_Movie : CesForm
@@ -27,6 +29,7 @@ public partial class Frm_Movie : CesForm
     private readonly IMovieKeywordServices _movieKeywordServices;
     private readonly IMovieCreditServices _movieCreditServices;
     private readonly IMovieFileServices _movieFileServices;
+    private readonly ICurrencyServices _currencyServices;
     public Frm_Movie(IImdbMovieScrapperServices imdbScrapperServices,
         IMovieServices movieServices,
         IMovieCompanyServices movieCompanyServices,
@@ -37,7 +40,8 @@ public partial class Frm_Movie : CesForm
         IMovieLocationServices movieLocationServices,
         IMovieKeywordServices movieKeywordServices,
         IMovieCreditServices movieCreditServices,
-        IMovieFileServices movieFileServices
+        IMovieFileServices movieFileServices,
+        ICurrencyServices currencyServices
         )
     {
         InitializeComponent();
@@ -52,6 +56,7 @@ public partial class Frm_Movie : CesForm
         _movieKeywordServices = movieKeywordServices ?? throw new ArgumentNullException(nameof(movieKeywordServices));
         _movieCreditServices = movieCreditServices ?? throw new ArgumentNullException(nameof(movieCreditServices));
         _movieFileServices = movieFileServices ?? throw new ArgumentNullException(nameof(movieFileServices));
+        _currencyServices = currencyServices ?? throw new ArgumentNullException(nameof(currencyServices));
     }
 
     private async void Btn_GetInfo_Click(object sender, EventArgs e)
@@ -98,7 +103,7 @@ public partial class Frm_Movie : CesForm
     }
     private void MovieBox_PosterClicked(object sender, string movieId)
     {
-        //Frm_EditMovie movie = new(unitOfWork: _unitOfWork, movieId: movieId);
-        //movie.ShowDialog();
+        Frm_EditFormMovie frm_EditForm =new Frm_EditFormMovie(_movieServices,movieId,currencyServices: _currencyServices);
+        frm_EditForm.ShowDialog();
     }
 }

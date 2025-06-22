@@ -32,5 +32,10 @@ public class CurrencyServices(IUnitOfWork unitOfWork) : ICurrencyServices
         return await _unitOfWork.Repository<Currency>()
             .FindAsync(c =>c.CurrencyName.ToLower()== nameToCompare);
     }
+    public async Task<Currency?> GetCurrencyAsync(byte? currencyId)
+    {
+        return await _unitOfWork.Repository<Currency>()
+            .FindAsync(c => c.Id == currencyId);
+    }
 }
 

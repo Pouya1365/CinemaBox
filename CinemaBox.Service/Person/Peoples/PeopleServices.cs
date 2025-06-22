@@ -7,7 +7,7 @@ using CinemaBox.Service.Interface.Person.PeopleFiles;
 using CinemaBox.Service.Interface.Person.Peoples;
 using CinemaBox.Service.Interface.Shared.DeathCauses;
 using CinemaBox.UnitOfWork.Interface.UOW;
-using CinemaBox.Utilities.DateTimeExtension;
+using CinemaBox.Utilities.DateTimeExtension.DateExtensions;
 
 namespace CinemaBox.Service.Person.Peoples;
 public class PeopleServices(IUnitOfWork unitOfWork, IImdbPeopleScrapperServices imdbPeopleScrapperServices, IDeathCauseServices deathCauseServices, IPeopleFileServices peopleFileServices) : IPeopleServices
