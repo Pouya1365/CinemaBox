@@ -1,6 +1,4 @@
-﻿
-using CinemaBox.Domain.Files.Files;
-using CinemaBox.Domain.Servers.Servers;
+﻿using CinemaBox.Domain.Servers.Servers;
 using CinemaBox.Enumeration.Servers.ServersType;
 using CinemaBox.Service.Interface.Files.Files;
 using CinemaBox.Service.Interface.Servers.Servers;

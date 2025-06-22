@@ -3,7 +3,6 @@ using CinemaBox.Domain.Entertainment.Link.MovieCompanies;
 using CinemaBox.Service.Interface.Entertainment.Coropration;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCompanies;
 using CinemaBox.UnitOfWork.Interface.UOW;
-using System.Threading.Tasks;
 
 namespace CinemaBox.Service.Entertainment.Link.MovieCompanies;
 

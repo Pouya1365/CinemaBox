@@ -1,5 +1,4 @@
-﻿using CinemaBox.Domain.Division.CountryParts;
-using CinemaBox.Domain.Entertainment.Genres;
+﻿using CinemaBox.Domain.Entertainment.Genres;
 using CinemaBox.Domain.Entertainment.Link.MovieGenres;
 using CinemaBox.Service.Interface.Entertainment.Genres;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieGenres;

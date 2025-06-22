@@ -1,5 +1,4 @@
 ﻿using CinemaBox.Domain.Person.PeopleFiles;
-using CinemaBox.Domain.Person.Peoples;
 using CinemaBox.Domain.Servers.Servers;
 using CinemaBox.Enumeration.Servers.ServersType;
 using CinemaBox.Service.Interface.Files.Files;

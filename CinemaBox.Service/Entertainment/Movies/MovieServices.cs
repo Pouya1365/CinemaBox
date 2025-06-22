@@ -1,5 +1,4 @@
-﻿
-using CinemaBox.Domain.Entertainment.Movies;
+﻿using CinemaBox.Domain.Entertainment.Movies;
 using CinemaBox.Model.Entertainment.Movie.Movie;
 using CinemaBox.Model.Entertainment.Movie.ShowMovie;
 using CinemaBox.Service.Interface.Entertainment.Certificates;

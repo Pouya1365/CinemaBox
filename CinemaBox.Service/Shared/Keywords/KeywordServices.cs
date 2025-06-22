@@ -1,7 +1,6 @@
 ﻿using CinemaBox.Domain.Shared.Keywords;
 using CinemaBox.Service.Interface.Shared.Keywords;
 using CinemaBox.UnitOfWork.Interface.UOW;
-using CinemaBox.Utilities.Strings;
 
 namespace CinemaBox.Service.Shared.Keywords;
 

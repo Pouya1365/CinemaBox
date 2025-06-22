@@ -7,16 +7,17 @@ namespace CinemaBox.Service.Division.CountryParts;
 
 public class CountryPartServices(IUnitOfWork unitOfWork) : ICountryPartServices
 {
+    private readonly IUnitOfWork _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     public async Task<CountryPart> CreateOrGetCountryPart(string countryPartName, string isoCode)
     {
         CountryPart CountryPart = await GetCountryPart(countryPartName: countryPartName);
         if (CountryPart == null)
         {
             CountryPart = new CountryPart { EnCountryPartName = countryPartName, IsoCode = isoCode, CountryPartTypeId = (int)CountryPartTypeEnumeration.Country };
-            await unitOfWork.Repository<CountryPart>().AddAsync(CountryPart);
-            await unitOfWork.CompleteAsync();
+            await _unitOfWork.Repository<CountryPart>().AddAsync(CountryPart);
+            await _unitOfWork.CompleteAsync();
         }
         return CountryPart;
     }
-    public async Task<CountryPart> GetCountryPart(string countryPartName) => await unitOfWork.Repository<CountryPart>().FindAsync(x => x.EnCountryPartName == countryPartName || x.FaCountryPartName== countryPartName);
+    public async Task<CountryPart> GetCountryPart(string countryPartName) => await _unitOfWork.Repository<CountryPart>().FindAsync(x => x.EnCountryPartName == countryPartName || x.FaCountryPartName== countryPartName);
 }
