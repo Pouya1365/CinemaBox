@@ -14,11 +14,24 @@ public static class FileExtension
         if (File.Exists(existingFilePath))
             File.Delete(existingFilePath);
     }
-    public static async void SaveFile(string imageUrl, string id, string name, string serverFolderPath)
+    public static async Task<string> SaveFile(string imageUrl, string id, string name, string serverFolderPath)
     {
         byte[] imageBytes = await ImageExtension.DownloadFile(url: imageUrl);
         string fileName = $"{id}_{name}.jpg";
+        fileName = SanitizeFileName(fileName);
         string fullPath = Path.Combine(serverFolderPath, fileName);
         await File.WriteAllBytesAsync(fullPath, imageBytes);
+        return fileName;
+    }
+    public static string SanitizeFileName(string fileName)
+    {
+        // تعریف کاراکترهای غیرمجاز
+        char[] invalidChars = Path.GetInvalidFileNameChars();
+        // جایگزینی کاراکتر ":" به طور خاص
+        fileName = fileName.Replace(':', '-');
+        // حذف یا جایگزینی سایر کاراکترهای غیرمجاز
+        foreach (char c in invalidChars)
+            fileName = fileName.Replace(c, '_'); // یا می‌توانید حذف کنید: ""     
+        return fileName;
     }
 }

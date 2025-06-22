@@ -21,8 +21,8 @@ public class PeopleFileServices(IUnitOfWork unitOfWork, IServerServices serverSe
         string serverFolderPath = Path.Combine(path, server.Path);
         FileExtension.CreateOrGetFolder(path: serverFolderPath);
         await DeleteOldPeopleImage(peopleId: peopleId, serverFolderPath: serverFolderPath);
-        FileExtension.SaveFile(imageUrl: imageUrl, id: peopleId, name: peopleName, serverFolderPath: serverFolderPath);
-        Domain.Files.Files.File? file = await GetOrCreateFile(serverTypeEnumeration: ServerTypeEnumeration.PeoplePrimaryImage, fileName: $"{peopleId}_{peopleName}.jpg");
+        string fileName = await FileExtension.SaveFile(imageUrl: imageUrl, id: peopleId, name: peopleName, serverFolderPath: serverFolderPath);
+        Domain.Files.Files.File? file = await GetOrCreateFile(serverTypeEnumeration: ServerTypeEnumeration.PeoplePrimaryImage, fileName: fileName);
 
         PeopleFile peopleFile = new()
         {

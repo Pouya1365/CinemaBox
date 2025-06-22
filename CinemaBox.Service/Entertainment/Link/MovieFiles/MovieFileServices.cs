@@ -20,8 +20,8 @@ public class MovieFileServices(IUnitOfWork unitOfWork, IServerServices serverSer
         string serverFolderPath = Path.Combine(path, server.Path);
         FileExtension.CreateOrGetFolder(path: serverFolderPath);
         await DeleteOldMovieImage(movieId: movieId, serverFolderPath: serverFolderPath);
-        FileExtension.SaveFile(imageUrl: imageUrl, id: movieId, name: movieName, serverFolderPath: serverFolderPath);
-        Domain.Files.Files.File? file = await GetOrCreateFile(serverTypeEnumeration: ServerTypeEnumeration.MoviePrimaryImage, fileName: $"{movieId}_{movieName}.jpg");
+      string fileName=await  FileExtension.SaveFile(imageUrl: imageUrl, id: movieId, name: movieName, serverFolderPath: serverFolderPath);
+        Domain.Files.Files.File? file = await GetOrCreateFile(serverTypeEnumeration: ServerTypeEnumeration.MoviePrimaryImage, fileName: fileName);
 
         MovieFile movieFile = new()
         {
