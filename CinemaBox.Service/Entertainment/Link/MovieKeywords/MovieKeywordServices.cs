@@ -29,4 +29,7 @@ public class MovieKeywordServices(IUnitOfWork unitOfWork, IKeywordServices keywo
         return MovieKeyword;
     }
     public async Task<Keyword?> GetKeywordAsync(string? keywordId, string? keywordName) => await _keywordServices.CreateOrGetKeywordAsync(keywordId: keywordId, keywordName: keywordName);
+    public async Task<IEnumerable<MovieKeyword?>> GetMovieKeywordAsync(string? movieId) => await _unitOfWork.Repository<MovieKeyword>().GetAllWithPredicateAsync(x=>x.MovieId == movieId,x=>x.Keyword);
+
+
 }

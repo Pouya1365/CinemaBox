@@ -111,7 +111,8 @@ public partial class Frm_Movie : CesForm
             movieCountryServices:_movieCountryServices,
             movieSpokenLanguageServices:_movieSpokenLanguageServices,
             movieCompanyServices:_movieCompanyServices,
-            movieLocationServices:_movieLocationServices
+            movieLocationServices:_movieLocationServices,
+            movieKeywordServices:_movieKeywordServices
             
             );
         frm_EditForm.ShowDialog();

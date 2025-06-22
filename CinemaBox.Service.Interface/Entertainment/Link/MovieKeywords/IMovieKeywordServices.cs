@@ -7,4 +7,5 @@ public interface IMovieKeywordServices
 {
     Task<List<MovieKeyword>> CreateOrGetMovieKeyword(Dictionary<string, string> keywordkeyValuePairs, string movieId);
     Task<Keyword?> GetKeywordAsync(string? keywordId, string? keywordName);
+    Task<IEnumerable<MovieKeyword?>> GetMovieKeywordAsync(string? movieId);
 }
