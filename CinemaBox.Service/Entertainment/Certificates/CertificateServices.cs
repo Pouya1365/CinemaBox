@@ -33,6 +33,7 @@ public class CertificateServices(IUnitOfWork unitOfWork) : ICertificateServices
             .FindAsync(c => c.CertificateName.ToLower() == nameToCompare);
     
     }
+    public async Task<IEnumerable<Certificate>> GetAllCertificatesAsync() => await _unitOfWork.Repository<Certificate>().GetAllAsync();
 }
 
 

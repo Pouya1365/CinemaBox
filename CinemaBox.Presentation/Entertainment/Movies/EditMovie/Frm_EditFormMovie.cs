@@ -1,4 +1,7 @@
-﻿using Ces.WinForm.UI.CesForm;
+﻿using Ces.WinForm.UI.CesComboBox;
+using Ces.WinForm.UI.CesForm;
+using Ces.WinForm.UI.CesListBox;
+using CinemaBox.Domain.Entertainment.Certificates;
 using CinemaBox.Domain.Entertainment.Link.MovieCompanies;
 using CinemaBox.Domain.Entertainment.Link.MovieCountries;
 using CinemaBox.Domain.Entertainment.Link.MovieGenres;
@@ -10,6 +13,7 @@ using CinemaBox.Domain.Entertainment.Movies;
 using CinemaBox.Domain.Shared.Currencies;
 using CinemaBox.Service.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Service.Entertainment.Link.MovieTaglines;
+using CinemaBox.Service.Interface.Entertainment.Certificates;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCompanies;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCountries;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieGenres;
@@ -36,6 +40,7 @@ public partial class Frm_EditFormMovie : CesForm
     private readonly IMovieLocationServices? _movieLocationServices;
     private readonly IMovieKeywordServices? _movieKeywordServices;
     private readonly IMovieTaglineServices? _movieTaglineServices;
+    private readonly ICertificateServices? _certificateServices;
     private readonly string? _movieId;
     public Frm_EditFormMovie(IMovieServices movieServices,
         string? movieId,
@@ -46,7 +51,8 @@ public partial class Frm_EditFormMovie : CesForm
         IMovieCompanyServices? movieCompanyServices,
         IMovieLocationServices? movieLocationServices,
         IMovieKeywordServices? movieKeywordServices,
-        IMovieTaglineServices? movieTaglineServices
+        IMovieTaglineServices? movieTaglineServices,
+        ICertificateServices? certificateServices
 
         )
     {
@@ -59,6 +65,7 @@ public partial class Frm_EditFormMovie : CesForm
         _movieLocationServices = movieLocationServices ?? throw new ArgumentNullException(nameof(movieLocationServices));
         _movieKeywordServices = movieKeywordServices ?? throw new ArgumentNullException(nameof(movieKeywordServices));
         _movieTaglineServices = movieTaglineServices ?? throw new ArgumentNullException(nameof(movieTaglineServices));
+        _certificateServices = certificateServices ?? throw new ArgumentNullException(nameof(certificateServices));
         _movieId = movieId;
         InitializeComponent();
         _ = IntialData();
@@ -103,6 +110,7 @@ public partial class Frm_EditFormMovie : CesForm
         Txt_ReleaseMonth.CesText = movie.ReleaseMonth.ToString();
         Txt_ReleaseDay.CesText = movie.ReleaseDay.ToString();
         Txt_ShamsiYear.CesText = $"{Pcal.ToToJalali((int)(movie.ReleaseYear ?? 1900), (int)(movie.ReleaseMonth ?? 01), (int)(movie.ReleaseDay ?? 01))[..4]}";
+        await LoadComboDataAsync("Rateds", Cmb_Certificate, c => new CesListBoxItemProperty { Text = c.CertificateName ?? "-", Value = (int)c.Id }, movie.CertificateId);
 
     }
     private async Task<Movie?> GetMovie() => await _movieServices.GeMovieAsync(ImdbId: _movieId);
@@ -150,6 +158,24 @@ public partial class Frm_EditFormMovie : CesForm
         CreateDynamicLabels<MovieTagline>(movieTaglines.ToList(), Flw_Tagline, g => g.FaTagline ?? g.EnTagline, 5);
     }
     private async Task<IEnumerable<MovieTagline?>> GetMovieTaglineAsync() => await _movieTaglineServices.GetMovieTagline(movieId: _movieId);
+    private async Task LoadComboDataAsync(string cacheKey, CesComboBox comboBox, Func<Certificate, CesListBoxItemProperty> selector, int? id)
+    {
+        IEnumerable<Certificate> listCertificate = await GetCertificatesAsync();
+        List<CesListBoxItemProperty> items = [.. listCertificate.Select(selector)];
+        comboBox.CesDataSource = null;
+        comboBox.CesValueMember = "Value";
+        comboBox.CesDisplayMember = "Text";
+        comboBox.CesDataSource = items;
+        comboBox.Refresh();
+        if (id.HasValue)
+        {
+            CesListBoxItemProperty? selectedItem = items.FirstOrDefault(x => (int)x.Value == id.Value);
+            if (selectedItem != null)
+                comboBox.CesSelectedItem = selectedItem;
+        }
+    }
+
+    public async Task<IEnumerable<Certificate>> GetCertificatesAsync()=>await _certificateServices.GetAllCertificatesAsync();
     #region CreateLabel
     public void CreateDynamicLabels<T>(List<T> items, FlowLayoutPanel container, Func<T, string> getText, int marginBottom = 0)
     {

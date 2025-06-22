@@ -201,7 +201,7 @@
             Txt_Currency.CesHasFocus = false;
             Txt_Currency.CesHasNotification = false;
             Txt_Currency.CesIcon = null;
-            Txt_Currency.CesInputType = Ces.WinForm.UI.CesInputTypeEnum.Number;
+            Txt_Currency.CesInputType = Ces.WinForm.UI.CesInputTypeEnum.Any;
             Txt_Currency.CesMaxLength = 0;
             Txt_Currency.CesMultiLine = false;
             Txt_Currency.CesNotificationColor = Color.Red;

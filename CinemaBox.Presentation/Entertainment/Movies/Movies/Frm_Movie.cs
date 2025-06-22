@@ -3,6 +3,7 @@ using CinemaBox.Domain.Entertainment.Movies;
 using CinemaBox.Model.Entertainment.Movie.Movie;
 using CinemaBox.Presentation.Entertainment.Movies.EditMovie;
 using CinemaBox.Scrapping.Interface.Imdb.Service.Movie;
+using CinemaBox.Service.Interface.Entertainment.Certificates;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCompanies;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCountries;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCredits;
@@ -30,6 +31,7 @@ public partial class Frm_Movie : CesForm
     private readonly IMovieCreditServices _movieCreditServices;
     private readonly IMovieFileServices _movieFileServices;
     private readonly ICurrencyServices _currencyServices;
+    private readonly ICertificateServices _certificateServices;
     public Frm_Movie(IImdbMovieScrapperServices imdbScrapperServices,
         IMovieServices movieServices,
         IMovieCompanyServices movieCompanyServices,
@@ -41,7 +43,8 @@ public partial class Frm_Movie : CesForm
         IMovieKeywordServices movieKeywordServices,
         IMovieCreditServices movieCreditServices,
         IMovieFileServices movieFileServices,
-        ICurrencyServices currencyServices
+        ICurrencyServices currencyServices,
+        ICertificateServices certificateServices
         )
     {
         InitializeComponent();
@@ -57,6 +60,7 @@ public partial class Frm_Movie : CesForm
         _movieCreditServices = movieCreditServices ?? throw new ArgumentNullException(nameof(movieCreditServices));
         _movieFileServices = movieFileServices ?? throw new ArgumentNullException(nameof(movieFileServices));
         _currencyServices = currencyServices ?? throw new ArgumentNullException(nameof(currencyServices));
+        _certificateServices = certificateServices ?? throw new ArgumentNullException(nameof(certificateServices));
     }
 
     private async void Btn_GetInfo_Click(object sender, EventArgs e)
@@ -113,7 +117,8 @@ public partial class Frm_Movie : CesForm
             movieCompanyServices:_movieCompanyServices,
             movieLocationServices:_movieLocationServices,
             movieKeywordServices:_movieKeywordServices,
-            movieTaglineServices:_movieTaglineServices
+            movieTaglineServices:_movieTaglineServices,
+            certificateServices:_certificateServices
             
             );
         frm_EditForm.ShowDialog();

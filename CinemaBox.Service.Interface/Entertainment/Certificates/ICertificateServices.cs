@@ -6,6 +6,6 @@ public interface ICertificateServices
 {
     Task<Certificate?> CreateOrGetCertificateAsync(string? certificateName);
     Task<Certificate?> GetCertificateAsync(string certificateName);
-
+    Task<IEnumerable<Certificate>> GetAllCertificatesAsync();
 
 }
