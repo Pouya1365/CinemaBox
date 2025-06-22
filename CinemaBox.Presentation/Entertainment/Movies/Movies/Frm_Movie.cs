@@ -109,7 +109,8 @@ public partial class Frm_Movie : CesForm
             currencyServices: _currencyServices,
             movieGenreServices: _movieGenreServices,
             movieCountryServices:_movieCountryServices,
-            movieSpokenLanguageServices:_movieSpokenLanguageServices
+            movieSpokenLanguageServices:_movieSpokenLanguageServices,
+            movieCompanyServices:_movieCompanyServices
             
             );
         frm_EditForm.ShowDialog();

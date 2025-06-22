@@ -6,4 +6,5 @@ public interface IMovieCompanyServices
 {
     Task<bool?> CreateOrGetMovieCompanyAsync(string movieId, Dictionary<string, string>? companieskeyValuePairs);
     Task<MovieCompany?> GetMovieCompanyAsync(string movieId, string companyId);
+    Task<IEnumerable<MovieCompany>?> GetMovieCompany(string movieId);
 }

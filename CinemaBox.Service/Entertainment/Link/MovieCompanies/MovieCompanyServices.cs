@@ -42,4 +42,5 @@ public class MovieCompanyServices(IUnitOfWork unitOfWork, ICompanyServices compa
 
     }
     public async Task<Company?> GetCompany(string companyId, string companyName) => await _companyServices.CreateOrGetCompanyAsync(companyId: companyId, CompanyName: companyName);
+    public async Task<IEnumerable<MovieCompany>?> GetMovieCompany(string movieId) => await _unitOfWork.Repository<MovieCompany>().GetAllWithPredicateAsync(x=>x.MovieId==movieId,x=>x.Company);
 }
