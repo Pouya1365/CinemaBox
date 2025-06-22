@@ -6,5 +6,6 @@ namespace CinemaBox.Service.Interface.Entertainment.Link.MovieGenres;
 public interface IMovieGenreServices
 {
     Task<List<MovieGenre>> CreateOrGetMovieGenre(List<string> genreModels, string movieId);
-    Task<Genre> GetCountryPartAsync(string genreName);
+    Task<Genre> GetMovieGenreAsync(string genreName);
+    Task<IEnumerable<MovieGenre>> GetMovieGenre(string movieId) ;
 }

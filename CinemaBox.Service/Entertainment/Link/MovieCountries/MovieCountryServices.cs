@@ -28,4 +28,5 @@ public class MovieCountryServices(IUnitOfWork unitOfWork,ICountryPartServices co
         return MovieCountries;
     }
     public async Task<CountryPart> GetCountryPartAsync(string countryPartName, string isoCode) =>await _countryPartServices.CreateOrGetCountryPart(CountryPartName: countryPartName, isoCode: isoCode);
+    public async Task<IEnumerable<MovieCountry>> GetMovieCountry(string movieId) => await _unitOfWork.Repository<MovieCountry>().GetAllWithPredicateAsync(x => x.MovieId == movieId, x => x.CountryPart);
 }

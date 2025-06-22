@@ -15,7 +15,7 @@ public class MovieGenreServices(IUnitOfWork unitOfWork, IGenreServices genreServ
         List<MovieGenre> movieGenres = [];
         foreach (var genreModel in genreModels)
         {
-            Genre genre =await GetCountryPartAsync( genreName: genreModel);
+            Genre? genre =await GetMovieGenreAsync( genreName: genreModel);
             if (genre != null)
                 movieGenres.Add(new MovieGenre
                 {
@@ -27,5 +27,6 @@ public class MovieGenreServices(IUnitOfWork unitOfWork, IGenreServices genreServ
         await _unitOfWork.CompleteAsync();
         return movieGenres;
     }
-    public async Task<Genre> GetCountryPartAsync(string genreName) =>await _genreServices.CreateOrGetGenreAsync(genreName: genreName);
+    public async Task<Genre?> GetMovieGenreAsync(string genreName) =>await _genreServices.CreateOrGetGenreAsync(genreName: genreName);
+    public async Task<IEnumerable<MovieGenre>> GetMovieGenre(string movieId) => await _unitOfWork.Repository<MovieGenre>().GetAllWithPredicateAsync( x=>x.MovieId==movieId,x => x.Genre);
 }

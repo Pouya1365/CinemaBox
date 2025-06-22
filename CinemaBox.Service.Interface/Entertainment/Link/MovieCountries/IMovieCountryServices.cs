@@ -7,4 +7,5 @@ public interface IMovieCountryServices
 {
     Task<List<MovieCountry>> CreateOrGetMovieCountry(Dictionary<string, string> countryModels, string movieId);
      Task<CountryPart> GetCountryPartAsync(string countryPartName, string isoCode);
+    Task<IEnumerable<MovieCountry>> GetMovieCountry(string movieId);
 }

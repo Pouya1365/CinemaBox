@@ -103,7 +103,12 @@ public partial class Frm_Movie : CesForm
     }
     private void MovieBox_PosterClicked(object sender, string movieId)
     {
-        Frm_EditFormMovie frm_EditForm =new Frm_EditFormMovie(_movieServices,movieId,currencyServices: _currencyServices);
+        Frm_EditFormMovie frm_EditForm =new Frm_EditFormMovie(
+            movieServices: _movieServices,
+            movieId:movieId,
+            currencyServices: _currencyServices,
+            movieGenreServices: _movieGenreServices,
+            movieCountryServices:_movieCountryServices);
         frm_EditForm.ShowDialog();
     }
 }

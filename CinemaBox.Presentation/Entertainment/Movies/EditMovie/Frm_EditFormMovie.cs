@@ -1,10 +1,15 @@
 ﻿using Ces.WinForm.UI.CesForm;
+using CinemaBox.Domain.Entertainment.Link.MovieCountries;
+using CinemaBox.Domain.Entertainment.Link.MovieGenres;
 using CinemaBox.Domain.Entertainment.Movies;
 using CinemaBox.Domain.Shared.Currencies;
+using CinemaBox.Service.Interface.Entertainment.Link.MovieCountries;
+using CinemaBox.Service.Interface.Entertainment.Link.MovieGenres;
 using CinemaBox.Service.Interface.Entertainment.Movies;
 using CinemaBox.Service.Interface.Shared.Currencies;
 using CinemaBox.Utilities.DateTimeExtension.DateExtensions;
 using CinemaBox.Utilities.DateTimeExtension.TimeExtension;
+using CinemaBox.Utilities.Lables;
 
 namespace CinemaBox.Presentation.Entertainment.Movies.EditMovie;
 
@@ -12,20 +17,37 @@ public partial class Frm_EditFormMovie : CesForm
 {
     private readonly IMovieServices? _movieServices;
     private readonly ICurrencyServices? _currencyServices;
+    private readonly IMovieGenreServices? _movieGenreServices;
+    private readonly IMovieCountryServices? _movieCountryServices;
     private readonly string? _movieId;
-    public Frm_EditFormMovie(IMovieServices movieServices, string? movieId, ICurrencyServices? currencyServices)
+    public Frm_EditFormMovie(IMovieServices movieServices,
+        string? movieId,
+        ICurrencyServices? currencyServices,
+        IMovieGenreServices? movieGenreServices,
+        IMovieCountryServices? movieCountryServices
+
+        )
     {
         _movieServices = movieServices ?? throw new ArgumentNullException(nameof(movieServices));
         _currencyServices = currencyServices ?? throw new ArgumentNullException(nameof(currencyServices));
+        _movieGenreServices = movieGenreServices ?? throw new ArgumentNullException(nameof(movieGenreServices));
+        _movieCountryServices = movieCountryServices ?? throw new ArgumentNullException(nameof(movieCountryServices));
         _movieId = movieId;
         InitializeComponent();
-        SetMovieBasicFields();
-    }
+        _ = IntialData();
 
-    private async void SetMovieBasicFields()
+
+    }
+    public async Task IntialData()
     {
-        Movie movie = await GetMovie(imdbId: _movieId);
-        Currency currency =await GetCurrency(movie.BudgetCurrencyId);
+        await SetMovieBasicFields();
+        await SetMovieGenres();
+        await SetMovieCountries();
+    }
+    private async Task SetMovieBasicFields()
+    {
+        Movie? movie = await GetMovie();
+        Currency currency = await GetCurrency(movie.BudgetCurrencyId);
         Txt_EnTitle.CesText = movie.EnTitle;
         Txt_FaTitle.CesText = movie.FaTitle;
         Txt_Plot.CesText = movie.EnPlot;
@@ -34,7 +56,7 @@ public partial class Frm_EditFormMovie : CesForm
         Txt_OriginalTitle.CesText = movie.OriginalTitle;
         Txt_RunTime.CesText = movie.RunTimeMinutes?.ToString();
         Txt_HourTime.CesText = HourTimeExtension.ToHourTime((long)movie.RunTimeMinutes);
-        Txt_Budget.CesText = movie.Budget?.ToString();       
+        Txt_Budget.CesText = movie.Budget?.ToString();
         Txt_Currency.CesText = currency.CurrencyName;
         Txt_Imdb.CesText = movie.Id;
         Txt_TopRanking.CesText = movie.TopRank.ToString();
@@ -51,6 +73,45 @@ public partial class Frm_EditFormMovie : CesForm
         Txt_ShamsiYear.CesText = $"{Pcal.ToToJalali((int)(movie.ReleaseYear ?? 1900), (int)(movie.ReleaseMonth ?? 01), (int)(movie.ReleaseDay ?? 01))[..4]}";
 
     }
-    private async Task<Movie?> GetMovie(string? imdbId) => await _movieServices.GeMovieAsync(ImdbId: imdbId);
+    private async Task<Movie?> GetMovie() => await _movieServices.GeMovieAsync(ImdbId: _movieId);
     private async Task<Currency?> GetCurrency(byte? currencyId) => await _currencyServices.GetCurrencyAsync(currencyId);
+
+    private async Task SetMovieGenres()
+    {
+        IEnumerable<MovieGenre?> genre = await GetMovieGenresAsync();
+        CreateDynamicLabels<MovieGenre>(genre.ToList(), Flw_Genre,g=>g.Genre.FaGenreName??g.Genre.EnGenreName,5);
+    }
+    private async Task SetMovieCountries()
+    {
+        IEnumerable<MovieCountry?> movieCountry = await GetMovieCountryAsync();
+        CreateDynamicLabels<MovieCountry>(movieCountry.ToList(), Flw_Country, g => g.CountryPart.FaCountryPartName ?? g.CountryPart.EnCountryPartName, 5);
+    }
+    private async Task<IEnumerable<MovieGenre?>> GetMovieGenresAsync() => await _movieGenreServices.GetMovieGenre(movieId: _movieId);
+    private async Task<IEnumerable<MovieCountry?>> GetMovieCountryAsync() => await _movieCountryServices.GetMovieCountry(movieId: _movieId);
+ 
+    #region CreateLabel
+    public void CreateDynamicLabels<T>(List<T> items, FlowLayoutPanel container, Func<T, string> getText, int marginBottom = 0)
+    {
+        container.SuspendLayout();
+        container.Controls.Clear();
+        foreach (var item in items)
+        {
+            Label label = new()
+            {
+                Text = getText(item),
+                AutoSize = true,
+                ForeColor = LabelExtension.GetContrastColor(Color.White),
+                BackColor = LabelExtension.GetRandomPastelColor(),
+                Font = new Font("IRANSans", 9, FontStyle.Italic),
+                Margin = new Padding(5, 5, 5, marginBottom),
+                Padding = new Padding(3),
+                BorderStyle = BorderStyle.FixedSingle,
+
+            };
+            container.Controls.Add(label);
+        }
+        container.ResumeLayout(true);
+    }
+    #endregion
+
 }
