@@ -1,6 +1,7 @@
 ﻿using CinemaBox.Context.AppDbContext;
 using CinemaBox.Repository.Interface.BaseRepository;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace CinemaBox.Repository.BaseRepository;
@@ -49,6 +50,19 @@ public class GenericRepository<T>(CinemaBoxDbContext context) : IGenericReposito
             .ThenInclude(thenInclude)
             .ToListAsync()
             .ConfigureAwait(false);
+    }
+    public async Task<IEnumerable<T>> GetAllWithMultipleIncludesWithPredicateAsync<TProperty, TThenProperty>(
+       Expression<Func<T, bool>> predicate,
+       Expression<Func<T, TProperty>> include,
+       Expression<Func<TProperty, TThenProperty>> thenInclude)
+       where TProperty : class
+       where TThenProperty : class
+    {
+        var query = _dbSet.Where(predicate)
+                          .Include(include)
+                          .ThenInclude(thenInclude);
+
+        return await query.ToListAsync().ConfigureAwait(false);
     }
     // برای شامل کردن چندین سطح درخواستی
     public async Task<IEnumerable<T>> GetAllWithMultipleIncludesAsync<TProperty1, TProperty2, TProperty3>(

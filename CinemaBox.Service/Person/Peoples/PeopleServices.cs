@@ -1,6 +1,6 @@
 ﻿using CinemaBox.Domain.Person.Peoples;
 using CinemaBox.Domain.Shared.DeathCauses;
-using CinemaBox.Model.Entertainment.Cast;
+using CinemaBox.Model.Entertainment.Cast.Credit;
 using CinemaBox.Model.Entertainment.People;
 using CinemaBox.Scrapping.Interface.Imdb.Service.People;
 using CinemaBox.Service.Interface.Person.PeopleFiles;

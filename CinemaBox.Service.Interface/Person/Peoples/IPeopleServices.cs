@@ -1,5 +1,5 @@
 ﻿using CinemaBox.Domain.Person.Peoples;
-using CinemaBox.Model.Entertainment.Cast;
+using CinemaBox.Model.Entertainment.Cast.Credit;
 
 namespace CinemaBox.Service.Interface.Person.Peoples;
 

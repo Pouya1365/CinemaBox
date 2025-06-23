@@ -1,4 +1,4 @@
-﻿using CinemaBox.Model.Entertainment.Cast;
+﻿using CinemaBox.Model.Entertainment.Cast.Credit;
 
 namespace CinemaBox.Model.Entertainment.Movie.Movie;
 

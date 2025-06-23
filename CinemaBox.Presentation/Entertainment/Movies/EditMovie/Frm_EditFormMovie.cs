@@ -4,25 +4,33 @@ using Ces.WinForm.UI.CesListBox;
 using CinemaBox.Domain.Entertainment.Certificates;
 using CinemaBox.Domain.Entertainment.Link.MovieCompanies;
 using CinemaBox.Domain.Entertainment.Link.MovieCountries;
+using CinemaBox.Domain.Entertainment.Link.MovieCredits;
+using CinemaBox.Domain.Entertainment.Link.MovieFiles;
 using CinemaBox.Domain.Entertainment.Link.MovieGenres;
 using CinemaBox.Domain.Entertainment.Link.MovieKeywords;
 using CinemaBox.Domain.Entertainment.Link.MovieLocations;
 using CinemaBox.Domain.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Domain.Entertainment.Link.MovieTaglines;
 using CinemaBox.Domain.Entertainment.Movies;
+using CinemaBox.Domain.Person.PeopleFiles;
 using CinemaBox.Domain.Shared.Currencies;
-using CinemaBox.Service.Entertainment.Link.MovieSpokenLanguages;
-using CinemaBox.Service.Entertainment.Link.MovieTaglines;
+using CinemaBox.Enumeration.Entertainment.Crew;
+using CinemaBox.Model.Entertainment.Cast.CreditShow;
 using CinemaBox.Service.Interface.Entertainment.Certificates;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCompanies;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCountries;
+using CinemaBox.Service.Interface.Entertainment.Link.MovieCredits;
+using CinemaBox.Service.Interface.Entertainment.Link.MovieFiles;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieGenres;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieKeywords;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieLocations;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieTaglines;
 using CinemaBox.Service.Interface.Entertainment.Movies;
+using CinemaBox.Service.Interface.Person.PeopleFiles;
 using CinemaBox.Service.Interface.Shared.Currencies;
+using CinemaBox.Service.Person.PeopleFiles;
+using CinemaBox.UserController.Entertainment.CreditShow;
 using CinemaBox.Utilities.DateTimeExtension.DateExtensions;
 using CinemaBox.Utilities.DateTimeExtension.TimeExtension;
 using CinemaBox.Utilities.Lables;
@@ -41,6 +49,9 @@ public partial class Frm_EditFormMovie : CesForm
     private readonly IMovieKeywordServices? _movieKeywordServices;
     private readonly IMovieTaglineServices? _movieTaglineServices;
     private readonly ICertificateServices? _certificateServices;
+    private readonly IMovieFileServices? _movieFileServices;
+    private readonly IMovieCreditServices? _movieCreditServices;
+    private readonly IPeopleFileServices? _peopleFileServices;
     private readonly string? _movieId;
     public Frm_EditFormMovie(IMovieServices movieServices,
         string? movieId,
@@ -52,7 +63,10 @@ public partial class Frm_EditFormMovie : CesForm
         IMovieLocationServices? movieLocationServices,
         IMovieKeywordServices? movieKeywordServices,
         IMovieTaglineServices? movieTaglineServices,
-        ICertificateServices? certificateServices
+        ICertificateServices? certificateServices,
+        IMovieFileServices? movieFileServices,
+        IMovieCreditServices? movieCreditServices,
+        IPeopleFileServices? peopleFileServices
 
         )
     {
@@ -66,12 +80,16 @@ public partial class Frm_EditFormMovie : CesForm
         _movieKeywordServices = movieKeywordServices ?? throw new ArgumentNullException(nameof(movieKeywordServices));
         _movieTaglineServices = movieTaglineServices ?? throw new ArgumentNullException(nameof(movieTaglineServices));
         _certificateServices = certificateServices ?? throw new ArgumentNullException(nameof(certificateServices));
+        _movieFileServices = movieFileServices ?? throw new ArgumentNullException(nameof(movieFileServices));
+        _movieCreditServices = movieCreditServices ?? throw new ArgumentNullException(nameof(movieCreditServices));
+        _peopleFileServices = peopleFileServices ?? throw new ArgumentNullException(nameof(peopleFileServices));
         _movieId = movieId;
         InitializeComponent();
         _ = IntialData();
 
 
     }
+    #region LoadGeneralData
     public async Task IntialData()
     {
         await SetMovieBasicFields();
@@ -82,6 +100,8 @@ public partial class Frm_EditFormMovie : CesForm
         await SetMovieLocation();
         await SetMovieKeyword();
         await SeMovieTaglineAsync();
+        await SetMovieFileAsync();
+        await SetMovieCreditAsync();
     }
     private async Task SetMovieBasicFields()
     {
@@ -115,11 +135,10 @@ public partial class Frm_EditFormMovie : CesForm
     }
     private async Task<Movie?> GetMovie() => await _movieServices.GeMovieAsync(ImdbId: _movieId);
     private async Task<Currency?> GetCurrency(byte? currencyId) => await _currencyServices.GetCurrencyAsync(currencyId);
-
     private async Task SetMovieGenres()
     {
         IEnumerable<MovieGenre?> genre = await GetMovieGenresAsync();
-        CreateDynamicLabels<MovieGenre>(genre.ToList(), Flw_Genre,g=>g.Genre.FaGenreName??g.Genre.EnGenreName,5);
+        CreateDynamicLabels<MovieGenre>(genre.ToList(), Flw_Genre, g => g.Genre.FaGenreName ?? g.Genre.EnGenreName, 5);
     }
     private async Task<IEnumerable<MovieGenre?>> GetMovieGenresAsync() => await _movieGenreServices.GetMovieGenre(movieId: _movieId);
     private async Task SetMovieCountries()
@@ -149,7 +168,7 @@ public partial class Frm_EditFormMovie : CesForm
     private async Task SetMovieKeyword()
     {
         IEnumerable<MovieKeyword?> movieKeyword = await GetMovieKeywordAsync();
-        CreateDynamicLabels<MovieKeyword>(movieKeyword.ToList(), Flw_Keyword, g => g.Keyword.FaKeyowrdName??g.Keyword.EnKeyowrdName, 5);
+        CreateDynamicLabels<MovieKeyword>(movieKeyword.ToList(), Flw_Keyword, g => g.Keyword.FaKeyowrdName ?? g.Keyword.EnKeyowrdName, 5);
     }
     private async Task<IEnumerable<MovieKeyword?>> GetMovieKeywordAsync() => await _movieKeywordServices.GetMovieKeywordAsync(movieId: _movieId);
     private async Task SeMovieTaglineAsync()
@@ -174,8 +193,15 @@ public partial class Frm_EditFormMovie : CesForm
                 comboBox.CesSelectedItem = selectedItem;
         }
     }
-
-    public async Task<IEnumerable<Certificate>> GetCertificatesAsync()=>await _certificateServices.GetAllCertificatesAsync();
+    private async Task<IEnumerable<Certificate>> GetCertificatesAsync() => await _certificateServices.GetAllCertificatesAsync();
+    private async Task SetMovieFileAsync()
+    {
+        MovieFile movieFiles = await GetMovieFileAsync();
+        string filePath = Path.Combine(movieFiles.File.Server.Path, movieFiles.File.FileName);
+        Pic_Poster.Image = Image.FromFile(filePath);
+    }
+    private async Task<MovieFile> GetMovieFileAsync() => await _movieFileServices.GetMovieFile(movieId: _movieId);
+    #endregion
     #region CreateLabel
     public void CreateDynamicLabels<T>(List<T> items, FlowLayoutPanel container, Func<T, string> getText, int marginBottom = 0)
     {
@@ -200,5 +226,64 @@ public partial class Frm_EditFormMovie : CesForm
         container.ResumeLayout(true);
     }
     #endregion
+    #region LoadCrews
+    private async Task SetMovieCreditAsync()
+    {
+        IEnumerable<MovieCredit?> credits = await GetMovieCreditsAsync();
 
+        List<string> peopleIds = credits.Select(x => x.PeopleId).Distinct().ToList();
+        IEnumerable<PeopleFile?> peopleFiles = await GetPeopleFileAsync(peopleIds);
+
+        Dictionary<string, PeopleFile?> peoplePicture = peopleFiles
+            .Where(x => x != null)
+            .ToDictionary(x => x!.PeopleId, x => x);
+
+        List<CreditShowModel> creditModels = [.. credits.Select(x =>
+        {
+            peoplePicture.TryGetValue(x.PeopleId, out PeopleFile? personPic);
+
+            string? picUrl = personPic != null && personPic.File != null && personPic.File.Server != null
+                ? Path.Combine(Application.StartupPath, personPic.File.Server.Path, personPic.File.FileName)
+                : null;
+
+            return new CreditShowModel
+            {
+                EnCreditTypeName = x.CreditType.EnCreditTypeName,
+                FaCreditTypeName = x.CreditType.FaCreditTypeName,
+                EnFullName = x.People.EnFullName,
+                FaFullName = x.People.FaFullName,
+                IsLeadRole = x.IsLead,
+                RoleName = x.RoleName,
+                Id = x.PeopleId,
+                PicUrl = picUrl
+            };
+        })];
+
+        ShowCrews[] crewControls = [.. creditModels
+            .Where(x => x.EnCreditTypeName != CreditEnumeration.Cast.ToString())
+             .OrderBy(x => x.EnCreditTypeName)
+            .Select(ToShowCrews)];
+
+        ShowCrews[] castControls = [.. creditModels
+            .Where(x => x.EnCreditTypeName == CreditEnumeration.Cast.ToString())
+            .OrderByDescending(x=>x.IsLeadRole)
+            .Select(ToShowCrews)];
+
+        Flw_Crews.Controls.AddRange(crewControls);
+        Flw_Cast.Controls.AddRange(castControls);
+    }
+    private ShowCrews ToShowCrews(CreditShowModel model)=> new(
+            pictureUrl: model.PicUrl,
+            enfullName: model.EnFullName,
+            faFullName: model.FaFullName,
+            encreditType: model.EnCreditTypeName,
+            facreditType: model.FaCreditTypeName,
+            roleName: model.RoleName,
+            isLeadRole: model.IsLeadRole,
+            id: model.Id
+        );
+  
+    private async Task<IEnumerable<MovieCredit?>> GetMovieCreditsAsync() => await _movieCreditServices.GetMovieCreditsAsync(movieId: _movieId);
+    private async Task<IEnumerable<PeopleFile?>> GetPeopleFileAsync(List<string> peopleIds) => await _peopleFileServices.GetPeopleFile(peopleIds: peopleIds);
+    #endregion
 }

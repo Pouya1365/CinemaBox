@@ -47,4 +47,5 @@ public class PeopleFileServices(IUnitOfWork unitOfWork, IServerServices serverSe
     private void RemoveFile(long fileId, string serverFolderPath) => _fileServices.RemoveFile(fileId: fileId, serverFolderPath: serverFolderPath);
     private async Task<Domain.Files.Files.File?> GetOrCreateFile(ServerTypeEnumeration serverTypeEnumeration, string fileName) => await _fileServices.CreateOrGetFileAsync(serverTypeEnumeration: serverTypeEnumeration, fileName);
     private async Task<PeopleFile> GetPeopleFile(string peopleId) => await unitOfWork.Repository<PeopleFile>().FindAsync(x => x.PeopleId == peopleId);
+    public async Task<IEnumerable<PeopleFile?>> GetPeopleFile(List<string> peopleIds) => await unitOfWork.Repository<PeopleFile>().GetAllWithPredicateAsync(x => peopleIds.Contains( x.PeopleId),x=>x.File,x=>x.File.Server);
 }

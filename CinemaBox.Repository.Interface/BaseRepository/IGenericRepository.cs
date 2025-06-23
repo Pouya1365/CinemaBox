@@ -32,4 +32,10 @@ public interface IGenericRepository<T> where T : class
          where TProperty3 : class;
     Task<T> GetByIdAsync(string id);
     Task<T> GetByIdAsync(byte id);
+    Task<IEnumerable<T>> GetAllWithMultipleIncludesWithPredicateAsync<TProperty, TThenProperty>(
+          Expression<Func<T, bool>> predicate,
+          Expression<Func<T, TProperty>> include,
+          Expression<Func<TProperty, TThenProperty>> thenInclude)
+          where TProperty : class
+          where TThenProperty : class;
 }

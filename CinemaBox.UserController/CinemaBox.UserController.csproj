@@ -11,4 +11,8 @@
     <PackageReference Include="Ces.WinForm.UI" Version="1.18.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CinemaBox.Enumeration\CinemaBox.Enumeration.csproj" />
+  </ItemGroup>
+
 </Project>

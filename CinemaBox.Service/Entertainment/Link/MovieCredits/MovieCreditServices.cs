@@ -1,7 +1,7 @@
 ﻿using CinemaBox.Domain.Entertainment.Link.MovieCredits;
 using CinemaBox.Domain.Person.Peoples;
 using CinemaBox.Enumeration.Entertainment.Crew;
-using CinemaBox.Model.Entertainment.Cast;
+using CinemaBox.Model.Entertainment.Cast.Credit;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCredits;
 using CinemaBox.Service.Interface.Person.Peoples;
 using CinemaBox.UnitOfWork.Interface.UOW;
@@ -39,4 +39,5 @@ public class MovieCreditServices(IUnitOfWork unitOfWork, IPeopleServices peopleS
         return movieCredits;
     }
     private async Task<People> GetOrCreatePeople(CreditModel creditModel, string path) => await _peopleServices.CreateOrUpdatePeople(creditModel: creditModel, path: path);
+    public async Task<IEnumerable<MovieCredit>> GetMovieCreditsAsync(string movieId) => await _unitOfWork.Repository<MovieCredit>().GetAllWithPredicateAsync(x => x.MovieId == movieId,x=>x.CreditType ,x => x.People, x => x.People.PeopleFiles);
 }

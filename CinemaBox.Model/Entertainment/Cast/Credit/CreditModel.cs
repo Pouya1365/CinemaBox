@@ -1,4 +1,4 @@
-﻿namespace CinemaBox.Model.Entertainment.Cast;
+﻿namespace CinemaBox.Model.Entertainment.Cast.Credit;
 
 public class CreditModel
 {

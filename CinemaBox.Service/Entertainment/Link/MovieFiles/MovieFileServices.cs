@@ -1,4 +1,5 @@
 ﻿using CinemaBox.Domain.Entertainment.Link.MovieFiles;
+using CinemaBox.Domain.Files.Files;
 using CinemaBox.Domain.Servers.Servers;
 using CinemaBox.Enumeration.Servers.ServersType;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieFiles;
@@ -20,7 +21,7 @@ public class MovieFileServices(IUnitOfWork unitOfWork, IServerServices serverSer
         string serverFolderPath = Path.Combine(path, server.Path);
         FileExtension.CreateOrGetFolder(path: serverFolderPath);
         await DeleteOldMovieImage(movieId: movieId, serverFolderPath: serverFolderPath);
-      string fileName=await  FileExtension.SaveFile(imageUrl: imageUrl, id: movieId, name: movieName, serverFolderPath: serverFolderPath);
+        string fileName = await FileExtension.SaveFile(imageUrl: imageUrl, id: movieId, name: movieName, serverFolderPath: serverFolderPath);
         Domain.Files.Files.File? file = await GetOrCreateFile(serverTypeEnumeration: ServerTypeEnumeration.MoviePrimaryImage, fileName: fileName);
 
         MovieFile movieFile = new()
@@ -34,7 +35,7 @@ public class MovieFileServices(IUnitOfWork unitOfWork, IServerServices serverSer
     private async Task<Server?> GetServer() => await _serverServices.GetServerAsync(ServerTypeEnumeration.MoviePrimaryImage);
     private async Task DeleteOldMovieImage(string movieId, string serverFolderPath)
     {
-        MovieFile existingMovieFile = await GetMovieFile( movieId: movieId);
+        MovieFile existingMovieFile = await GetMovieFile(movieId: movieId);
         if (existingMovieFile == null)
             return;
         if (existingMovieFile != null)
@@ -46,5 +47,12 @@ public class MovieFileServices(IUnitOfWork unitOfWork, IServerServices serverSer
     }
     private void RemoveFile(long fileId, string serverFolderPath) => _fileServices.RemoveFile(fileId: fileId, serverFolderPath: serverFolderPath);
     private async Task<Domain.Files.Files.File?> GetOrCreateFile(ServerTypeEnumeration serverTypeEnumeration, string fileName) => await _fileServices.CreateOrGetFileAsync(serverTypeEnumeration: serverTypeEnumeration, fileName);
-    private async Task<MovieFile> GetMovieFile(string movieId) => await unitOfWork.Repository<MovieFile>().FindAsync(x => x.MovieId == movieId);
+    public async Task<MovieFile> GetMovieFile(string movieId) => await unitOfWork.Repository<MovieFile>().FindAsync(x => x.MovieId == movieId);
+    public async Task<IEnumerable<MovieFile>> GetMovieFile2(string movieId) =>
+        await unitOfWork.Repository<MovieFile>()
+            .GetAllWithMultipleIncludesWithPredicateAsync<Domain.Files.Files.File, Server>(
+                x => x.MovieId == movieId,
+                x => x.File,       // navigation property
+                x => x.Server
+            );
 }
