@@ -10,9 +10,8 @@ public class UserMovieDiskConfiguration : IEntityTypeConfiguration<UserMovieDisk
     {
         builder.ToTable(name: "UserMovieDisks", schema: "Managment");
 
-        builder.HasKey(umd => new {umd.UserId,umd.MovieId });
-        builder.Property(umd => umd.MovieId).HasMaxLength(20).HasColumnName("MovieId").HasComment(comment: "شناسه فیلم");
-        builder.Property(umd => umd.UserId).HasMaxLength(10).HasComment(comment: "شناسه فرد");
+        builder.HasKey(umd => umd.Id);
+        builder.Property(umd => umd.Id).HasMaxLength(20).HasColumnName("MovieId").HasComment(comment: "شناسه فیلم");
         builder.Property(umd => umd.PositionMovie).HasMaxLength(50).HasComment(comment: "محل قرارگیری فیلم");
         builder.Property(umd => umd.IsSubtitle).HasComment(comment: "زیرنویس فارسی");
         builder.Property(umd => umd.MyTime).HasComment(comment: "زمان فیلم من");
@@ -22,8 +21,7 @@ public class UserMovieDiskConfiguration : IEntityTypeConfiguration<UserMovieDisk
         builder.Property(umd => umd.IsDubbed).HasComment(comment: "دوبله");
         builder.Property(umd => umd.IsSubtitle).HasComment(comment: "زیرنویس");
         builder.Property(umd => umd.StatusId).HasComment(comment: "شناسه وضعیت");
-        builder.HasOne(umd => umd.Movie).WithMany(umd => umd.UserMovieDisks).HasForeignKey(umd => umd.MovieId);
+        builder.HasOne(umd => umd.Movie).WithMany(umd => umd.UserMovieDisks).HasForeignKey(umd => umd.Id);
         builder.HasOne(umd => umd.Status).WithMany(umd => umd.UserMovieDisks).HasForeignKey(umd => umd.StatusId);
-        builder.HasOne(umd => umd.User).WithMany(umd => umd.UserMovieDisks).HasForeignKey(umd => umd.UserId);
     }
 }
