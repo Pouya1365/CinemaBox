@@ -15,6 +15,8 @@ using CinemaBox.Service.Interface.Entertainment.Link.MovieLocations;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieTaglines;
 using CinemaBox.Service.Interface.Entertainment.Movies;
+using CinemaBox.Service.Interface.Managment.Link.UserMovieDisks;
+using CinemaBox.Service.Interface.Managment.Link.UserMovieVideos;
 using CinemaBox.Service.Interface.Person.PeopleFiles;
 using CinemaBox.Service.Interface.Person.Peoples;
 using CinemaBox.Service.Interface.Shared.Currencies;
@@ -37,6 +39,8 @@ public partial class Frm_Movie : CesForm
     private readonly ICertificateServices _certificateServices;
     private readonly IPeopleFileServices _peopleFileServices;
     private readonly IPeopleServices _peopleServices;
+    private readonly IUserMovieDiskServices _userMovieDiskServices;
+    private readonly IUserMovieVideoServices _userMovieVideoServices;
     public Frm_Movie(IImdbMovieScrapperServices imdbScrapperServices,
         IMovieServices movieServices,
         IMovieCompanyServices movieCompanyServices,
@@ -51,7 +55,9 @@ public partial class Frm_Movie : CesForm
         ICurrencyServices currencyServices,
         ICertificateServices certificateServices,
         IPeopleFileServices peopleFileServices,
-        IPeopleServices peopleServices
+        IPeopleServices peopleServices,
+        IUserMovieDiskServices userMovieDiskServices,
+        IUserMovieVideoServices userMovieVideoServices
         )
     {
         InitializeComponent();
@@ -70,6 +76,8 @@ public partial class Frm_Movie : CesForm
         _certificateServices = certificateServices ?? throw new ArgumentNullException(nameof(certificateServices));
         _peopleFileServices = peopleFileServices ?? throw new ArgumentNullException(nameof(peopleFileServices));
         _peopleServices = peopleServices ?? throw new ArgumentNullException(nameof(peopleServices));
+        _userMovieDiskServices = userMovieDiskServices ?? throw new ArgumentNullException(nameof(userMovieDiskServices));
+        _userMovieVideoServices = userMovieVideoServices ?? throw new ArgumentNullException(nameof(userMovieVideoServices));
     }
 
     private async void Btn_GetInfo_Click(object sender, EventArgs e)
@@ -132,7 +140,9 @@ public partial class Frm_Movie : CesForm
             movieFileServices:_movieFileServices,
             movieCreditServices:_movieCreditServices,
             peopleFileServices:_peopleFileServices,
-            peopleServices:_peopleServices
+            peopleServices:_peopleServices,
+            userMovieDiskServices:_userMovieDiskServices,
+            userMovieVideoServices:_userMovieVideoServices
             
             );
         frm_EditForm.ShowDialog();

@@ -74,7 +74,11 @@ public class MovieServices(IUnitOfWork unitOfWork, ICertificateServices certific
 
         return showMovieModels;
     }
-
+    public async Task UpdateMovie(Movie movie)
+    {
+        _unitOfWork.Repository<Movie>().Update(movie);
+        await _unitOfWork.CompleteAsync();
+    }
 
 
 
