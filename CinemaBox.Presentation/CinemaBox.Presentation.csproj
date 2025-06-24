@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <PackageReference Include="Ces.WinForm.UI" Version="1.18.5" />
+    <PackageReference Include="MediaInfo.Native" Version="21.9.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.6">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -34,6 +35,12 @@
     <ProjectReference Include="..\CinemaBox.Service\CinemaBox.Service.csproj" />
     <ProjectReference Include="..\CinemaBox.UnitOfWork\CinemaBox.UnitOfWork.csproj" />
     <ProjectReference Include="..\CinemaBox.UserController\CinemaBox.UserController.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="MediaInfo\MediaInfo.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

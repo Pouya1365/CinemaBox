@@ -43,8 +43,6 @@ public partial class ShowCrews : UserControl
         }
     }
 
-    private void Pic_People_Load(object sender, EventArgs e)=>
-        PicClicked?.Invoke(this, _id);
-   
+    private void Pic_People_Click(object sender, EventArgs e) => PicClicked?.Invoke(this, _id);
 }
 

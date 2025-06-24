@@ -31,6 +31,13 @@ public class GenericRepository<T>(CinemaBoxDbContext context) : IGenericReposito
             query = query.Include(include);   
         return await query.ToListAsync().ConfigureAwait(false);
     }
+    public async Task<T> FindAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
+    {
+        IQueryable<T> query = _dbSet.Where(predicate);
+        foreach (var include in includes)
+            query = query.Include(include);
+        return await query.FirstOrDefaultAsync().ConfigureAwait(false);
+    }
     public async Task<IEnumerable<T>> GetAllWithPredicateAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
     {
         IQueryable<T> query = _dbSet.Where(predicate);

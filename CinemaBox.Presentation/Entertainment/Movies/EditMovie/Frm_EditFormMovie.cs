@@ -15,7 +15,11 @@ using CinemaBox.Domain.Entertainment.Movies;
 using CinemaBox.Domain.Person.PeopleFiles;
 using CinemaBox.Domain.Shared.Currencies;
 using CinemaBox.Enumeration.Entertainment.Crew;
+using CinemaBox.Enumeration.MediaInfo.MediaInfo;
 using CinemaBox.Model.Entertainment.Cast.CreditShow;
+using CinemaBox.Model.MediaInfo.MediaInfo;
+using CinemaBox.Presentation.MediaInfo;
+using CinemaBox.Presentation.Person.Peoples;
 using CinemaBox.Service.Interface.Entertainment.Certificates;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCompanies;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCountries;
@@ -28,8 +32,8 @@ using CinemaBox.Service.Interface.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieTaglines;
 using CinemaBox.Service.Interface.Entertainment.Movies;
 using CinemaBox.Service.Interface.Person.PeopleFiles;
+using CinemaBox.Service.Interface.Person.Peoples;
 using CinemaBox.Service.Interface.Shared.Currencies;
-using CinemaBox.Service.Person.PeopleFiles;
 using CinemaBox.UserController.Entertainment.CreditShow;
 using CinemaBox.Utilities.DateTimeExtension.DateExtensions;
 using CinemaBox.Utilities.DateTimeExtension.TimeExtension;
@@ -52,6 +56,7 @@ public partial class Frm_EditFormMovie : CesForm
     private readonly IMovieFileServices? _movieFileServices;
     private readonly IMovieCreditServices? _movieCreditServices;
     private readonly IPeopleFileServices? _peopleFileServices;
+    private readonly IPeopleServices? _peopleServices;
     private readonly string? _movieId;
     public Frm_EditFormMovie(IMovieServices movieServices,
         string? movieId,
@@ -66,7 +71,8 @@ public partial class Frm_EditFormMovie : CesForm
         ICertificateServices? certificateServices,
         IMovieFileServices? movieFileServices,
         IMovieCreditServices? movieCreditServices,
-        IPeopleFileServices? peopleFileServices
+        IPeopleFileServices? peopleFileServices,
+        IPeopleServices? peopleServices
 
         )
     {
@@ -83,6 +89,7 @@ public partial class Frm_EditFormMovie : CesForm
         _movieFileServices = movieFileServices ?? throw new ArgumentNullException(nameof(movieFileServices));
         _movieCreditServices = movieCreditServices ?? throw new ArgumentNullException(nameof(movieCreditServices));
         _peopleFileServices = peopleFileServices ?? throw new ArgumentNullException(nameof(peopleFileServices));
+        _peopleServices = peopleServices ?? throw new ArgumentNullException(nameof(peopleServices));
         _movieId = movieId;
         InitializeComponent();
         _ = IntialData();
@@ -230,22 +237,17 @@ public partial class Frm_EditFormMovie : CesForm
     private async Task SetMovieCreditAsync()
     {
         IEnumerable<MovieCredit?> credits = await GetMovieCreditsAsync();
-
         List<string> peopleIds = credits.Select(x => x.PeopleId).Distinct().ToList();
         IEnumerable<PeopleFile?> peopleFiles = await GetPeopleFileAsync(peopleIds);
-
         Dictionary<string, PeopleFile?> peoplePicture = peopleFiles
             .Where(x => x != null)
             .ToDictionary(x => x!.PeopleId, x => x);
-
         List<CreditShowModel> creditModels = [.. credits.Select(x =>
         {
             peoplePicture.TryGetValue(x.PeopleId, out PeopleFile? personPic);
-
             string? picUrl = personPic != null && personPic.File != null && personPic.File.Server != null
                 ? Path.Combine(Application.StartupPath, personPic.File.Server.Path, personPic.File.FileName)
                 : null;
-
             return new CreditShowModel
             {
                 EnCreditTypeName = x.CreditType.EnCreditTypeName,
@@ -255,24 +257,27 @@ public partial class Frm_EditFormMovie : CesForm
                 IsLeadRole = x.IsLead,
                 RoleName = x.RoleName,
                 Id = x.PeopleId,
-                PicUrl = picUrl
+                PicUrl = picUrl,
+
             };
         })];
-
         ShowCrews[] crewControls = [.. creditModels
-            .Where(x => x.EnCreditTypeName != CreditEnumeration.Cast.ToString())
-             .OrderBy(x => x.EnCreditTypeName)
-            .Select(ToShowCrews)];
-
+    .Where(x => x.EnCreditTypeName != CreditEnumeration.Cast.ToString())
+    .OrderBy(x => x.EnCreditTypeName)
+    .Select(x => AttachHandler(ToShowCrews(x)))];
         ShowCrews[] castControls = [.. creditModels
-            .Where(x => x.EnCreditTypeName == CreditEnumeration.Cast.ToString())
-            .OrderByDescending(x=>x.IsLeadRole)
-            .Select(ToShowCrews)];
-
+    .Where(x => x.EnCreditTypeName == CreditEnumeration.Cast.ToString())
+    .OrderByDescending(x => x.IsLeadRole)
+    .Select(x => AttachHandler(ToShowCrews(x)))];
+        ShowCrews AttachHandler(ShowCrews ctrl)
+        {
+            ctrl.PicClicked += PeopleBox_PosterClicked;
+            return ctrl;
+        }
         Flw_Crews.Controls.AddRange(crewControls);
         Flw_Cast.Controls.AddRange(castControls);
     }
-    private ShowCrews ToShowCrews(CreditShowModel model)=> new(
+    private ShowCrews ToShowCrews(CreditShowModel model) => new(
             pictureUrl: model.PicUrl,
             enfullName: model.EnFullName,
             faFullName: model.FaFullName,
@@ -282,8 +287,99 @@ public partial class Frm_EditFormMovie : CesForm
             isLeadRole: model.IsLeadRole,
             id: model.Id
         );
-  
     private async Task<IEnumerable<MovieCredit?>> GetMovieCreditsAsync() => await _movieCreditServices.GetMovieCreditsAsync(movieId: _movieId);
     private async Task<IEnumerable<PeopleFile?>> GetPeopleFileAsync(List<string> peopleIds) => await _peopleFileServices.GetPeopleFile(peopleIds: peopleIds);
     #endregion
+    private void PeopleBox_PosterClicked(object sender, string peopleId)
+    {
+        Frm_EditPeople frm_EditPeople = new(
+           peopleId: peopleId,
+           peopleServices: _peopleServices,
+           peopleFileServices: _peopleFileServices
+
+            );
+        frm_EditPeople.ShowDialog();
+    }
+
+    private void Btn_ReadFile_Click(object sender, EventArgs e)
+    {
+        using OpenFileDialog open = new();
+        if (open.ShowDialog() != DialogResult.OK || string.IsNullOrWhiteSpace(open.FileName))
+            return;
+        try
+        {
+            LoadAndDisplayMediaInfo(open.FileName);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"خطا در خواندن فایل:\n{ex.Message}", "خطا", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+    }
+    private void LoadAndDisplayMediaInfo(string filePath)
+    {
+        MediaInfoResult? fileInfo = MediaServices.GetInfoMedia(filePath);
+        if (fileInfo?.Media?.Tracks == null)
+            throw new InvalidOperationException("اطلاعات مدیا یافت نشد.");
+        List<Model.MediaInfo.MediaInfo.Track> tracks = fileInfo.Media.Tracks;
+        Model.MediaInfo.MediaInfo.Track videoTrack = GetVideoTrack(tracks);
+        double durationSeconds = GetDurationInSeconds(videoTrack);
+        SetGeneralVideoInfo(videoTrack, filePath);
+        SetDurationInfo(durationSeconds);
+        SetFileSizeInfo(filePath);
+        SetAudioAndSubtitleInfo(tracks);
+        SetAudioGrid(tracks);
+    }
+    private Model.MediaInfo.MediaInfo.Track GetVideoTrack(List<Model.MediaInfo.MediaInfo.Track> tracks)=> tracks.FirstOrDefault(x => x.Type == MediaInfoEnumeration.Video.ToString())
+               ?? throw new InvalidOperationException("Track ویدیویی یافت نشد.");
+ 
+
+    private double GetDurationInSeconds(Model.MediaInfo.MediaInfo.Track videoTrack)
+    {
+        if (!double.TryParse(videoTrack.Duration, out double duration))
+            throw new FormatException("خطا در خواندن مدت زمان ویدیو (Duration).");
+        return duration;
+    }
+    private void SetGeneralVideoInfo(Model.MediaInfo.MediaInfo.Track videoTrack, string filePath)
+    {
+        Txt_FileName.CesText = Path.GetFileNameWithoutExtension(filePath);
+        Txt_Format.CesText = videoTrack.Format;
+        Txt_Bitrate.CesText = videoTrack.BitRate;
+        Txt_FPS.CesText = videoTrack.FrameRate;
+        Txt_AspectRatio.CesText = videoTrack.DisplayAspectRatio;
+        Txt_Resolution.CesText = $"{videoTrack.Width}*{videoTrack.Height}";
+    }
+    private void SetDurationInfo(double durationSeconds)
+    {
+        Txt_MyRunTime.CesText = HourTimeExtension.ConvertTextToRunTime(durationSeconds).ToString();
+        Txt_MyHourTime.Enabled = true;
+        Txt_MyHourTime.CesText = HourTimeExtension.FormatHourMinutesToTimeString((int)durationSeconds);
+        Txt_MyHourTime.Enabled = false;
+    }
+    private void SetFileSizeInfo(string filePath)
+    {
+        FileInfo fileInfo = new FileInfo(filePath);
+        double fileSizeInGB = fileInfo.Length / (1024.0 * 1024.0 * 1024.0);
+        Txt_FileSize.CesText = $"{fileSizeInGB:F2}";
+    }
+    private void SetAudioAndSubtitleInfo(List<Model.MediaInfo.MediaInfo.Track> tracks)
+    {
+        Chk_IsDubbed.CesCheck = tracks.Any(x =>
+            x.Type == MediaInfoEnumeration.Audio.ToString() &&
+            x.Language?.Trim().ToLower() == "fa");
+        Chk_Subtitle.CesCheck = tracks.Any(x =>
+            x.Type == MediaInfoEnumeration.Text.ToString() &&
+            x.Language?.Trim().ToLower() == "fa");
+    }
+    private void SetAudioGrid(List<Model.MediaInfo.MediaInfo.Track> tracks)
+    {
+        var audioTracks = tracks
+            .Where(x => x.Type == MediaInfoEnumeration.Audio.ToString())
+            .Select( x=>new AudioTracksModel { Channels=x.Channels,Format=x.Format,Language=x.Language})
+            .ToList();
+        Dgv_Audio.CesDataSource = audioTracks;
+        Dgv_Audio.ReadOnly = false; // فعال‌سازی ویرایش
+        Dgv_Audio.AllowUserToAddRows = true;   // اجازه اضافه‌کردن ردیف جدید
+        Dgv_Audio.AllowUserToDeleteRows = true; // اجازه حذف ردیف
+        Dgv_Audio.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
+    }
 }

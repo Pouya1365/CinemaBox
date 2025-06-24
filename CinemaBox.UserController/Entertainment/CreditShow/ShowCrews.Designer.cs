@@ -45,7 +45,7 @@
             Pic_People.Name = "Pic_People";
             Pic_People.Size = new Size(217, 217);
             Pic_People.TabIndex = 0;
-            Pic_People.Load += Pic_People_Load;
+            Pic_People.Click += Pic_People_Click;
             // 
             // Txt_FullName
             // 

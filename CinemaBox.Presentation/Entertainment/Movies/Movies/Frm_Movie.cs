@@ -1,6 +1,7 @@
 using Ces.WinForm.UI.CesForm;
 using CinemaBox.Domain.Entertainment.Movies;
 using CinemaBox.Model.Entertainment.Movie.Movie;
+using CinemaBox.Model.Entertainment.Movie.ShowMovie;
 using CinemaBox.Presentation.Entertainment.Movies.EditMovie;
 using CinemaBox.Scrapping.Interface.Imdb.Service.Movie;
 using CinemaBox.Service.Interface.Entertainment.Certificates;
@@ -15,6 +16,7 @@ using CinemaBox.Service.Interface.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieTaglines;
 using CinemaBox.Service.Interface.Entertainment.Movies;
 using CinemaBox.Service.Interface.Person.PeopleFiles;
+using CinemaBox.Service.Interface.Person.Peoples;
 using CinemaBox.Service.Interface.Shared.Currencies;
 using CinemaBox.UserController.Entertainment.Movies;
 namespace CinemaBox.Presentation;
@@ -34,6 +36,7 @@ public partial class Frm_Movie : CesForm
     private readonly ICurrencyServices _currencyServices;
     private readonly ICertificateServices _certificateServices;
     private readonly IPeopleFileServices _peopleFileServices;
+    private readonly IPeopleServices _peopleServices;
     public Frm_Movie(IImdbMovieScrapperServices imdbScrapperServices,
         IMovieServices movieServices,
         IMovieCompanyServices movieCompanyServices,
@@ -47,7 +50,8 @@ public partial class Frm_Movie : CesForm
         IMovieFileServices movieFileServices,
         ICurrencyServices currencyServices,
         ICertificateServices certificateServices,
-        IPeopleFileServices peopleFileServices
+        IPeopleFileServices peopleFileServices,
+        IPeopleServices peopleServices
         )
     {
         InitializeComponent();
@@ -65,6 +69,7 @@ public partial class Frm_Movie : CesForm
         _currencyServices = currencyServices ?? throw new ArgumentNullException(nameof(currencyServices));
         _certificateServices = certificateServices ?? throw new ArgumentNullException(nameof(certificateServices));
         _peopleFileServices = peopleFileServices ?? throw new ArgumentNullException(nameof(peopleFileServices));
+        _peopleServices = peopleServices ?? throw new ArgumentNullException(nameof(peopleServices));
     }
 
     private async void Btn_GetInfo_Click(object sender, EventArgs e)
@@ -92,9 +97,9 @@ public partial class Frm_Movie : CesForm
     private async void LoadMovie(string search)
     {
 
-        var t =await _movieServices.GetMovieModelsAsync(null);
+        List<ShowMovieModel> movieModels =await GetMovieModels();
         List<ShowMovieIcon> ShowMovieIcons = [];
-        ShowMovieIcons.AddRange(from movie in t
+        ShowMovieIcons.AddRange(from movie in movieModels
                                 let control = new ShowMovieIcon(
             posterPath: Path.Combine(Application.StartupPath, movie.PosterPath),
             enTitle: movie.EnTitle,
@@ -109,6 +114,7 @@ public partial class Frm_Movie : CesForm
         }
         Flw_ShowMovie.Controls.AddRange([.. ShowMovieIcons]);
     }
+    private async Task<List<ShowMovieModel>>GetMovieModels()=> await _movieServices.GetMovieModelsAsync(null);
     private void MovieBox_PosterClicked(object sender, string movieId)
     {
         Frm_EditFormMovie frm_EditForm =new(
@@ -125,7 +131,8 @@ public partial class Frm_Movie : CesForm
             certificateServices:_certificateServices,
             movieFileServices:_movieFileServices,
             movieCreditServices:_movieCreditServices,
-            peopleFileServices:_peopleFileServices
+            peopleFileServices:_peopleFileServices,
+            peopleServices:_peopleServices
             
             );
         frm_EditForm.ShowDialog();

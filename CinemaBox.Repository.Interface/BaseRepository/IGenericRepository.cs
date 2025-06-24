@@ -38,4 +38,5 @@ public interface IGenericRepository<T> where T : class
           Expression<Func<TProperty, TThenProperty>> thenInclude)
           where TProperty : class
           where TThenProperty : class;
+    Task<T> FindAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes);
 }

@@ -799,10 +799,10 @@
             Tb_Video.Controls.Add(Txt_AspectRatio);
             Tb_Video.Controls.Add(Txt_Resolution);
             Tb_Video.Controls.Add(Txt_Format);
-            Tb_Video.Location = new Point(4, 24);
+            Tb_Video.Location = new Point(4, 28);
             Tb_Video.Name = "Tb_Video";
             Tb_Video.Padding = new Padding(3);
-            Tb_Video.Size = new Size(778, 357);
+            Tb_Video.Size = new Size(778, 353);
             Tb_Video.TabIndex = 7;
             Tb_Video.Text = "مشخصات ویدیو";
             Tb_Video.UseVisualStyleBackColor = true;
@@ -971,7 +971,7 @@
             Txt_Resolution.CesHasFocus = false;
             Txt_Resolution.CesHasNotification = false;
             Txt_Resolution.CesIcon = null;
-            Txt_Resolution.CesInputType = Ces.WinForm.UI.CesInputTypeEnum.Number;
+            Txt_Resolution.CesInputType = Ces.WinForm.UI.CesInputTypeEnum.Any;
             Txt_Resolution.CesMaxLength = 0;
             Txt_Resolution.CesMultiLine = false;
             Txt_Resolution.CesNotificationColor = Color.Red;
@@ -1022,7 +1022,7 @@
             Txt_Format.CesHasFocus = false;
             Txt_Format.CesHasNotification = false;
             Txt_Format.CesIcon = null;
-            Txt_Format.CesInputType = Ces.WinForm.UI.CesInputTypeEnum.Number;
+            Txt_Format.CesInputType = Ces.WinForm.UI.CesInputTypeEnum.Any;
             Txt_Format.CesMaxLength = 0;
             Txt_Format.CesMultiLine = false;
             Txt_Format.CesNotificationColor = Color.Red;
@@ -1130,10 +1130,10 @@
             Tb_UserDiskInfo.Controls.Add(Txt_FileName);
             Tb_UserDiskInfo.Controls.Add(Txt_MyRunTime);
             Tb_UserDiskInfo.Controls.Add(cesComboBox2);
-            Tb_UserDiskInfo.Location = new Point(4, 24);
+            Tb_UserDiskInfo.Location = new Point(4, 28);
             Tb_UserDiskInfo.Name = "Tb_UserDiskInfo";
             Tb_UserDiskInfo.Padding = new Padding(3);
-            Tb_UserDiskInfo.Size = new Size(778, 357);
+            Tb_UserDiskInfo.Size = new Size(778, 353);
             Tb_UserDiskInfo.TabIndex = 9;
             Tb_UserDiskInfo.Text = "وضعیت فیلم";
             Tb_UserDiskInfo.UseVisualStyleBackColor = true;
@@ -1232,7 +1232,7 @@
             Txt_MyHourTime.CesHasFocus = false;
             Txt_MyHourTime.CesHasNotification = false;
             Txt_MyHourTime.CesIcon = null;
-            Txt_MyHourTime.CesInputType = Ces.WinForm.UI.CesInputTypeEnum.Number;
+            Txt_MyHourTime.CesInputType = Ces.WinForm.UI.CesInputTypeEnum.Any;
             Txt_MyHourTime.CesMaxLength = 0;
             Txt_MyHourTime.CesMultiLine = false;
             Txt_MyHourTime.CesNotificationColor = Color.Red;
@@ -1382,7 +1382,7 @@
             Txt_FileName.CesHasFocus = false;
             Txt_FileName.CesHasNotification = false;
             Txt_FileName.CesIcon = null;
-            Txt_FileName.CesInputType = Ces.WinForm.UI.CesInputTypeEnum.Number;
+            Txt_FileName.CesInputType = Ces.WinForm.UI.CesInputTypeEnum.Any;
             Txt_FileName.CesMaxLength = 0;
             Txt_FileName.CesMultiLine = false;
             Txt_FileName.CesNotificationColor = Color.Red;
@@ -2564,6 +2564,7 @@
             Btn_ReadFile.Name = "Btn_ReadFile";
             Btn_ReadFile.Size = new Size(110, 35);
             Btn_ReadFile.TabIndex = 10;
+            Btn_ReadFile.Click += Btn_ReadFile_Click;
             // 
             // Btn_Save
             // 

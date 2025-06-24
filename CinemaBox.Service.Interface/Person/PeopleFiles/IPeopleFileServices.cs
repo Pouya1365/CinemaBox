@@ -6,5 +6,6 @@ public interface IPeopleFileServices
 {
     Task CreateOrUpdatePeopleImage(string path, string imageUrl, string peopleId, string peopleName);
     Task<IEnumerable<PeopleFile?>> GetPeopleFile(List<string> peopleIds);
+    Task<PeopleFile?> GetPeopleFileWitInclude(string peopleId);
 
 }
