@@ -80,7 +80,7 @@
             Txt_EnStoryline = new Ces.WinForm.UI.CesTextBox();
             Txt_FaStoryline = new Ces.WinForm.UI.CesTextBox();
             Txt_Plot = new Ces.WinForm.UI.CesTextBox();
-            pictureBox2 = new PictureBox();
+            Pic_UserMovie = new PictureBox();
             Pic_Poster = new PictureBox();
             Cmb_Certificate = new Ces.WinForm.UI.CesComboBox.CesComboBox();
             Chk_IsTv = new Ces.WinForm.UI.CesToggleButton();
@@ -118,7 +118,7 @@
             Tb_Audio.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Dgv_Audio).BeginInit();
             Tb_UserDiskInfo.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)Pic_UserMovie).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Pic_Poster).BeginInit();
             Tb_Crews.SuspendLayout();
             Tb_Cast.SuspendLayout();
@@ -161,7 +161,7 @@
             Tb_MainDetails.Controls.Add(Txt_EnStoryline);
             Tb_MainDetails.Controls.Add(Txt_FaStoryline);
             Tb_MainDetails.Controls.Add(Txt_Plot);
-            Tb_MainDetails.Controls.Add(pictureBox2);
+            Tb_MainDetails.Controls.Add(Pic_UserMovie);
             Tb_MainDetails.Controls.Add(Pic_Poster);
             Tb_MainDetails.Controls.Add(Cmb_Certificate);
             Tb_MainDetails.Controls.Add(Chk_IsTv);
@@ -1130,10 +1130,10 @@
             Tb_UserDiskInfo.Controls.Add(Txt_FileName);
             Tb_UserDiskInfo.Controls.Add(Txt_MyRunTime);
             Tb_UserDiskInfo.Controls.Add(Cmb_MyStatus);
-            Tb_UserDiskInfo.Location = new Point(4, 28);
+            Tb_UserDiskInfo.Location = new Point(4, 24);
             Tb_UserDiskInfo.Name = "Tb_UserDiskInfo";
             Tb_UserDiskInfo.Padding = new Padding(3);
-            Tb_UserDiskInfo.Size = new Size(778, 353);
+            Tb_UserDiskInfo.Size = new Size(778, 357);
             Tb_UserDiskInfo.TabIndex = 9;
             Tb_UserDiskInfo.Text = "وضعیت فیلم";
             Tb_UserDiskInfo.UseVisualStyleBackColor = true;
@@ -1734,13 +1734,15 @@
             Txt_Plot.Size = new Size(386, 125);
             Txt_Plot.TabIndex = 19;
             // 
-            // pictureBox2
+            // Pic_UserMovie
             // 
-            pictureBox2.Location = new Point(6, 274);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(228, 261);
-            pictureBox2.TabIndex = 18;
-            pictureBox2.TabStop = false;
+            Pic_UserMovie.Location = new Point(6, 274);
+            Pic_UserMovie.Name = "Pic_UserMovie";
+            Pic_UserMovie.Size = new Size(228, 261);
+            Pic_UserMovie.SizeMode = PictureBoxSizeMode.StretchImage;
+            Pic_UserMovie.TabIndex = 18;
+            Pic_UserMovie.TabStop = false;
+            Pic_UserMovie.Click += Pic_UserMovie_Click;
             // 
             // Pic_Poster
             // 
@@ -2621,7 +2623,7 @@
             Tb_Audio.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)Dgv_Audio).EndInit();
             Tb_UserDiskInfo.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)Pic_UserMovie).EndInit();
             ((System.ComponentModel.ISupportInitialize)Pic_Poster).EndInit();
             Tb_Crews.ResumeLayout(false);
             Tb_Cast.ResumeLayout(false);
@@ -2649,7 +2651,7 @@
         private Ces.WinForm.UI.CesToggleButton Chk_IsTv;
         private Ces.WinForm.UI.CesComboBox.CesComboBox Cmb_Certificate;
         private Ces.WinForm.UI.CesTextBox Txt_Plot;
-        private PictureBox pictureBox2;
+        private PictureBox Pic_UserMovie;
         private PictureBox Pic_Poster;
         private Ces.WinForm.UI.CesTextBox Txt_FaStoryline;
         private Ces.WinForm.UI.CesTextBox Txt_EnStoryline;

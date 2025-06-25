@@ -1,5 +1,6 @@
 ﻿using CinemaBox.Utilities.Download;
 
+
 namespace CinemaBox.Utilities.Files;
 
 public static class FileExtension
@@ -21,6 +22,15 @@ public static class FileExtension
         fileName = SanitizeFileName(fileName);
         string fullPath = Path.Combine(serverFolderPath, fileName);
         await File.WriteAllBytesAsync(fullPath, imageBytes);
+        return fileName;
+    }
+    public static async Task<string> SaveFile(byte[] imageUrl, string id, string name, string serverFolderPath)
+    {
+        string fileName = $"{id}_{name}.jpg";
+        fileName = SanitizeFileName(fileName);
+        string fullPath = Path.Combine(serverFolderPath, fileName);
+        await File.WriteAllBytesAsync(fullPath, imageUrl);
+
         return fileName;
     }
     public static string SanitizeFileName(string fileName)

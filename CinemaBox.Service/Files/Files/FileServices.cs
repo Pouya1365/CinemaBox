@@ -14,7 +14,7 @@ public class FileServices(IUnitOfWork unitOfWork, IServerServices serverServices
     public async Task<Domain.Files.Files.File?> CreateOrGetFileAsync(ServerTypeEnumeration serverTypeEnumeration, string fileName)
     {
         Server? server = await GetServer(serverTypeEnumeration: serverTypeEnumeration);
-        Domain.Files.Files.File? file = await _unitOfWork.Repository<Domain.Files.Files.File>().FindAsync(x => x.FileName == fileName);
+        Domain.Files.Files.File? file = await _unitOfWork.Repository<Domain.Files.Files.File>().FindAsync(x => x.FileName == fileName && x.ServerId==server.Id);
         if (file == null)
         {
             file = new() { ServerId = server.Id, FileName = fileName, };
@@ -34,7 +34,7 @@ public class FileServices(IUnitOfWork unitOfWork, IServerServices serverServices
             {
                 FileExtension.DeleteFile(existingFilePath);
                 _unitOfWork.Repository<Domain.Files.Files.File>().Remove(existingFile);
-                await _unitOfWork.CompleteAsync();
+               // await _unitOfWork.CompleteAsync();
             }
         }
     }

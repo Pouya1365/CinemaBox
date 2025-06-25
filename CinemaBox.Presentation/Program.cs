@@ -35,6 +35,7 @@ using CinemaBox.Service.Interface.Entertainment.Movies;
 using CinemaBox.Service.Interface.Files.Files;
 using CinemaBox.Service.Interface.Managment.Link.UserMovieAudios;
 using CinemaBox.Service.Interface.Managment.Link.UserMovieDisks;
+using CinemaBox.Service.Interface.Managment.Link.UserMovieFiles;
 using CinemaBox.Service.Interface.Managment.Link.UserMovieVideos;
 using CinemaBox.Service.Interface.Person.PeopleFiles;
 using CinemaBox.Service.Interface.Person.Peoples;
@@ -47,6 +48,7 @@ using CinemaBox.Service.Interface.Shared.Languages;
 using CinemaBox.Service.Interface.Shared.Statuses;
 using CinemaBox.Service.Managment.Link.UserMovieAudios;
 using CinemaBox.Service.Managment.Link.UserMovieDisks;
+using CinemaBox.Service.Managment.Link.UserMovieFiles;
 using CinemaBox.Service.Managment.Link.UserMovieVideos;
 using CinemaBox.Service.Person.PeopleFiles;
 using CinemaBox.Service.Person.Peoples;
@@ -127,6 +129,7 @@ namespace CinemaBox.Presentation;
         services.AddScoped<IStatusServices, StatusServices>();
         services.AddScoped<IFormatServices, FormatServices>();
         services.AddScoped<IUserMovieAudioServices, UserMovieAudioServices>();
+        services.AddScoped<IUserMovieFileServices, UserMovieFileServices>();
         // 📦 رجیستر کردن فرم‌ها
         services.AddTransient<Frm_Movie>();
 

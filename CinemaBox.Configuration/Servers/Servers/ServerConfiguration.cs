@@ -16,7 +16,9 @@ public class ServerConfiguration : IEntityTypeConfiguration<Server>
         builder.Property(s => s.ServerName).HasMaxLength(50).HasComment(comment: "عنوان سرور");
         builder.Property(s => s.Path).HasMaxLength(250).HasComment(comment: "مسیر");
         builder.HasOne(s => s.ServerType).WithMany(s => s.Servers).HasForeignKey(s => s.ServerTypeId);
-        builder.HasData(new Server { Path = "Images/People", ServerName = "PeoplePrimaryImage", ServerTypeId = 1, Id = 1 });
-        builder.HasData(new Server { Path = "Images/Movie", ServerName = "MoviePrimaryImage", ServerTypeId = 2, Id = 2 });
+        builder.HasData(
+            new Server { Path = "Images/People", ServerName = "PeoplePrimaryImage", ServerTypeId = 1, Id = 1 },
+            new Server { Path = "Images/Movie", ServerName = "MoviePrimaryImage", ServerTypeId = 2, Id = 2 },
+            new Server { Path = "Images/UserMovie", ServerName = "UserMoviePrimaryImage", ServerTypeId = 3, Id = 3 });
     }
 }

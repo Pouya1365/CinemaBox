@@ -18,6 +18,7 @@ using CinemaBox.Configuration.Entertainment.Movies;
 using CinemaBox.Configuration.Files.Files;
 using CinemaBox.Configuration.Managment.Link.UserMovieAudios;
 using CinemaBox.Configuration.Managment.Link.UserMovieDisks;
+using CinemaBox.Configuration.Managment.Link.UserMovieFiles;
 using CinemaBox.Configuration.Managment.Link.UserMovieVideos;
 using CinemaBox.Configuration.Person.PeopleFiles;
 using CinemaBox.Configuration.Person.Peoples;
@@ -48,6 +49,7 @@ using CinemaBox.Domain.Entertainment.Link.MovieTaglines;
 using CinemaBox.Domain.Entertainment.Movies;
 using CinemaBox.Domain.Managment.Link.UserMovieAudios;
 using CinemaBox.Domain.Managment.Link.UserMovieDisks;
+using CinemaBox.Domain.Managment.Link.UserMovieFiles;
 using CinemaBox.Domain.Managment.Link.UserMovieVideos;
 using CinemaBox.Domain.Person.PeopleFiles;
 using CinemaBox.Domain.Person.Peoples;
@@ -94,6 +96,7 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
     public DbSet<Format> Formats { get; set; }
     public DbSet<UserMovieAudio> UserMovieAudios { get; set; }
     public DbSet<UserMovieVideo> UserMovieVideos { get; set; }  
+    public DbSet<UserMovieFile> UserMovieFiles { get; set; }  
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
@@ -133,5 +136,6 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
         modelBuilder.ApplyConfiguration(new FormatConfiguration());
         modelBuilder.ApplyConfiguration(new UserMovieAudioConfiguration());
         modelBuilder.ApplyConfiguration(new UserMovieVideoConfiguration());
+        modelBuilder.ApplyConfiguration(new UserMovieFileConfiguration());
     }
 }

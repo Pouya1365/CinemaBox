@@ -14,6 +14,7 @@ using CinemaBox.Domain.Entertainment.Link.MovieTaglines;
 using CinemaBox.Domain.Entertainment.Movies;
 using CinemaBox.Domain.Managment.Link.UserMovieAudios;
 using CinemaBox.Domain.Managment.Link.UserMovieDisks;
+using CinemaBox.Domain.Managment.Link.UserMovieFiles;
 using CinemaBox.Domain.Managment.Link.UserMovieVideos;
 using CinemaBox.Domain.Person.PeopleFiles;
 using CinemaBox.Domain.Shared.Currencies;
@@ -23,9 +24,11 @@ using CinemaBox.Domain.Shared.Statuses;
 using CinemaBox.Enumeration.Entertainment.Crew;
 using CinemaBox.Enumeration.MediaInfo.MediaInfo;
 using CinemaBox.Model.Entertainment.Cast.CreditShow;
+using CinemaBox.Model.Entertainment.Movie.Movie;
 using CinemaBox.Model.MediaInfo.MediaInfo;
 using CinemaBox.Presentation.MediaInfo;
 using CinemaBox.Presentation.Person.Peoples;
+using CinemaBox.Service.Entertainment.Link.MovieFiles;
 using CinemaBox.Service.Interface.Entertainment.Certificates;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCompanies;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCountries;
@@ -39,6 +42,7 @@ using CinemaBox.Service.Interface.Entertainment.Link.MovieTaglines;
 using CinemaBox.Service.Interface.Entertainment.Movies;
 using CinemaBox.Service.Interface.Managment.Link.UserMovieAudios;
 using CinemaBox.Service.Interface.Managment.Link.UserMovieDisks;
+using CinemaBox.Service.Interface.Managment.Link.UserMovieFiles;
 using CinemaBox.Service.Interface.Managment.Link.UserMovieVideos;
 using CinemaBox.Service.Interface.Person.PeopleFiles;
 using CinemaBox.Service.Interface.Person.Peoples;
@@ -46,10 +50,13 @@ using CinemaBox.Service.Interface.Shared.Currencies;
 using CinemaBox.Service.Interface.Shared.Formats;
 using CinemaBox.Service.Interface.Shared.Languages;
 using CinemaBox.Service.Interface.Shared.Statuses;
+using CinemaBox.Service.Managment.Link.UserMovieFiles;
 using CinemaBox.UserController.Entertainment.CreditShow;
 using CinemaBox.Utilities.DateTimeExtension.DateExtensions;
 using CinemaBox.Utilities.DateTimeExtension.TimeExtension;
 using CinemaBox.Utilities.Lables;
+using Microsoft.VisualBasic.Devices;
+using System.IO;
 
 
 namespace CinemaBox.Presentation.Entertainment.Movies.EditMovie;
@@ -76,6 +83,7 @@ public partial class Frm_EditFormMovie : CesForm
     private readonly IFormatServices? _formatServices;
     private readonly IUserMovieAudioServices? _userMovieAudioServices;
     private readonly ILanguageServices? _languageServices;
+    private readonly IUserMovieFileServices? _userMovieFileServices;
     private readonly string? _movieId;
     public Frm_EditFormMovie(IMovieServices movieServices,
         string? movieId,
@@ -97,7 +105,8 @@ public partial class Frm_EditFormMovie : CesForm
         IStatusServices? statusesServices,
         IFormatServices? formatServices,
         IUserMovieAudioServices? userMovieAudioServices,
-        ILanguageServices? languageServices
+        ILanguageServices? languageServices,
+        IUserMovieFileServices? userMovieFileServices
 
         )
     {
@@ -121,6 +130,7 @@ public partial class Frm_EditFormMovie : CesForm
         _formatServices = formatServices ?? throw new ArgumentNullException(nameof(formatServices));
         _userMovieAudioServices = userMovieAudioServices ?? throw new ArgumentNullException(nameof(userMovieAudioServices));
         _languageServices = languageServices ?? throw new ArgumentNullException(nameof(languageServices));
+        _userMovieFileServices = userMovieFileServices ?? throw new ArgumentNullException(nameof(userMovieFileServices));
         _movieId = movieId;
         InitializeComponent();
         _ = IntialData();
@@ -143,6 +153,7 @@ public partial class Frm_EditFormMovie : CesForm
         await SetUserMovieDisks();
         await SeteUserMovieVideoAsync();
         await SetUserMovieAudiosAsync();
+        await SetUserMovieFileAsync();
     }
     private async Task SetMovieBasicFields()
     {
@@ -266,7 +277,7 @@ public partial class Frm_EditFormMovie : CesForm
         Txt_FileName.CesText = userMovieDisk.FileName;
         Txt_FileSize.CesText = userMovieDisk.FileSize.ToString();
         Chk_IsDubbed.CesCheck = userMovieDisk.IsDubbed;
-        Txt_MyHourTime.CesText = HourTimeExtension.FormatHourMinutesToTimeString((int)userMovieDisk.MyTime);
+        Txt_MyHourTime.CesText = HourTimeExtension.FormatHourMinutesToTimeString((int?)userMovieDisk.MyTime ?? 0);
         await LoadComboBoxDataAsync<Status>(
     "StatusCache",
     Cmb_MyStatus,
@@ -296,6 +307,15 @@ public partial class Frm_EditFormMovie : CesForm
         Txt_AspectRatio.CesText = userMovieVideo.AspectRatio;
         Txt_Resolution.CesText = userMovieVideo.Resolution;
     }
+    private async Task SetUserMovieFileAsync()
+    {
+        UserMovieFile usermovieFiles = await GetUserMovieFileAsync();
+        if (usermovieFiles is null)
+            return;
+        string filePath = Path.Combine(usermovieFiles.File.Server.Path, usermovieFiles.File.FileName);
+        Pic_UserMovie.Image = Image.FromFile(filePath);
+    }
+    private async Task<UserMovieFile> GetUserMovieFileAsync() => await _userMovieFileServices.GetUserMovieFile(movieId: _movieId);
     #endregion
     #region CreateLabel
     public void CreateDynamicLabels<T>(List<T> items, FlowLayoutPanel container, Func<T, string> getText, int marginBottom = 0)
@@ -480,6 +500,28 @@ public partial class Frm_EditFormMovie : CesForm
         await SaveUserMovieDiskAsync();
         await SaveUserMovieVideoAsync();
         await SaveUserMovieAudiosAsync();
+        await SaveUserMovieFilesAsync();
+    }
+
+    private async Task SaveUserMovieFilesAsync()
+    {
+        if (Pic_UserMovie.Image is null)
+            return;
+        string endYear = Txt_EndYear.CesText != null ? @$"-{Txt_EndYear.CesText}" : "";
+        string movieName = $@"{Txt_EnTitle.CesText}_{Txt_Year.CesText}{endYear}";
+        string path = Application.StartupPath;
+        byte[] image = ImageToByteArray(Pic_UserMovie);
+        await CopyUserMovie(path: path, image, movieName: movieName);
+    }
+    public static byte[] ImageToByteArray(PictureBox pictureBox)
+    {
+        if (pictureBox.Image == null)
+            return null;
+
+        using MemoryStream ms = new();
+        using Bitmap bmp = new(pictureBox.Image); // 👈 گرفتن کپی از تصویر برای رفع مشکل قفل
+        bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+        return ms.ToArray();
     }
     private async Task SaveMovieInfoAsync()
     {
@@ -578,7 +620,7 @@ public partial class Frm_EditFormMovie : CesForm
     private async Task CreateOrUpdateUserMovieDisk(UserMovieDisk userMovieDisk) => await _userMovieDiskServices.CreateOrUpdateUserMovieDiskAsync(userMovieDisk: userMovieDisk);
     private async Task<UserMovieVideo?> GetUserMovieVideoAsync() => await _userMovieVideoServices.GetMovieVideoAsync(movieId: _movieId) ?? new();
     private async Task CreateOrUpdateUserMovieVideo(UserMovieVideo userMovieVideo) => await _userMovieVideoServices.CreateOrUpdateUserMovieVideoAsync(userMovieVideo: userMovieVideo);
-    private async Task<Status?> GetStatusAsync(string statusName) => await _statusesServices.GetStatusAsync(statusesName: statusName);
+
     private async Task<IEnumerable<Status>> GetAllStatusAsync() => await _statusesServices.GetAllStatuses();
     private async Task<Format?> GetFormatAsync(string formatName) => await _formatServices.CreateOrGetFormatAsync(formatName: formatName);
     private async Task<IEnumerable<UserMovieAudio>> GetMovieAudiosAsync() => await _userMovieAudioServices.GetUserMovieAudioAsync(movieId: _movieId);
@@ -586,4 +628,21 @@ public partial class Frm_EditFormMovie : CesForm
     private async Task<Language?> GetLanguageAsync(string languageName) => await _languageServices.CreateOrGetLanguageAsync(languageName: languageName, isoCode: languageName);
     private async Task CreateUserMovieAudio(List<UserMovieAudio> userMovieAudios) => await _userMovieAudioServices.CreateUserMovieAudioAsync(userMovieAudios: userMovieAudios);
     private async Task<IEnumerable<UserMovieAudio>> GetUserMovieAudio() => await _userMovieAudioServices.GetMovieAudiosAsync(movieId: _movieId);
+    private void Pic_UserMovie_Click(object sender, EventArgs e)
+    {
+        using OpenFileDialog open = new();
+        if (open.ShowDialog() != DialogResult.OK || string.IsNullOrWhiteSpace(open.FileName))
+            return;
+        try
+        {
+            Pic_UserMovie.Image = null;
+            Pic_UserMovie.Image = Image.FromFile(open.FileName);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"خطا در خواندن فایل:\n{ex.Message}", "خطا", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+    }
+
+    private async Task CopyUserMovie(string path, byte[] image, string movieName) => await _userMovieFileServices.CreateOrUpdateUserMovieImage(path: path, image: image, movieId: _movieId, movieName: movieName);
 }

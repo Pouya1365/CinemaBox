@@ -4,4 +4,5 @@ public enum ServerTypeEnumeration
 {
     PeoplePrimaryImage = 1,
     MoviePrimaryImage = 2,
+    UserMoviePrimaryImage = 3,
 }

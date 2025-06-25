@@ -1,5 +1,4 @@
 ﻿using CinemaBox.Domain.Entertainment.Link.MovieFiles;
-using CinemaBox.Domain.Files.Files;
 using CinemaBox.Domain.Servers.Servers;
 using CinemaBox.Enumeration.Servers.ServersType;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieFiles;
@@ -48,11 +47,5 @@ public class MovieFileServices(IUnitOfWork unitOfWork, IServerServices serverSer
     private void RemoveFile(long fileId, string serverFolderPath) => _fileServices.RemoveFile(fileId: fileId, serverFolderPath: serverFolderPath);
     private async Task<Domain.Files.Files.File?> GetOrCreateFile(ServerTypeEnumeration serverTypeEnumeration, string fileName) => await _fileServices.CreateOrGetFileAsync(serverTypeEnumeration: serverTypeEnumeration, fileName);
     public async Task<MovieFile> GetMovieFile(string movieId) => await unitOfWork.Repository<MovieFile>().FindAsync(x => x.MovieId == movieId);
-    public async Task<IEnumerable<MovieFile>> GetMovieFile2(string movieId) =>
-        await unitOfWork.Repository<MovieFile>()
-            .GetAllWithMultipleIncludesWithPredicateAsync<Domain.Files.Files.File, Server>(
-                x => x.MovieId == movieId,
-                x => x.File,       // navigation property
-                x => x.Server
-            );
+ 
 }

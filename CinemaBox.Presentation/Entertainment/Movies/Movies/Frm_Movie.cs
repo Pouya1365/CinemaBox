@@ -17,6 +17,7 @@ using CinemaBox.Service.Interface.Entertainment.Link.MovieTaglines;
 using CinemaBox.Service.Interface.Entertainment.Movies;
 using CinemaBox.Service.Interface.Managment.Link.UserMovieAudios;
 using CinemaBox.Service.Interface.Managment.Link.UserMovieDisks;
+using CinemaBox.Service.Interface.Managment.Link.UserMovieFiles;
 using CinemaBox.Service.Interface.Managment.Link.UserMovieVideos;
 using CinemaBox.Service.Interface.Person.PeopleFiles;
 using CinemaBox.Service.Interface.Person.Peoples;
@@ -49,6 +50,7 @@ public partial class Frm_Movie : CesForm
     private readonly IFormatServices _formatServices;
     private readonly IUserMovieAudioServices _userMovieAudioServices;
     private readonly ILanguageServices _languageServices;
+    private readonly IUserMovieFileServices _userMovieFileServices;
     public Frm_Movie(IImdbMovieScrapperServices imdbScrapperServices,
         IMovieServices movieServices,
         IMovieCompanyServices movieCompanyServices,
@@ -69,7 +71,8 @@ public partial class Frm_Movie : CesForm
         IStatusServices statusesServices,
         IFormatServices formatServices,
         IUserMovieAudioServices userMovieAudioServices,
-        ILanguageServices languageServices
+        ILanguageServices languageServices,
+        IUserMovieFileServices userMovieFileServices
         )
     {
         InitializeComponent();
@@ -94,10 +97,13 @@ public partial class Frm_Movie : CesForm
         _formatServices = formatServices ?? throw new ArgumentNullException(nameof(formatServices));
         _userMovieAudioServices = userMovieAudioServices ?? throw new ArgumentNullException(nameof(userMovieAudioServices));
         _languageServices = languageServices ?? throw new ArgumentNullException(nameof(languageServices));
+        _userMovieFileServices = userMovieFileServices ?? throw new ArgumentNullException(nameof(userMovieFileServices));
     }
 
     private async void Btn_GetInfo_Click(object sender, EventArgs e)
     {
+        if (Txt_Search.CesText is null)
+            return;
         MovieModelScrapping movieModelScrapping = await _imdbScrapperServices.ImdbScrapperServicesAsync(imdbId: Txt_Search.CesText);
         Movie movie = await _movieServices.CreateOrUpdate(model: movieModelScrapping);
         await _movieCompanyServices.CreateOrGetMovieCompanyAsync(movieId: Txt_Search.CesText, companieskeyValuePairs: movieModelScrapping.Companies);
@@ -112,9 +118,10 @@ public partial class Frm_Movie : CesForm
         string endYear = movie.EndYear != null ? @$"-{movie.EndYear}" : "";
         string movieName = $@"{movie.EnTitle}_{movie.StartYear}{endYear}";
         await _movieFileServices.CreateOrUpdateMovieImage(path: path, imageUrl: movieModelScrapping.ImageUrl, movieId: movie.Id, movieName: movieName);
+       LoadMovie(null);
     }
 
-    private void Frm_Movie_Load(object sender, EventArgs e)
+    private async void Frm_Movie_Load(object sender, EventArgs e)
     {
         LoadMovie(null);
     }
@@ -162,7 +169,8 @@ public partial class Frm_Movie : CesForm
             statusesServices: _statusesServices,
             formatServices: _formatServices,
             userMovieAudioServices: _userMovieAudioServices,
-            languageServices: _languageServices
+            languageServices: _languageServices,
+            userMovieFileServices: _userMovieFileServices
 
             );
         frm_EditForm.ShowDialog();
