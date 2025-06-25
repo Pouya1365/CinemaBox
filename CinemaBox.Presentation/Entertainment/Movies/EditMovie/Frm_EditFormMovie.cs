@@ -12,8 +12,14 @@ using CinemaBox.Domain.Entertainment.Link.MovieLocations;
 using CinemaBox.Domain.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Domain.Entertainment.Link.MovieTaglines;
 using CinemaBox.Domain.Entertainment.Movies;
+using CinemaBox.Domain.Managment.Link.UserMovieAudios;
+using CinemaBox.Domain.Managment.Link.UserMovieDisks;
+using CinemaBox.Domain.Managment.Link.UserMovieVideos;
 using CinemaBox.Domain.Person.PeopleFiles;
 using CinemaBox.Domain.Shared.Currencies;
+using CinemaBox.Domain.Shared.Formats;
+using CinemaBox.Domain.Shared.Languages;
+using CinemaBox.Domain.Shared.Statuses;
 using CinemaBox.Enumeration.Entertainment.Crew;
 using CinemaBox.Enumeration.MediaInfo.MediaInfo;
 using CinemaBox.Model.Entertainment.Cast.CreditShow;
@@ -31,13 +37,21 @@ using CinemaBox.Service.Interface.Entertainment.Link.MovieLocations;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieTaglines;
 using CinemaBox.Service.Interface.Entertainment.Movies;
+using CinemaBox.Service.Interface.Managment.Link.UserMovieAudios;
+using CinemaBox.Service.Interface.Managment.Link.UserMovieDisks;
+using CinemaBox.Service.Interface.Managment.Link.UserMovieVideos;
 using CinemaBox.Service.Interface.Person.PeopleFiles;
 using CinemaBox.Service.Interface.Person.Peoples;
 using CinemaBox.Service.Interface.Shared.Currencies;
+using CinemaBox.Service.Interface.Shared.Formats;
+using CinemaBox.Service.Interface.Shared.Languages;
+using CinemaBox.Service.Interface.Shared.Statuses;
 using CinemaBox.UserController.Entertainment.CreditShow;
 using CinemaBox.Utilities.DateTimeExtension.DateExtensions;
 using CinemaBox.Utilities.DateTimeExtension.TimeExtension;
 using CinemaBox.Utilities.Lables;
+using System.Collections.Generic;
+
 
 namespace CinemaBox.Presentation.Entertainment.Movies.EditMovie;
 
@@ -57,6 +71,12 @@ public partial class Frm_EditFormMovie : CesForm
     private readonly IMovieCreditServices? _movieCreditServices;
     private readonly IPeopleFileServices? _peopleFileServices;
     private readonly IPeopleServices? _peopleServices;
+    private readonly IUserMovieDiskServices? _userMovieDiskServices;
+    private readonly IUserMovieVideoServices? _userMovieVideoServices;
+    private readonly IStatusesServices? _statusesServices;
+    private readonly IFormatServices? _formatServices;
+    private readonly IUserMovieAudioServices? _userMovieAudioServices;
+    private readonly ILanguageServices? _languageServices;
     private readonly string? _movieId;
     public Frm_EditFormMovie(IMovieServices movieServices,
         string? movieId,
@@ -72,7 +92,13 @@ public partial class Frm_EditFormMovie : CesForm
         IMovieFileServices? movieFileServices,
         IMovieCreditServices? movieCreditServices,
         IPeopleFileServices? peopleFileServices,
-        IPeopleServices? peopleServices
+        IPeopleServices? peopleServices,
+        IUserMovieDiskServices? userMovieDiskServices,
+        IUserMovieVideoServices? userMovieVideoServices,
+        IStatusesServices? statusesServices,
+        IFormatServices? formatServices,
+        IUserMovieAudioServices? userMovieAudioServices,
+        ILanguageServices? languageServices
 
         )
     {
@@ -90,6 +116,12 @@ public partial class Frm_EditFormMovie : CesForm
         _movieCreditServices = movieCreditServices ?? throw new ArgumentNullException(nameof(movieCreditServices));
         _peopleFileServices = peopleFileServices ?? throw new ArgumentNullException(nameof(peopleFileServices));
         _peopleServices = peopleServices ?? throw new ArgumentNullException(nameof(peopleServices));
+        _userMovieDiskServices = userMovieDiskServices ?? throw new ArgumentNullException(nameof(userMovieDiskServices));
+        _userMovieVideoServices = userMovieVideoServices ?? throw new ArgumentNullException(nameof(userMovieVideoServices));
+        _statusesServices = statusesServices ?? throw new ArgumentNullException(nameof(statusesServices));
+        _formatServices = formatServices ?? throw new ArgumentNullException(nameof(formatServices));
+        _userMovieAudioServices = userMovieAudioServices ?? throw new ArgumentNullException(nameof(userMovieAudioServices));
+        _languageServices = languageServices ?? throw new ArgumentNullException(nameof(languageServices));
         _movieId = movieId;
         InitializeComponent();
         _ = IntialData();
@@ -290,6 +322,7 @@ public partial class Frm_EditFormMovie : CesForm
     private async Task<IEnumerable<MovieCredit?>> GetMovieCreditsAsync() => await _movieCreditServices.GetMovieCreditsAsync(movieId: _movieId);
     private async Task<IEnumerable<PeopleFile?>> GetPeopleFileAsync(List<string> peopleIds) => await _peopleFileServices.GetPeopleFile(peopleIds: peopleIds);
     #endregion
+    #region LoadPeople
     private void PeopleBox_PosterClicked(object sender, string peopleId)
     {
         Frm_EditPeople frm_EditPeople = new(
@@ -300,7 +333,8 @@ public partial class Frm_EditFormMovie : CesForm
             );
         frm_EditPeople.ShowDialog();
     }
-
+    #endregion
+    #region ReadFile
     private void Btn_ReadFile_Click(object sender, EventArgs e)
     {
         using OpenFileDialog open = new();
@@ -320,8 +354,8 @@ public partial class Frm_EditFormMovie : CesForm
         MediaInfoResult? fileInfo = MediaServices.GetInfoMedia(filePath);
         if (fileInfo?.Media?.Tracks == null)
             throw new InvalidOperationException("اطلاعات مدیا یافت نشد.");
-        List<Model.MediaInfo.MediaInfo.Track> tracks = fileInfo.Media.Tracks;
-        Model.MediaInfo.MediaInfo.Track videoTrack = GetVideoTrack(tracks);
+        List<Track> tracks = fileInfo.Media.Tracks;
+        Track videoTrack = GetVideoTrack(tracks);
         double durationSeconds = GetDurationInSeconds(videoTrack);
         SetGeneralVideoInfo(videoTrack, filePath);
         SetDurationInfo(durationSeconds);
@@ -329,17 +363,15 @@ public partial class Frm_EditFormMovie : CesForm
         SetAudioAndSubtitleInfo(tracks);
         SetAudioGrid(tracks);
     }
-    private Model.MediaInfo.MediaInfo.Track GetVideoTrack(List<Model.MediaInfo.MediaInfo.Track> tracks)=> tracks.FirstOrDefault(x => x.Type == MediaInfoEnumeration.Video.ToString())
+    private Track GetVideoTrack(List<Track> tracks) => tracks.FirstOrDefault(x => x.Type == MediaInfoEnumeration.Video.ToString())
                ?? throw new InvalidOperationException("Track ویدیویی یافت نشد.");
- 
-
-    private double GetDurationInSeconds(Model.MediaInfo.MediaInfo.Track videoTrack)
+    private double GetDurationInSeconds(Track videoTrack)
     {
         if (!double.TryParse(videoTrack.Duration, out double duration))
             throw new FormatException("خطا در خواندن مدت زمان ویدیو (Duration).");
         return duration;
     }
-    private void SetGeneralVideoInfo(Model.MediaInfo.MediaInfo.Track videoTrack, string filePath)
+    private void SetGeneralVideoInfo(Track videoTrack, string filePath)
     {
         Txt_FileName.CesText = Path.GetFileNameWithoutExtension(filePath);
         Txt_Format.CesText = videoTrack.Format;
@@ -357,12 +389,13 @@ public partial class Frm_EditFormMovie : CesForm
     }
     private void SetFileSizeInfo(string filePath)
     {
-        FileInfo fileInfo = new FileInfo(filePath);
+        FileInfo fileInfo = new(filePath);
         double fileSizeInGB = fileInfo.Length / (1024.0 * 1024.0 * 1024.0);
         Txt_FileSize.CesText = $"{fileSizeInGB:F2}";
     }
-    private void SetAudioAndSubtitleInfo(List<Model.MediaInfo.MediaInfo.Track> tracks)
+    private void SetAudioAndSubtitleInfo(List<Track> tracks)
     {
+        ArgumentNullException.ThrowIfNull(tracks);
         Chk_IsDubbed.CesCheck = tracks.Any(x =>
             x.Type == MediaInfoEnumeration.Audio.ToString() &&
             x.Language?.Trim().ToLower() == "fa");
@@ -370,16 +403,132 @@ public partial class Frm_EditFormMovie : CesForm
             x.Type == MediaInfoEnumeration.Text.ToString() &&
             x.Language?.Trim().ToLower() == "fa");
     }
-    private void SetAudioGrid(List<Model.MediaInfo.MediaInfo.Track> tracks)
+    private void SetAudioGrid(List<Track> tracks)
     {
-        var audioTracks = tracks
+        List<AudioTracksModel> audioTracks = [.. tracks
             .Where(x => x.Type == MediaInfoEnumeration.Audio.ToString())
-            .Select( x=>new AudioTracksModel { Channels=x.Channels,Format=x.Format,Language=x.Language})
-            .ToList();
+            .Select(x => new AudioTracksModel { Channels = x.Channels, Format = x.Format, Language = x.Language })];
         Dgv_Audio.CesDataSource = audioTracks;
         Dgv_Audio.ReadOnly = false; // فعال‌سازی ویرایش
         Dgv_Audio.AllowUserToAddRows = true;   // اجازه اضافه‌کردن ردیف جدید
         Dgv_Audio.AllowUserToDeleteRows = true; // اجازه حذف ردیف
         Dgv_Audio.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
     }
+    #endregion
+    private async void Btn_Save_Click(object sender, EventArgs e)=>
+        await SaveMovieDataAsync();
+  
+    public async Task SaveMovieDataAsync()
+    {
+        await SaveMovieInfoAsync();
+        await SaveUserMovieDiskAsync();
+        await SaveUserMovieVideoAsync();
+        await SaveUserMovieAudiosAsync();
+    }
+    private async Task SaveMovieInfoAsync()
+    {
+        Movie? movie = await GetMovie();
+        if (movie is not null)
+        {
+            if (!string.IsNullOrWhiteSpace(Txt_FaTitle.CesText))
+                movie.FaTitle = Txt_FaTitle.CesText;
+            if (!string.IsNullOrWhiteSpace(Txt_FaStoryline.CesText))
+                movie.FaStoryline = Txt_FaStoryline.CesText;
+            movie.IsTvShow = Chk_IsTv.CesToggle;
+            await UpdateMovie(movie);
+        }
+    }
+    private async Task SaveUserMovieDiskAsync()
+    {
+        UserMovieDisk? userMovieDisk = await GetUserMovieDiskAsync();
+        if (userMovieDisk is null)
+            return;
+        userMovieDisk.IsSubtitle = Chk_Subtitle.CesCheck;
+        if (int.TryParse(Txt_MovieNumber.CesText, out int movieNumber))
+            userMovieDisk.MovieNumber = movieNumber;
+        if (int.TryParse(Txt_MyRunTime.CesText, out int myTime))
+            userMovieDisk.MyTime = myTime;
+        userMovieDisk.PositionMovie = Txt_PositionMovie.CesText;
+        userMovieDisk.FileName = Txt_FileName.CesText;
+        if (decimal.TryParse(Txt_FileSize.CesText, out decimal fileSize))
+            userMovieDisk.FileSize = fileSize;
+        userMovieDisk.IsDubbed = Chk_IsDubbed.CesCheck;
+        userMovieDisk.Id = Txt_Imdb.CesText;
+        Status? status = await GetStatusAsync(Cmb_MyStatus.CesSelectedValue?.ToString());
+        if (status is not null)
+            userMovieDisk.StatusId = status.Id;
+        await CreateOrUpdateUserMovieDisk(userMovieDisk);
+    }
+
+    private async Task SaveUserMovieVideoAsync()
+    {
+        UserMovieVideo? userMovieVideo = await GetUserMovieVideoAsync();
+        if (userMovieVideo is null) 
+            return;
+
+        var format = await GetFormatAsync(Txt_Format.CesText);
+        if (format is not null)
+            userMovieVideo.FormatId = format.Id;
+
+        userMovieVideo.BitRate = Txt_Bitrate.CesText;
+        userMovieVideo.FPS = Txt_FPS.CesText;
+        userMovieVideo.AspectRatio = Txt_AspectRatio.CesText;
+        userMovieVideo.Resolution = Txt_Resolution.CesText;
+        userMovieVideo.Id = Txt_Imdb.CesText;
+
+        await CreateOrUpdateUserMovieVideo(userMovieVideo);
+    }
+
+    private async Task SaveUserMovieAudiosAsync()
+    {
+        IEnumerable<UserMovieAudio>? existingAudios = await GetMovieAudiosAsync();
+        if (existingAudios is not null)
+            await RemoveMovieAudiosAsync(existingAudios);
+
+        List<UserMovieAudio> newAudios = [];
+
+        foreach (DataGridViewRow row in Dgv_Audio.Rows)
+        {
+            if (row.IsNewRow) continue;
+
+            var langName = row.Cells[0]?.Value?.ToString();
+            var channelsText = row.Cells[1]?.Value?.ToString();
+            var formatName = row.Cells[2]?.Value?.ToString();
+
+            if (string.IsNullOrWhiteSpace(langName) ||
+                string.IsNullOrWhiteSpace(channelsText) ||
+                string.IsNullOrWhiteSpace(formatName))
+                continue;
+
+            if (!byte.TryParse(channelsText, out byte channels)) continue;
+
+            Language? lang = await GetLanguageAsync(langName);
+            Format? format = await GetFormatAsync(formatName);
+
+            if (lang is null || format is null)
+                continue;
+
+            newAudios.Add(new UserMovieAudio
+            {
+                Channels = channels,
+                FormatId = format.Id,
+                LanguageId = lang.Id,
+                MovieId = _movieId
+            });
+        }
+
+        if (newAudios.Count > 0)
+            await CreateUserMovieAudio(newAudios);
+    }
+    private async Task UpdateMovie(Movie movie) => await _movieServices.UpdateMovie(movie: movie);
+    private async Task<UserMovieDisk?> GetUserMovieDiskAsync() => await _userMovieDiskServices.GetMovieDiskAsync(movieId: _movieId) ?? new();
+    private async Task CreateOrUpdateUserMovieDisk(UserMovieDisk userMovieDisk) => await _userMovieDiskServices.CreateOrUpdateUserMovieDiskAsync(userMovieDisk: userMovieDisk);
+    private async Task<UserMovieVideo?> GetUserMovieVideoAsync() => await _userMovieVideoServices.GetMovieVideoAsync(movieId: _movieId) ?? new();
+    private async Task CreateOrUpdateUserMovieVideo(UserMovieVideo userMovieVideo) => await _userMovieVideoServices.CreateOrUpdateUserMovieVideoAsync(userMovieVideo: userMovieVideo);
+    private async Task<Status?> GetStatusAsync(string statusName) => await _statusesServices.GetStatusAsync(statusesName: statusName);
+    private async Task<Format?> GetFormatAsync(string formatName) => await _formatServices.GetFormatAsync(formatName: formatName);
+    private async Task<IEnumerable<UserMovieAudio>> GetMovieAudiosAsync() =>await _userMovieAudioServices.GetUserMovieAudioAsync(movieId: _movieId);
+    private async Task RemoveMovieAudiosAsync(IEnumerable<UserMovieAudio> userMovieAudios) =>await _userMovieAudioServices.RemoveUserMovieAudio(userMovieAudios: userMovieAudios);
+    private async Task<Language?> GetLanguageAsync(string languageName) => await _languageServices.CreateOrGetLanguageAsync(languageName: languageName,isoCode:languageName);
+    private async Task CreateUserMovieAudio(List<UserMovieAudio> userMovieAudios) => await _userMovieAudioServices.CreateUserMovieAudioAsync(userMovieAudios: userMovieAudios);
 }

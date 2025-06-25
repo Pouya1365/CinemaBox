@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
             Tb_Main = new TabControl();
             Tb_MainDetails = new TabPage();
             Txt_Currency = new Ces.WinForm.UI.CesTextBox();
@@ -75,7 +75,7 @@
             Txt_FileSize = new Ces.WinForm.UI.CesTextBox();
             Txt_FileName = new Ces.WinForm.UI.CesTextBox();
             Txt_MyRunTime = new Ces.WinForm.UI.CesTextBox();
-            cesComboBox2 = new Ces.WinForm.UI.CesComboBox.CesComboBox();
+            Cmb_MyStatus = new Ces.WinForm.UI.CesComboBox.CesComboBox();
             Cmb_Collection = new Ces.WinForm.UI.CesComboBox.CesComboBox();
             Txt_EnStoryline = new Ces.WinForm.UI.CesTextBox();
             Txt_FaStoryline = new Ces.WinForm.UI.CesTextBox();
@@ -83,7 +83,7 @@
             pictureBox2 = new PictureBox();
             Pic_Poster = new PictureBox();
             Cmb_Certificate = new Ces.WinForm.UI.CesComboBox.CesComboBox();
-            cesToggleButton1 = new Ces.WinForm.UI.CesToggleButton();
+            Chk_IsTv = new Ces.WinForm.UI.CesToggleButton();
             Txt_VoteCount = new Ces.WinForm.UI.CesTextBox();
             Txt_AggregateRating = new Ces.WinForm.UI.CesTextBox();
             Txt_HourTime = new Ces.WinForm.UI.CesTextBox();
@@ -164,7 +164,7 @@
             Tb_MainDetails.Controls.Add(pictureBox2);
             Tb_MainDetails.Controls.Add(Pic_Poster);
             Tb_MainDetails.Controls.Add(Cmb_Certificate);
-            Tb_MainDetails.Controls.Add(cesToggleButton1);
+            Tb_MainDetails.Controls.Add(Chk_IsTv);
             Tb_MainDetails.Controls.Add(Txt_VoteCount);
             Tb_MainDetails.Controls.Add(Txt_AggregateRating);
             Tb_MainDetails.Controls.Add(Txt_HourTime);
@@ -799,10 +799,10 @@
             Tb_Video.Controls.Add(Txt_AspectRatio);
             Tb_Video.Controls.Add(Txt_Resolution);
             Tb_Video.Controls.Add(Txt_Format);
-            Tb_Video.Location = new Point(4, 28);
+            Tb_Video.Location = new Point(4, 24);
             Tb_Video.Name = "Tb_Video";
             Tb_Video.Padding = new Padding(3);
-            Tb_Video.Size = new Size(778, 353);
+            Tb_Video.Size = new Size(778, 357);
             Tb_Video.TabIndex = 7;
             Tb_Video.Text = "مشخصات ویدیو";
             Tb_Video.UseVisualStyleBackColor = true;
@@ -1061,10 +1061,10 @@
             // Tb_Audio
             // 
             Tb_Audio.Controls.Add(Dgv_Audio);
-            Tb_Audio.Location = new Point(4, 24);
+            Tb_Audio.Location = new Point(4, 28);
             Tb_Audio.Name = "Tb_Audio";
             Tb_Audio.Padding = new Padding(3);
-            Tb_Audio.Size = new Size(778, 357);
+            Tb_Audio.Size = new Size(778, 353);
             Tb_Audio.TabIndex = 8;
             Tb_Audio.Text = "مشخصات صدا";
             Tb_Audio.UseVisualStyleBackColor = true;
@@ -1073,9 +1073,9 @@
             // 
             Dgv_Audio.AllowUserToAddRows = false;
             Dgv_Audio.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = Color.WhiteSmoke;
-            dataGridViewCellStyle1.ForeColor = Color.Black;
-            Dgv_Audio.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.BackColor = Color.WhiteSmoke;
+            dataGridViewCellStyle5.ForeColor = Color.Black;
+            Dgv_Audio.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
             Dgv_Audio.BackgroundColor = Color.White;
             Dgv_Audio.BorderStyle = BorderStyle.None;
             Dgv_Audio.CellBorderStyle = DataGridViewCellBorderStyle.Custom;
@@ -1084,35 +1084,35 @@
             Dgv_Audio.CesRowSizeMode = Ces.WinForm.UI.CesGridView.CesGridViewRowSizeModeEnum.Normal;
             Dgv_Audio.CesTheme = Ces.WinForm.UI.Infrastructure.ThemeEnum.White;
             Dgv_Audio.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(64, 64, 64);
-            dataGridViewCellStyle2.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle2.ForeColor = Color.WhiteSmoke;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            Dgv_Audio.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.FromArgb(64, 64, 64);
+            dataGridViewCellStyle6.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle6.ForeColor = Color.WhiteSmoke;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
+            Dgv_Audio.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
             Dgv_Audio.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = Color.Black;
-            dataGridViewCellStyle3.SelectionBackColor = Color.Khaki;
-            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-            Dgv_Audio.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = Color.White;
+            dataGridViewCellStyle7.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle7.ForeColor = Color.Black;
+            dataGridViewCellStyle7.SelectionBackColor = Color.Khaki;
+            dataGridViewCellStyle7.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.False;
+            Dgv_Audio.DefaultCellStyle = dataGridViewCellStyle7;
             Dgv_Audio.GridColor = Color.FromArgb(224, 224, 224);
             Dgv_Audio.Location = new Point(6, 17);
             Dgv_Audio.Name = "Dgv_Audio";
             Dgv_Audio.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(64, 64, 64);
-            dataGridViewCellStyle4.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle4.ForeColor = Color.WhiteSmoke;
-            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            Dgv_Audio.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = Color.FromArgb(64, 64, 64);
+            dataGridViewCellStyle8.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle8.ForeColor = Color.WhiteSmoke;
+            dataGridViewCellStyle8.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.True;
+            Dgv_Audio.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
             Dgv_Audio.RowHeadersWidth = 30;
             Dgv_Audio.RowTemplate.Height = 30;
             Dgv_Audio.SelectionMode = DataGridViewSelectionMode.CellSelect;
@@ -1129,7 +1129,7 @@
             Tb_UserDiskInfo.Controls.Add(Txt_FileSize);
             Tb_UserDiskInfo.Controls.Add(Txt_FileName);
             Tb_UserDiskInfo.Controls.Add(Txt_MyRunTime);
-            Tb_UserDiskInfo.Controls.Add(cesComboBox2);
+            Tb_UserDiskInfo.Controls.Add(Cmb_MyStatus);
             Tb_UserDiskInfo.Location = new Point(4, 28);
             Tb_UserDiskInfo.Name = "Tb_UserDiskInfo";
             Tb_UserDiskInfo.Padding = new Padding(3);
@@ -1468,63 +1468,63 @@
             Txt_MyRunTime.Size = new Size(258, 35);
             Txt_MyRunTime.TabIndex = 30;
             // 
-            // cesComboBox2
+            // Cmb_MyStatus
             // 
-            cesComboBox2._initialControlHeight = 0;
-            cesComboBox2.BackColor = Color.White;
-            cesComboBox2.CesAdjustPopupToParentWidth = true;
-            cesComboBox2.CesAlignToRight = false;
-            cesComboBox2.CesAutoHeight = true;
-            cesComboBox2.CesBackColor = Color.White;
-            cesComboBox2.CesBorderColor = Color.DeepSkyBlue;
-            cesComboBox2.CesBorderRadius = 0;
-            cesComboBox2.CesBorderThickness = 1;
-            cesComboBox2.CesDataSource = null;
-            cesComboBox2.CesDisplayMember = null;
-            cesComboBox2.CesDropDownOnFocus = false;
-            cesComboBox2.CesFocusColor = Color.White;
-            cesComboBox2.CesHasFocus = false;
-            cesComboBox2.CesHasNotification = false;
-            cesComboBox2.CesIcon = null;
-            cesComboBox2.CesImageWidth = 24;
-            cesComboBox2.CesItemHeight = 30;
-            cesComboBox2.CesKeepPreviousSelection = false;
-            cesComboBox2.CesLoadingMode = false;
-            cesComboBox2.CesNotificationColor = Color.Red;
-            cesComboBox2.CesPadding = new Padding(5);
-            cesComboBox2.CesPopupSize = new Size(350, 400);
-            cesComboBox2.CesSelectedItem = null;
-            cesComboBox2.CesSelectedValue = null;
-            cesComboBox2.CesSelectFirstItem = false;
-            cesComboBox2.CesSelectFirstItemIfPreviousWasNull = true;
-            cesComboBox2.CesShowAddItemButton = false;
-            cesComboBox2.CesShowClearButton = false;
-            cesComboBox2.CesShowEditItemButton = false;
-            cesComboBox2.CesShowIcon = false;
-            cesComboBox2.CesShowImage = true;
-            cesComboBox2.CesShowIndicator = false;
-            cesComboBox2.CesShowLoadButton = false;
-            cesComboBox2.CesShowSearchBox = true;
-            cesComboBox2.CesShowStatusBar = true;
-            cesComboBox2.CesShowTitle = true;
-            cesComboBox2.CesTheme = Ces.WinForm.UI.Infrastructure.ThemeEnum.White;
-            cesComboBox2.CesTitleAutoHeight = false;
-            cesComboBox2.CesTitleAutoWidth = false;
-            cesComboBox2.CesTitleBackground = true;
-            cesComboBox2.CesTitleFont = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            cesComboBox2.CesTitleHeight = 25;
-            cesComboBox2.CesTitlePosition = Ces.WinForm.UI.Infrastructure.CesTitlePositionEnum.Right;
-            cesComboBox2.CesTitleText = "وضعیت فیلم";
-            cesComboBox2.CesTitleTextAlignment = Ces.WinForm.UI.Infrastructure.CesTitleContentAlignmentEnum.Center;
-            cesComboBox2.CesTitleTextColor = Color.White;
-            cesComboBox2.CesTitleWidth = 80;
-            cesComboBox2.CesValueMember = null;
-            cesComboBox2.Location = new Point(250, 8);
-            cesComboBox2.Margin = new Padding(3, 5, 3, 5);
-            cesComboBox2.Name = "cesComboBox2";
-            cesComboBox2.Padding = new Padding(3, 5, 3, 5);
-            cesComboBox2.Size = new Size(522, 35);
-            cesComboBox2.TabIndex = 15;
+            Cmb_MyStatus._initialControlHeight = 0;
+            Cmb_MyStatus.BackColor = Color.White;
+            Cmb_MyStatus.CesAdjustPopupToParentWidth = true;
+            Cmb_MyStatus.CesAlignToRight = false;
+            Cmb_MyStatus.CesAutoHeight = true;
+            Cmb_MyStatus.CesBackColor = Color.White;
+            Cmb_MyStatus.CesBorderColor = Color.DeepSkyBlue;
+            Cmb_MyStatus.CesBorderRadius = 0;
+            Cmb_MyStatus.CesBorderThickness = 1;
+            Cmb_MyStatus.CesDataSource = null;
+            Cmb_MyStatus.CesDisplayMember = null;
+            Cmb_MyStatus.CesDropDownOnFocus = false;
+            Cmb_MyStatus.CesFocusColor = Color.White;
+            Cmb_MyStatus.CesHasFocus = false;
+            Cmb_MyStatus.CesHasNotification = false;
+            Cmb_MyStatus.CesIcon = null;
+            Cmb_MyStatus.CesImageWidth = 24;
+            Cmb_MyStatus.CesItemHeight = 30;
+            Cmb_MyStatus.CesKeepPreviousSelection = false;
+            Cmb_MyStatus.CesLoadingMode = false;
+            Cmb_MyStatus.CesNotificationColor = Color.Red;
+            Cmb_MyStatus.CesPadding = new Padding(5);
+            Cmb_MyStatus.CesPopupSize = new Size(350, 400);
+            Cmb_MyStatus.CesSelectedItem = null;
+            Cmb_MyStatus.CesSelectedValue = null;
+            Cmb_MyStatus.CesSelectFirstItem = false;
+            Cmb_MyStatus.CesSelectFirstItemIfPreviousWasNull = true;
+            Cmb_MyStatus.CesShowAddItemButton = false;
+            Cmb_MyStatus.CesShowClearButton = false;
+            Cmb_MyStatus.CesShowEditItemButton = false;
+            Cmb_MyStatus.CesShowIcon = false;
+            Cmb_MyStatus.CesShowImage = true;
+            Cmb_MyStatus.CesShowIndicator = false;
+            Cmb_MyStatus.CesShowLoadButton = false;
+            Cmb_MyStatus.CesShowSearchBox = true;
+            Cmb_MyStatus.CesShowStatusBar = true;
+            Cmb_MyStatus.CesShowTitle = true;
+            Cmb_MyStatus.CesTheme = Ces.WinForm.UI.Infrastructure.ThemeEnum.White;
+            Cmb_MyStatus.CesTitleAutoHeight = false;
+            Cmb_MyStatus.CesTitleAutoWidth = false;
+            Cmb_MyStatus.CesTitleBackground = true;
+            Cmb_MyStatus.CesTitleFont = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Cmb_MyStatus.CesTitleHeight = 25;
+            Cmb_MyStatus.CesTitlePosition = Ces.WinForm.UI.Infrastructure.CesTitlePositionEnum.Right;
+            Cmb_MyStatus.CesTitleText = "وضعیت فیلم";
+            Cmb_MyStatus.CesTitleTextAlignment = Ces.WinForm.UI.Infrastructure.CesTitleContentAlignmentEnum.Center;
+            Cmb_MyStatus.CesTitleTextColor = Color.White;
+            Cmb_MyStatus.CesTitleWidth = 80;
+            Cmb_MyStatus.CesValueMember = null;
+            Cmb_MyStatus.Location = new Point(250, 8);
+            Cmb_MyStatus.Margin = new Padding(3, 5, 3, 5);
+            Cmb_MyStatus.Name = "Cmb_MyStatus";
+            Cmb_MyStatus.Padding = new Padding(3, 5, 3, 5);
+            Cmb_MyStatus.Size = new Size(522, 35);
+            Cmb_MyStatus.TabIndex = 15;
             // 
             // Cmb_Collection
             // 
@@ -1809,24 +1809,24 @@
             Cmb_Certificate.Size = new Size(258, 35);
             Cmb_Certificate.TabIndex = 14;
             // 
-            // cesToggleButton1
+            // Chk_IsTv
             // 
-            cesToggleButton1.CesActiveColor = Color.DodgerBlue;
-            cesToggleButton1.CesInactiveColor = Color.LightGray;
-            cesToggleButton1.CessShowToggleText = true;
-            cesToggleButton1.CesToggle = false;
-            cesToggleButton1.CesToggleActiveColor = Color.White;
-            cesToggleButton1.CesToggleActiveText = "سریال";
-            cesToggleButton1.CesToggleActiveTextColor = Color.White;
-            cesToggleButton1.CesToggleInactiveColor = Color.DarkGray;
-            cesToggleButton1.CesToggleInactiveText = "فیلم";
-            cesToggleButton1.CesToggleInactiveTextColor = Color.Gray;
-            cesToggleButton1.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            cesToggleButton1.ForeColor = Color.White;
-            cesToggleButton1.Location = new Point(1192, 138);
-            cesToggleButton1.Name = "cesToggleButton1";
-            cesToggleButton1.Size = new Size(258, 35);
-            cesToggleButton1.TabIndex = 13;
+            Chk_IsTv.CesActiveColor = Color.DodgerBlue;
+            Chk_IsTv.CesInactiveColor = Color.LightGray;
+            Chk_IsTv.CessShowToggleText = true;
+            Chk_IsTv.CesToggle = false;
+            Chk_IsTv.CesToggleActiveColor = Color.White;
+            Chk_IsTv.CesToggleActiveText = "سریال";
+            Chk_IsTv.CesToggleActiveTextColor = Color.White;
+            Chk_IsTv.CesToggleInactiveColor = Color.DarkGray;
+            Chk_IsTv.CesToggleInactiveText = "فیلم";
+            Chk_IsTv.CesToggleInactiveTextColor = Color.Gray;
+            Chk_IsTv.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            Chk_IsTv.ForeColor = Color.White;
+            Chk_IsTv.Location = new Point(1192, 138);
+            Chk_IsTv.Name = "Chk_IsTv";
+            Chk_IsTv.Size = new Size(258, 35);
+            Chk_IsTv.TabIndex = 13;
             // 
             // Txt_VoteCount
             // 
@@ -2590,6 +2590,7 @@
             Btn_Save.Name = "Btn_Save";
             Btn_Save.Size = new Size(110, 35);
             Btn_Save.TabIndex = 11;
+            Btn_Save.Click += Btn_Save_Click;
             // 
             // Frm_EditFormMovie
             // 
@@ -2645,7 +2646,7 @@
         private Ces.WinForm.UI.CesTextBox Txt_VoteCount;
         private Ces.WinForm.UI.CesTextBox Txt_AggregateRating;
         private Ces.WinForm.UI.CesTextBox Txt_HourTime;
-        private Ces.WinForm.UI.CesToggleButton cesToggleButton1;
+        private Ces.WinForm.UI.CesToggleButton Chk_IsTv;
         private Ces.WinForm.UI.CesComboBox.CesComboBox Cmb_Certificate;
         private Ces.WinForm.UI.CesTextBox Txt_Plot;
         private PictureBox pictureBox2;
@@ -2692,7 +2693,7 @@
         private Ces.WinForm.UI.CesTextBox Txt_FileSize;
         private Ces.WinForm.UI.CesTextBox Txt_FileName;
         private Ces.WinForm.UI.CesTextBox Txt_MyRunTime;
-        private Ces.WinForm.UI.CesComboBox.CesComboBox cesComboBox2;
+        private Ces.WinForm.UI.CesComboBox.CesComboBox Cmb_MyStatus;
         private FlowLayoutPanel Flw_Crews;
         private TabPage Tb_Cast;
         private FlowLayoutPanel Flw_Cast;

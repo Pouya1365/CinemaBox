@@ -7,18 +7,18 @@ namespace CinemaBox.Service.Shared.Languages;
 public class LanguageServices(IUnitOfWork unitOfWork) : ILanguageServices
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-    public async Task<Language?> CreateOrGetLanguageAsync(string? LanguageName,string? isoCode)
+    public async Task<Language?> CreateOrGetLanguageAsync(string? languageName,string? isoCode)
     {
-        if (string.IsNullOrWhiteSpace(LanguageName))
+        if (string.IsNullOrWhiteSpace(languageName))
             return null;
-        Language? Language = await GetLanguageAsync(languageName: LanguageName);
-        if (Language == null)
+        Language? language = await GetLanguageAsync(languageName: languageName);
+        if (language == null)
         {
-            Language = new Language { EnLanguageName = LanguageName.Trim() ,IsoCode= isoCode };
-            await _unitOfWork.Repository<Language>().AddAsync(Language);
+            language = new Language { EnLanguageName = languageName.Trim() ,IsoCode= isoCode };
+            await _unitOfWork.Repository<Language>().AddAsync(language);
             await _unitOfWork.CompleteAsync();
         }
-        return Language;
+        return language;
     }
     public async Task<Language?> GetLanguageAsync(string languageName)
     {
@@ -26,6 +26,6 @@ public class LanguageServices(IUnitOfWork unitOfWork) : ILanguageServices
             return null;
 
         return await _unitOfWork.Repository<Language>()
-            .FindAsync(l => l.EnLanguageName == languageName && l.FaLanguageName==languageName);
+            .FindAsync(l => l.EnLanguageName == languageName || l.FaLanguageName==languageName || l.IsoCode==languageName);
     }
 }

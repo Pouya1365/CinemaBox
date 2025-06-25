@@ -15,11 +15,15 @@ using CinemaBox.Service.Interface.Entertainment.Link.MovieLocations;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieTaglines;
 using CinemaBox.Service.Interface.Entertainment.Movies;
+using CinemaBox.Service.Interface.Managment.Link.UserMovieAudios;
 using CinemaBox.Service.Interface.Managment.Link.UserMovieDisks;
 using CinemaBox.Service.Interface.Managment.Link.UserMovieVideos;
 using CinemaBox.Service.Interface.Person.PeopleFiles;
 using CinemaBox.Service.Interface.Person.Peoples;
 using CinemaBox.Service.Interface.Shared.Currencies;
+using CinemaBox.Service.Interface.Shared.Formats;
+using CinemaBox.Service.Interface.Shared.Languages;
+using CinemaBox.Service.Interface.Shared.Statuses;
 using CinemaBox.UserController.Entertainment.Movies;
 namespace CinemaBox.Presentation;
 public partial class Frm_Movie : CesForm
@@ -41,6 +45,10 @@ public partial class Frm_Movie : CesForm
     private readonly IPeopleServices _peopleServices;
     private readonly IUserMovieDiskServices _userMovieDiskServices;
     private readonly IUserMovieVideoServices _userMovieVideoServices;
+    private readonly IStatusesServices _statusesServices;
+    private readonly IFormatServices _formatServices;
+    private readonly IUserMovieAudioServices _userMovieAudioServices;
+    private readonly ILanguageServices _languageServices;
     public Frm_Movie(IImdbMovieScrapperServices imdbScrapperServices,
         IMovieServices movieServices,
         IMovieCompanyServices movieCompanyServices,
@@ -57,7 +65,11 @@ public partial class Frm_Movie : CesForm
         IPeopleFileServices peopleFileServices,
         IPeopleServices peopleServices,
         IUserMovieDiskServices userMovieDiskServices,
-        IUserMovieVideoServices userMovieVideoServices
+        IUserMovieVideoServices userMovieVideoServices,
+        IStatusesServices statusesServices,
+        IFormatServices formatServices,
+        IUserMovieAudioServices userMovieAudioServices,
+        ILanguageServices languageServices
         )
     {
         InitializeComponent();
@@ -78,6 +90,10 @@ public partial class Frm_Movie : CesForm
         _peopleServices = peopleServices ?? throw new ArgumentNullException(nameof(peopleServices));
         _userMovieDiskServices = userMovieDiskServices ?? throw new ArgumentNullException(nameof(userMovieDiskServices));
         _userMovieVideoServices = userMovieVideoServices ?? throw new ArgumentNullException(nameof(userMovieVideoServices));
+        _statusesServices = statusesServices ?? throw new ArgumentNullException(nameof(statusesServices));
+        _formatServices = formatServices ?? throw new ArgumentNullException(nameof(formatServices));
+        _userMovieAudioServices = userMovieAudioServices ?? throw new ArgumentNullException(nameof(userMovieAudioServices));
+        _languageServices = languageServices ?? throw new ArgumentNullException(nameof(languageServices));
     }
 
     private async void Btn_GetInfo_Click(object sender, EventArgs e)
@@ -125,25 +141,29 @@ public partial class Frm_Movie : CesForm
     private async Task<List<ShowMovieModel>>GetMovieModels()=> await _movieServices.GetMovieModelsAsync(null);
     private void MovieBox_PosterClicked(object sender, string movieId)
     {
-        Frm_EditFormMovie frm_EditForm =new(
+        Frm_EditFormMovie frm_EditForm = new(
             movieServices: _movieServices,
-            movieId:movieId,
+            movieId: movieId,
             currencyServices: _currencyServices,
             movieGenreServices: _movieGenreServices,
-            movieCountryServices:_movieCountryServices,
-            movieSpokenLanguageServices:_movieSpokenLanguageServices,
-            movieCompanyServices:_movieCompanyServices,
-            movieLocationServices:_movieLocationServices,
-            movieKeywordServices:_movieKeywordServices,
-            movieTaglineServices:_movieTaglineServices,
-            certificateServices:_certificateServices,
-            movieFileServices:_movieFileServices,
-            movieCreditServices:_movieCreditServices,
-            peopleFileServices:_peopleFileServices,
-            peopleServices:_peopleServices,
-            userMovieDiskServices:_userMovieDiskServices,
-            userMovieVideoServices:_userMovieVideoServices
-            
+            movieCountryServices: _movieCountryServices,
+            movieSpokenLanguageServices: _movieSpokenLanguageServices,
+            movieCompanyServices: _movieCompanyServices,
+            movieLocationServices: _movieLocationServices,
+            movieKeywordServices: _movieKeywordServices,
+            movieTaglineServices: _movieTaglineServices,
+            certificateServices: _certificateServices,
+            movieFileServices: _movieFileServices,
+            movieCreditServices: _movieCreditServices,
+            peopleFileServices: _peopleFileServices,
+            peopleServices: _peopleServices,
+            userMovieDiskServices: _userMovieDiskServices,
+            userMovieVideoServices: _userMovieVideoServices,
+            statusesServices: _statusesServices,
+            formatServices: _formatServices,
+            userMovieAudioServices: _userMovieAudioServices,
+            languageServices: _languageServices
+
             );
         frm_EditForm.ShowDialog();
     }

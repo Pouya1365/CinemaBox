@@ -1,5 +1,4 @@
 ﻿using CinemaBox.Domain.Entertainment.Movies;
-using CinemaBox.Domain.Persistent;
 using CinemaBox.Domain.Shared.Formats;
 using CinemaBox.Domain.Shared.Languages;
 
