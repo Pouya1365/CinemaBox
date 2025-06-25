@@ -4,7 +4,7 @@ using CinemaBox.UnitOfWork.Interface.UOW;
 
 namespace CinemaBox.Service.Managment.Link.UserMovieAudios;
 
-partial class UserMovieAudioServices(IUnitOfWork unitOfWork) : IUserMovieAudioServices
+public class UserMovieAudioServices(IUnitOfWork unitOfWork) : IUserMovieAudioServices
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     public async Task<IEnumerable<UserMovieAudio>> GetUserMovieAudioAsync(string movieId) => await _unitOfWork.Repository<UserMovieAudio>().GetAllAsync(x => x.MovieId == movieId);
@@ -19,15 +19,7 @@ partial class UserMovieAudioServices(IUnitOfWork unitOfWork) : IUserMovieAudioSe
         await _unitOfWork.Repository<UserMovieAudio>().AddRangeAsync(userMovieAudios);
         await _unitOfWork.CompleteAsync();
     }
-    //private void MapTo(UserMovieAudio source, UserMovieAudio target)
-    //{
-    //    target.MovieNumber = source.MovieNumber;
-    //    target.FileName = source.FileName;
-    //    target.MyTime = source.MyTime;
-    //    target.PositionMovie = source.PositionMovie;
-    //    target.FileSize = source.FileSize;
-    //    target.IsDubbed = source.IsDubbed;
-    //    target.IsSubtitle = source.IsSubtitle;
-    //}
+    public async Task<IEnumerable<UserMovieAudio>>GetMovieAudiosAsync(string movieId)=>await _unitOfWork.Repository<UserMovieAudio>().GetAllWithPredicateAsync(x=>x.MovieId== movieId,x=>x.Language,x=>x.Format);
+ 
 
 }

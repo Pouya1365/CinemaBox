@@ -50,7 +50,6 @@ using CinemaBox.UserController.Entertainment.CreditShow;
 using CinemaBox.Utilities.DateTimeExtension.DateExtensions;
 using CinemaBox.Utilities.DateTimeExtension.TimeExtension;
 using CinemaBox.Utilities.Lables;
-using System.Collections.Generic;
 
 
 namespace CinemaBox.Presentation.Entertainment.Movies.EditMovie;
@@ -73,7 +72,7 @@ public partial class Frm_EditFormMovie : CesForm
     private readonly IPeopleServices? _peopleServices;
     private readonly IUserMovieDiskServices? _userMovieDiskServices;
     private readonly IUserMovieVideoServices? _userMovieVideoServices;
-    private readonly IStatusesServices? _statusesServices;
+    private readonly IStatusServices? _statusesServices;
     private readonly IFormatServices? _formatServices;
     private readonly IUserMovieAudioServices? _userMovieAudioServices;
     private readonly ILanguageServices? _languageServices;
@@ -95,7 +94,7 @@ public partial class Frm_EditFormMovie : CesForm
         IPeopleServices? peopleServices,
         IUserMovieDiskServices? userMovieDiskServices,
         IUserMovieVideoServices? userMovieVideoServices,
-        IStatusesServices? statusesServices,
+        IStatusServices? statusesServices,
         IFormatServices? formatServices,
         IUserMovieAudioServices? userMovieAudioServices,
         ILanguageServices? languageServices
@@ -141,6 +140,9 @@ public partial class Frm_EditFormMovie : CesForm
         await SeMovieTaglineAsync();
         await SetMovieFileAsync();
         await SetMovieCreditAsync();
+        await SetUserMovieDisks();
+        await SeteUserMovieVideoAsync();
+        await SetUserMovieAudiosAsync();
     }
     private async Task SetMovieBasicFields()
     {
@@ -169,7 +171,12 @@ public partial class Frm_EditFormMovie : CesForm
         Txt_ReleaseMonth.CesText = movie.ReleaseMonth.ToString();
         Txt_ReleaseDay.CesText = movie.ReleaseDay.ToString();
         Txt_ShamsiYear.CesText = $"{Pcal.ToToJalali((int)(movie.ReleaseYear ?? 1900), (int)(movie.ReleaseMonth ?? 01), (int)(movie.ReleaseDay ?? 01))[..4]}";
-        await LoadComboDataAsync("Rateds", Cmb_Certificate, c => new CesListBoxItemProperty { Text = c.CertificateName ?? "-", Value = (int)c.Id }, movie.CertificateId);
+        await LoadComboBoxDataAsync<Certificate>(
+    "Rateds",
+    Cmb_Certificate,
+    GetCertificatesAsync,
+    cert => new CesListBoxItemProperty { Value = cert.Id, Text = cert.CertificateName },
+    movie.CertificateId);
 
     }
     private async Task<Movie?> GetMovie() => await _movieServices.GeMovieAsync(ImdbId: _movieId);
@@ -216,18 +223,25 @@ public partial class Frm_EditFormMovie : CesForm
         CreateDynamicLabels<MovieTagline>(movieTaglines.ToList(), Flw_Tagline, g => g.FaTagline ?? g.EnTagline, 5);
     }
     private async Task<IEnumerable<MovieTagline?>> GetMovieTaglineAsync() => await _movieTaglineServices.GetMovieTagline(movieId: _movieId);
-    private async Task LoadComboDataAsync(string cacheKey, CesComboBox comboBox, Func<Certificate, CesListBoxItemProperty> selector, int? id)
+    private async Task LoadComboBoxDataAsync<TModel>(
+        string cacheKey,
+        CesComboBox comboBox,
+        Func<Task<IEnumerable<TModel>>> dataFetcher,
+        Func<TModel, CesListBoxItemProperty> selector,
+        int? selectedId)
     {
-        IEnumerable<Certificate> listCertificate = await GetCertificatesAsync();
-        List<CesListBoxItemProperty> items = [.. listCertificate.Select(selector)];
+        IEnumerable<TModel> itemsSource = await dataFetcher();
+        List<CesListBoxItemProperty> items = itemsSource.Select(selector).ToList();
+
         comboBox.CesDataSource = null;
         comboBox.CesValueMember = "Value";
         comboBox.CesDisplayMember = "Text";
         comboBox.CesDataSource = items;
         comboBox.Refresh();
-        if (id.HasValue)
+
+        if (selectedId.HasValue)
         {
-            CesListBoxItemProperty? selectedItem = items.FirstOrDefault(x => (int)x.Value == id.Value);
+            CesListBoxItemProperty? selectedItem = items.FirstOrDefault(x => (byte)x.Value == selectedId.Value);
             if (selectedItem != null)
                 comboBox.CesSelectedItem = selectedItem;
         }
@@ -240,6 +254,48 @@ public partial class Frm_EditFormMovie : CesForm
         Pic_Poster.Image = Image.FromFile(filePath);
     }
     private async Task<MovieFile> GetMovieFileAsync() => await _movieFileServices.GetMovieFile(movieId: _movieId);
+    private async Task SetUserMovieDisks()
+    {
+        UserMovieDisk? userMovieDisk = await GetUserMovieDiskAsync();
+        if (userMovieDisk is null)
+            return;
+        Chk_Subtitle.CesCheck = userMovieDisk.IsSubtitle;
+        Txt_MovieNumber.CesText = userMovieDisk.MovieNumber.ToString();
+        Txt_MyRunTime.CesText = userMovieDisk.MyTime.ToString();
+        Txt_PositionMovie.CesText = userMovieDisk.PositionMovie;
+        Txt_FileName.CesText = userMovieDisk.FileName;
+        Txt_FileSize.CesText = userMovieDisk.FileSize.ToString();
+        Chk_IsDubbed.CesCheck = userMovieDisk.IsDubbed;
+        Txt_MyHourTime.CesText = HourTimeExtension.FormatHourMinutesToTimeString((int)userMovieDisk.MyTime);
+        await LoadComboBoxDataAsync<Status>(
+    "StatusCache",
+    Cmb_MyStatus,
+    GetAllStatusAsync,
+    status => new CesListBoxItemProperty { Value = status.Id, Text = status.SatusName },
+    userMovieDisk.StatusId);
+    }
+
+    private async Task SetUserMovieAudiosAsync()
+    {
+        IEnumerable<UserMovieAudio> audioTracks = await GetUserMovieAudio();
+        List<AudioTracksModel> audioTracksModels = [.. audioTracks.Select(x => new AudioTracksModel { Channels = x.Channels.ToString(), Format = x.Format.FormatName, Language = (x.Language.FaLanguageName ?? x.Language.EnLanguageName) })];
+        Dgv_Audio.CesDataSource = audioTracksModels;
+        Dgv_Audio.ReadOnly = false; // فعال‌سازی ویرایش
+        Dgv_Audio.AllowUserToAddRows = true;   // اجازه اضافه‌کردن ردیف جدید
+        Dgv_Audio.AllowUserToDeleteRows = true; // اجازه حذف ردیف
+        Dgv_Audio.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
+    }
+    private async Task SeteUserMovieVideoAsync()
+    {
+        UserMovieVideo? userMovieVideo = await GetUserMovieVideoAsync();
+        if (userMovieVideo is null)
+            return;
+        Txt_Format.CesText = userMovieVideo?.Format?.FormatName;
+        Txt_Bitrate.CesText = userMovieVideo.BitRate;
+        Txt_FPS.CesText = userMovieVideo.FPS;
+        Txt_AspectRatio.CesText = userMovieVideo.AspectRatio;
+        Txt_Resolution.CesText = userMovieVideo.Resolution;
+    }
     #endregion
     #region CreateLabel
     public void CreateDynamicLabels<T>(List<T> items, FlowLayoutPanel container, Func<T, string> getText, int marginBottom = 0)
@@ -415,9 +471,9 @@ public partial class Frm_EditFormMovie : CesForm
         Dgv_Audio.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
     }
     #endregion
-    private async void Btn_Save_Click(object sender, EventArgs e)=>
+    private async void Btn_Save_Click(object sender, EventArgs e) =>
         await SaveMovieDataAsync();
-  
+
     public async Task SaveMovieDataAsync()
     {
         await SaveMovieInfoAsync();
@@ -454,16 +510,14 @@ public partial class Frm_EditFormMovie : CesForm
             userMovieDisk.FileSize = fileSize;
         userMovieDisk.IsDubbed = Chk_IsDubbed.CesCheck;
         userMovieDisk.Id = Txt_Imdb.CesText;
-        Status? status = await GetStatusAsync(Cmb_MyStatus.CesSelectedValue?.ToString());
-        if (status is not null)
-            userMovieDisk.StatusId = status.Id;
+        userMovieDisk.StatusId = (byte?)Cmb_MyStatus.CesSelectedValue;
         await CreateOrUpdateUserMovieDisk(userMovieDisk);
     }
 
     private async Task SaveUserMovieVideoAsync()
     {
         UserMovieVideo? userMovieVideo = await GetUserMovieVideoAsync();
-        if (userMovieVideo is null) 
+        if (userMovieVideo is null)
             return;
 
         var format = await GetFormatAsync(Txt_Format.CesText);
@@ -478,7 +532,6 @@ public partial class Frm_EditFormMovie : CesForm
 
         await CreateOrUpdateUserMovieVideo(userMovieVideo);
     }
-
     private async Task SaveUserMovieAudiosAsync()
     {
         IEnumerable<UserMovieAudio>? existingAudios = await GetMovieAudiosAsync();
@@ -526,9 +579,11 @@ public partial class Frm_EditFormMovie : CesForm
     private async Task<UserMovieVideo?> GetUserMovieVideoAsync() => await _userMovieVideoServices.GetMovieVideoAsync(movieId: _movieId) ?? new();
     private async Task CreateOrUpdateUserMovieVideo(UserMovieVideo userMovieVideo) => await _userMovieVideoServices.CreateOrUpdateUserMovieVideoAsync(userMovieVideo: userMovieVideo);
     private async Task<Status?> GetStatusAsync(string statusName) => await _statusesServices.GetStatusAsync(statusesName: statusName);
-    private async Task<Format?> GetFormatAsync(string formatName) => await _formatServices.GetFormatAsync(formatName: formatName);
-    private async Task<IEnumerable<UserMovieAudio>> GetMovieAudiosAsync() =>await _userMovieAudioServices.GetUserMovieAudioAsync(movieId: _movieId);
-    private async Task RemoveMovieAudiosAsync(IEnumerable<UserMovieAudio> userMovieAudios) =>await _userMovieAudioServices.RemoveUserMovieAudio(userMovieAudios: userMovieAudios);
-    private async Task<Language?> GetLanguageAsync(string languageName) => await _languageServices.CreateOrGetLanguageAsync(languageName: languageName,isoCode:languageName);
+    private async Task<IEnumerable<Status>> GetAllStatusAsync() => await _statusesServices.GetAllStatuses();
+    private async Task<Format?> GetFormatAsync(string formatName) => await _formatServices.CreateOrGetFormatAsync(formatName: formatName);
+    private async Task<IEnumerable<UserMovieAudio>> GetMovieAudiosAsync() => await _userMovieAudioServices.GetUserMovieAudioAsync(movieId: _movieId);
+    private async Task RemoveMovieAudiosAsync(IEnumerable<UserMovieAudio> userMovieAudios) => await _userMovieAudioServices.RemoveUserMovieAudio(userMovieAudios: userMovieAudios);
+    private async Task<Language?> GetLanguageAsync(string languageName) => await _languageServices.CreateOrGetLanguageAsync(languageName: languageName, isoCode: languageName);
     private async Task CreateUserMovieAudio(List<UserMovieAudio> userMovieAudios) => await _userMovieAudioServices.CreateUserMovieAudioAsync(userMovieAudios: userMovieAudios);
+    private async Task<IEnumerable<UserMovieAudio>> GetUserMovieAudio() => await _userMovieAudioServices.GetMovieAudiosAsync(movieId: _movieId);
 }

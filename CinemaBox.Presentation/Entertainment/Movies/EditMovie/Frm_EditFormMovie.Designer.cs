@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             Tb_Main = new TabControl();
             Tb_MainDetails = new TabPage();
             Txt_Currency = new Ces.WinForm.UI.CesTextBox();
@@ -1061,10 +1061,10 @@
             // Tb_Audio
             // 
             Tb_Audio.Controls.Add(Dgv_Audio);
-            Tb_Audio.Location = new Point(4, 28);
+            Tb_Audio.Location = new Point(4, 24);
             Tb_Audio.Name = "Tb_Audio";
             Tb_Audio.Padding = new Padding(3);
-            Tb_Audio.Size = new Size(778, 353);
+            Tb_Audio.Size = new Size(778, 357);
             Tb_Audio.TabIndex = 8;
             Tb_Audio.Text = "مشخصات صدا";
             Tb_Audio.UseVisualStyleBackColor = true;
@@ -1073,9 +1073,9 @@
             // 
             Dgv_Audio.AllowUserToAddRows = false;
             Dgv_Audio.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle5.BackColor = Color.WhiteSmoke;
-            dataGridViewCellStyle5.ForeColor = Color.Black;
-            Dgv_Audio.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.BackColor = Color.WhiteSmoke;
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            Dgv_Audio.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             Dgv_Audio.BackgroundColor = Color.White;
             Dgv_Audio.BorderStyle = BorderStyle.None;
             Dgv_Audio.CellBorderStyle = DataGridViewCellBorderStyle.Custom;
@@ -1084,35 +1084,35 @@
             Dgv_Audio.CesRowSizeMode = Ces.WinForm.UI.CesGridView.CesGridViewRowSizeModeEnum.Normal;
             Dgv_Audio.CesTheme = Ces.WinForm.UI.Infrastructure.ThemeEnum.White;
             Dgv_Audio.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.FromArgb(64, 64, 64);
-            dataGridViewCellStyle6.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle6.ForeColor = Color.WhiteSmoke;
-            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
-            Dgv_Audio.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(64, 64, 64);
+            dataGridViewCellStyle2.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = Color.WhiteSmoke;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            Dgv_Audio.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             Dgv_Audio.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = Color.White;
-            dataGridViewCellStyle7.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle7.ForeColor = Color.Black;
-            dataGridViewCellStyle7.SelectionBackColor = Color.Khaki;
-            dataGridViewCellStyle7.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.False;
-            Dgv_Audio.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = Color.Khaki;
+            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            Dgv_Audio.DefaultCellStyle = dataGridViewCellStyle3;
             Dgv_Audio.GridColor = Color.FromArgb(224, 224, 224);
             Dgv_Audio.Location = new Point(6, 17);
             Dgv_Audio.Name = "Dgv_Audio";
             Dgv_Audio.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = Color.FromArgb(64, 64, 64);
-            dataGridViewCellStyle8.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle8.ForeColor = Color.WhiteSmoke;
-            dataGridViewCellStyle8.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.True;
-            Dgv_Audio.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.FromArgb(64, 64, 64);
+            dataGridViewCellStyle4.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = Color.WhiteSmoke;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            Dgv_Audio.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             Dgv_Audio.RowHeadersWidth = 30;
             Dgv_Audio.RowTemplate.Height = 30;
             Dgv_Audio.SelectionMode = DataGridViewSelectionMode.CellSelect;
@@ -1182,7 +1182,7 @@
             Txt_MovieNumber.CesHasFocus = false;
             Txt_MovieNumber.CesHasNotification = false;
             Txt_MovieNumber.CesIcon = null;
-            Txt_MovieNumber.CesInputType = Ces.WinForm.UI.CesInputTypeEnum.Number;
+            Txt_MovieNumber.CesInputType = Ces.WinForm.UI.CesInputTypeEnum.Any;
             Txt_MovieNumber.CesMaxLength = 0;
             Txt_MovieNumber.CesMultiLine = false;
             Txt_MovieNumber.CesNotificationColor = Color.Red;
@@ -1282,7 +1282,7 @@
             Txt_PositionMovie.CesHasFocus = false;
             Txt_PositionMovie.CesHasNotification = false;
             Txt_PositionMovie.CesIcon = null;
-            Txt_PositionMovie.CesInputType = Ces.WinForm.UI.CesInputTypeEnum.Number;
+            Txt_PositionMovie.CesInputType = Ces.WinForm.UI.CesInputTypeEnum.Any;
             Txt_PositionMovie.CesMaxLength = 0;
             Txt_PositionMovie.CesMultiLine = false;
             Txt_PositionMovie.CesNotificationColor = Color.Red;

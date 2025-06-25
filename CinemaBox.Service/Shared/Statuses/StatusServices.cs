@@ -4,11 +4,11 @@ using CinemaBox.UnitOfWork.Interface.UOW;
 
 namespace CinemaBox.Service.Shared.Statuses;
 
-internal class StatusesServices(IUnitOfWork unitOfWork) : IStatusesServices
+public class StatusServices(IUnitOfWork unitOfWork) : IStatusServices
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-   
-  
+    public async Task<IEnumerable<Status>> GetAllStatuses() => await _unitOfWork.Repository<Status>().GetAllAsync();
+
     public async Task<Status?> GetStatusAsync(string statusesName)
     {
         if (string.IsNullOrWhiteSpace(statusesName))

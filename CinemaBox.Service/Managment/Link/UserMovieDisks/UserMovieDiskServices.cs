@@ -1,5 +1,4 @@
-﻿using CinemaBox.Domain.Entertainment.Movies;
-using CinemaBox.Domain.Managment.Link.UserMovieDisks;
+﻿using CinemaBox.Domain.Managment.Link.UserMovieDisks;
 using CinemaBox.Service.Interface.Managment.Link.UserMovieDisks;
 using CinemaBox.UnitOfWork.Interface.UOW;
 
@@ -8,7 +7,7 @@ namespace CinemaBox.Service.Managment.Link.UserMovieDisks;
 public class UserMovieDiskServices(IUnitOfWork unitOfWork) : IUserMovieDiskServices
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-    public async Task<UserMovieDisk> GetMovieDiskAsync(string movieId) => await _unitOfWork.Repository<UserMovieDisk>().FindAsync(x => x.Id == movieId);
+    public async Task<UserMovieDisk> GetMovieDiskAsync(string movieId) => await _unitOfWork.Repository<UserMovieDisk>().FindAsync(x => x.Id == movieId,x=>x.Status);
     public async Task CreateOrUpdateUserMovieDiskAsync(UserMovieDisk userMovieDisk)
     {
         UserMovieDisk? existingDisk = await GetMovieDiskAsync(movieId: userMovieDisk.Id);

@@ -33,25 +33,34 @@ using CinemaBox.Service.Interface.Entertainment.Link.MovieSpokenLanguages;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieTaglines;
 using CinemaBox.Service.Interface.Entertainment.Movies;
 using CinemaBox.Service.Interface.Files.Files;
+using CinemaBox.Service.Interface.Managment.Link.UserMovieAudios;
+using CinemaBox.Service.Interface.Managment.Link.UserMovieDisks;
+using CinemaBox.Service.Interface.Managment.Link.UserMovieVideos;
 using CinemaBox.Service.Interface.Person.PeopleFiles;
 using CinemaBox.Service.Interface.Person.Peoples;
 using CinemaBox.Service.Interface.Servers.Servers;
 using CinemaBox.Service.Interface.Shared.Currencies;
 using CinemaBox.Service.Interface.Shared.DeathCauses;
+using CinemaBox.Service.Interface.Shared.Formats;
 using CinemaBox.Service.Interface.Shared.Keywords;
 using CinemaBox.Service.Interface.Shared.Languages;
+using CinemaBox.Service.Interface.Shared.Statuses;
+using CinemaBox.Service.Managment.Link.UserMovieAudios;
+using CinemaBox.Service.Managment.Link.UserMovieDisks;
+using CinemaBox.Service.Managment.Link.UserMovieVideos;
 using CinemaBox.Service.Person.PeopleFiles;
 using CinemaBox.Service.Person.Peoples;
 using CinemaBox.Service.Servers.Servers;
 using CinemaBox.Service.Shared.Currencies;
 using CinemaBox.Service.Shared.DeathCauses;
+using CinemaBox.Service.Shared.Formats;
 using CinemaBox.Service.Shared.Keywords;
 using CinemaBox.Service.Shared.Languages;
+using CinemaBox.Service.Shared.Statuses;
 using CinemaBox.UnitOfWork.Interface.UOW;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace CinemaBox.Presentation;
 
@@ -113,6 +122,11 @@ namespace CinemaBox.Presentation;
         services.AddScoped<IServerServices, ServerServices>();
         services.AddScoped<IFileServices, FileServices>();
         services.AddScoped<IMovieFileServices, MovieFileServices>();
+        services.AddScoped<IUserMovieDiskServices, UserMovieDiskServices>();
+        services.AddScoped<IUserMovieVideoServices, UserMovieVideoServices>();
+        services.AddScoped<IStatusServices, StatusServices>();
+        services.AddScoped<IFormatServices, FormatServices>();
+        services.AddScoped<IUserMovieAudioServices, UserMovieAudioServices>();
         // 📦 رجیستر کردن فرم‌ها
         services.AddTransient<Frm_Movie>();
 

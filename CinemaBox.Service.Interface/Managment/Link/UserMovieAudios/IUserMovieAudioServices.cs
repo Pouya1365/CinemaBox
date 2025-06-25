@@ -7,6 +7,7 @@ public interface IUserMovieAudioServices
     Task<IEnumerable<UserMovieAudio>> GetUserMovieAudioAsync(string movieId);
     Task RemoveUserMovieAudio(IEnumerable<UserMovieAudio> userMovieAudios);
     Task CreateUserMovieAudioAsync(List<UserMovieAudio> userMovieAudios);
+    Task<IEnumerable<UserMovieAudio>> GetMovieAudiosAsync(string movieId);
 }
 
 

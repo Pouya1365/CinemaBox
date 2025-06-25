@@ -45,7 +45,7 @@ public partial class Frm_Movie : CesForm
     private readonly IPeopleServices _peopleServices;
     private readonly IUserMovieDiskServices _userMovieDiskServices;
     private readonly IUserMovieVideoServices _userMovieVideoServices;
-    private readonly IStatusesServices _statusesServices;
+    private readonly IStatusServices _statusesServices;
     private readonly IFormatServices _formatServices;
     private readonly IUserMovieAudioServices _userMovieAudioServices;
     private readonly ILanguageServices _languageServices;
@@ -66,7 +66,7 @@ public partial class Frm_Movie : CesForm
         IPeopleServices peopleServices,
         IUserMovieDiskServices userMovieDiskServices,
         IUserMovieVideoServices userMovieVideoServices,
-        IStatusesServices statusesServices,
+        IStatusServices statusesServices,
         IFormatServices formatServices,
         IUserMovieAudioServices userMovieAudioServices,
         ILanguageServices languageServices

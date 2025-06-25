@@ -17,5 +17,6 @@ public class UserMovieVideoConfiguration : IEntityTypeConfiguration<UserMovieVid
         builder.Property(umv => umv.AspectRatio).HasMaxLength(50).HasComment(comment: "نسبت ابعاد");
         builder.Property(umv => umv.Resolution).HasMaxLength(50).HasComment(comment: "وضوح تصویر");
         builder.HasOne(umv => umv.Format).WithMany(umv => umv.UserMovieVideos).HasForeignKey(umv => umv.FormatId);
+        builder.HasOne(umv => umv.Movie).WithMany(umv => umv.UserMovieVideos).HasForeignKey(umv => umv.Id);
     }
 }

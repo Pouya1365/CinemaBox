@@ -7,7 +7,7 @@ namespace CinemaBox.Service.Managment.Link.UserMovieVideos;
 public class UserMovieVideoServices(IUnitOfWork unitOfWork) : IUserMovieVideoServices
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-    public async Task<UserMovieVideo> GetMovieVideoAsync(string movieId) => await _unitOfWork.Repository<UserMovieVideo>().FindAsync(x => x.Id == movieId);
+    public async Task<UserMovieVideo> GetMovieVideoAsync(string movieId) => await _unitOfWork.Repository<UserMovieVideo>().FindAsync(x => x.Id == movieId,x=>x.Format);
     public async Task CreateOrUpdateUserMovieVideoAsync(UserMovieVideo userMovieVideo)
     {
         UserMovieVideo? existingVideo = await GetMovieVideoAsync(movieId: userMovieVideo.Id);

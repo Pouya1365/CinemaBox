@@ -2,7 +2,8 @@
 
 namespace CinemaBox.Service.Interface.Shared.Statuses;
 
-public interface IStatusesServices
+public interface IStatusServices
 {
+    Task<IEnumerable<Status>> GetAllStatuses();
     Task<Status?> GetStatusAsync(string statusesName);
 }
