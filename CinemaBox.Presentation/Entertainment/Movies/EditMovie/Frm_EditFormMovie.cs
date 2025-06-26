@@ -2,6 +2,7 @@
 using Ces.WinForm.UI.CesForm;
 using Ces.WinForm.UI.CesListBox;
 using CinemaBox.Domain.Entertainment.Certificates;
+using CinemaBox.Domain.Entertainment.Collections;
 using CinemaBox.Domain.Entertainment.Link.MovieCompanies;
 using CinemaBox.Domain.Entertainment.Link.MovieCountries;
 using CinemaBox.Domain.Entertainment.Link.MovieCredits;
@@ -24,12 +25,12 @@ using CinemaBox.Domain.Shared.Statuses;
 using CinemaBox.Enumeration.Entertainment.Crew;
 using CinemaBox.Enumeration.MediaInfo.MediaInfo;
 using CinemaBox.Model.Entertainment.Cast.CreditShow;
-using CinemaBox.Model.Entertainment.Movie.Movie;
 using CinemaBox.Model.MediaInfo.MediaInfo;
+using CinemaBox.Presentation.Entertainment.Collections;
 using CinemaBox.Presentation.MediaInfo;
 using CinemaBox.Presentation.Person.Peoples;
-using CinemaBox.Service.Entertainment.Link.MovieFiles;
 using CinemaBox.Service.Interface.Entertainment.Certificates;
+using CinemaBox.Service.Interface.Entertainment.Collections;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCompanies;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCountries;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCredits;
@@ -50,13 +51,12 @@ using CinemaBox.Service.Interface.Shared.Currencies;
 using CinemaBox.Service.Interface.Shared.Formats;
 using CinemaBox.Service.Interface.Shared.Languages;
 using CinemaBox.Service.Interface.Shared.Statuses;
-using CinemaBox.Service.Managment.Link.UserMovieFiles;
 using CinemaBox.UserController.Entertainment.CreditShow;
 using CinemaBox.Utilities.DateTimeExtension.DateExtensions;
 using CinemaBox.Utilities.DateTimeExtension.TimeExtension;
 using CinemaBox.Utilities.Lables;
 using Microsoft.VisualBasic.Devices;
-using System.IO;
+using System.Threading.Tasks;
 
 
 namespace CinemaBox.Presentation.Entertainment.Movies.EditMovie;
@@ -84,6 +84,7 @@ public partial class Frm_EditFormMovie : CesForm
     private readonly IUserMovieAudioServices? _userMovieAudioServices;
     private readonly ILanguageServices? _languageServices;
     private readonly IUserMovieFileServices? _userMovieFileServices;
+    private readonly ICollectionServices? _collectionServices;
     private readonly string? _movieId;
     public Frm_EditFormMovie(IMovieServices movieServices,
         string? movieId,
@@ -106,7 +107,8 @@ public partial class Frm_EditFormMovie : CesForm
         IFormatServices? formatServices,
         IUserMovieAudioServices? userMovieAudioServices,
         ILanguageServices? languageServices,
-        IUserMovieFileServices? userMovieFileServices
+        IUserMovieFileServices? userMovieFileServices,
+        ICollectionServices? collectionServices
 
         )
     {
@@ -131,6 +133,7 @@ public partial class Frm_EditFormMovie : CesForm
         _userMovieAudioServices = userMovieAudioServices ?? throw new ArgumentNullException(nameof(userMovieAudioServices));
         _languageServices = languageServices ?? throw new ArgumentNullException(nameof(languageServices));
         _userMovieFileServices = userMovieFileServices ?? throw new ArgumentNullException(nameof(userMovieFileServices));
+        _collectionServices = collectionServices ?? throw new ArgumentNullException(nameof(collectionServices));
         _movieId = movieId;
         InitializeComponent();
         _ = IntialData();
@@ -188,8 +191,14 @@ public partial class Frm_EditFormMovie : CesForm
     GetCertificatesAsync,
     cert => new CesListBoxItemProperty { Value = cert.Id, Text = cert.CertificateName },
     movie.CertificateId);
-
+        await LoadCollection(collectionId: movie.CollectionId);
     }
+    private async Task LoadCollection(int? collectionId) => await LoadComboBoxDataAsync<Collection>(
+  "Collections",
+  Cmb_Collection,
+  GetCollectionsAsync,
+  c => new CesListBoxItemProperty { Value = c.Id, Text = c.FaCollectionName ?? c.EnCollectionName },
+  collectionId);
     private async Task<Movie?> GetMovie() => await _movieServices.GeMovieAsync(ImdbId: _movieId);
     private async Task<Currency?> GetCurrency(byte? currencyId) => await _currencyServices.GetCurrencyAsync(currencyId);
     private async Task SetMovieGenres()
@@ -258,6 +267,7 @@ public partial class Frm_EditFormMovie : CesForm
         }
     }
     private async Task<IEnumerable<Certificate>> GetCertificatesAsync() => await _certificateServices.GetAllCertificatesAsync();
+    private async Task<IEnumerable<Collection>> GetCollectionsAsync() => await _collectionServices.GetAllCollection();
     private async Task SetMovieFileAsync()
     {
         MovieFile movieFiles = await GetMovieFileAsync();
@@ -501,6 +511,7 @@ public partial class Frm_EditFormMovie : CesForm
         await SaveUserMovieVideoAsync();
         await SaveUserMovieAudiosAsync();
         await SaveUserMovieFilesAsync();
+        this.Close();
     }
 
     private async Task SaveUserMovieFilesAsync()
@@ -533,6 +544,9 @@ public partial class Frm_EditFormMovie : CesForm
             if (!string.IsNullOrWhiteSpace(Txt_FaStoryline.CesText))
                 movie.FaStoryline = Txt_FaStoryline.CesText;
             movie.IsTvShow = Chk_IsTv.CesToggle;
+            if (Cmb_Collection.CesSelectedValue is not null)
+                movie.CollectionId = (int)Cmb_Collection.CesSelectedValue;
+
             await UpdateMovie(movie);
         }
     }
@@ -555,7 +569,6 @@ public partial class Frm_EditFormMovie : CesForm
         userMovieDisk.StatusId = (byte?)Cmb_MyStatus.CesSelectedValue;
         await CreateOrUpdateUserMovieDisk(userMovieDisk);
     }
-
     private async Task SaveUserMovieVideoAsync()
     {
         UserMovieVideo? userMovieVideo = await GetUserMovieVideoAsync();
@@ -645,4 +658,12 @@ public partial class Frm_EditFormMovie : CesForm
     }
 
     private async Task CopyUserMovie(string path, byte[] image, string movieName) => await _userMovieFileServices.CreateOrUpdateUserMovieImage(path: path, image: image, movieId: _movieId, movieName: movieName);
+
+    private async void Cmb_Collection_CesAddItemClicked(object sender, Ces.WinForm.UI.CesComboBox.Events.CesAddItemEvent e)
+    {
+        Frm_AddCollections frm_AddCollections = new(collectionServices: _collectionServices);
+        frm_AddCollections.ShowDialog();
+        await LoadCollection(collectionId: null);
+    }
+    private void Btn_Exit_Click(object sender, EventArgs e)=>this.Close();
 }

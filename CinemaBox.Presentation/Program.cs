@@ -5,6 +5,7 @@ using CinemaBox.Scrapping.Service.Movie;
 using CinemaBox.Scrapping.Service.People;
 using CinemaBox.Service.Division.CountryParts;
 using CinemaBox.Service.Entertainment.Certificates;
+using CinemaBox.Service.Entertainment.Collections;
 using CinemaBox.Service.Entertainment.Coropration;
 using CinemaBox.Service.Entertainment.Genres;
 using CinemaBox.Service.Entertainment.Link.MovieCompanies;
@@ -20,6 +21,7 @@ using CinemaBox.Service.Entertainment.Movies;
 using CinemaBox.Service.Files.Files;
 using CinemaBox.Service.Interface.Division.CountryParts;
 using CinemaBox.Service.Interface.Entertainment.Certificates;
+using CinemaBox.Service.Interface.Entertainment.Collections;
 using CinemaBox.Service.Interface.Entertainment.Coropration;
 using CinemaBox.Service.Interface.Entertainment.Genres;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCompanies;
@@ -130,6 +132,7 @@ namespace CinemaBox.Presentation;
         services.AddScoped<IFormatServices, FormatServices>();
         services.AddScoped<IUserMovieAudioServices, UserMovieAudioServices>();
         services.AddScoped<IUserMovieFileServices, UserMovieFileServices>();
+        services.AddScoped<ICollectionServices, CollectionServices>();
         // 📦 رجیستر کردن فرم‌ها
         services.AddTransient<Frm_Movie>();
 

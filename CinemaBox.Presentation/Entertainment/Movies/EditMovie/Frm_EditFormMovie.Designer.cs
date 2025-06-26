@@ -1555,7 +1555,7 @@
             Cmb_Collection.CesSelectedValue = null;
             Cmb_Collection.CesSelectFirstItem = false;
             Cmb_Collection.CesSelectFirstItemIfPreviousWasNull = true;
-            Cmb_Collection.CesShowAddItemButton = false;
+            Cmb_Collection.CesShowAddItemButton = true;
             Cmb_Collection.CesShowClearButton = false;
             Cmb_Collection.CesShowEditItemButton = false;
             Cmb_Collection.CesShowIcon = false;
@@ -1583,6 +1583,7 @@
             Cmb_Collection.Padding = new Padding(3, 5, 3, 5);
             Cmb_Collection.Size = new Size(258, 44);
             Cmb_Collection.TabIndex = 22;
+            Cmb_Collection.CesAddItemClicked += Cmb_Collection_CesAddItemClicked;
             // 
             // Txt_EnStoryline
             // 
@@ -2541,6 +2542,7 @@
             Btn_Exit.Name = "Btn_Exit";
             Btn_Exit.Size = new Size(110, 35);
             Btn_Exit.TabIndex = 9;
+            Btn_Exit.Click += Btn_Exit_Click;
             // 
             // Btn_ReadFile
             // 

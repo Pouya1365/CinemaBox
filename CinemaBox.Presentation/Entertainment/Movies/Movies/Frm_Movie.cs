@@ -5,6 +5,7 @@ using CinemaBox.Model.Entertainment.Movie.ShowMovie;
 using CinemaBox.Presentation.Entertainment.Movies.EditMovie;
 using CinemaBox.Scrapping.Interface.Imdb.Service.Movie;
 using CinemaBox.Service.Interface.Entertainment.Certificates;
+using CinemaBox.Service.Interface.Entertainment.Collections;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCompanies;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCountries;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCredits;
@@ -51,6 +52,7 @@ public partial class Frm_Movie : CesForm
     private readonly IUserMovieAudioServices _userMovieAudioServices;
     private readonly ILanguageServices _languageServices;
     private readonly IUserMovieFileServices _userMovieFileServices;
+    private readonly ICollectionServices _collectionServices;
     public Frm_Movie(IImdbMovieScrapperServices imdbScrapperServices,
         IMovieServices movieServices,
         IMovieCompanyServices movieCompanyServices,
@@ -72,7 +74,8 @@ public partial class Frm_Movie : CesForm
         IFormatServices formatServices,
         IUserMovieAudioServices userMovieAudioServices,
         ILanguageServices languageServices,
-        IUserMovieFileServices userMovieFileServices
+        IUserMovieFileServices userMovieFileServices,
+        ICollectionServices collectionServices
         )
     {
         InitializeComponent();
@@ -98,6 +101,7 @@ public partial class Frm_Movie : CesForm
         _userMovieAudioServices = userMovieAudioServices ?? throw new ArgumentNullException(nameof(userMovieAudioServices));
         _languageServices = languageServices ?? throw new ArgumentNullException(nameof(languageServices));
         _userMovieFileServices = userMovieFileServices ?? throw new ArgumentNullException(nameof(userMovieFileServices));
+        _collectionServices = collectionServices ?? throw new ArgumentNullException(nameof(collectionServices));
     }
 
     private async void Btn_GetInfo_Click(object sender, EventArgs e)
@@ -170,7 +174,8 @@ public partial class Frm_Movie : CesForm
             formatServices: _formatServices,
             userMovieAudioServices: _userMovieAudioServices,
             languageServices: _languageServices,
-            userMovieFileServices: _userMovieFileServices
+            userMovieFileServices: _userMovieFileServices,
+            collectionServices: _collectionServices
 
             );
         frm_EditForm.ShowDialog();
