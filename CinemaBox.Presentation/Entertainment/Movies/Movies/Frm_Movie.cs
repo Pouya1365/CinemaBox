@@ -1,4 +1,5 @@
-using Ces.WinForm.UI.CesForm;
+﻿using Ces.WinForm.UI.CesForm;
+using Ces.WinForm.UI.CesMessageBox;
 using CinemaBox.Domain.Entertainment.Movies;
 using CinemaBox.Model.Entertainment.Movie.Movie;
 using CinemaBox.Model.Entertainment.Movie.ShowMovie;
@@ -122,6 +123,15 @@ public partial class Frm_Movie : CesForm
         string endYear = movie.EndYear != null ? @$"-{movie.EndYear}" : "";
         string movieName = $@"{movie.EnTitle}_{movie.StartYear}{endYear}";
         await _movieFileServices.CreateOrUpdateMovieImage(path: path, imageUrl: movieModelScrapping.ImageUrl, movieId: movie.Id, movieName: movieName);
+        CesMessageBoxOptions cesMessageBoxOptions = new()
+        {
+            Buttons = CesMessageBoxButtonsEnum.Ok,
+            Icon = CesMessageBoxIconEnum.MessageSuccess,
+            Title = "پایان",
+            Size = CesMessageBoxSizeEnum.Small
+        };
+
+        CesMessage.Show("عملیات با موفقیت به پایان رسید", cesMessageBoxOptions);
        LoadMovie(null);
     }
 

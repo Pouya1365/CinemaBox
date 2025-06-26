@@ -21,6 +21,7 @@ public class UserMovieDiskConfiguration : IEntityTypeConfiguration<UserMovieDisk
         builder.Property(umd => umd.IsDubbed).HasComment(comment: "دوبله");
         builder.Property(umd => umd.IsSubtitle).HasComment(comment: "زیرنویس");
         builder.Property(umd => umd.StatusId).HasComment(comment: "شناسه وضعیت");
+        builder.Property(umd => umd.Description).HasMaxLength(250).HasComment(comment: "توضیحات");
         builder.HasOne(umd => umd.Movie).WithMany(umd => umd.UserMovieDisks).HasForeignKey(umd => umd.Id);
         builder.HasOne(umd => umd.Status).WithMany(umd => umd.UserMovieDisks).HasForeignKey(umd => umd.StatusId);
     }

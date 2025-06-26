@@ -59,6 +59,7 @@
             tabPage8 = new TabPage();
             Flw_Tagline = new FlowLayoutPanel();
             Tb_Video = new TabPage();
+            Txt_Description = new Ces.WinForm.UI.CesTextBox();
             Txt_Bitrate = new Ces.WinForm.UI.CesTextBox();
             Txt_FPS = new Ces.WinForm.UI.CesTextBox();
             Txt_AspectRatio = new Ces.WinForm.UI.CesTextBox();
@@ -794,18 +795,69 @@
             // 
             // Tb_Video
             // 
+            Tb_Video.Controls.Add(Txt_Description);
             Tb_Video.Controls.Add(Txt_Bitrate);
             Tb_Video.Controls.Add(Txt_FPS);
             Tb_Video.Controls.Add(Txt_AspectRatio);
             Tb_Video.Controls.Add(Txt_Resolution);
             Tb_Video.Controls.Add(Txt_Format);
-            Tb_Video.Location = new Point(4, 24);
+            Tb_Video.Location = new Point(4, 28);
             Tb_Video.Name = "Tb_Video";
             Tb_Video.Padding = new Padding(3);
-            Tb_Video.Size = new Size(778, 357);
+            Tb_Video.Size = new Size(778, 353);
             Tb_Video.TabIndex = 7;
             Tb_Video.Text = "مشخصات ویدیو";
             Tb_Video.UseVisualStyleBackColor = true;
+            // 
+            // Txt_Description
+            // 
+            Txt_Description._initialControlHeight = 0;
+            Txt_Description.BackColor = Color.White;
+            Txt_Description.CesAutoHeight = true;
+            Txt_Description.CesBackColor = Color.White;
+            Txt_Description.CesBorderColor = Color.DeepSkyBlue;
+            Txt_Description.CesBorderRadius = 0;
+            Txt_Description.CesBorderThickness = 1;
+            Txt_Description.CesCharacterCasing = CharacterCasing.Normal;
+            Txt_Description.CesFocusColor = Color.White;
+            Txt_Description.CesHasFocus = false;
+            Txt_Description.CesHasNotification = false;
+            Txt_Description.CesIcon = null;
+            Txt_Description.CesInputType = Ces.WinForm.UI.CesInputTypeEnum.Any;
+            Txt_Description.CesMaxLength = 0;
+            Txt_Description.CesMultiLine = true;
+            Txt_Description.CesNotificationColor = Color.Red;
+            Txt_Description.CesPadding = new Padding(5);
+            Txt_Description.CesPasswordChar = '\0';
+            Txt_Description.CesPlaceHolderText = null;
+            Txt_Description.CesReadOnly = false;
+            Txt_Description.CesRightToLeft = RightToLeft.Yes;
+            Txt_Description.CesScrollBar = ScrollBars.None;
+            Txt_Description.CesShowClearButton = false;
+            Txt_Description.CesShowCopyButton = false;
+            Txt_Description.CesShowIcon = false;
+            Txt_Description.CesShowPasteButton = true;
+            Txt_Description.CesShowTitle = true;
+            Txt_Description.CesText = "";
+            Txt_Description.CesTextAlignment = HorizontalAlignment.Right;
+            Txt_Description.CesTheme = Ces.WinForm.UI.Infrastructure.ThemeEnum.White;
+            Txt_Description.CesTitleAutoHeight = false;
+            Txt_Description.CesTitleAutoWidth = true;
+            Txt_Description.CesTitleBackground = true;
+            Txt_Description.CesTitleFont = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Txt_Description.CesTitleHeight = 25;
+            Txt_Description.CesTitlePosition = Ces.WinForm.UI.Infrastructure.CesTitlePositionEnum.Right;
+            Txt_Description.CesTitleText = "توصیحات";
+            Txt_Description.CesTitleTextAlignment = Ces.WinForm.UI.Infrastructure.CesTitleContentAlignmentEnum.Center;
+            Txt_Description.CesTitleTextColor = Color.White;
+            Txt_Description.CesTitleWidth = 80;
+            Txt_Description.CesWordWrap = true;
+            Txt_Description.Location = new Point(6, 20);
+            Txt_Description.Margin = new Padding(3, 20, 3, 20);
+            Txt_Description.Name = "Txt_Description";
+            Txt_Description.Padding = new Padding(3, 20, 3, 20);
+            Txt_Description.Size = new Size(345, 158);
+            Txt_Description.TabIndex = 31;
             // 
             // Txt_Bitrate
             // 
@@ -1649,9 +1701,9 @@
             Txt_FaStoryline.CesHasFocus = false;
             Txt_FaStoryline.CesHasNotification = false;
             Txt_FaStoryline.CesIcon = null;
-            Txt_FaStoryline.CesInputType = Ces.WinForm.UI.CesInputTypeEnum.Number;
+            Txt_FaStoryline.CesInputType = Ces.WinForm.UI.CesInputTypeEnum.Any;
             Txt_FaStoryline.CesMaxLength = 0;
-            Txt_FaStoryline.CesMultiLine = false;
+            Txt_FaStoryline.CesMultiLine = true;
             Txt_FaStoryline.CesNotificationColor = Color.Red;
             Txt_FaStoryline.CesPadding = new Padding(5);
             Txt_FaStoryline.CesPasswordChar = '\0';
@@ -1665,23 +1717,24 @@
             Txt_FaStoryline.CesShowPasteButton = true;
             Txt_FaStoryline.CesShowTitle = true;
             Txt_FaStoryline.CesText = "";
-            Txt_FaStoryline.CesTextAlignment = HorizontalAlignment.Center;
+            Txt_FaStoryline.CesTextAlignment = HorizontalAlignment.Right;
             Txt_FaStoryline.CesTheme = Ces.WinForm.UI.Infrastructure.ThemeEnum.White;
-            Txt_FaStoryline.CesTitleAutoHeight = false;
+            Txt_FaStoryline.CesTitleAutoHeight = true;
             Txt_FaStoryline.CesTitleAutoWidth = true;
             Txt_FaStoryline.CesTitleBackground = true;
             Txt_FaStoryline.CesTitleFont = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Txt_FaStoryline.CesTitleHeight = 25;
             Txt_FaStoryline.CesTitlePosition = Ces.WinForm.UI.Infrastructure.CesTitlePositionEnum.Right;
             Txt_FaStoryline.CesTitleText = "خلاصه فارسی";
-            Txt_FaStoryline.CesTitleTextAlignment = Ces.WinForm.UI.Infrastructure.CesTitleContentAlignmentEnum.Center;
+            Txt_FaStoryline.CesTitleTextAlignment = Ces.WinForm.UI.Infrastructure.CesTitleContentAlignmentEnum.Right;
             Txt_FaStoryline.CesTitleTextColor = Color.White;
             Txt_FaStoryline.CesTitleWidth = 80;
-            Txt_FaStoryline.CesWordWrap = false;
+            Txt_FaStoryline.CesWordWrap = true;
             Txt_FaStoryline.Location = new Point(249, 274);
             Txt_FaStoryline.Margin = new Padding(3, 16, 3, 16);
             Txt_FaStoryline.Name = "Txt_FaStoryline";
             Txt_FaStoryline.Padding = new Padding(3, 16, 3, 16);
+            Txt_FaStoryline.RightToLeft = RightToLeft.Yes;
             Txt_FaStoryline.Size = new Size(386, 125);
             Txt_FaStoryline.TabIndex = 20;
             // 
@@ -2707,5 +2760,6 @@
         private Ces.WinForm.UI.CesCheckBox Chk_Subtitle;
         private Ces.WinForm.UI.CesGridView.CesGridView Dgv_Audio;
         private Ces.WinForm.UI.CesButton.CesRoundedButton Btn_Save;
+        private Ces.WinForm.UI.CesTextBox Txt_Description;
     }
 }

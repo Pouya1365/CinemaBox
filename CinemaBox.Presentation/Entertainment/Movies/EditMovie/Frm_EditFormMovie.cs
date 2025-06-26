@@ -55,8 +55,6 @@ using CinemaBox.UserController.Entertainment.CreditShow;
 using CinemaBox.Utilities.DateTimeExtension.DateExtensions;
 using CinemaBox.Utilities.DateTimeExtension.TimeExtension;
 using CinemaBox.Utilities.Lables;
-using Microsoft.VisualBasic.Devices;
-using System.Threading.Tasks;
 
 
 namespace CinemaBox.Presentation.Entertainment.Movies.EditMovie;
@@ -86,6 +84,7 @@ public partial class Frm_EditFormMovie : CesForm
     private readonly IUserMovieFileServices? _userMovieFileServices;
     private readonly ICollectionServices? _collectionServices;
     private readonly string? _movieId;
+    private bool changeImageUser = false;
     public Frm_EditFormMovie(IMovieServices movieServices,
         string? movieId,
         ICurrencyServices? currencyServices,
@@ -185,6 +184,7 @@ public partial class Frm_EditFormMovie : CesForm
         Txt_ReleaseMonth.CesText = movie.ReleaseMonth.ToString();
         Txt_ReleaseDay.CesText = movie.ReleaseDay.ToString();
         Txt_ShamsiYear.CesText = $"{Pcal.ToToJalali((int)(movie.ReleaseYear ?? 1900), (int)(movie.ReleaseMonth ?? 01), (int)(movie.ReleaseDay ?? 01))[..4]}";
+        Txt_FaStoryline.CesText = movie.FaStoryline;
         await LoadComboBoxDataAsync<Certificate>(
     "Rateds",
     Cmb_Certificate,
@@ -197,7 +197,7 @@ public partial class Frm_EditFormMovie : CesForm
   "Collections",
   Cmb_Collection,
   GetCollectionsAsync,
-  c => new CesListBoxItemProperty { Value = c.Id, Text = c.FaCollectionName ?? c.EnCollectionName },
+  c => new CesListBoxItemProperty { Value = c.Id, Text = (c.FaCollectionName ?? c.EnCollectionName) },
   collectionId);
     private async Task<Movie?> GetMovie() => await _movieServices.GeMovieAsync(ImdbId: _movieId);
     private async Task<Currency?> GetCurrency(byte? currencyId) => await _currencyServices.GetCurrencyAsync(currencyId);
@@ -251,7 +251,7 @@ public partial class Frm_EditFormMovie : CesForm
         int? selectedId)
     {
         IEnumerable<TModel> itemsSource = await dataFetcher();
-        List<CesListBoxItemProperty> items = itemsSource.Select(selector).ToList();
+        List<CesListBoxItemProperty> items = [.. itemsSource.Select(selector)];
 
         comboBox.CesDataSource = null;
         comboBox.CesValueMember = "Value";
@@ -261,7 +261,7 @@ public partial class Frm_EditFormMovie : CesForm
 
         if (selectedId.HasValue)
         {
-            CesListBoxItemProperty? selectedItem = items.FirstOrDefault(x => (byte)x.Value == selectedId.Value);
+            CesListBoxItemProperty? selectedItem = items.FirstOrDefault(x => int.Parse(x.Value.ToString()) == int.Parse(selectedId.Value.ToString()));
             if (selectedItem != null)
                 comboBox.CesSelectedItem = selectedItem;
         }
@@ -288,6 +288,7 @@ public partial class Frm_EditFormMovie : CesForm
         Txt_FileSize.CesText = userMovieDisk.FileSize.ToString();
         Chk_IsDubbed.CesCheck = userMovieDisk.IsDubbed;
         Txt_MyHourTime.CesText = HourTimeExtension.FormatHourMinutesToTimeString((int?)userMovieDisk.MyTime ?? 0);
+        Txt_Description.CesText = userMovieDisk.Description;
         await LoadComboBoxDataAsync<Status>(
     "StatusCache",
     Cmb_MyStatus,
@@ -510,7 +511,8 @@ public partial class Frm_EditFormMovie : CesForm
         await SaveUserMovieDiskAsync();
         await SaveUserMovieVideoAsync();
         await SaveUserMovieAudiosAsync();
-        await SaveUserMovieFilesAsync();
+        if (changeImageUser == true)
+            await SaveUserMovieFilesAsync();
         this.Close();
     }
 
@@ -567,6 +569,7 @@ public partial class Frm_EditFormMovie : CesForm
         userMovieDisk.IsDubbed = Chk_IsDubbed.CesCheck;
         userMovieDisk.Id = Txt_Imdb.CesText;
         userMovieDisk.StatusId = (byte?)Cmb_MyStatus.CesSelectedValue;
+        userMovieDisk.Description = Txt_Description.CesText;
         await CreateOrUpdateUserMovieDisk(userMovieDisk);
     }
     private async Task SaveUserMovieVideoAsync()
@@ -643,6 +646,7 @@ public partial class Frm_EditFormMovie : CesForm
     private async Task<IEnumerable<UserMovieAudio>> GetUserMovieAudio() => await _userMovieAudioServices.GetMovieAudiosAsync(movieId: _movieId);
     private void Pic_UserMovie_Click(object sender, EventArgs e)
     {
+        changeImageUser = true;
         using OpenFileDialog open = new();
         if (open.ShowDialog() != DialogResult.OK || string.IsNullOrWhiteSpace(open.FileName))
             return;
@@ -665,5 +669,5 @@ public partial class Frm_EditFormMovie : CesForm
         frm_AddCollections.ShowDialog();
         await LoadCollection(collectionId: null);
     }
-    private void Btn_Exit_Click(object sender, EventArgs e)=>this.Close();
+    private void Btn_Exit_Click(object sender, EventArgs e) => this.Close();
 }
