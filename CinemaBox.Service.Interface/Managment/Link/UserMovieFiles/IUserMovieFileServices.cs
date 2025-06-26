@@ -7,5 +7,5 @@ public interface IUserMovieFileServices
 {
     Task CreateOrUpdateUserMovieImage(string path, byte[] image, string movieId, string movieName);
     Task<UserMovieFile> GetUserMovieFile(string movieId);
-
+    Task<IEnumerable<UserMovieFile>> GetAllUserMovieFile();
 }

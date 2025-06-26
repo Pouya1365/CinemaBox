@@ -1,18 +1,23 @@
 ﻿using CinemaBox.Domain.Entertainment.Movies;
+using CinemaBox.Domain.Managment.Link.UserMovieFiles;
 using CinemaBox.Model.Entertainment.Movie.Movie;
 using CinemaBox.Model.Entertainment.Movie.ShowMovie;
 using CinemaBox.Service.Interface.Entertainment.Certificates;
 using CinemaBox.Service.Interface.Entertainment.Movies;
+using CinemaBox.Service.Interface.Managment.Link.UserMovieFiles;
 using CinemaBox.Service.Interface.Shared.Currencies;
+using CinemaBox.Service.Managment.Link.UserMovieFiles;
 using CinemaBox.UnitOfWork.Interface.UOW;
+using System.Collections.Generic;
 
 namespace CinemaBox.Service.Entertainment.Movies;
 
-public class MovieServices(IUnitOfWork unitOfWork, ICertificateServices certificateServices, ICurrencyServices currencyServices) : IMovieServices
+public class MovieServices(IUnitOfWork unitOfWork, ICertificateServices certificateServices, ICurrencyServices currencyServices,IUserMovieFileServices userMovieFileServices) : IMovieServices
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     private readonly ICertificateServices _certificateServices = certificateServices ?? throw new ArgumentNullException(nameof(certificateServices));
     private readonly ICurrencyServices _currencyServices = currencyServices ?? throw new ArgumentNullException(nameof(currencyServices));
+    private readonly IUserMovieFileServices _userMovieFileServices = userMovieFileServices ?? throw new ArgumentNullException(nameof(userMovieFileServices));
     public async Task<Movie> CreateOrUpdate(MovieModelScrapping model)
     {
         byte? certificateId = await GetCertificateIdAsync(model.Certificate);
@@ -59,27 +64,85 @@ public class MovieServices(IUnitOfWork unitOfWork, ICertificateServices certific
     }
     public async Task<List<ShowMovieModel>> GetMovieModelsAsync(string search)
     {
-        List<ShowMovieModel> showMovieModels;
-        IEnumerable<Movie> m = await _unitOfWork.Repository<Movie>().GetAllWithMultipleIncludesAsync(x => x.MovieFiles, x => x.File, x => x.Server);
+        // 1. بارگذاری فیلم‌ها همراه با فایل‌ها و سرورهای مرتبط
+        IEnumerable<Movie> movies = await LoadMoviesAsync();
 
-        showMovieModels = [.. m.Select(x => new ShowMovieModel
+        // 2. بارگذاری فایل‌های کاربر برای فیلم‌ها
+        IEnumerable<UserMovieFile> userMovieFiles = await GetUserMovieFilesAsync();
+
+        // 3. فیلتر کردن فیلم‌ها بر اساس جستجو (اختیاری)
+        if (!string.IsNullOrWhiteSpace(search))
         {
-            EndYear=x.EndYear,
-            EnTitle=x.EnTitle,
-            FaTitle=x.FaTitle,
-            MovieId=x.Id,
-            StartYear=x.StartYear,
-            PosterPath=Path.Combine( x.MovieFiles.FirstOrDefault()?.File.Server.Path,x.MovieFiles.FirstOrDefault().File.FileName)
-        })];
+            movies = movies.Where(m =>
+                m.EnTitle.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                m.FaTitle.Contains(search, StringComparison.OrdinalIgnoreCase));
+        }
+
+        // 4. تبدیل لیست فایل‌های کاربر به دیکشنری
+        Dictionary<string, UserMovieFile> userFilesDict = ToMovieUserFileDictionary(userMovieFiles);
+
+        // 5. ساخت مدل نهایی برای نمایش
+        List<ShowMovieModel> showMovieModels = movies.Select(movie =>
+            CreateShowMovieModel(movie, userFilesDict)).ToList();
 
         return showMovieModels;
     }
+
+    // بارگذاری فیلم‌ها با فایل‌ها و سرورهای مرتبط
+    private async Task<IEnumerable<Movie>> LoadMoviesAsync()=> await _unitOfWork.Repository<Movie>().GetAllWithMultipleIncludesAsync(
+            x => x.MovieFiles,
+            x => x.File,
+            x => x.Server
+        );
+   
+
+    // بارگذاری فایل‌های کاربر
+    private async Task<IEnumerable<UserMovieFile>> GetUserMovieFilesAsync()=>
+     await GetUserMovieFiles();
+
+    // تبدیل لیست فایل‌های کاربر به دیکشنری برای دسترسی سریع
+    private Dictionary<string, UserMovieFile> ToMovieUserFileDictionary(IEnumerable<UserMovieFile> files)=> files
+            .Where(f => f.File?.Server != null)
+            .GroupBy(f => f.MovieId)
+            .ToDictionary(g => g.Key, g => g.First());
+
+    // ساخت مدل نهایی برای هر فیلم
+    private ShowMovieModel CreateShowMovieModel(Movie movie, Dictionary<string, UserMovieFile> userFiles)
+    {
+        string imageUrl;
+
+        // اگر فایل کاربر برای فیلم موجود بود
+        if (userFiles.TryGetValue(movie.Id, out var userFile))        
+            imageUrl = Path.Combine(userFile.File.Server.Path, userFile.File.FileName);
+        
+        else
+        {
+            // اگر فایل کاربر نبود، از فایل پیش‌فرض فیلم استفاده می‌کنیم
+            Domain.Entertainment.Link.MovieFiles.MovieFile? defaultFile = movie.MovieFiles
+                .FirstOrDefault(f => f.File?.Server != null);
+
+            imageUrl = defaultFile != null
+                ? Path.Combine(defaultFile.File.Server.Path, defaultFile.File.FileName)
+                : "/images/default.png";
+        }
+
+        return new ShowMovieModel
+        {
+            MovieId = movie.Id,
+            EnTitle = movie.EnTitle,
+            FaTitle = movie.FaTitle,
+            StartYear = movie.StartYear,
+            EndYear = movie.EndYear,
+            PosterPath = imageUrl
+        };
+    }
+
     public async Task UpdateMovie(Movie movie)
     {
         _unitOfWork.Repository<Movie>().Update(movie);
         await _unitOfWork.CompleteAsync();
     }
-
+    public async Task<IEnumerable<UserMovieFile>> GetUserMovieFiles() => await _userMovieFileServices.GetAllUserMovieFile();
 
 
 }

@@ -48,6 +48,7 @@ namespace CinemaBox.Service.Managment.Link.UserMovieFiles
         private void RemoveFile(long fileId, string serverFolderPath) => _fileServices.RemoveFile(fileId: fileId, serverFolderPath: serverFolderPath);
         private async Task<Domain.Files.Files.File?> GetOrCreateUserFile(ServerTypeEnumeration serverTypeEnumeration, string fileName) => await _fileServices.CreateOrGetFileAsync(serverTypeEnumeration: serverTypeEnumeration, fileName);
         public async Task<UserMovieFile> GetUserMovieFile(string movieId) => await unitOfWork.Repository<UserMovieFile>().FindAsync(x => x.MovieId == movieId,x=>x.File,x=>x.File.Server);
+        public async Task<IEnumerable<UserMovieFile>> GetAllUserMovieFile() => await unitOfWork.Repository<UserMovieFile>().GetAllWithIncludesAsync(x=>x.File,x=>x.File.Server);
    
     }
 
