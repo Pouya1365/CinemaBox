@@ -679,7 +679,7 @@ namespace CinemaBox.Context.Migrations
                     FileId = table.Column<long>(type: "bigint", nullable: false, comment: "شناسه فایل")
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ServerId = table.Column<byte>(type: "tinyint", nullable: false, comment: "شناسه  سرور"),
-                    FileName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true, comment: "عنوان فایل")
+                    FileName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true, comment: "عنوان فایل")
                 },
                 constraints: table =>
                 {
