@@ -11,7 +11,7 @@ public class KeywordServices(IUnitOfWork unitOfWork) : IKeywordServices
     {
         if (string.IsNullOrWhiteSpace(keywordId))
             return null;
-        Keyword? Keyword = await GetKeywordAsync(keywordName);
+        Keyword? Keyword = await GetKeywordAsync(keywordId:keywordId);
         if (Keyword == null)
         {
             Keyword = new Keyword { EnKeyowrdName = keywordName.Trim(),Id= keywordId };
