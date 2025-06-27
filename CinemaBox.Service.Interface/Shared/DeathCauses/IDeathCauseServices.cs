@@ -6,4 +6,5 @@ public interface IDeathCauseServices
 {
     Task<DeathCause?> CreateOrGetDeathCauseAsync(string? deathCauseName);
     Task<DeathCause?> GetDeathCauseAsync(string deathCauseName);
+    Task<IEnumerable<DeathCause>?> GetDeathCauseAllAsync();
 }

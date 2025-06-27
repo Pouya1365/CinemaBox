@@ -24,6 +24,7 @@ using CinemaBox.Service.Interface.Managment.Link.UserMovieVideos;
 using CinemaBox.Service.Interface.Person.PeopleFiles;
 using CinemaBox.Service.Interface.Person.Peoples;
 using CinemaBox.Service.Interface.Shared.Currencies;
+using CinemaBox.Service.Interface.Shared.DeathCauses;
 using CinemaBox.Service.Interface.Shared.Formats;
 using CinemaBox.Service.Interface.Shared.Languages;
 using CinemaBox.Service.Interface.Shared.Qualities.Qualities;
@@ -59,6 +60,7 @@ public partial class Frm_Movie : CesForm
     private readonly IQualityServices _qualityService;
     private readonly IQualityTypeServices _qualityTypeService;
     private readonly IImdbOtherScrapperServices _imdbOtherScrapperServices;
+    private readonly IDeathCauseServices? _deathCauseServices;
     public Frm_Movie(IImdbMovieScrapperServices imdbScrapperServices,
         IMovieServices movieServices,
         IMovieCompanyServices movieCompanyServices,
@@ -84,7 +86,8 @@ public partial class Frm_Movie : CesForm
         ICollectionServices collectionServices,
         IQualityServices qualityService,
         IQualityTypeServices qualityTypeService,
-        IImdbOtherScrapperServices imdbOtherScrapperServices
+        IImdbOtherScrapperServices imdbOtherScrapperServices,
+        IDeathCauseServices? deathCauseServices
         )
     {
         InitializeComponent();
@@ -114,6 +117,7 @@ public partial class Frm_Movie : CesForm
         _qualityService = qualityService ?? throw new ArgumentNullException(nameof(qualityService));
         _qualityTypeService = qualityTypeService ?? throw new ArgumentNullException(nameof(qualityTypeService));
         _imdbOtherScrapperServices = imdbOtherScrapperServices ?? throw new ArgumentNullException(nameof(imdbOtherScrapperServices));
+        _deathCauseServices = deathCauseServices ?? throw new ArgumentNullException(nameof(deathCauseServices));
     }
 
     private async void Btn_GetInfo_Click(object sender, EventArgs e)
@@ -199,7 +203,8 @@ public partial class Frm_Movie : CesForm
             userMovieFileServices: _userMovieFileServices,
             collectionServices: _collectionServices,
             qualityServices:_qualityService,
-            qualityTypeServices:_qualityTypeService
+            qualityTypeServices:_qualityTypeService,
+            deathCauseServices: _deathCauseServices
 
             );
         frm_EditForm.ShowDialog();

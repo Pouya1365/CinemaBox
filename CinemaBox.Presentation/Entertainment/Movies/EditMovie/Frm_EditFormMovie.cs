@@ -50,11 +50,13 @@ using CinemaBox.Service.Interface.Managment.Link.UserMovieVideos;
 using CinemaBox.Service.Interface.Person.PeopleFiles;
 using CinemaBox.Service.Interface.Person.Peoples;
 using CinemaBox.Service.Interface.Shared.Currencies;
+using CinemaBox.Service.Interface.Shared.DeathCauses;
 using CinemaBox.Service.Interface.Shared.Formats;
 using CinemaBox.Service.Interface.Shared.Languages;
 using CinemaBox.Service.Interface.Shared.Qualities.Qualities;
 using CinemaBox.Service.Interface.Shared.Qualities.QualityTypes;
 using CinemaBox.Service.Interface.Shared.Statuses;
+using CinemaBox.Service.Shared.DeathCauses;
 using CinemaBox.UserController.Entertainment.CreditShow;
 using CinemaBox.Utilities.DateTimeExtension.DateExtensions;
 using CinemaBox.Utilities.DateTimeExtension.TimeExtension;
@@ -93,6 +95,7 @@ public partial class Frm_EditFormMovie : CesForm
     private readonly ICollectionServices? _collectionServices;
     private readonly IQualityServices? _qualityServices;
     private readonly IQualityTypeServices? _qualityTypeServices;
+    private readonly IDeathCauseServices? _deathCauseServices;
     private readonly string? _movieId;
     private bool changeImageUser = false;
     public Frm_EditFormMovie(IMovieServices movieServices,
@@ -119,7 +122,8 @@ public partial class Frm_EditFormMovie : CesForm
         IUserMovieFileServices? userMovieFileServices,
         ICollectionServices? collectionServices,
         IQualityServices? qualityServices,
-        IQualityTypeServices? qualityTypeServices
+        IQualityTypeServices? qualityTypeServices,
+        IDeathCauseServices? deathCauseServices
         )
     {
         _movieServices = movieServices ?? throw new ArgumentNullException(nameof(movieServices));
@@ -146,6 +150,7 @@ public partial class Frm_EditFormMovie : CesForm
         _collectionServices = collectionServices ?? throw new ArgumentNullException(nameof(collectionServices));
         _qualityServices = qualityServices ?? throw new ArgumentNullException(nameof(qualityServices));
         _qualityTypeServices = qualityTypeServices ?? throw new ArgumentNullException(nameof(qualityTypeServices));
+        _deathCauseServices = deathCauseServices ?? throw new ArgumentNullException(nameof(deathCauseServices));
         _movieId = movieId;
         InitializeComponent();
         _ = IntialData();
@@ -462,7 +467,8 @@ qualityTypaId);
         Frm_EditPeople frm_EditPeople = new(
            peopleId: peopleId,
            peopleServices: _peopleServices,
-           peopleFileServices: _peopleFileServices
+           peopleFileServices: _peopleFileServices,
+           deathCauseServices: _deathCauseServices
 
             );
         frm_EditPeople.ShowDialog();

@@ -29,4 +29,6 @@ public class DeathCauseServices(IUnitOfWork unitOfWork) : IDeathCauseServices
         return await _unitOfWork.Repository<DeathCause>()
             .FindAsync(c => c.EnDeathCauseName.ToLower() == deathCauseName);
     }
+    public async Task<IEnumerable<DeathCause>?> GetDeathCauseAllAsync() => await _unitOfWork.Repository<DeathCause>()
+            .GetAllAsync();
 }
