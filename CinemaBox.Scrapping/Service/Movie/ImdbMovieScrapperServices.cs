@@ -50,6 +50,7 @@ public class ImdbMovieScrapperServices: IImdbMovieScrapperServices
             jsonDocument = NextDataJsonParser.Parse(document: loader);
             moviesModel = extractor.Extract(model: moviesModel, json: jsonDocument);
         }
+
         return moviesModel;
     }
 }

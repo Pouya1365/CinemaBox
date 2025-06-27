@@ -139,6 +139,7 @@ namespace CinemaBox.Presentation;
         services.AddScoped<ICollectionServices, CollectionServices>();
         services.AddScoped<IQualityServices, QualityServices>();
         services.AddScoped<IQualityTypeServices, QualityTypeServices>();
+        services.AddScoped<IImdbOtherScrapperServices, ImdbOtherScrapperServices>();
         // 📦 رجیستر کردن فرم‌ها
         services.AddTransient<Frm_Movie>();
 

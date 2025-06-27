@@ -39,5 +39,14 @@ public class MovieCreditServices(IUnitOfWork unitOfWork, IPeopleServices peopleS
         return movieCredits;
     }
     private async Task<People> GetOrCreatePeople(CreditModel creditModel, string path) => await _peopleServices.CreateOrUpdatePeople(creditModel: creditModel, path: path);
-    public async Task<IEnumerable<MovieCredit>> GetMovieCreditsAsync(string movieId) => await _unitOfWork.Repository<MovieCredit>().GetAllWithPredicateAsync(x => x.MovieId == movieId,x=>x.CreditType ,x => x.People, x => x.People.PeopleFiles);
+    public async Task<IEnumerable<MovieCredit>> GetMovieCreditsAsync(string movieId) => await _unitOfWork.Repository<MovieCredit>().GetAllWithPredicateAsync(x => x.MovieId == movieId, x => x.CreditType, x => x.People, x => x.People.PeopleFiles);
+    public async Task<bool> ChangeIsLeadRole(string peopleId, string movieId)
+    {
+        MovieCredit movieCredit = await _unitOfWork.Repository<MovieCredit>().FindAsync(x => x.PeopleId == peopleId && x.MovieId == movieId);
+        if (movieCredit == null) return false;
+        movieCredit.IsLead = !(movieCredit.IsLead??false);
+        _unitOfWork.Repository<MovieCredit>().Update(movieCredit);
+        await _unitOfWork.CompleteAsync();
+        return true;
+    }
 }

@@ -58,6 +58,7 @@ public partial class Frm_Movie : CesForm
     private readonly ICollectionServices _collectionServices;
     private readonly IQualityServices _qualityService;
     private readonly IQualityTypeServices _qualityTypeService;
+    private readonly IImdbOtherScrapperServices _imdbOtherScrapperServices;
     public Frm_Movie(IImdbMovieScrapperServices imdbScrapperServices,
         IMovieServices movieServices,
         IMovieCompanyServices movieCompanyServices,
@@ -82,7 +83,8 @@ public partial class Frm_Movie : CesForm
         IUserMovieFileServices userMovieFileServices,
         ICollectionServices collectionServices,
         IQualityServices qualityService,
-        IQualityTypeServices qualityTypeService
+        IQualityTypeServices qualityTypeService,
+        IImdbOtherScrapperServices imdbOtherScrapperServices
         )
     {
         InitializeComponent();
@@ -111,6 +113,7 @@ public partial class Frm_Movie : CesForm
         _collectionServices = collectionServices ?? throw new ArgumentNullException(nameof(collectionServices));
         _qualityService = qualityService ?? throw new ArgumentNullException(nameof(qualityService));
         _qualityTypeService = qualityTypeService ?? throw new ArgumentNullException(nameof(qualityTypeService));
+        _imdbOtherScrapperServices = imdbOtherScrapperServices ?? throw new ArgumentNullException(nameof(imdbOtherScrapperServices));
     }
 
     private async void Btn_GetInfo_Click(object sender, EventArgs e)
@@ -118,6 +121,7 @@ public partial class Frm_Movie : CesForm
         if (Txt_Search.CesText is null)
             return;
         MovieModelScrapping movieModelScrapping = await _imdbScrapperServices.ImdbScrapperServicesAsync(imdbId: Txt_Search.CesText);
+        movieModelScrapping = await _imdbOtherScrapperServices.ImdbScrapperServicesAsync(movieModelScrapping);
         Movie movie = await _movieServices.CreateOrUpdate(model: movieModelScrapping);
         await _movieCompanyServices.CreateOrGetMovieCompanyAsync(movieId: Txt_Search.CesText, companieskeyValuePairs: movieModelScrapping.Companies);
         await _movieCountryServices.CreateOrGetMovieCountry(countryModels: movieModelScrapping.CountrieskeyValuePairs, movieId: Txt_Search.CesText);
@@ -149,7 +153,7 @@ public partial class Frm_Movie : CesForm
     }
     private async void LoadMovie(string search)
     {
-
+        Flw_ShowMovie.Controls.Clear();
         List<ShowMovieModel> movieModels = await GetMovieModels();
         List<ShowMovieIcon> ShowMovieIcons = [];
         ShowMovieIcons.AddRange(from movie in movieModels

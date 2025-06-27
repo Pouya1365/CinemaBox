@@ -11,7 +11,9 @@ public class NickNameExtractor : IPeopleGeneralInfoExtractor
     {
         JsonElement? data = json.RootElement.GetPropertySafe("props").GetPropertySafe("pageProps").GetPropertySafe("contentData");
         JsonElement? nickNames = data.GetPropertySafe("data").GetPropertySafe("name").GetPropertySafe("nickNames");
-        if (nickNames.Value.ValueKind == JsonValueKind.Array && nickNames.Value.GetArrayLength() > 0)
+        if (nickNames.HasValue &&
+     nickNames.Value.ValueKind == JsonValueKind.Array &&
+     nickNames.Value.GetArrayLength() > 0)
             model.NickName = nickNames.Value[0].GetPropertySafe("displayableProperty").GetPropertySafe("value").GetPropertySafe("plainText")?.GetString();
         return model;
     }

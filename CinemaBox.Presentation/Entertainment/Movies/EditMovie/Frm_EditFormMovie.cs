@@ -59,7 +59,10 @@ using CinemaBox.UserController.Entertainment.CreditShow;
 using CinemaBox.Utilities.DateTimeExtension.DateExtensions;
 using CinemaBox.Utilities.DateTimeExtension.TimeExtension;
 using CinemaBox.Utilities.Lables;
+using Microsoft.DotNet.DesignTools.Protocol.Values;
 using Microsoft.VisualBasic.Devices;
+using System.ComponentModel;
+using System.Threading.Tasks;
 
 
 namespace CinemaBox.Presentation.Entertainment.Movies.EditMovie;
@@ -210,7 +213,7 @@ public partial class Frm_EditFormMovie : CesForm
   GetCollectionsAsync,
   c => new CesListBoxItemProperty { Value = c.Id, Text = (c.FaCollectionName ?? c.EnCollectionName) },
   collectionId);
- 
+
     private async Task<Movie?> GetMovie() => await _movieServices.GeMovieAsync(ImdbId: _movieId);
     private async Task<Currency?> GetCurrency(byte? currencyId) => await _currencyServices.GetCurrencyAsync(currencyId);
     private async Task SetMovieGenres()
@@ -256,14 +259,17 @@ public partial class Frm_EditFormMovie : CesForm
     }
     private async Task<IEnumerable<MovieTagline?>> GetMovieTaglineAsync() => await _movieTaglineServices.GetMovieTagline(movieId: _movieId);
     private async Task LoadComboBoxDataAsync<TModel>(
-        string cacheKey,
-        CesComboBox comboBox,
-        Func<Task<IEnumerable<TModel>>> dataFetcher,
-        Func<TModel, CesListBoxItemProperty> selector,
-        int? selectedId)
+       string cacheKey,
+       CesComboBox comboBox,
+       Func<Task<IEnumerable<TModel>>> dataFetcher,
+       Func<TModel, CesListBoxItemProperty> selector,
+       int? selectedId)
     {
         IEnumerable<TModel> itemsSource = await dataFetcher();
         List<CesListBoxItemProperty> items = [.. itemsSource.Select(selector)];
+
+        // اضافه کردن آیتم خالی به ابتدای لیست
+
 
         comboBox.CesDataSource = null;
         comboBox.CesValueMember = "Value";
@@ -273,9 +279,16 @@ public partial class Frm_EditFormMovie : CesForm
 
         if (selectedId.HasValue)
         {
-            CesListBoxItemProperty? selectedItem = items.FirstOrDefault(x => int.Parse(x.Value.ToString()) == int.Parse(selectedId.Value.ToString()));
+            CesListBoxItemProperty? selectedItem = items
+                .FirstOrDefault(x => int.TryParse(x.Value.ToString(), out int val) && val == selectedId.Value);
+
             if (selectedItem != null)
                 comboBox.CesSelectedItem = selectedItem;
+        }
+        else
+        {
+            // اگر selectedId نداشت، هیچ چیزی انتخاب نکن
+            comboBox.CesSelectedItem = null; // انتخاب آیتم خالی
         }
     }
     private async Task<IEnumerable<Certificate>> GetCertificatesAsync() => await _certificateServices.GetAllCertificatesAsync();
@@ -338,13 +351,13 @@ public partial class Frm_EditFormMovie : CesForm
 "Quality",
 Cmb_Quality,
 GetQualityAsync,
-q => new CesListBoxItemProperty { Value =q.Id, Text = q.QualityName },
+q => new CesListBoxItemProperty { Value = q.Id, Text = q.QualityName },
 qualityId);
     private async Task LoadQualityType(int? qualityTypaId) => await LoadComboBoxDataAsync<QualityType>(
 "QualityType",
 Cmb_QualityType,
 GetQualityTypeAsync,
-qt => new CesListBoxItemProperty { Value = qt.Id, Text =qt.QualityTypeName },
+qt => new CesListBoxItemProperty { Value = qt.Id, Text = qt.QualityTypeName },
 qualityTypaId);
 
     private async Task<IEnumerable<Quality>> GetQualityAsync() => await _qualityServices.GetAllQualities();
@@ -424,6 +437,7 @@ qualityTypaId);
         ShowCrews AttachHandler(ShowCrews ctrl)
         {
             ctrl.PicClicked += PeopleBox_PosterClicked;
+            ctrl.CheckedClicked += CheckedBox_Clicked;
             return ctrl;
         }
         Flw_Crews.Controls.AddRange(crewControls);
@@ -453,6 +467,9 @@ qualityTypaId);
             );
         frm_EditPeople.ShowDialog();
     }
+    private async void CheckedBox_Clicked(object sender, string peopleId)=>  await ChangeIsLead(peopleId: peopleId);
+
+
     #endregion
     #region ReadFile
     private void Btn_ReadFile_Click(object sender, EventArgs e)
@@ -621,8 +638,8 @@ qualityTypaId);
         userMovieVideo.Resolution = Txt_Resolution.CesText;
         userMovieVideo.Id = Txt_Imdb.CesText;
         userMovieVideo.X265 = Chk_X265.CesCheck;
-        userMovieVideo.QualityId =(byte?) Cmb_Quality.CesSelectedValue;
-        userMovieVideo.QualityTypeId =(byte?) Cmb_QualityType.CesSelectedValue;
+        userMovieVideo.QualityId = (byte?)Cmb_Quality.CesSelectedValue;
+        userMovieVideo.QualityTypeId = (byte?)Cmb_QualityType.CesSelectedValue;
 
         await CreateOrUpdateUserMovieVideo(userMovieVideo);
     }
@@ -706,4 +723,5 @@ qualityTypaId);
         await LoadCollection(collectionId: null);
     }
     private void Btn_Exit_Click(object sender, EventArgs e) => this.Close();
+    public async Task<bool> ChangeIsLead(string peopleId) => await _movieCreditServices.ChangeIsLeadRole(peopleId: peopleId, movieId: _movieId);
 }

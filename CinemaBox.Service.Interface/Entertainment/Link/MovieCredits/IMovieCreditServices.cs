@@ -7,4 +7,5 @@ public interface IMovieCreditServices
 {
     Task<List<MovieCredit>> CreateOrGetMovieCredit(List<CreditModel> creditModels, string path);
     Task<IEnumerable<MovieCredit>> GetMovieCreditsAsync(string movieId);
+    Task<bool> ChangeIsLeadRole(string peopleId, string movieId);
 }

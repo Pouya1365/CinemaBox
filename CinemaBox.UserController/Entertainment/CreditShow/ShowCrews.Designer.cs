@@ -109,6 +109,7 @@
             Chk_IsLeadRole.RightToLeft = RightToLeft.Yes;
             Chk_IsLeadRole.Size = new Size(216, 26);
             Chk_IsLeadRole.TabIndex = 4;
+            Chk_IsLeadRole.CesCheckBoxValueChanged += Chk_IsLeadRole_CesCheckBoxValueChanged;
             // 
             // ShowCrews
             // 

@@ -82,8 +82,8 @@ public class MovieServices(IUnitOfWork unitOfWork, ICertificateServices certific
         Dictionary<string, UserMovieFile> userFilesDict = ToMovieUserFileDictionary(userMovieFiles);
 
         // 5. ساخت مدل نهایی برای نمایش
-        List<ShowMovieModel> showMovieModels = movies.Select(movie =>
-            CreateShowMovieModel(movie, userFilesDict)).ToList();
+        List<ShowMovieModel> showMovieModels = [.. movies.Select(movie =>
+            CreateShowMovieModel(movie, userFilesDict))];
 
         return showMovieModels;
     }

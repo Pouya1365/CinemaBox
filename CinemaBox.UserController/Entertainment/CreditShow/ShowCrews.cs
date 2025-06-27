@@ -13,6 +13,7 @@ public partial class ShowCrews : UserControl
     private bool? _isLeadRole;
     private string? _id;
     public event EventHandler<string?>? PicClicked;
+    public event EventHandler<string?>? CheckedClicked;
     public ShowCrews(string? pictureUrl, string? enfullName, string? faFullName, string? encreditType, string? facreditType, string? roleName, bool? isLeadRole, string? id)
     {
         _picUrl = pictureUrl;
@@ -44,5 +45,8 @@ public partial class ShowCrews : UserControl
     }
 
     private void Pic_People_Click(object sender, EventArgs e) => PicClicked?.Invoke(this, _id);
+
+    private void Chk_IsLeadRole_CesCheckBoxValueChanged(object sender, bool? value)=>CheckedClicked?.Invoke(value, _id);
+
 }
 
