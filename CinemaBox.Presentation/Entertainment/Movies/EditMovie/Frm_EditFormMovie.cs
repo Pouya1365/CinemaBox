@@ -21,6 +21,8 @@ using CinemaBox.Domain.Person.PeopleFiles;
 using CinemaBox.Domain.Shared.Currencies;
 using CinemaBox.Domain.Shared.Formats;
 using CinemaBox.Domain.Shared.Languages;
+using CinemaBox.Domain.Shared.Qualities.Qualities;
+using CinemaBox.Domain.Shared.Qualities.QualityTypes;
 using CinemaBox.Domain.Shared.Statuses;
 using CinemaBox.Enumeration.Entertainment.Crew;
 using CinemaBox.Enumeration.MediaInfo.MediaInfo;
@@ -50,11 +52,14 @@ using CinemaBox.Service.Interface.Person.Peoples;
 using CinemaBox.Service.Interface.Shared.Currencies;
 using CinemaBox.Service.Interface.Shared.Formats;
 using CinemaBox.Service.Interface.Shared.Languages;
+using CinemaBox.Service.Interface.Shared.Qualities.Qualities;
+using CinemaBox.Service.Interface.Shared.Qualities.QualityTypes;
 using CinemaBox.Service.Interface.Shared.Statuses;
 using CinemaBox.UserController.Entertainment.CreditShow;
 using CinemaBox.Utilities.DateTimeExtension.DateExtensions;
 using CinemaBox.Utilities.DateTimeExtension.TimeExtension;
 using CinemaBox.Utilities.Lables;
+using Microsoft.VisualBasic.Devices;
 
 
 namespace CinemaBox.Presentation.Entertainment.Movies.EditMovie;
@@ -83,6 +88,8 @@ public partial class Frm_EditFormMovie : CesForm
     private readonly ILanguageServices? _languageServices;
     private readonly IUserMovieFileServices? _userMovieFileServices;
     private readonly ICollectionServices? _collectionServices;
+    private readonly IQualityServices? _qualityServices;
+    private readonly IQualityTypeServices? _qualityTypeServices;
     private readonly string? _movieId;
     private bool changeImageUser = false;
     public Frm_EditFormMovie(IMovieServices movieServices,
@@ -107,8 +114,9 @@ public partial class Frm_EditFormMovie : CesForm
         IUserMovieAudioServices? userMovieAudioServices,
         ILanguageServices? languageServices,
         IUserMovieFileServices? userMovieFileServices,
-        ICollectionServices? collectionServices
-
+        ICollectionServices? collectionServices,
+        IQualityServices? qualityServices,
+        IQualityTypeServices? qualityTypeServices
         )
     {
         _movieServices = movieServices ?? throw new ArgumentNullException(nameof(movieServices));
@@ -133,6 +141,8 @@ public partial class Frm_EditFormMovie : CesForm
         _languageServices = languageServices ?? throw new ArgumentNullException(nameof(languageServices));
         _userMovieFileServices = userMovieFileServices ?? throw new ArgumentNullException(nameof(userMovieFileServices));
         _collectionServices = collectionServices ?? throw new ArgumentNullException(nameof(collectionServices));
+        _qualityServices = qualityServices ?? throw new ArgumentNullException(nameof(qualityServices));
+        _qualityTypeServices = qualityTypeServices ?? throw new ArgumentNullException(nameof(qualityTypeServices));
         _movieId = movieId;
         InitializeComponent();
         _ = IntialData();
@@ -185,20 +195,22 @@ public partial class Frm_EditFormMovie : CesForm
         Txt_ReleaseDay.CesText = movie.ReleaseDay.ToString();
         Txt_ShamsiYear.CesText = $"{Pcal.ToToJalali((int)(movie.ReleaseYear ?? 1900), (int)(movie.ReleaseMonth ?? 01), (int)(movie.ReleaseDay ?? 01))[..4]}";
         Txt_FaStoryline.CesText = movie.FaStoryline;
-        await LoadComboBoxDataAsync<Certificate>(
+        await LoadCertificate(certificateId: movie.CertificateId);
+        await LoadCollection(collectionId: movie.CollectionId);
+    }
+    private async Task LoadCertificate(int? certificateId) => await LoadComboBoxDataAsync<Certificate>(
     "Rateds",
     Cmb_Certificate,
     GetCertificatesAsync,
     cert => new CesListBoxItemProperty { Value = cert.Id, Text = cert.CertificateName },
-    movie.CertificateId);
-        await LoadCollection(collectionId: movie.CollectionId);
-    }
+   certificateId);
     private async Task LoadCollection(int? collectionId) => await LoadComboBoxDataAsync<Collection>(
   "Collections",
   Cmb_Collection,
   GetCollectionsAsync,
   c => new CesListBoxItemProperty { Value = c.Id, Text = (c.FaCollectionName ?? c.EnCollectionName) },
   collectionId);
+ 
     private async Task<Movie?> GetMovie() => await _movieServices.GeMovieAsync(ImdbId: _movieId);
     private async Task<Currency?> GetCurrency(byte? currencyId) => await _currencyServices.GetCurrencyAsync(currencyId);
     private async Task SetMovieGenres()
@@ -317,7 +329,28 @@ public partial class Frm_EditFormMovie : CesForm
         Txt_FPS.CesText = userMovieVideo.FPS;
         Txt_AspectRatio.CesText = userMovieVideo.AspectRatio;
         Txt_Resolution.CesText = userMovieVideo.Resolution;
+        Chk_X265.CesCheck = userMovieVideo.X265;
+        await LoadQuality(qualityId: userMovieVideo.QualityId);
+        await LoadQualityType(qualityTypaId: userMovieVideo.QualityTypeId);
     }
+
+    private async Task LoadQuality(int? qualityId) => await LoadComboBoxDataAsync<Quality>(
+"Quality",
+Cmb_Quality,
+GetQualityAsync,
+q => new CesListBoxItemProperty { Value =q.Id, Text = q.QualityName },
+qualityId);
+    private async Task LoadQualityType(int? qualityTypaId) => await LoadComboBoxDataAsync<QualityType>(
+"QualityType",
+Cmb_QualityType,
+GetQualityTypeAsync,
+qt => new CesListBoxItemProperty { Value = qt.Id, Text =qt.QualityTypeName },
+qualityTypaId);
+
+    private async Task<IEnumerable<Quality>> GetQualityAsync() => await _qualityServices.GetAllQualities();
+    private async Task<IEnumerable<QualityType>> GetQualityTypeAsync() => await _qualityTypeServices.GetAllQualityTypes();
+
+
     private async Task SetUserMovieFileAsync()
     {
         UserMovieFile usermovieFiles = await GetUserMovieFileAsync();
@@ -471,7 +504,7 @@ public partial class Frm_EditFormMovie : CesForm
     {
         Txt_MyRunTime.CesText = HourTimeExtension.ConvertTextToRunTime(durationSeconds).ToString();
         Txt_MyHourTime.Enabled = true;
-        Txt_MyHourTime.CesText = HourTimeExtension.FormatHourMinutesToTimeString((int)durationSeconds);
+        Txt_MyHourTime.CesText = HourTimeExtension.FormatHourMinutesToTimeStringFromSeconds((int)durationSeconds);
         Txt_MyHourTime.Enabled = false;
     }
     private void SetFileSizeInfo(string filePath)
@@ -587,6 +620,9 @@ public partial class Frm_EditFormMovie : CesForm
         userMovieVideo.AspectRatio = Txt_AspectRatio.CesText;
         userMovieVideo.Resolution = Txt_Resolution.CesText;
         userMovieVideo.Id = Txt_Imdb.CesText;
+        userMovieVideo.X265 = Chk_X265.CesCheck;
+        userMovieVideo.QualityId =(byte?) Cmb_Quality.CesSelectedValue;
+        userMovieVideo.QualityTypeId =(byte?) Cmb_QualityType.CesSelectedValue;
 
         await CreateOrUpdateUserMovieVideo(userMovieVideo);
     }

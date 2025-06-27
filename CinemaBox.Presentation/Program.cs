@@ -47,6 +47,8 @@ using CinemaBox.Service.Interface.Shared.DeathCauses;
 using CinemaBox.Service.Interface.Shared.Formats;
 using CinemaBox.Service.Interface.Shared.Keywords;
 using CinemaBox.Service.Interface.Shared.Languages;
+using CinemaBox.Service.Interface.Shared.Qualities.Qualities;
+using CinemaBox.Service.Interface.Shared.Qualities.QualityTypes;
 using CinemaBox.Service.Interface.Shared.Statuses;
 using CinemaBox.Service.Managment.Link.UserMovieAudios;
 using CinemaBox.Service.Managment.Link.UserMovieDisks;
@@ -60,6 +62,8 @@ using CinemaBox.Service.Shared.DeathCauses;
 using CinemaBox.Service.Shared.Formats;
 using CinemaBox.Service.Shared.Keywords;
 using CinemaBox.Service.Shared.Languages;
+using CinemaBox.Service.Shared.Qualities.Qualities;
+using CinemaBox.Service.Shared.Qualities.QualityTypes;
 using CinemaBox.Service.Shared.Statuses;
 using CinemaBox.UnitOfWork.Interface.UOW;
 using Microsoft.EntityFrameworkCore;
@@ -133,6 +137,8 @@ namespace CinemaBox.Presentation;
         services.AddScoped<IUserMovieAudioServices, UserMovieAudioServices>();
         services.AddScoped<IUserMovieFileServices, UserMovieFileServices>();
         services.AddScoped<ICollectionServices, CollectionServices>();
+        services.AddScoped<IQualityServices, QualityServices>();
+        services.AddScoped<IQualityTypeServices, QualityTypeServices>();
         // 📦 رجیستر کردن فرم‌ها
         services.AddTransient<Frm_Movie>();
 

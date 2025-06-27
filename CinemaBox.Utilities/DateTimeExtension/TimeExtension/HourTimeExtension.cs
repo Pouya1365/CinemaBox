@@ -30,4 +30,15 @@ public static class HourTimeExtension
         int seconds = (int)decimalSeconds;
         return $"{totalHours}h{minutes:D2}m";
     }
+    public static string FormatHourMinutesToTimeStringFromSeconds(int totalMinutes)
+    {
+        if (totalMinutes < 0)
+            throw new ArgumentOutOfRangeException(nameof(totalMinutes), "Minutes cannot be negative");
+        double totalHours = (totalMinutes / 60)/60;
+        double remainingMinutes = (totalMinutes % 60) / 60 == 0 ? totalMinutes : (totalMinutes % 60) / 60;
+        int minutes = (int)((remainingMinutes/60)%60);
+        double decimalSeconds = (remainingMinutes - minutes) * 60;
+        int seconds = (int)decimalSeconds;
+        return $"{totalHours}h{minutes:D2}m";
+    }
 }

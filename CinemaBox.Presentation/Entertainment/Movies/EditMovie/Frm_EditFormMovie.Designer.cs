@@ -105,6 +105,9 @@
             Btn_Exit = new Ces.WinForm.UI.CesButton.CesRoundedButton();
             Btn_ReadFile = new Ces.WinForm.UI.CesButton.CesRoundedButton();
             Btn_Save = new Ces.WinForm.UI.CesButton.CesRoundedButton();
+            Cmb_Quality = new Ces.WinForm.UI.CesComboBox.CesComboBox();
+            Cmb_QualityType = new Ces.WinForm.UI.CesComboBox.CesComboBox();
+            Chk_X265 = new Ces.WinForm.UI.CesCheckBox();
             Tb_Main.SuspendLayout();
             Tb_MainDetails.SuspendLayout();
             Tb_Details.SuspendLayout();
@@ -795,6 +798,9 @@
             // 
             // Tb_Video
             // 
+            Tb_Video.Controls.Add(Chk_X265);
+            Tb_Video.Controls.Add(Cmb_QualityType);
+            Tb_Video.Controls.Add(Cmb_Quality);
             Tb_Video.Controls.Add(Txt_Description);
             Tb_Video.Controls.Add(Txt_Bitrate);
             Tb_Video.Controls.Add(Txt_FPS);
@@ -1113,10 +1119,10 @@
             // Tb_Audio
             // 
             Tb_Audio.Controls.Add(Dgv_Audio);
-            Tb_Audio.Location = new Point(4, 24);
+            Tb_Audio.Location = new Point(4, 28);
             Tb_Audio.Name = "Tb_Audio";
             Tb_Audio.Padding = new Padding(3);
-            Tb_Audio.Size = new Size(778, 357);
+            Tb_Audio.Size = new Size(778, 353);
             Tb_Audio.TabIndex = 8;
             Tb_Audio.Text = "مشخصات صدا";
             Tb_Audio.UseVisualStyleBackColor = true;
@@ -1182,10 +1188,10 @@
             Tb_UserDiskInfo.Controls.Add(Txt_FileName);
             Tb_UserDiskInfo.Controls.Add(Txt_MyRunTime);
             Tb_UserDiskInfo.Controls.Add(Cmb_MyStatus);
-            Tb_UserDiskInfo.Location = new Point(4, 24);
+            Tb_UserDiskInfo.Location = new Point(4, 28);
             Tb_UserDiskInfo.Name = "Tb_UserDiskInfo";
             Tb_UserDiskInfo.Padding = new Padding(3);
-            Tb_UserDiskInfo.Size = new Size(778, 357);
+            Tb_UserDiskInfo.Size = new Size(778, 353);
             Tb_UserDiskInfo.TabIndex = 9;
             Tb_UserDiskInfo.Text = "وضعیت فیلم";
             Tb_UserDiskInfo.UseVisualStyleBackColor = true;
@@ -2649,6 +2655,137 @@
             Btn_Save.TabIndex = 11;
             Btn_Save.Click += Btn_Save_Click;
             // 
+            // Cmb_Quality
+            // 
+            Cmb_Quality._initialControlHeight = 0;
+            Cmb_Quality.BackColor = Color.White;
+            Cmb_Quality.CesAdjustPopupToParentWidth = true;
+            Cmb_Quality.CesAlignToRight = false;
+            Cmb_Quality.CesAutoHeight = true;
+            Cmb_Quality.CesBackColor = Color.White;
+            Cmb_Quality.CesBorderColor = Color.DeepSkyBlue;
+            Cmb_Quality.CesBorderRadius = 0;
+            Cmb_Quality.CesBorderThickness = 1;
+            Cmb_Quality.CesDataSource = null;
+            Cmb_Quality.CesDisplayMember = null;
+            Cmb_Quality.CesDropDownOnFocus = false;
+            Cmb_Quality.CesFocusColor = Color.White;
+            Cmb_Quality.CesHasFocus = false;
+            Cmb_Quality.CesHasNotification = false;
+            Cmb_Quality.CesIcon = null;
+            Cmb_Quality.CesImageWidth = 24;
+            Cmb_Quality.CesItemHeight = 30;
+            Cmb_Quality.CesKeepPreviousSelection = false;
+            Cmb_Quality.CesLoadingMode = false;
+            Cmb_Quality.CesNotificationColor = Color.Red;
+            Cmb_Quality.CesPadding = new Padding(5);
+            Cmb_Quality.CesPopupSize = new Size(350, 400);
+            Cmb_Quality.CesSelectedItem = null;
+            Cmb_Quality.CesSelectedValue = null;
+            Cmb_Quality.CesSelectFirstItem = false;
+            Cmb_Quality.CesSelectFirstItemIfPreviousWasNull = true;
+            Cmb_Quality.CesShowAddItemButton = false;
+            Cmb_Quality.CesShowClearButton = false;
+            Cmb_Quality.CesShowEditItemButton = false;
+            Cmb_Quality.CesShowIcon = false;
+            Cmb_Quality.CesShowImage = true;
+            Cmb_Quality.CesShowIndicator = false;
+            Cmb_Quality.CesShowLoadButton = false;
+            Cmb_Quality.CesShowSearchBox = true;
+            Cmb_Quality.CesShowStatusBar = true;
+            Cmb_Quality.CesShowTitle = true;
+            Cmb_Quality.CesTheme = Ces.WinForm.UI.Infrastructure.ThemeEnum.White;
+            Cmb_Quality.CesTitleAutoHeight = false;
+            Cmb_Quality.CesTitleAutoWidth = false;
+            Cmb_Quality.CesTitleBackground = true;
+            Cmb_Quality.CesTitleFont = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Cmb_Quality.CesTitleHeight = 25;
+            Cmb_Quality.CesTitlePosition = Ces.WinForm.UI.Infrastructure.CesTitlePositionEnum.Right;
+            Cmb_Quality.CesTitleText = "کیفیت";
+            Cmb_Quality.CesTitleTextAlignment = Ces.WinForm.UI.Infrastructure.CesTitleContentAlignmentEnum.Center;
+            Cmb_Quality.CesTitleTextColor = Color.White;
+            Cmb_Quality.CesTitleWidth = 80;
+            Cmb_Quality.CesValueMember = null;
+            Cmb_Quality.Location = new Point(357, 225);
+            Cmb_Quality.Margin = new Padding(3, 6, 3, 6);
+            Cmb_Quality.Name = "Cmb_Quality";
+            Cmb_Quality.Padding = new Padding(3, 6, 3, 6);
+            Cmb_Quality.Size = new Size(415, 44);
+            Cmb_Quality.TabIndex = 32;
+            // 
+            // Cmb_QualityType
+            // 
+            Cmb_QualityType._initialControlHeight = 0;
+            Cmb_QualityType.BackColor = Color.White;
+            Cmb_QualityType.CesAdjustPopupToParentWidth = true;
+            Cmb_QualityType.CesAlignToRight = false;
+            Cmb_QualityType.CesAutoHeight = true;
+            Cmb_QualityType.CesBackColor = Color.White;
+            Cmb_QualityType.CesBorderColor = Color.DeepSkyBlue;
+            Cmb_QualityType.CesBorderRadius = 0;
+            Cmb_QualityType.CesBorderThickness = 1;
+            Cmb_QualityType.CesDataSource = null;
+            Cmb_QualityType.CesDisplayMember = null;
+            Cmb_QualityType.CesDropDownOnFocus = false;
+            Cmb_QualityType.CesFocusColor = Color.White;
+            Cmb_QualityType.CesHasFocus = false;
+            Cmb_QualityType.CesHasNotification = false;
+            Cmb_QualityType.CesIcon = null;
+            Cmb_QualityType.CesImageWidth = 24;
+            Cmb_QualityType.CesItemHeight = 30;
+            Cmb_QualityType.CesKeepPreviousSelection = false;
+            Cmb_QualityType.CesLoadingMode = false;
+            Cmb_QualityType.CesNotificationColor = Color.Red;
+            Cmb_QualityType.CesPadding = new Padding(5);
+            Cmb_QualityType.CesPopupSize = new Size(350, 400);
+            Cmb_QualityType.CesSelectedItem = null;
+            Cmb_QualityType.CesSelectedValue = null;
+            Cmb_QualityType.CesSelectFirstItem = false;
+            Cmb_QualityType.CesSelectFirstItemIfPreviousWasNull = true;
+            Cmb_QualityType.CesShowAddItemButton = false;
+            Cmb_QualityType.CesShowClearButton = false;
+            Cmb_QualityType.CesShowEditItemButton = false;
+            Cmb_QualityType.CesShowIcon = false;
+            Cmb_QualityType.CesShowImage = true;
+            Cmb_QualityType.CesShowIndicator = false;
+            Cmb_QualityType.CesShowLoadButton = false;
+            Cmb_QualityType.CesShowSearchBox = true;
+            Cmb_QualityType.CesShowStatusBar = true;
+            Cmb_QualityType.CesShowTitle = true;
+            Cmb_QualityType.CesTheme = Ces.WinForm.UI.Infrastructure.ThemeEnum.White;
+            Cmb_QualityType.CesTitleAutoHeight = false;
+            Cmb_QualityType.CesTitleAutoWidth = false;
+            Cmb_QualityType.CesTitleBackground = true;
+            Cmb_QualityType.CesTitleFont = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Cmb_QualityType.CesTitleHeight = 25;
+            Cmb_QualityType.CesTitlePosition = Ces.WinForm.UI.Infrastructure.CesTitlePositionEnum.Right;
+            Cmb_QualityType.CesTitleText = "نوع کیفیت";
+            Cmb_QualityType.CesTitleTextAlignment = Ces.WinForm.UI.Infrastructure.CesTitleContentAlignmentEnum.Center;
+            Cmb_QualityType.CesTitleTextColor = Color.White;
+            Cmb_QualityType.CesTitleWidth = 80;
+            Cmb_QualityType.CesValueMember = null;
+            Cmb_QualityType.Location = new Point(356, 273);
+            Cmb_QualityType.Margin = new Padding(3, 8, 3, 8);
+            Cmb_QualityType.Name = "Cmb_QualityType";
+            Cmb_QualityType.Padding = new Padding(3, 8, 3, 8);
+            Cmb_QualityType.Size = new Size(415, 44);
+            Cmb_QualityType.TabIndex = 33;
+            // 
+            // Chk_X265
+            // 
+            Chk_X265.CesAllowNullValue = false;
+            Chk_X265.CesCheck = false;
+            Chk_X265.CesSize = Ces.WinForm.UI.CesCheckBoxSizeEnum.Small;
+            Chk_X265.CesText = "X265";
+            Chk_X265.CesType = Ces.WinForm.UI.CesCheckBoxTypeEnum.TypeC;
+            Chk_X265.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Chk_X265.Location = new Point(6, 185);
+            Chk_X265.Margin = new Padding(3, 4, 3, 4);
+            Chk_X265.Name = "Chk_X265";
+            Chk_X265.RightToLeft = RightToLeft.Yes;
+            Chk_X265.Size = new Size(345, 26);
+            Chk_X265.TabIndex = 41;
+            // 
             // Frm_EditFormMovie
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -2761,5 +2898,8 @@
         private Ces.WinForm.UI.CesGridView.CesGridView Dgv_Audio;
         private Ces.WinForm.UI.CesButton.CesRoundedButton Btn_Save;
         private Ces.WinForm.UI.CesTextBox Txt_Description;
+        private Ces.WinForm.UI.CesComboBox.CesComboBox Cmb_QualityType;
+        private Ces.WinForm.UI.CesComboBox.CesComboBox Cmb_Quality;
+        private Ces.WinForm.UI.CesCheckBox Chk_X265;
     }
 }

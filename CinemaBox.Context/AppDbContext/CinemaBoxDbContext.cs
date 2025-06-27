@@ -29,6 +29,8 @@ using CinemaBox.Configuration.Shared.DeathCauses;
 using CinemaBox.Configuration.Shared.Formats;
 using CinemaBox.Configuration.Shared.Keywords;
 using CinemaBox.Configuration.Shared.Languages;
+using CinemaBox.Configuration.Shared.Qualities.Qualities;
+using CinemaBox.Configuration.Shared.Qualities.QualityTypes;
 using CinemaBox.Configuration.Shared.Statuses;
 using CinemaBox.Domain.Division.CountryParts;
 using CinemaBox.Domain.Division.CountryPartTypes;
@@ -60,6 +62,8 @@ using CinemaBox.Domain.Shared.DeathCauses;
 using CinemaBox.Domain.Shared.Formats;
 using CinemaBox.Domain.Shared.Keywords;
 using CinemaBox.Domain.Shared.Languages;
+using CinemaBox.Domain.Shared.Qualities.Qualities;
+using CinemaBox.Domain.Shared.Qualities.QualityTypes;
 using CinemaBox.Domain.Shared.Statuses;
 using Microsoft.EntityFrameworkCore;
 namespace CinemaBox.Context.AppDbContext;
@@ -97,6 +101,8 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
     public DbSet<UserMovieAudio> UserMovieAudios { get; set; }
     public DbSet<UserMovieVideo> UserMovieVideos { get; set; }  
     public DbSet<UserMovieFile> UserMovieFiles { get; set; }  
+    public DbSet<Quality> Qualities { get; set; }  
+    public DbSet<QualityType> QualityTypes { get; set; }  
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
@@ -137,5 +143,7 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
         modelBuilder.ApplyConfiguration(new UserMovieAudioConfiguration());
         modelBuilder.ApplyConfiguration(new UserMovieVideoConfiguration());
         modelBuilder.ApplyConfiguration(new UserMovieFileConfiguration());
+        modelBuilder.ApplyConfiguration(new QualityConfiguration());
+        modelBuilder.ApplyConfiguration(new QualityTypeConfiguration());
     }
 }

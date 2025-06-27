@@ -26,6 +26,8 @@ using CinemaBox.Service.Interface.Person.Peoples;
 using CinemaBox.Service.Interface.Shared.Currencies;
 using CinemaBox.Service.Interface.Shared.Formats;
 using CinemaBox.Service.Interface.Shared.Languages;
+using CinemaBox.Service.Interface.Shared.Qualities.Qualities;
+using CinemaBox.Service.Interface.Shared.Qualities.QualityTypes;
 using CinemaBox.Service.Interface.Shared.Statuses;
 using CinemaBox.UserController.Entertainment.Movies;
 namespace CinemaBox.Presentation;
@@ -54,6 +56,8 @@ public partial class Frm_Movie : CesForm
     private readonly ILanguageServices _languageServices;
     private readonly IUserMovieFileServices _userMovieFileServices;
     private readonly ICollectionServices _collectionServices;
+    private readonly IQualityServices _qualityService;
+    private readonly IQualityTypeServices _qualityTypeService;
     public Frm_Movie(IImdbMovieScrapperServices imdbScrapperServices,
         IMovieServices movieServices,
         IMovieCompanyServices movieCompanyServices,
@@ -76,7 +80,9 @@ public partial class Frm_Movie : CesForm
         IUserMovieAudioServices userMovieAudioServices,
         ILanguageServices languageServices,
         IUserMovieFileServices userMovieFileServices,
-        ICollectionServices collectionServices
+        ICollectionServices collectionServices,
+        IQualityServices qualityService,
+        IQualityTypeServices qualityTypeService
         )
     {
         InitializeComponent();
@@ -103,6 +109,8 @@ public partial class Frm_Movie : CesForm
         _languageServices = languageServices ?? throw new ArgumentNullException(nameof(languageServices));
         _userMovieFileServices = userMovieFileServices ?? throw new ArgumentNullException(nameof(userMovieFileServices));
         _collectionServices = collectionServices ?? throw new ArgumentNullException(nameof(collectionServices));
+        _qualityService = qualityService ?? throw new ArgumentNullException(nameof(qualityService));
+        _qualityTypeService = qualityTypeService ?? throw new ArgumentNullException(nameof(qualityTypeService));
     }
 
     private async void Btn_GetInfo_Click(object sender, EventArgs e)
@@ -132,7 +140,7 @@ public partial class Frm_Movie : CesForm
         };
 
         CesMessage.Show("عملیات با موفقیت به پایان رسید", cesMessageBoxOptions);
-       LoadMovie(null);
+        LoadMovie(null);
     }
 
     private async void Frm_Movie_Load(object sender, EventArgs e)
@@ -142,7 +150,7 @@ public partial class Frm_Movie : CesForm
     private async void LoadMovie(string search)
     {
 
-        List<ShowMovieModel> movieModels =await GetMovieModels();
+        List<ShowMovieModel> movieModels = await GetMovieModels();
         List<ShowMovieIcon> ShowMovieIcons = [];
         ShowMovieIcons.AddRange(from movie in movieModels
                                 let control = new ShowMovieIcon(
@@ -151,7 +159,7 @@ public partial class Frm_Movie : CesForm
             faTitle: movie.FaTitle,
             year: (long)movie.StartYear,
             endYear: movie.EndYear, movieId: movie.MovieId)
-                               select AttachHandler(control));
+                                select AttachHandler(control));
         ShowMovieIcon AttachHandler(ShowMovieIcon ctrl)
         {
             ctrl.PosterClicked += MovieBox_PosterClicked;
@@ -159,7 +167,7 @@ public partial class Frm_Movie : CesForm
         }
         Flw_ShowMovie.Controls.AddRange([.. ShowMovieIcons]);
     }
-    private async Task<List<ShowMovieModel>>GetMovieModels()=> await _movieServices.GetMovieModelsAsync(null);
+    private async Task<List<ShowMovieModel>> GetMovieModels() => await _movieServices.GetMovieModelsAsync(null);
     private void MovieBox_PosterClicked(object sender, string movieId)
     {
         Frm_EditFormMovie frm_EditForm = new(
@@ -185,7 +193,9 @@ public partial class Frm_Movie : CesForm
             userMovieAudioServices: _userMovieAudioServices,
             languageServices: _languageServices,
             userMovieFileServices: _userMovieFileServices,
-            collectionServices: _collectionServices
+            collectionServices: _collectionServices,
+            qualityServices:_qualityService,
+            qualityTypeServices:_qualityTypeService
 
             );
         frm_EditForm.ShowDialog();

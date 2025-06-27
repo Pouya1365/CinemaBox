@@ -14,7 +14,7 @@ public class UserMovieDisk:PersistentObject<string>
     public bool? IsDubbed { get; set; }
     public bool? IsSubtitle { get; set; }
     public byte? StatusId { get; set; }
-    public string? Description { get; set; }
+    public string? Description { get; set; }   
     public Movie? Movie { get; set; }
     public Status? Status { get; set; }
 }
