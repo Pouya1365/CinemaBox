@@ -2,6 +2,7 @@
 using CinemaBox.Model.Entertainment.Cast.Credit;
 using CinemaBox.Model.Entertainment.Movie.Movie;
 using CinemaBox.Scrapping.Interface.Imdb.MovieExtractors;
+using CinemaBox.Utilities.Download;
 using CinemaBox.Utilities.Html;
 using HtmlAgilityPack;
 
@@ -11,34 +12,34 @@ public class OtherCrewsExtractor : IOtherCrewsExtractor
 {
     public MovieModelScrapping Extract(MovieModelScrapping model, HtmlDocument document)
     {
-        var liNodes = document.DocumentNode.SelectNodes("//div[@data-testid='sub-section-cast']//ul//li");
+        HtmlNodeCollection? liNodes = document.DocumentNode.SelectNodes("//div[@data-testid='sub-section-cast']//ul//li");
         if (liNodes != null)
         {
-            foreach (var li in liNodes)
+            foreach (HtmlNode li in liNodes)
             {
-                var actor = new CreditModel();
+                CreditModel actor = new();
 
                 // بازیابی نام بازیگر
-                var nameNode = li.SelectSingleNode(".//a[contains(@class, 'name-credits--title-text')]");
+                HtmlNode? nameNode = li.SelectSingleNode(".//a[contains(@class, 'name-credits--title-text')]");
                 actor.EnFullName = nameNode?.InnerText.Trim();
 
                 // لینک بازیگر → شامل شناسه nm
-                var actorLinkNode = li.SelectSingleNode(".//a[contains(@href,'/name/nm')]");
-                var actorHref = actorLinkNode?.GetAttributeValue("href", "");
+                HtmlNode? actorLinkNode = li.SelectSingleNode(".//a[contains(@href,'/name/nm')]");
+                string? actorHref = actorLinkNode?.GetAttributeValue("href", "");
                 if (!string.IsNullOrEmpty(actorHref))
                 {
-                    var parts = actorHref.Split('/');
+                    string[] parts = actorHref.Split('/');
                     if (parts.Length > 2)
                         actor.ImdbId = parts[2]; // مثلا nm0011148
                 }
 
                 // نام نقش
-                var roleNode = li.SelectSingleNode(".//a[contains(@href,'/characters/')]");
+                HtmlNode? roleNode = li.SelectSingleNode(".//a[contains(@href,'/characters/')]");
                 actor.Role = HtmlDecode.HtmlDecoding(roleNode?.InnerText.Trim());
 
                 // عکس بازیگر
-                var imgNode = li.SelectSingleNode(".//img[contains(@class,'ipc-image')]");
-                actor.ImageUrl = imgNode?.GetAttributeValue("src", "");
+                HtmlNode? imgNode = li.SelectSingleNode(".//img[contains(@class,'ipc-image')]");
+                actor.ImageUrl = ImageExtension.CleanImageUrl( imgNode?.GetAttributeValue("src", ""));
                 actor.MovieId = model.ImdbId;
                 actor.CreditType = CreditEnumeration.Cast.ToString();
                 if (!model.Credits.Any(x => x.ImdbId == actor.ImdbId))
