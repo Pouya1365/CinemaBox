@@ -17,7 +17,6 @@ public class OtherCrewsExtractor : IOtherCrewsExtractor
         {
             foreach (HtmlNode li in liNodes)
             {
-                if(model.Credits.Count==20) return model;
                 CreditModel actor = new();
 
                 // بازیابی نام بازیگر

@@ -12,20 +12,20 @@ public class MovieCountryServices(IUnitOfWork unitOfWork,ICountryPartServices co
     private readonly ICountryPartServices _countryPartServices = countryPartServices ?? throw new ArgumentNullException(nameof(countryPartServices));
     public async Task<List<MovieCountry>> CreateOrGetMovieCountry(Dictionary<string, string> countryModels, string movieId)
     {
-        List<MovieCountry> MovieCountries = [];
-        foreach (var CountryModel in countryModels)
+        List<MovieCountry> movieCountries = [];
+        foreach (var countryModel in countryModels)
         {
-            CountryPart Country =await GetCountryPartAsync( countryPartName: CountryModel.Value,isoCode: CountryModel.Key);
+            CountryPart Country =await GetCountryPartAsync( countryPartName: countryModel.Value,isoCode: countryModel.Key);
             if (Country != null)
-                MovieCountries.Add(new MovieCountry
+                movieCountries.Add(new MovieCountry
                 {
                     CountryPartId = Country.Id,
                     MovieId = movieId
                 });
         }
-        await _unitOfWork.Repository<MovieCountry>().AddRangeAsync(MovieCountries);
+        await _unitOfWork.Repository<MovieCountry>().AddRangeAsync([.. movieCountries.Distinct()]);
         await _unitOfWork.CompleteAsync();
-        return MovieCountries;
+        return movieCountries;
     }
     public async Task<CountryPart> GetCountryPartAsync(string countryPartName, string isoCode) =>await _countryPartServices.CreateOrGetCountryPart(CountryPartName: countryPartName, isoCode: isoCode);
     public async Task<IEnumerable<MovieCountry>> GetMovieCountry(string movieId) => await _unitOfWork.Repository<MovieCountry>().GetAllWithPredicateAsync(x => x.MovieId == movieId, x => x.CountryPart);
