@@ -72,16 +72,20 @@ public class MovieServices(IUnitOfWork unitOfWork, ICertificateServices certific
 
         // 3. فیلتر کردن فیلم‌ها بر اساس جستجو (اختیاری)
         if (!string.IsNullOrWhiteSpace(search))
+        {
+            int.TryParse(search, out int idSearch);
             movies = movies.Where(m =>
-      (m.EnTitle ?? "").Contains(search, StringComparison.OrdinalIgnoreCase) ||
-      (m.FaTitle ?? "").Contains(search, StringComparison.OrdinalIgnoreCase) ||
-      (m.EnStoryline ?? "").Contains(search, StringComparison.OrdinalIgnoreCase) ||
-      (m.EnPlot ?? "").Contains(search, StringComparison.OrdinalIgnoreCase) ||
-      (m.FaStoryline ?? "").Contains(search, StringComparison.OrdinalIgnoreCase) ||
-      m.StartYear.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) ||
-      m.EndYear.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) ||
-      m.Id.ToString().Contains(search, StringComparison.OrdinalIgnoreCase)
-  );
+                (!string.IsNullOrEmpty(m.EnTitle) && m.EnTitle.Contains(search, StringComparison.OrdinalIgnoreCase)) ||
+                (!string.IsNullOrEmpty(m.FaTitle) && m.FaTitle.Contains(search, StringComparison.OrdinalIgnoreCase)) ||
+                m.Id == search || // یا Guid بسته به نوع
+                (!string.IsNullOrEmpty(m.EnPlot) && m.EnPlot.Contains(search, StringComparison.OrdinalIgnoreCase)) ||
+                (!string.IsNullOrEmpty(m.FaStoryline) && m.FaStoryline.Contains(search, StringComparison.OrdinalIgnoreCase)) ||
+                (!string.IsNullOrEmpty(m.EnStoryline) && m.EnStoryline.Contains(search, StringComparison.OrdinalIgnoreCase)) ||
+                m.StartYear.ToString() == search ||
+                m.EndYear.ToString() == search
+            );
+
+        }
 
 
         // 4. تبدیل لیست فایل‌های کاربر به دیکشنری
