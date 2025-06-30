@@ -114,6 +114,7 @@
             Btn_Search.Name = "Btn_Search";
             Btn_Search.Size = new Size(134, 44);
             Btn_Search.TabIndex = 1;
+            Btn_Search.Click += Btn_Search_Click;
             // 
             // Txt_Search
             // 

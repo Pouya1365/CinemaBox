@@ -148,14 +148,14 @@ public partial class Frm_Movie : CesForm
         };
 
         CesMessage.Show("عملیات با موفقیت به پایان رسید", cesMessageBoxOptions);
-        LoadMovie(null);
+        LoadMovie();
     }
 
     private async void Frm_Movie_Load(object sender, EventArgs e)
     {
-        LoadMovie(null);
+        LoadMovie();
     }
-    private async void LoadMovie(string search)
+    private async void LoadMovie()
     {
         Flw_ShowMovie.Controls.Clear();
         List<ShowMovieModel> movieModels = await GetMovieModels();
@@ -175,7 +175,7 @@ public partial class Frm_Movie : CesForm
         }
         Flw_ShowMovie.Controls.AddRange([.. ShowMovieIcons]);
     }
-    private async Task<List<ShowMovieModel>> GetMovieModels() => await _movieServices.GetMovieModelsAsync(null);
+    private async Task<List<ShowMovieModel>> GetMovieModels() => await _movieServices.GetMovieModelsAsync(search: Txt_Search.CesText);
     private void MovieBox_PosterClicked(object sender, string movieId)
     {
         Frm_EditFormMovie frm_EditForm = new(
@@ -202,11 +202,16 @@ public partial class Frm_Movie : CesForm
             languageServices: _languageServices,
             userMovieFileServices: _userMovieFileServices,
             collectionServices: _collectionServices,
-            qualityServices:_qualityService,
-            qualityTypeServices:_qualityTypeService,
+            qualityServices: _qualityService,
+            qualityTypeServices: _qualityTypeService,
             deathCauseServices: _deathCauseServices
 
             );
         frm_EditForm.ShowDialog();
+    }
+
+    private void Btn_Search_Click(object sender, EventArgs e)
+    {
+        LoadMovie();
     }
 }

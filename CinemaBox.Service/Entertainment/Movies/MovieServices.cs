@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 namespace CinemaBox.Service.Entertainment.Movies;
 
-public class MovieServices(IUnitOfWork unitOfWork, ICertificateServices certificateServices, ICurrencyServices currencyServices,IUserMovieFileServices userMovieFileServices) : IMovieServices
+public class MovieServices(IUnitOfWork unitOfWork, ICertificateServices certificateServices, ICurrencyServices currencyServices, IUserMovieFileServices userMovieFileServices) : IMovieServices
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     private readonly ICertificateServices _certificateServices = certificateServices ?? throw new ArgumentNullException(nameof(certificateServices));
@@ -72,11 +72,17 @@ public class MovieServices(IUnitOfWork unitOfWork, ICertificateServices certific
 
         // 3. فیلتر کردن فیلم‌ها بر اساس جستجو (اختیاری)
         if (!string.IsNullOrWhiteSpace(search))
-        {
             movies = movies.Where(m =>
-                m.EnTitle.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                m.FaTitle.Contains(search, StringComparison.OrdinalIgnoreCase));
-        }
+      (m.EnTitle ?? "").Contains(search, StringComparison.OrdinalIgnoreCase) ||
+      (m.FaTitle ?? "").Contains(search, StringComparison.OrdinalIgnoreCase) ||
+      (m.EnStoryline ?? "").Contains(search, StringComparison.OrdinalIgnoreCase) ||
+      (m.EnPlot ?? "").Contains(search, StringComparison.OrdinalIgnoreCase) ||
+      (m.FaStoryline ?? "").Contains(search, StringComparison.OrdinalIgnoreCase) ||
+      m.StartYear.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) ||
+      m.EndYear.ToString().Contains(search, StringComparison.OrdinalIgnoreCase) ||
+      m.Id.ToString().Contains(search, StringComparison.OrdinalIgnoreCase)
+  );
+
 
         // 4. تبدیل لیست فایل‌های کاربر به دیکشنری
         Dictionary<string, UserMovieFile> userFilesDict = ToMovieUserFileDictionary(userMovieFiles);
@@ -89,19 +95,19 @@ public class MovieServices(IUnitOfWork unitOfWork, ICertificateServices certific
     }
 
     // بارگذاری فیلم‌ها با فایل‌ها و سرورهای مرتبط
-    private async Task<IEnumerable<Movie>> LoadMoviesAsync()=> await _unitOfWork.Repository<Movie>().GetAllWithMultipleIncludesAsync(
+    private async Task<IEnumerable<Movie>> LoadMoviesAsync() => await _unitOfWork.Repository<Movie>().GetAllWithMultipleIncludesAsync(
             x => x.MovieFiles,
             x => x.File,
             x => x.Server
         );
-   
+
 
     // بارگذاری فایل‌های کاربر
-    private async Task<IEnumerable<UserMovieFile>> GetUserMovieFilesAsync()=>
+    private async Task<IEnumerable<UserMovieFile>> GetUserMovieFilesAsync() =>
      await GetUserMovieFiles();
 
     // تبدیل لیست فایل‌های کاربر به دیکشنری برای دسترسی سریع
-    private Dictionary<string, UserMovieFile> ToMovieUserFileDictionary(IEnumerable<UserMovieFile> files)=> files
+    private Dictionary<string, UserMovieFile> ToMovieUserFileDictionary(IEnumerable<UserMovieFile> files) => files
             .Where(f => f.File?.Server != null)
             .GroupBy(f => f.MovieId)
             .ToDictionary(g => g.Key, g => g.First());
@@ -112,9 +118,9 @@ public class MovieServices(IUnitOfWork unitOfWork, ICertificateServices certific
         string imageUrl;
 
         // اگر فایل کاربر برای فیلم موجود بود
-        if (userFiles.TryGetValue(movie.Id, out var userFile))        
+        if (userFiles.TryGetValue(movie.Id, out var userFile))
             imageUrl = Path.Combine(userFile.File.Server.Path, userFile.File.FileName);
-        
+
         else
         {
             // اگر فایل کاربر نبود، از فایل پیش‌فرض فیلم استفاده می‌کنیم
