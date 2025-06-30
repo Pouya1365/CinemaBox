@@ -188,7 +188,7 @@ public partial class Frm_EditFormMovie : CesForm
         Txt_RunTime.CesText = movie.RunTimeMinutes?.ToString();
         Txt_HourTime.CesText = HourTimeExtension.ToHourTime((long)movie.RunTimeMinutes);
         Txt_Budget.CesText = movie.Budget?.ToString();
-        Txt_Currency.CesText = currency.CurrencyName;
+        Txt_Currency.CesText = currency?.CurrencyName;
         Txt_Imdb.CesText = movie.Id;
         Txt_TopRanking.CesText = movie.TopRank.ToString();
         Txt_AggregateRating.CesText = movie.AggregateRating.ToString();
