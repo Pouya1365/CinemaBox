@@ -8,6 +8,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
     <BaseOutputPath></BaseOutputPath>
+    <ApplicationIcon>Images\31711_4-78060573-imgingest-3103538789095057540.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -17,6 +18,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <Optimize>False</Optimize>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Images\31711_4-78060573-imgingest-3103538789095057540.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Ces.WinForm.UI" Version="1.18.5" />

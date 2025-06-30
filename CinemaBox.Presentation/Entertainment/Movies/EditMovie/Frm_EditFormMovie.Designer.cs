@@ -32,6 +32,7 @@
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_EditFormMovie));
             Tb_Main = new TabControl();
             Tb_MainDetails = new TabPage();
             Txt_Currency = new Ces.WinForm.UI.CesTextBox();
@@ -2795,6 +2796,7 @@
             Controls.Add(Btn_ReadFile);
             Controls.Add(Btn_Exit);
             Controls.Add(Tb_Main);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Frm_EditFormMovie";
             Text = "Frm_EditMovie";
             Controls.SetChildIndex(Tb_Main, 0);

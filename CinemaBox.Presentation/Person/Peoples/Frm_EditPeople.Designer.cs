@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_EditPeople));
             Tb_Main = new TabControl();
             Tb_MainDetails = new TabPage();
             Txt_NickName = new Ces.WinForm.UI.CesTextBox();
@@ -892,6 +893,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1047, 679);
             Controls.Add(Tb_Main);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Frm_EditPeople";
             Text = "Frm_EditPeople";
             Controls.SetChildIndex(Tb_Main, 0);

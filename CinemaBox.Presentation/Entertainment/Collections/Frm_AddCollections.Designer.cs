@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_AddCollections));
             Txt_EnCollectionName = new Ces.WinForm.UI.CesTextBox();
             Btn_Cancel = new Ces.WinForm.UI.CesButton.CesButton();
             Txt_FaCollectionName = new Ces.WinForm.UI.CesTextBox();
@@ -168,7 +169,7 @@
             // 
             // Btn_Ok
             // 
-            Btn_Ok.BackColor = Color.LimeGreen;
+            Btn_Ok.BackColor = Color.LightGray;
             Btn_Ok.CesBorderThickness = 1;
             Btn_Ok.CesBorderVisible = false;
             Btn_Ok.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.Silver;
@@ -198,6 +199,7 @@
             Controls.Add(Txt_FaCollectionName);
             Controls.Add(Btn_Cancel);
             Controls.Add(Txt_EnCollectionName);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Frm_AddCollections";
             Text = "Frm_AddCollections";
             Controls.SetChildIndex(Txt_EnCollectionName, 0);

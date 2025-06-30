@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Movie));
             Pnl_Search = new Ces.WinForm.UI.CesPanel();
             Btn_GetInfo = new Ces.WinForm.UI.CesButton.CesRoundedButton();
             Btn_Search = new Ces.WinForm.UI.CesButton.CesRoundedButton();
@@ -198,6 +199,7 @@
             ClientSize = new Size(1151, 633);
             Controls.Add(cesPanel2);
             Controls.Add(Pnl_Search);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Frm_Movie";
             Text = "Form1";
             Load += Frm_Movie_Load;
