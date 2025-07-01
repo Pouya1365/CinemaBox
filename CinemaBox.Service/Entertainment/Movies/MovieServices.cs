@@ -133,7 +133,7 @@ public class MovieServices(IUnitOfWork unitOfWork, ICertificateServices certific
 
             imageUrl = defaultFile != null
                 ? Path.Combine(defaultFile.File.Server.Path, defaultFile.File.FileName)
-                : "/images/default.png";
+                : null;
         }
 
         return new ShowMovieModel

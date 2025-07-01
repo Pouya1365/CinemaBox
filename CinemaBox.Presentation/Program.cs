@@ -70,6 +70,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.DependencyInjection;
 
+
 namespace CinemaBox.Presentation;
 
  static class Program
@@ -77,14 +78,20 @@ namespace CinemaBox.Presentation;
     [STAThread]
     static void Main()
     {
-
+ 
         ApplicationConfiguration.Initialize();
         Application.SetCompatibleTextRenderingDefault(false);
 
         // سرویس‌ها
         IServiceCollection serviceCollection = ConfigureServices();
         ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
-
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            CinemaBoxDbContext dbContext =
+                      ServiceProviderServiceExtensions
+                      .GetRequiredService<CinemaBoxDbContext>(scope.ServiceProvider);
+            dbContext.Database.Migrate();
+        }
 
         // اجرای فرم اصلی
         Frm_Movie mainForm = ServiceProviderServiceExtensions.GetRequiredService<Frm_Movie>(serviceProvider);
