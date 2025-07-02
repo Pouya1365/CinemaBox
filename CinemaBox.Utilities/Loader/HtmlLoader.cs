@@ -11,7 +11,7 @@ public static class HtmlLoader
 		{
             return await web.LoadFromWebAsync(url);
         }
-		catch (Exception ex)
+		catch (Exception )
 		{
             if (i >= 3)
                 return null;

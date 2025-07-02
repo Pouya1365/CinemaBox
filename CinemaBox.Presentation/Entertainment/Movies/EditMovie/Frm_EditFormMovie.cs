@@ -224,43 +224,43 @@ public partial class Frm_EditFormMovie : CesForm
     private async Task SetMovieGenres()
     {
         IEnumerable<MovieGenre?> genre = await GetMovieGenresAsync();
-        CreateDynamicLabels<MovieGenre>(genre.ToList(), Flw_Genre, g => g.Genre.FaGenreName ?? g.Genre.EnGenreName, 5);
+        CreateDynamicLabels<MovieGenre>([.. genre], Flw_Genre, g => g.Genre.FaGenreName ?? g.Genre.EnGenreName, 5);
     }
     private async Task<IEnumerable<MovieGenre?>> GetMovieGenresAsync() => await _movieGenreServices.GetMovieGenre(movieId: _movieId);
     private async Task SetMovieCountries()
     {
         IEnumerable<MovieCountry?> movieCountry = await GetMovieCountryAsync();
-        CreateDynamicLabels<MovieCountry>(movieCountry.ToList(), Flw_Country, g => g.CountryPart.FaCountryPartName ?? g.CountryPart.EnCountryPartName, 5);
+        CreateDynamicLabels<MovieCountry>([.. movieCountry], Flw_Country, g => g.CountryPart.FaCountryPartName ?? g.CountryPart.EnCountryPartName, 5);
     }
     private async Task<IEnumerable<MovieCountry?>> GetMovieCountryAsync() => await _movieCountryServices.GetMovieCountry(movieId: _movieId);
     private async Task SetMovieLanguage()
     {
         IEnumerable<MovieSpokenLanguage?> movieSpokenLanguage = await GetMovieLanguageAsync();
-        CreateDynamicLabels<MovieSpokenLanguage>(movieSpokenLanguage.ToList(), Flw_Language, g => g.Language.FaLanguageName ?? g.Language.EnLanguageName, 5);
+        CreateDynamicLabels<MovieSpokenLanguage>([.. movieSpokenLanguage], Flw_Language, g => g.Language.FaLanguageName ?? g.Language.EnLanguageName, 5);
     }
     private async Task<IEnumerable<MovieSpokenLanguage?>> GetMovieLanguageAsync() => await _movieSpokenLanguageServices.GetMovieLanguageAsync(movieId: _movieId);
     private async Task SetMovieCompany()
     {
         IEnumerable<MovieCompany?> movieCompany = await GetMovieCompanyAsync();
-        CreateDynamicLabels<MovieCompany>(movieCompany.ToList(), Flw_Company, g => g.Company.FaCompanyName ?? g.Company.EnCompanyName, 5);
+        CreateDynamicLabels<MovieCompany>([.. movieCompany], Flw_Company, g => g.Company.FaCompanyName ?? g.Company.EnCompanyName, 5);
     }
     private async Task<IEnumerable<MovieCompany?>> GetMovieCompanyAsync() => await _movieCompanyServices.GetMovieCompany(movieId: _movieId);
     private async Task SetMovieLocation()
     {
         IEnumerable<MovieLocation?> movieCompany = await GetMovieLocationAsync();
-        CreateDynamicLabels<MovieLocation>(movieCompany.ToList(), Flw_MovieLocation, g => g.LocationName, 5);
+        CreateDynamicLabels<MovieLocation>([.. movieCompany], Flw_MovieLocation, g => g.LocationName, 5);
     }
     private async Task<IEnumerable<MovieLocation?>> GetMovieLocationAsync() => await _movieLocationServices.GetMovieLocationsAsync(movieId: _movieId);
     private async Task SetMovieKeyword()
     {
         IEnumerable<MovieKeyword?> movieKeyword = await GetMovieKeywordAsync();
-        CreateDynamicLabels<MovieKeyword>(movieKeyword.ToList(), Flw_Keyword, g => g.Keyword.FaKeyowrdName ?? g.Keyword.EnKeyowrdName, 5);
+        CreateDynamicLabels<MovieKeyword>([.. movieKeyword], Flw_Keyword, g => g.Keyword.FaKeyowrdName ?? g.Keyword.EnKeyowrdName, 5);
     }
     private async Task<IEnumerable<MovieKeyword?>> GetMovieKeywordAsync() => await _movieKeywordServices.GetMovieKeywordAsync(movieId: _movieId);
     private async Task SeMovieTaglineAsync()
     {
         IEnumerable<MovieTagline?> movieTaglines = await GetMovieTaglineAsync();
-        CreateDynamicLabels<MovieTagline>(movieTaglines.ToList(), Flw_Tagline, g => g.FaTagline ?? g.EnTagline, 5);
+        CreateDynamicLabels<MovieTagline>([.. movieTaglines], Flw_Tagline, g => g.FaTagline ?? g.EnTagline, 5);
     }
     private async Task<IEnumerable<MovieTagline?>> GetMovieTaglineAsync() => await _movieTaglineServices.GetMovieTagline(movieId: _movieId);
     private async Task LoadComboBoxDataAsync<TModel>(
