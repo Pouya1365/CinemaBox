@@ -119,10 +119,14 @@ public partial class Frm_Movie : CesForm
         _imdbOtherScrapperServices = imdbOtherScrapperServices ?? throw new ArgumentNullException(nameof(imdbOtherScrapperServices));
         _deathCauseServices = deathCauseServices ?? throw new ArgumentNullException(nameof(deathCauseServices));
     }
+    private async Task<Movie?> GetMovie() => await _movieServices.GeMovieAsync(ImdbId:Txt_Search.CesText);
 
     private async void Btn_GetInfo_Click(object sender, EventArgs e)
     {
         if (Txt_Search.CesText is null)
+            return;
+        Movie? getMovie = await GetMovie();
+        if (getMovie.EnTitle is not null)
             return;
         MovieModelScrapping movieModelScrapping = await _imdbScrapperServices.ImdbScrapperServicesAsync(imdbId: Txt_Search.CesText);
         movieModelScrapping = await _imdbOtherScrapperServices.ImdbScrapperServicesAsync(movieModelScrapping);
