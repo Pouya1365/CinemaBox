@@ -4,6 +4,7 @@ using CinemaBox.Context.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaBox.Context.Migrations
 {
     [DbContext(typeof(CinemaBoxDbContext))]
-    partial class CinemaBoxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250702160408_InitialDb_V1")]
+    partial class InitialDb_V1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -483,8 +486,7 @@ namespace CinemaBox.Context.Migrations
                         .HasComment("شناسه فیلم یا سریال");
 
                     b.Property<decimal?>("AggregateRating")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("decimal(5,2)")
+                        .HasColumnType("decimal(18,2)")
                         .HasComment("رتبه بندی کل");
 
                     b.Property<double?>("Budget")
@@ -628,7 +630,7 @@ namespace CinemaBox.Context.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("UserMovieAudioId")
-                        .HasComment("شناسه صدا");
+                        .HasComment("شناسه فیلم");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
@@ -679,8 +681,7 @@ namespace CinemaBox.Context.Migrations
                         .HasComment("نام فایل");
 
                     b.Property<decimal?>("FileSize")
-                        .HasPrecision(18, 4)
-                        .HasColumnType("decimal(18,4)")
+                        .HasColumnType("decimal(18,2)")
                         .HasComment("اندازه فایل");
 
                     b.Property<bool?>("IsDubbed")

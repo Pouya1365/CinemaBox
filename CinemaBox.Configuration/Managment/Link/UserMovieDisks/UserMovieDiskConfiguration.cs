@@ -17,7 +17,7 @@ public class UserMovieDiskConfiguration : IEntityTypeConfiguration<UserMovieDisk
         builder.Property(umd => umd.MyTime).HasComment(comment: "زمان فیلم من");
         builder.Property(umd => umd.MovieNumber).HasComment(comment: "شماره فیلم");
         builder.Property(umd => umd.FileName).HasComment(comment: "نام فایل");
-        builder.Property(umd => umd.FileSize).HasComment(comment: "اندازه فایل");
+        builder.Property(umd => umd.FileSize).HasPrecision(18, 4).HasComment(comment: "اندازه فایل");
         builder.Property(umd => umd.IsDubbed).HasComment(comment: "دوبله");
         builder.Property(umd => umd.IsSubtitle).HasComment(comment: "زیرنویس");
         builder.Property(umd => umd.StatusId).HasComment(comment: "شناسه وضعیت");

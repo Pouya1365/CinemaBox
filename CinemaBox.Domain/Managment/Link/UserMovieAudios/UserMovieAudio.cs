@@ -1,10 +1,11 @@
 ﻿using CinemaBox.Domain.Entertainment.Movies;
+using CinemaBox.Domain.Persistent;
 using CinemaBox.Domain.Shared.Formats;
 using CinemaBox.Domain.Shared.Languages;
 
 namespace CinemaBox.Domain.Managment.Link.UserMovieAudios;
 
-public class UserMovieAudio
+public class UserMovieAudio:PersistentObject<int>
 {
 
     public byte? LanguageId { get; set; }

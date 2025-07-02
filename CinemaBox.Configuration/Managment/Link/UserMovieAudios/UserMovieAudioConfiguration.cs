@@ -10,8 +10,9 @@ public class UserMovieAudioConfiguration : IEntityTypeConfiguration<UserMovieAud
     {
         builder.ToTable<UserMovieAudio>(name: "UserMovieAudios", schema: "Managment");
 
-        builder.HasKey(ua => new { ua.MovieId,ua.LanguageId});
-        builder.Property(ua => ua.MovieId).HasMaxLength(20).HasColumnName("MovieId").HasComment(comment: "شناسه فایل صوت");
+        builder.HasKey(ua => ua.Id);
+        builder.Property(ua => ua.Id).IsRequired(true).UseIdentityColumn().ValueGeneratedOnAdd().HasColumnName("UserMovieAudioId").HasComment(comment: "شناسه صدا"); 
+        builder.Property(ua => ua.MovieId).HasMaxLength(20).HasColumnName("MovieId").HasComment(comment: "شناسه فیلم");
         builder.Property(ua => ua.FormatId).HasComment(comment: "شناسه نوع فرمت");
         builder.Property(ua => ua.LanguageId).HasComment(comment: "شناسه زبان");
         builder.Property(ua => ua.Channels).HasComment(comment: "فریم در ثانیه");

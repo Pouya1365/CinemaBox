@@ -25,7 +25,7 @@ public class MovieConfiguration : IEntityTypeConfiguration<Movie>
         builder.Property(m => m.ReleaseYear).HasComment(comment: "سال انتشار");
         builder.Property(m => m.ReleaseMonth).HasComment(comment: "ماه انتشار");
         builder.Property(m => m.ReleaseDay).HasComment(comment: "روز انتشار");
-        builder.Property(m => m.AggregateRating).HasComment(comment: "رتبه بندی کل");
+        builder.Property(m => m.AggregateRating).HasPrecision(5, 2).HasComment(comment: "رتبه بندی کل");
         builder.Property(m => m.VoteCount).HasComment(comment: "تعداد رای دهندگان");
         builder.Property(m => m.Winner).HasComment(comment: "تعداد جوایز");
         builder.Property(m => m.Nomination).HasComment(comment: "نامزد شدن");
