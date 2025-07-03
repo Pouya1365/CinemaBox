@@ -68,7 +68,7 @@
             // Btn_GetInfo
             // 
             Btn_GetInfo.BackColor = SystemColors.Control;
-            Btn_GetInfo.CesBackColor = Color.FromArgb(255, 224, 192);
+            Btn_GetInfo.CesBackColor = Color.FromArgb(255, 192, 192);
             Btn_GetInfo.CesBorderColor = Color.FromArgb(64, 64, 64);
             Btn_GetInfo.CesBorderRadius = 15;
             Btn_GetInfo.CesBorderThickness = 1;
