@@ -68,7 +68,7 @@
             // Btn_GetInfo
             // 
             Btn_GetInfo.BackColor = SystemColors.Control;
-            Btn_GetInfo.CesBackColor = Color.Gray;
+            Btn_GetInfo.CesBackColor = Color.FromArgb(255, 224, 192);
             Btn_GetInfo.CesBorderColor = Color.FromArgb(64, 64, 64);
             Btn_GetInfo.CesBorderRadius = 15;
             Btn_GetInfo.CesBorderThickness = 1;
@@ -94,7 +94,7 @@
             // Btn_Search
             // 
             Btn_Search.BackColor = SystemColors.Control;
-            Btn_Search.CesBackColor = Color.Gray;
+            Btn_Search.CesBackColor = Color.FromArgb(0, 192, 0);
             Btn_Search.CesBorderColor = Color.FromArgb(64, 64, 64);
             Btn_Search.CesBorderRadius = 15;
             Btn_Search.CesBorderThickness = 1;
@@ -187,6 +187,7 @@
             // 
             // Flw_ShowMovie
             // 
+            Flw_ShowMovie.AutoScroll = true;
             Flw_ShowMovie.Location = new Point(9, 3);
             Flw_ShowMovie.Name = "Flw_ShowMovie";
             Flw_ShowMovie.Size = new Size(1133, 485);
