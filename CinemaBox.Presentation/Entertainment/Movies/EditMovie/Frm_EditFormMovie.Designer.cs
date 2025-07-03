@@ -2712,7 +2712,7 @@
             // Btn_Exit
             // 
             Btn_Exit.BackColor = SystemColors.Control;
-            Btn_Exit.CesBackColor = Color.Gray;
+            Btn_Exit.CesBackColor = Color.Red;
             Btn_Exit.CesBorderColor = Color.FromArgb(64, 64, 64);
             Btn_Exit.CesBorderRadius = 15;
             Btn_Exit.CesBorderThickness = 1;
@@ -2738,7 +2738,7 @@
             // Btn_ReadFile
             // 
             Btn_ReadFile.BackColor = SystemColors.Control;
-            Btn_ReadFile.CesBackColor = Color.Gray;
+            Btn_ReadFile.CesBackColor = Color.FromArgb(128, 128, 255);
             Btn_ReadFile.CesBorderColor = Color.FromArgb(64, 64, 64);
             Btn_ReadFile.CesBorderRadius = 15;
             Btn_ReadFile.CesBorderThickness = 1;
@@ -2764,7 +2764,7 @@
             // Btn_Save
             // 
             Btn_Save.BackColor = SystemColors.Control;
-            Btn_Save.CesBackColor = Color.Gray;
+            Btn_Save.CesBackColor = Color.FromArgb(0, 192, 0);
             Btn_Save.CesBorderColor = Color.FromArgb(64, 64, 64);
             Btn_Save.CesBorderRadius = 15;
             Btn_Save.CesBorderThickness = 1;

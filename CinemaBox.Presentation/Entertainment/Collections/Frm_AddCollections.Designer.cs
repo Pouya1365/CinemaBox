@@ -30,9 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_AddCollections));
             Txt_EnCollectionName = new Ces.WinForm.UI.CesTextBox();
-            Btn_Cancel = new Ces.WinForm.UI.CesButton.CesButton();
             Txt_FaCollectionName = new Ces.WinForm.UI.CesTextBox();
-            Btn_Ok = new Ces.WinForm.UI.CesButton.CesButton();
+            Btn_Ok = new Ces.WinForm.UI.CesButton.CesRoundedButton();
+            Btn_Cancel = new Ces.WinForm.UI.CesButton.CesRoundedButton();
             SuspendLayout();
             // 
             // btnOptions
@@ -93,29 +93,6 @@
             Txt_EnCollectionName.Size = new Size(406, 35);
             Txt_EnCollectionName.TabIndex = 9;
             // 
-            // Btn_Cancel
-            // 
-            Btn_Cancel.BackColor = Color.LightGray;
-            Btn_Cancel.CesBorderThickness = 1;
-            Btn_Cancel.CesBorderVisible = false;
-            Btn_Cancel.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.Silver;
-            Btn_Cancel.CesEnableToolTip = false;
-            Btn_Cancel.CesToolTipText = null;
-            Btn_Cancel.FlatAppearance.BorderColor = Color.Gray;
-            Btn_Cancel.FlatAppearance.BorderSize = 0;
-            Btn_Cancel.FlatAppearance.MouseDownBackColor = Color.LightGray;
-            Btn_Cancel.FlatAppearance.MouseOverBackColor = Color.Silver;
-            Btn_Cancel.FlatStyle = FlatStyle.Flat;
-            Btn_Cancel.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Btn_Cancel.ForeColor = Color.Black;
-            Btn_Cancel.Location = new Point(12, 143);
-            Btn_Cancel.Name = "Btn_Cancel";
-            Btn_Cancel.Size = new Size(90, 35);
-            Btn_Cancel.TabIndex = 11;
-            Btn_Cancel.Text = "انصراف";
-            Btn_Cancel.UseVisualStyleBackColor = false;
-            Btn_Cancel.Click += Btn_Cancel_Click;
-            // 
             // Txt_FaCollectionName
             // 
             Txt_FaCollectionName._initialControlHeight = 0;
@@ -169,51 +146,80 @@
             // 
             // Btn_Ok
             // 
-            Btn_Ok.BackColor = Color.LightGray;
+            Btn_Ok.BackColor = SystemColors.Control;
+            Btn_Ok.CesBackColor = Color.FromArgb(0, 192, 0);
+            Btn_Ok.CesBorderColor = Color.FromArgb(64, 64, 64);
+            Btn_Ok.CesBorderRadius = 15;
             Btn_Ok.CesBorderThickness = 1;
             Btn_Ok.CesBorderVisible = false;
-            Btn_Ok.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.Silver;
-            Btn_Ok.CesEnableToolTip = false;
-            Btn_Ok.CesToolTipText = null;
-            Btn_Ok.FlatAppearance.BorderColor = Color.Gray;
-            Btn_Ok.FlatAppearance.BorderSize = 0;
-            Btn_Ok.FlatAppearance.MouseDownBackColor = Color.LightGray;
-            Btn_Ok.FlatAppearance.MouseOverBackColor = Color.Silver;
-            Btn_Ok.FlatStyle = FlatStyle.Flat;
-            Btn_Ok.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Btn_Ok.ForeColor = Color.Black;
-            Btn_Ok.Location = new Point(108, 143);
+            Btn_Ok.CesCircular = false;
+            Btn_Ok.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.Gray;
+            Btn_Ok.CesFont = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Btn_Ok.CesForeColor = Color.Black;
+            Btn_Ok.CesIcon = null;
+            Btn_Ok.CesIconAlignment = ContentAlignment.MiddleCenter;
+            Btn_Ok.CesMouseDownColor = Color.Gray;
+            Btn_Ok.CesMouseOverColor = Color.DarkGray;
+            Btn_Ok.CesShowIcon = false;
+            Btn_Ok.CesShowText = true;
+            Btn_Ok.CesText = "قبول";
+            Btn_Ok.CesTextAlignment = ContentAlignment.MiddleCenter;
+            Btn_Ok.Location = new Point(118, 141);
             Btn_Ok.Name = "Btn_Ok";
-            Btn_Ok.Size = new Size(90, 35);
-            Btn_Ok.TabIndex = 13;
-            Btn_Ok.Text = "قبول";
-            Btn_Ok.UseVisualStyleBackColor = false;
+            Btn_Ok.Size = new Size(110, 35);
+            Btn_Ok.TabIndex = 14;
             Btn_Ok.Click += Btn_Ok_Click;
+            // 
+            // Btn_Cancel
+            // 
+            Btn_Cancel.BackColor = SystemColors.Control;
+            Btn_Cancel.CesBackColor = Color.Red;
+            Btn_Cancel.CesBorderColor = Color.FromArgb(64, 64, 64);
+            Btn_Cancel.CesBorderRadius = 15;
+            Btn_Cancel.CesBorderThickness = 1;
+            Btn_Cancel.CesBorderVisible = false;
+            Btn_Cancel.CesCircular = false;
+            Btn_Cancel.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.Gray;
+            Btn_Cancel.CesFont = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Btn_Cancel.CesForeColor = Color.Black;
+            Btn_Cancel.CesIcon = null;
+            Btn_Cancel.CesIconAlignment = ContentAlignment.MiddleCenter;
+            Btn_Cancel.CesMouseDownColor = Color.Gray;
+            Btn_Cancel.CesMouseOverColor = Color.DarkGray;
+            Btn_Cancel.CesShowIcon = false;
+            Btn_Cancel.CesShowText = true;
+            Btn_Cancel.CesText = "خروج";
+            Btn_Cancel.CesTextAlignment = ContentAlignment.MiddleCenter;
+            Btn_Cancel.Location = new Point(5, 143);
+            Btn_Cancel.Name = "Btn_Cancel";
+            Btn_Cancel.Size = new Size(110, 35);
+            Btn_Cancel.TabIndex = 15;
+            Btn_Cancel.Click += Btn_Cancel_Click;
             // 
             // Frm_AddCollections
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(423, 188);
+            Controls.Add(Btn_Cancel);
             Controls.Add(Btn_Ok);
             Controls.Add(Txt_FaCollectionName);
-            Controls.Add(Btn_Cancel);
             Controls.Add(Txt_EnCollectionName);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Frm_AddCollections";
             Text = "Frm_AddCollections";
             Controls.SetChildIndex(Txt_EnCollectionName, 0);
-            Controls.SetChildIndex(Btn_Cancel, 0);
             Controls.SetChildIndex(Txt_FaCollectionName, 0);
             Controls.SetChildIndex(Btn_Ok, 0);
+            Controls.SetChildIndex(Btn_Cancel, 0);
             ResumeLayout(false);
         }
 
         #endregion
 
         private Ces.WinForm.UI.CesTextBox Txt_EnCollectionName;
-        private Ces.WinForm.UI.CesButton.CesButton Btn_Cancel;
         private Ces.WinForm.UI.CesTextBox Txt_FaCollectionName;
-        private Ces.WinForm.UI.CesButton.CesButton Btn_Ok;
+        private Ces.WinForm.UI.CesButton.CesRoundedButton Btn_Ok;
+        private Ces.WinForm.UI.CesButton.CesRoundedButton Btn_Cancel;
     }
 }
