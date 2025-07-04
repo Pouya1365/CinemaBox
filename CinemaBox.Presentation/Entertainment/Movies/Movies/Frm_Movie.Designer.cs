@@ -48,6 +48,7 @@
             // 
             // Pnl_Search
             // 
+            Pnl_Search.BackColor = Color.Transparent;
             Pnl_Search.CesBorderColor = Color.Black;
             Pnl_Search.CesBorderThickness = 1F;
             Pnl_Search.CesBorderVisible = true;
@@ -68,19 +69,19 @@
             // Btn_GetInfo
             // 
             Btn_GetInfo.BackColor = SystemColors.Control;
-            Btn_GetInfo.CesBackColor = Color.FromArgb(255, 192, 192);
-            Btn_GetInfo.CesBorderColor = Color.FromArgb(64, 64, 64);
+            Btn_GetInfo.CesBackColor = Color.FromArgb(255, 113, 113);
+            Btn_GetInfo.CesBorderColor = Color.Tomato;
             Btn_GetInfo.CesBorderRadius = 15;
             Btn_GetInfo.CesBorderThickness = 1;
             Btn_GetInfo.CesBorderVisible = false;
             Btn_GetInfo.CesCircular = false;
-            Btn_GetInfo.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.Gray;
+            Btn_GetInfo.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.LightRed;
             Btn_GetInfo.CesFont = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Btn_GetInfo.CesForeColor = Color.Black;
             Btn_GetInfo.CesIcon = null;
             Btn_GetInfo.CesIconAlignment = ContentAlignment.MiddleCenter;
-            Btn_GetInfo.CesMouseDownColor = Color.Gray;
-            Btn_GetInfo.CesMouseOverColor = Color.DarkGray;
+            Btn_GetInfo.CesMouseDownColor = Color.FromArgb(255, 113, 113);
+            Btn_GetInfo.CesMouseOverColor = Color.FromArgb(255, 150, 150);
             Btn_GetInfo.CesShowIcon = false;
             Btn_GetInfo.CesShowText = true;
             Btn_GetInfo.CesText = "دریافت اطلاعات";
@@ -93,20 +94,20 @@
             // 
             // Btn_Search
             // 
-            Btn_Search.BackColor = SystemColors.Control;
-            Btn_Search.CesBackColor = Color.FromArgb(0, 192, 0);
-            Btn_Search.CesBorderColor = Color.FromArgb(64, 64, 64);
+            Btn_Search.BackColor = Color.Lime;
+            Btn_Search.CesBackColor = Color.FromArgb(120, 209, 160);
+            Btn_Search.CesBorderColor = Color.MediumSeaGreen;
             Btn_Search.CesBorderRadius = 15;
             Btn_Search.CesBorderThickness = 1;
             Btn_Search.CesBorderVisible = false;
             Btn_Search.CesCircular = false;
-            Btn_Search.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.Gray;
+            Btn_Search.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.LightGreen;
             Btn_Search.CesFont = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Btn_Search.CesForeColor = Color.Black;
             Btn_Search.CesIcon = null;
             Btn_Search.CesIconAlignment = ContentAlignment.MiddleCenter;
-            Btn_Search.CesMouseDownColor = Color.FromArgb(0, 192, 0);
-            Btn_Search.CesMouseOverColor = Color.DarkGray;
+            Btn_Search.CesMouseDownColor = Color.FromArgb(120, 209, 160);
+            Btn_Search.CesMouseOverColor = Color.MediumSeaGreen;
             Btn_Search.CesShowIcon = false;
             Btn_Search.CesShowText = true;
             Btn_Search.CesText = "جستجو";

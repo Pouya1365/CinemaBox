@@ -47,7 +47,8 @@ public partial class Frm_EditPeople : CesForm
         Txt_Imdb.CesText = people.Id;
         Txt_BirthDate.CesText = people.BornDate.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
         Txt_BirthDateShamsiYear.CesText = people.BornDate.ToString();
-        Txt_DeathDate.CesText = people?.DeathDate?.ToString();
+        Txt_DeathDate.CesText = people?.DeathDate.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture); 
+        Txt_ShamsiDeadDate.CesText = people?.DeathDate.ToString();
         Txt_BornPlace.CesText = people.BornPlace;
         Txt_DeadPlace.CesText = people.DeathPlace;
         Txt_BirthName.CesText = people.BirthName;

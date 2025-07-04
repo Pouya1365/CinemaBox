@@ -147,19 +147,19 @@
             // Btn_Ok
             // 
             Btn_Ok.BackColor = SystemColors.Control;
-            Btn_Ok.CesBackColor = Color.FromArgb(0, 192, 0);
-            Btn_Ok.CesBorderColor = Color.FromArgb(64, 64, 64);
+            Btn_Ok.CesBackColor = Color.FromArgb(120, 209, 160);
+            Btn_Ok.CesBorderColor = Color.MediumSeaGreen;
             Btn_Ok.CesBorderRadius = 15;
             Btn_Ok.CesBorderThickness = 1;
             Btn_Ok.CesBorderVisible = false;
             Btn_Ok.CesCircular = false;
-            Btn_Ok.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.Gray;
+            Btn_Ok.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.LightGreen;
             Btn_Ok.CesFont = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Btn_Ok.CesForeColor = Color.Black;
             Btn_Ok.CesIcon = null;
             Btn_Ok.CesIconAlignment = ContentAlignment.MiddleCenter;
-            Btn_Ok.CesMouseDownColor = Color.Gray;
-            Btn_Ok.CesMouseOverColor = Color.DarkGray;
+            Btn_Ok.CesMouseDownColor = Color.FromArgb(120, 209, 160);
+            Btn_Ok.CesMouseOverColor = Color.MediumSeaGreen;
             Btn_Ok.CesShowIcon = false;
             Btn_Ok.CesShowText = true;
             Btn_Ok.CesText = "قبول";
@@ -173,19 +173,19 @@
             // Btn_Cancel
             // 
             Btn_Cancel.BackColor = SystemColors.Control;
-            Btn_Cancel.CesBackColor = Color.Red;
-            Btn_Cancel.CesBorderColor = Color.FromArgb(64, 64, 64);
+            Btn_Cancel.CesBackColor = Color.FromArgb(255, 113, 113);
+            Btn_Cancel.CesBorderColor = Color.Tomato;
             Btn_Cancel.CesBorderRadius = 15;
             Btn_Cancel.CesBorderThickness = 1;
             Btn_Cancel.CesBorderVisible = false;
             Btn_Cancel.CesCircular = false;
-            Btn_Cancel.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.Gray;
+            Btn_Cancel.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.LightRed;
             Btn_Cancel.CesFont = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Btn_Cancel.CesForeColor = Color.Black;
             Btn_Cancel.CesIcon = null;
             Btn_Cancel.CesIconAlignment = ContentAlignment.MiddleCenter;
-            Btn_Cancel.CesMouseDownColor = Color.Gray;
-            Btn_Cancel.CesMouseOverColor = Color.DarkGray;
+            Btn_Cancel.CesMouseDownColor = Color.FromArgb(255, 113, 113);
+            Btn_Cancel.CesMouseOverColor = Color.FromArgb(255, 150, 150);
             Btn_Cancel.CesShowIcon = false;
             Btn_Cancel.CesShowText = true;
             Btn_Cancel.CesText = "خروج";

@@ -2712,19 +2712,19 @@
             // Btn_Exit
             // 
             Btn_Exit.BackColor = SystemColors.Control;
-            Btn_Exit.CesBackColor = Color.Red;
-            Btn_Exit.CesBorderColor = Color.FromArgb(64, 64, 64);
+            Btn_Exit.CesBackColor = Color.FromArgb(255, 113, 113);
+            Btn_Exit.CesBorderColor = Color.Tomato;
             Btn_Exit.CesBorderRadius = 15;
             Btn_Exit.CesBorderThickness = 1;
             Btn_Exit.CesBorderVisible = false;
             Btn_Exit.CesCircular = false;
-            Btn_Exit.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.Gray;
+            Btn_Exit.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.LightRed;
             Btn_Exit.CesFont = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Btn_Exit.CesForeColor = Color.Black;
             Btn_Exit.CesIcon = null;
             Btn_Exit.CesIconAlignment = ContentAlignment.MiddleCenter;
-            Btn_Exit.CesMouseDownColor = Color.Gray;
-            Btn_Exit.CesMouseOverColor = Color.DarkGray;
+            Btn_Exit.CesMouseDownColor = Color.FromArgb(255, 113, 113);
+            Btn_Exit.CesMouseOverColor = Color.FromArgb(255, 150, 150);
             Btn_Exit.CesShowIcon = false;
             Btn_Exit.CesShowText = true;
             Btn_Exit.CesText = "خروج";
@@ -2738,19 +2738,19 @@
             // Btn_ReadFile
             // 
             Btn_ReadFile.BackColor = SystemColors.Control;
-            Btn_ReadFile.CesBackColor = Color.FromArgb(128, 128, 255);
-            Btn_ReadFile.CesBorderColor = Color.FromArgb(64, 64, 64);
+            Btn_ReadFile.CesBackColor = Color.LightSkyBlue;
+            Btn_ReadFile.CesBorderColor = Color.CornflowerBlue;
             Btn_ReadFile.CesBorderRadius = 15;
             Btn_ReadFile.CesBorderThickness = 1;
             Btn_ReadFile.CesBorderVisible = false;
             Btn_ReadFile.CesCircular = false;
-            Btn_ReadFile.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.Gray;
+            Btn_ReadFile.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.LightSky;
             Btn_ReadFile.CesFont = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Btn_ReadFile.CesForeColor = Color.Black;
             Btn_ReadFile.CesIcon = null;
             Btn_ReadFile.CesIconAlignment = ContentAlignment.MiddleCenter;
-            Btn_ReadFile.CesMouseDownColor = Color.Gray;
-            Btn_ReadFile.CesMouseOverColor = Color.DarkGray;
+            Btn_ReadFile.CesMouseDownColor = Color.CornflowerBlue;
+            Btn_ReadFile.CesMouseOverColor = Color.SkyBlue;
             Btn_ReadFile.CesShowIcon = false;
             Btn_ReadFile.CesShowText = true;
             Btn_ReadFile.CesText = "خواندن فایل";
@@ -2764,19 +2764,19 @@
             // Btn_Save
             // 
             Btn_Save.BackColor = SystemColors.Control;
-            Btn_Save.CesBackColor = Color.FromArgb(0, 192, 0);
-            Btn_Save.CesBorderColor = Color.FromArgb(64, 64, 64);
+            Btn_Save.CesBackColor = Color.FromArgb(120, 209, 160);
+            Btn_Save.CesBorderColor = Color.MediumSeaGreen;
             Btn_Save.CesBorderRadius = 15;
             Btn_Save.CesBorderThickness = 1;
             Btn_Save.CesBorderVisible = false;
             Btn_Save.CesCircular = false;
-            Btn_Save.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.Gray;
+            Btn_Save.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.LightGreen;
             Btn_Save.CesFont = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Btn_Save.CesForeColor = Color.Black;
             Btn_Save.CesIcon = null;
             Btn_Save.CesIconAlignment = ContentAlignment.MiddleCenter;
-            Btn_Save.CesMouseDownColor = Color.Gray;
-            Btn_Save.CesMouseOverColor = Color.DarkGray;
+            Btn_Save.CesMouseDownColor = Color.FromArgb(120, 209, 160);
+            Btn_Save.CesMouseOverColor = Color.MediumSeaGreen;
             Btn_Save.CesShowIcon = false;
             Btn_Save.CesShowText = true;
             Btn_Save.CesText = "ذخیره";
