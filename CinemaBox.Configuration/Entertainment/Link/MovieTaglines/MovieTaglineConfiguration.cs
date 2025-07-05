@@ -13,8 +13,8 @@ public class MovieTaglineConfiguration : IEntityTypeConfiguration<MovieTagline>
         builder.HasKey(mt => mt.Id);
         builder.Property(mt => mt.Id).UseIdentityColumn().ValueGeneratedOnAdd().IsRequired().HasComment(comment: "شناسه جمله نهایی");
         builder.Property(mt => mt.MovieId).HasMaxLength(20).IsRequired().HasColumnName("MovieId").HasComment(comment: "شناسه فیلم");
-        builder.Property(mt => mt.EnTagline).HasMaxLength(200).IsRequired().HasComment(comment: "محل جمله نهایی انگلیسی");
-        builder.Property(mt => mt.FaTagline).HasMaxLength(200).HasComment(comment: "محل جمله نهایی فارسی");
+        builder.Property(mt => mt.EnTagline).HasMaxLength(500).IsRequired().HasComment(comment: "محل جمله نهایی انگلیسی");
+        builder.Property(mt => mt.FaTagline).HasMaxLength(500).HasComment(comment: "محل جمله نهایی فارسی");
         builder.HasOne(mt => mt.Movie).WithMany(mt => mt.MovieTaglines).HasForeignKey(mt => mt.MovieId);
     }
 }
