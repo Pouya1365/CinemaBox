@@ -31,4 +31,14 @@ public class DeathCauseServices(IUnitOfWork unitOfWork) : IDeathCauseServices
     }
     public async Task<IEnumerable<DeathCause>?> GetDeathCauseAllAsync() => await _unitOfWork.Repository<DeathCause>()
             .GetAllAsync();
+
+    public async Task<List<DeathCause>?> GetAllDeathCauseFaNull() => await _unitOfWork.Repository<DeathCause>()
+         .GetAllListAsync(dc=> dc.FaDeathCauseName == null);
+    public async Task UpdateFaDeathCause(List<DeathCause> deathCauses)
+    {
+        foreach (DeathCause deathCause in deathCauses)
+            _unitOfWork.Repository<DeathCause>().Update(deathCause);
+        if (deathCauses.Any())
+            await _unitOfWork.CompleteAsync();
+    }
 }

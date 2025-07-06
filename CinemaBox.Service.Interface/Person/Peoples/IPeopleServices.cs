@@ -7,4 +7,6 @@ public interface IPeopleServices
 {
     Task<People> CreateOrUpdatePeople(CreditModel creditModel, string path);
     Task<People> GetPeople(string peopleId);
+    Task<List<People>?> GetPeopleFaNull();
+    Task UpdateFaPeople(List<People> peoples);
 }

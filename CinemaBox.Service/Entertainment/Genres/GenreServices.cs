@@ -26,6 +26,14 @@ public class GenreServices(IUnitOfWork unitOfWork) : IGenreServices
             return null;
         return await _unitOfWork.Repository<Genre>()
             .FindAsync(g => g.EnGenreName == genreName||g.FaGenreName== genreName);
-
+    }
+    public async Task<List<Genre>?> GetAllGenreFaNull() => await _unitOfWork.Repository<Genre>()
+          .GetAllListAsync(g => g.FaGenreName == null);
+    public async Task UpdateFaGenre(List<Genre> genres)
+    {
+        foreach (Genre genre in genres)
+            _unitOfWork.Repository<Genre>().Update(genre);
+        if (genres.Any())
+            await _unitOfWork.CompleteAsync();
     }
 }

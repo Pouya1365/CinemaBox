@@ -155,7 +155,7 @@ namespace CinemaBox.Context.Migrations
                 columns: table => new
                 {
                     KeywordId = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false, comment: "شناسه کلمه کلیدی"),
-                    EnKeyowrdName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "کلمه کلیدی انگلیسی"),
+                    EnKeyowrdName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false, comment: "کلمه کلیدی انگلیسی"),
                     FaKeyowrdName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true, comment: "کلمه کلیدی فارسی")
                 },
                 constraints: table =>
@@ -275,7 +275,7 @@ namespace CinemaBox.Context.Migrations
                     ReleaseYear = table.Column<long>(type: "bigint", nullable: true, comment: "سال انتشار"),
                     ReleaseMonth = table.Column<long>(type: "bigint", nullable: true, comment: "ماه انتشار"),
                     ReleaseDay = table.Column<long>(type: "bigint", nullable: true, comment: "روز انتشار"),
-                    AggregateRating = table.Column<decimal>(type: "decimal(18,2)", nullable: true, comment: "رتبه بندی کل"),
+                    AggregateRating = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: true, comment: "رتبه بندی کل"),
                     VoteCount = table.Column<long>(type: "bigint", nullable: true, comment: "تعداد رای دهندگان"),
                     Winner = table.Column<long>(type: "bigint", nullable: true, comment: "تعداد جوایز"),
                     Nomination = table.Column<long>(type: "bigint", nullable: true, comment: "نامزد شدن"),
@@ -505,8 +505,8 @@ namespace CinemaBox.Context.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false, comment: "شناسه جمله نهایی")
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MovieId = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false, comment: "شناسه فیلم"),
-                    EnTagline = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false, comment: "محل جمله نهایی انگلیسی"),
-                    FaTagline = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true, comment: "محل جمله نهایی فارسی")
+                    EnTagline = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false, comment: "محل جمله نهایی انگلیسی"),
+                    FaTagline = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true, comment: "محل جمله نهایی فارسی")
                 },
                 constraints: table =>
                 {
@@ -525,14 +525,16 @@ namespace CinemaBox.Context.Migrations
                 schema: "Managment",
                 columns: table => new
                 {
-                    LanguageId = table.Column<byte>(type: "tinyint", nullable: false, comment: "شناسه زبان"),
-                    MovieId = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false, comment: "شناسه فایل صوت"),
+                    UserMovieAudioId = table.Column<int>(type: "int", nullable: false, comment: "شناسه صدا")
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LanguageId = table.Column<byte>(type: "tinyint", nullable: true, comment: "شناسه زبان"),
+                    MovieId = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true, comment: "شناسه فیلم"),
                     Channels = table.Column<byte>(type: "tinyint", nullable: true, comment: "فریم در ثانیه"),
                     FormatId = table.Column<byte>(type: "tinyint", nullable: true, comment: "شناسه نوع فرمت")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserMovieAudios", x => new { x.MovieId, x.LanguageId });
+                    table.PrimaryKey("PK_UserMovieAudios", x => x.UserMovieAudioId);
                     table.ForeignKey(
                         name: "FK_UserMovieAudios_Formats_FormatId",
                         column: x => x.FormatId,
@@ -544,15 +546,13 @@ namespace CinemaBox.Context.Migrations
                         column: x => x.LanguageId,
                         principalSchema: "Shared",
                         principalTable: "Languages",
-                        principalColumn: "LanguageId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "LanguageId");
                     table.ForeignKey(
                         name: "FK_UserMovieAudios_Movies_MovieId",
                         column: x => x.MovieId,
                         principalSchema: "Entertainment",
                         principalTable: "Movies",
-                        principalColumn: "MovieId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "MovieId");
                 });
 
             migrationBuilder.CreateTable(
@@ -565,7 +565,7 @@ namespace CinemaBox.Context.Migrations
                     PositionMovie = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true, comment: "محل قرارگیری فیلم"),
                     MovieNumber = table.Column<int>(type: "int", nullable: true, comment: "شماره فیلم"),
                     FileName = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "نام فایل"),
-                    FileSize = table.Column<decimal>(type: "decimal(18,2)", nullable: true, comment: "اندازه فایل"),
+                    FileSize = table.Column<decimal>(type: "decimal(18,4)", precision: 18, scale: 4, nullable: true, comment: "اندازه فایل"),
                     IsDubbed = table.Column<bool>(type: "bit", nullable: true, comment: "دوبله"),
                     IsSubtitle = table.Column<bool>(type: "bit", nullable: true, comment: "زیرنویس"),
                     StatusId = table.Column<byte>(type: "tinyint", nullable: true, comment: "شناسه وضعیت"),
@@ -1025,6 +1025,12 @@ namespace CinemaBox.Context.Migrations
                 schema: "Managment",
                 table: "UserMovieAudios",
                 column: "LanguageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserMovieAudios_MovieId",
+                schema: "Managment",
+                table: "UserMovieAudios",
+                column: "MovieId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserMovieDisks_StatusId",

@@ -1,4 +1,5 @@
-﻿using CinemaBox.Domain.Person.Peoples;
+﻿using CinemaBox.Domain.Entertainment.Link.MovieTaglines;
+using CinemaBox.Domain.Person.Peoples;
 using CinemaBox.Domain.Shared.DeathCauses;
 using CinemaBox.Model.Entertainment.Cast.Credit;
 using CinemaBox.Model.Entertainment.People;
@@ -83,4 +84,15 @@ public class PeopleServices(IUnitOfWork unitOfWork, IImdbPeopleScrapperServices 
         await _unitOfWork.CompleteAsync();
     }
     private async Task GetOrCreatePeopleFile(string path, string imageUrl, string peopleId, string peopleName) => await _peopleFileServices.CreateOrUpdatePeopleImage(path: path, imageUrl: imageUrl, peopleId: peopleId, peopleName: peopleName);
+    public async Task<List<People>?> GetPeopleFaNull() => await _unitOfWork.Repository<People>()
+         .GetAllListAsync(p => p.FaFullName == null);
+    public async Task UpdateFaPeople(List<People> peoples)
+    {
+        foreach (People people in peoples)
+            _unitOfWork.Repository<People>().Update(people);
+        if (peoples.Any())
+            await _unitOfWork.CompleteAsync();
+    }
+
+
 }

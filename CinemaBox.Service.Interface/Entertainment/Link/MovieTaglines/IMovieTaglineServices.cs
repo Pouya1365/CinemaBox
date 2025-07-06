@@ -6,4 +6,6 @@ public interface IMovieTaglineServices
 {
     Task<List<MovieTagline>> CreateMovieTagline(List<string> taglineModels, string movieId);
     Task<IEnumerable<MovieTagline?>> GetMovieTagline(string movieId);
+    Task<List<MovieTagline>?> GetAllMovieTaglineFaNull();
+    Task UpdateFaMovieTagline(List<MovieTagline> movieTaglines);
 }

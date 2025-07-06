@@ -6,4 +6,6 @@ public interface ICountryPartServices
 {
     Task<CountryPart> CreateOrGetCountryPart(string CountryPartName, string isoCode);
     Task<CountryPart> GetCountryPart(string CountryPartName);
+    Task<List<CountryPart>?> GetAllCountryPartFaNull();
+    Task UpdateFaCountryPart(List<CountryPart> countryParts);
 }

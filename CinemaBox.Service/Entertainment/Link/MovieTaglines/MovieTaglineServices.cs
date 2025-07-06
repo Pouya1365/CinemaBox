@@ -21,4 +21,14 @@ public class MovieTaglineServices(IUnitOfWork unitOfWork) : IMovieTaglineService
         return MovieTaglines;
     }
     public async Task<IEnumerable<MovieTagline?>> GetMovieTagline(string movieId) =>await _unitOfWork.Repository<MovieTagline>().GetAllAsync(x => x.MovieId == movieId);
+
+    public async Task<List<MovieTagline>?> GetAllMovieTaglineFaNull() => await _unitOfWork.Repository<MovieTagline>()
+         .GetAllListAsync(mt => mt.FaTagline == null);
+    public async Task UpdateFaMovieTagline(List<MovieTagline> movieTaglines)
+    {
+        foreach (MovieTagline movieTagline in movieTaglines)
+            _unitOfWork.Repository<MovieTagline>().Update(movieTagline);
+        if (movieTaglines.Any())
+            await _unitOfWork.CompleteAsync();
+    }
 }

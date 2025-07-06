@@ -1,4 +1,6 @@
 ﻿using CinemaBox.Context.AppDbContext;
+using CinemaBox.Libretranslate;
+using CinemaBox.Libretranslate.Interface;
 using CinemaBox.Scrapping.Interface.Imdb.Service.Movie;
 using CinemaBox.Scrapping.Interface.Imdb.Service.People;
 using CinemaBox.Scrapping.Service.Movie;
@@ -69,32 +71,32 @@ using CinemaBox.UnitOfWork.Interface.UOW;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 
 namespace CinemaBox.Presentation;
 
- static class Program
+static class Program
 {
     [STAThread]
     static void Main()
     {
- 
+
         ApplicationConfiguration.Initialize();
         Application.SetCompatibleTextRenderingDefault(false);
 
         // سرویس‌ها
         IServiceCollection serviceCollection = ConfigureServices();
         ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            CinemaBoxDbContext dbContext =
-                      ServiceProviderServiceExtensions
-                      .GetRequiredService<CinemaBoxDbContext>(scope.ServiceProvider);
-            dbContext.Database.Migrate();
-        }
+        using IServiceScope scope = serviceProvider.CreateScope();
+        CinemaBoxDbContext dbContext =
+                  ServiceProviderServiceExtensions
+                  .GetRequiredService<CinemaBoxDbContext>(scope.ServiceProvider);
+        dbContext.Database.Migrate();
+
 
         // اجرای فرم اصلی
-        Frm_Movie mainForm = ServiceProviderServiceExtensions.GetRequiredService<Frm_Movie>(serviceProvider);
+        Frm_Movie mainForm = ServiceProviderServiceExtensions.GetRequiredService<Frm_Movie>(scope.ServiceProvider);
 
         Application.Run(mainForm);
     }
@@ -147,11 +149,12 @@ namespace CinemaBox.Presentation;
         services.AddScoped<IQualityServices, QualityServices>();
         services.AddScoped<IQualityTypeServices, QualityTypeServices>();
         services.AddScoped<IImdbOtherScrapperServices, ImdbOtherScrapperServices>();
+        services.AddScoped<ITranslate, Translate>();
         // 📦 رجیستر کردن فرم‌ها
         services.AddTransient<Frm_Movie>();
 
         // 📁 هندل لود داینامیک DLL از پوشه libs
-   
+
 
         return services;
     }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaBox.Context.Migrations
 {
     [DbContext(typeof(CinemaBoxDbContext))]
-    [Migration("20250627180434_InitialDb_V0")]
+    [Migration("20250706041431_InitialDb_V0")]
     partial class InitialDb_V0
     {
         /// <inheritdoc />
@@ -454,13 +454,13 @@ namespace CinemaBox.Context.Migrations
 
                     b.Property<string>("EnTagline")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)")
                         .HasComment("محل جمله نهایی انگلیسی");
 
                     b.Property<string>("FaTagline")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)")
                         .HasComment("محل جمله نهایی فارسی");
 
                     b.Property<string>("MovieId")
@@ -486,7 +486,8 @@ namespace CinemaBox.Context.Migrations
                         .HasComment("شناسه فیلم یا سریال");
 
                     b.Property<decimal?>("AggregateRating")
-                        .HasColumnType("decimal(18,2)")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)")
                         .HasComment("رتبه بندی کل");
 
                     b.Property<double?>("Budget")
@@ -626,15 +627,13 @@ namespace CinemaBox.Context.Migrations
 
             modelBuilder.Entity("CinemaBox.Domain.Managment.Link.UserMovieAudios.UserMovieAudio", b =>
                 {
-                    b.Property<string>("MovieId")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("MovieId")
-                        .HasComment("شناسه فایل صوت");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("UserMovieAudioId")
+                        .HasComment("شناسه صدا");
 
-                    b.Property<byte>("LanguageId")
-                        .HasColumnType("tinyint")
-                        .HasComment("شناسه زبان");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<byte?>("Channels")
                         .HasColumnType("tinyint")
@@ -644,11 +643,23 @@ namespace CinemaBox.Context.Migrations
                         .HasColumnType("tinyint")
                         .HasComment("شناسه نوع فرمت");
 
-                    b.HasKey("MovieId", "LanguageId");
+                    b.Property<byte?>("LanguageId")
+                        .HasColumnType("tinyint")
+                        .HasComment("شناسه زبان");
+
+                    b.Property<string>("MovieId")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("MovieId")
+                        .HasComment("شناسه فیلم");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("FormatId");
 
                     b.HasIndex("LanguageId");
+
+                    b.HasIndex("MovieId");
 
                     b.ToTable("UserMovieAudios", "Managment");
                 });
@@ -671,7 +682,8 @@ namespace CinemaBox.Context.Migrations
                         .HasComment("نام فایل");
 
                     b.Property<decimal?>("FileSize")
-                        .HasColumnType("decimal(18,2)")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("decimal(18,4)")
                         .HasComment("اندازه فایل");
 
                     b.Property<bool?>("IsDubbed")
@@ -1048,8 +1060,8 @@ namespace CinemaBox.Context.Migrations
 
                     b.Property<string>("EnKeyowrdName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)")
                         .HasComment("کلمه کلیدی انگلیسی");
 
                     b.Property<string>("FaKeyowrdName")
@@ -1423,15 +1435,11 @@ namespace CinemaBox.Context.Migrations
 
                     b.HasOne("CinemaBox.Domain.Shared.Languages.Language", "Language")
                         .WithMany("UserMovieAudios")
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LanguageId");
 
                     b.HasOne("CinemaBox.Domain.Entertainment.Movies.Movie", "Movie")
                         .WithMany("UserMovieAudios")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MovieId");
 
                     b.Navigation("Format");
 

@@ -20,4 +20,13 @@ public class CountryPartServices(IUnitOfWork unitOfWork) : ICountryPartServices
         return CountryPart;
     }
     public async Task<CountryPart> GetCountryPart(string countryPartName) => await _unitOfWork.Repository<CountryPart>().FindAsync(x => x.EnCountryPartName == countryPartName || x.FaCountryPartName== countryPartName);
+    public async Task<List<CountryPart>?> GetAllCountryPartFaNull() => await _unitOfWork.Repository<CountryPart>()
+             .GetAllListAsync(g => g.FaCountryPartName == null);
+    public async Task UpdateFaCountryPart(List<CountryPart>countryParts)
+    {
+        foreach (CountryPart countryPart in countryParts)
+            _unitOfWork.Repository<CountryPart>().Update(countryPart);
+        if (countryParts.Any())
+            await _unitOfWork.CompleteAsync();
+    }
 }

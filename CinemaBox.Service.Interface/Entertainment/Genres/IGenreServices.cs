@@ -6,5 +6,7 @@ namespace CinemaBox.Service.Interface.Entertainment.Genres
     {
         Task<Genre?> CreateOrGetGenreAsync(string? genreName);
         Task<Genre?> GetGenreAsync(string genreName);
+        Task UpdateFaGenre(List<Genre> genres);
+        Task<List<Genre>?> GetAllGenreFaNull();
     }
 }
