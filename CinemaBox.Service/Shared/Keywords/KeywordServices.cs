@@ -1,12 +1,15 @@
 ﻿using CinemaBox.Domain.Shared.Keywords;
+using CinemaBox.Libretranslate.Interface;
 using CinemaBox.Service.Interface.Shared.Keywords;
 using CinemaBox.UnitOfWork.Interface.UOW;
+using CinemaBox.Utilities.Html;
 
 namespace CinemaBox.Service.Shared.Keywords;
 
-public class KeywordServices(IUnitOfWork unitOfWork) : IKeywordServices
+public class KeywordServices(IUnitOfWork unitOfWork, ITranslate translate) : IKeywordServices
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+    private readonly ITranslate _translate = translate ?? throw new ArgumentNullException(nameof(translate));
     public async Task<Keyword?> CreateOrGetKeywordAsync(string? keywordId, string? keywordName)
     {
         if (string.IsNullOrWhiteSpace(keywordId))
@@ -14,12 +17,14 @@ public class KeywordServices(IUnitOfWork unitOfWork) : IKeywordServices
         Keyword? Keyword = await GetKeywordAsync(keywordId: keywordId);
         if (Keyword == null)
         {
-            Keyword = new Keyword { EnKeyowrdName = keywordName.Trim(), Id = keywordId };
+            string faKeyowrdName = await GetFa(keyowrdName: keywordName);
+            Keyword = new Keyword { EnKeyowrdName = keywordName.Trim(), Id = keywordId,FaKeyowrdName=faKeyowrdName };
             await _unitOfWork.Repository<Keyword>().AddAsync(Keyword);
             await _unitOfWork.CompleteAsync();
         }
         return Keyword;
     }
+    private async Task<string> GetFa(string keyowrdName) => HtmlDecode.HtmlDecoding(await _translate.TranslateText(text: keyowrdName));
     public async Task<Keyword?> GetKeywordAsync(string keywordId)
     {
         if (string.IsNullOrEmpty(keywordId))

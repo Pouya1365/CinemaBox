@@ -8,12 +8,10 @@ using CinemaBox.Domain.Person.Peoples;
 using CinemaBox.Domain.Shared.DeathCauses;
 using CinemaBox.Domain.Shared.Keywords;
 using CinemaBox.Domain.Shared.Languages;
-using CinemaBox.Libretranslate;
 using CinemaBox.Libretranslate.Interface;
 using CinemaBox.Model.Entertainment.Movie.Movie;
 using CinemaBox.Model.Entertainment.Movie.ShowMovie;
 using CinemaBox.Presentation.Entertainment.Movies.EditMovie;
-using CinemaBox.Scrapping.Imdb.MovieExtractors;
 using CinemaBox.Scrapping.Interface.Imdb.Service.Movie;
 using CinemaBox.Service.Interface.Division.CountryParts;
 using CinemaBox.Service.Interface.Entertainment.Certificates;
@@ -44,9 +42,7 @@ using CinemaBox.Service.Interface.Shared.Qualities.Qualities;
 using CinemaBox.Service.Interface.Shared.Qualities.QualityTypes;
 using CinemaBox.Service.Interface.Shared.Statuses;
 using CinemaBox.UserController.Entertainment.Movies;
-using Microsoft.VisualBasic.Devices;
-using System;
-using System.Threading.Tasks;
+using CinemaBox.Utilities.Html;
 namespace CinemaBox.Presentation;
 public partial class Frm_Movie : CesForm
 {
@@ -233,8 +229,8 @@ public partial class Frm_Movie : CesForm
         List<People>? peoples = await GetPeopleAsync();
         foreach (People people in peoples)
         {
-            people.FaFullName = await _translate.TranslateText(text: people.EnFullName);
-            people.FaMiniBiography = await _translate.TranslateText(text: people.EnMiniBiography);
+            people.FaFullName = HtmlDecode.HtmlDecoding(await _translate.TranslateText(text: people.EnFullName));
+            people.FaMiniBiography = HtmlDecode.HtmlDecoding( await _translate.TranslateText(text: people.EnMiniBiography));
         }
         await SaveFaPeopleAsync(peoples: peoples);
     }

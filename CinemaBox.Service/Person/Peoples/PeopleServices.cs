@@ -1,6 +1,7 @@
 ﻿using CinemaBox.Domain.Entertainment.Link.MovieTaglines;
 using CinemaBox.Domain.Person.Peoples;
 using CinemaBox.Domain.Shared.DeathCauses;
+using CinemaBox.Libretranslate.Interface;
 using CinemaBox.Model.Entertainment.Cast.Credit;
 using CinemaBox.Model.Entertainment.People;
 using CinemaBox.Scrapping.Interface.Imdb.Service.People;
@@ -9,14 +10,21 @@ using CinemaBox.Service.Interface.Person.Peoples;
 using CinemaBox.Service.Interface.Shared.DeathCauses;
 using CinemaBox.UnitOfWork.Interface.UOW;
 using CinemaBox.Utilities.DateTimeExtension.DateExtensions;
+using CinemaBox.Utilities.Html;
 
 namespace CinemaBox.Service.Person.Peoples;
-public class PeopleServices(IUnitOfWork unitOfWork, IImdbPeopleScrapperServices imdbPeopleScrapperServices, IDeathCauseServices deathCauseServices, IPeopleFileServices peopleFileServices) : IPeopleServices
+public class PeopleServices(
+    IUnitOfWork unitOfWork,
+    IImdbPeopleScrapperServices imdbPeopleScrapperServices,
+    IDeathCauseServices deathCauseServices,
+    IPeopleFileServices peopleFileServices,
+    ITranslate translate) : IPeopleServices
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     private readonly IImdbPeopleScrapperServices _imdbPeopleScrapperServices = imdbPeopleScrapperServices ?? throw new ArgumentNullException(nameof(imdbPeopleScrapperServices));
     private readonly IDeathCauseServices _deathCauseServices = deathCauseServices ?? throw new ArgumentNullException(nameof(deathCauseServices));
     private readonly IPeopleFileServices _peopleFileServices = peopleFileServices ?? throw new ArgumentNullException(nameof(peopleFileServices));
+    private readonly ITranslate _translate = translate ?? throw new ArgumentNullException(nameof(translate));
     public async Task<People> CreateOrUpdatePeople(CreditModel creditModel, string path)
     {
         People existingPerson = await GetPeople(creditModel.ImdbId);
@@ -40,10 +48,13 @@ public class PeopleServices(IUnitOfWork unitOfWork, IImdbPeopleScrapperServices 
         return existingPerson;
     }
     public async Task<People> GetPeople(string peopleId) => await _unitOfWork.Repository<People>().FindAsync(x => x.Id == peopleId);
+    private async Task<string> GetFa(string str) => HtmlDecode.HtmlDecoding(await _translate.TranslateText(text: str));
     private async Task<PeopleModelScrapping> GetPeopleModelFromImdb(string imdbId) => await _imdbPeopleScrapperServices.ImdbPeopleScrapperServicesAsync(imdbId: imdbId);
     private async Task<People> CreatePeopleEntity(PeopleModelScrapping peopleModel)
     {
         DeathCause? deathCause = await DeathCause(deathCauseName: peopleModel.DeathCause);
+        string faFullName = await GetFa(peopleModel.EnFullName);
+        string faMiniBiography = await GetFa(peopleModel.EnMiniBiography);
         People people = new()
         {
             Id = peopleModel.ImdbId,
@@ -59,6 +70,8 @@ public class PeopleServices(IUnitOfWork unitOfWork, IImdbPeopleScrapperServices 
             DeathDate = !string.IsNullOrWhiteSpace(peopleModel?.DeathDate) ? Pcal.ToGeorgian(peopleModel.DeathDate) : null,
             DeathPlace = !string.IsNullOrWhiteSpace(peopleModel?.DeathPlace) ? peopleModel.DeathPlace : null,
             DeathCauseId = !string.IsNullOrWhiteSpace(deathCause?.EnDeathCauseName) ? deathCause.Id : null,
+            FaFullName = faFullName,
+            FaMiniBiography = faMiniBiography,
         };
         await _unitOfWork.Repository<People>().AddAsync(people);
         await _unitOfWork.CompleteAsync();
@@ -68,6 +81,8 @@ public class PeopleServices(IUnitOfWork unitOfWork, IImdbPeopleScrapperServices 
     private async Task UpdatePeopleEntity(People existing, PeopleModelScrapping model)
     {
         DeathCause deathCause = await DeathCause(deathCauseName: model.DeathCause);
+        existing.FaFullName = await GetFa(existing.EnFullName);
+        existing.FaMiniBiography = await GetFa(existing.EnMiniBiography);
         existing.EnFullName = model.EnFullName;
         existing.NickName = model.NickName;
         existing.BirthName = model.BirthName;

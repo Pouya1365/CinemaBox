@@ -1,13 +1,16 @@
 ﻿using CinemaBox.Domain.Shared.DeathCauses;
+using CinemaBox.Libretranslate.Interface;
 using CinemaBox.Service.Interface.Shared.DeathCauses;
 using CinemaBox.UnitOfWork.Interface.UOW;
+using CinemaBox.Utilities.Html;
 using CinemaBox.Utilities.Strings;
 
 namespace CinemaBox.Service.Shared.DeathCauses;
 
-public class DeathCauseServices(IUnitOfWork unitOfWork) : IDeathCauseServices
+public class DeathCauseServices(IUnitOfWork unitOfWork, ITranslate translate) : IDeathCauseServices
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+    private readonly ITranslate _translate = translate ?? throw new ArgumentNullException(nameof(translate));
     public async Task<DeathCause?> CreateOrGetDeathCauseAsync(string? deathCauseName)
     {
         if (string.IsNullOrWhiteSpace(deathCauseName))
@@ -15,12 +18,14 @@ public class DeathCauseServices(IUnitOfWork unitOfWork) : IDeathCauseServices
         DeathCause? deathCause = await GetDeathCauseAsync(deathCauseName: deathCauseName);
         if (deathCause == null)
         {
-            deathCause = new DeathCause { EnDeathCauseName = deathCauseName };
+            string faDeathCauseName = await GetFa(deathCause: deathCauseName);
+            deathCause = new DeathCause { EnDeathCauseName = deathCauseName,FaDeathCauseName=faDeathCauseName };
             await _unitOfWork.Repository<DeathCause>().AddAsync(deathCause);
             await _unitOfWork.CompleteAsync();
         }
         return deathCause;
     }
+    private async Task<string> GetFa(string deathCause) => HtmlDecode.HtmlDecoding(await _translate.TranslateText(text: deathCause));
     public async Task<DeathCause?> GetDeathCauseAsync(string deathCauseName)
     {
         if (string.IsNullOrEmpty(deathCauseName))
