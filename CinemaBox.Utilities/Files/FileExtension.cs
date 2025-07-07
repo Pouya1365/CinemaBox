@@ -44,4 +44,24 @@ public static class FileExtension
             fileName = fileName.Replace(c, '_'); // یا می‌توانید حذف کنید: ""     
         return fileName;
     }
+    public static string ReadConnectionString(string filePath)
+    {
+        try
+        {
+            // مسیر کامل فایل حاوی رشته اتصال را مشخص کنید
+            string connectionString = File.ReadAllText(filePath);
+            return connectionString.Trim(); // حذف فضاهای خالی احتمالی در ابتدا و انتهای رشته
+        }
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine($"Error: The file '{filePath}' was not found.");
+            return null;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred: {ex.Message}");
+            return null;
+        }
+    }
+
 }

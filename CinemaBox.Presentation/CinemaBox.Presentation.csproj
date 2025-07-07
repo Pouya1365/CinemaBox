@@ -45,6 +45,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="ConnectionString.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="MediaInfo\MediaInfo.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

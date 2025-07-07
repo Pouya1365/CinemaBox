@@ -67,8 +67,11 @@ using CinemaBox.Domain.Shared.Qualities.QualityTypes;
 using CinemaBox.Domain.Shared.Statuses;
 using Microsoft.EntityFrameworkCore;
 namespace CinemaBox.Context.AppDbContext;
-public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : DbContext(options)
+public class CinemaBoxDbContext : DbContext
 {
+    public CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : base(options)
+    {
+    }
     public DbSet<Movie> Movies { get; set; }
     public DbSet<Certificate> Certificates { get; set; }
     public DbSet<Currency> Currencies { get; set; }
@@ -102,12 +105,8 @@ public class CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : 
     public DbSet<UserMovieVideo> UserMovieVideos { get; set; }  
     public DbSet<UserMovieFile> UserMovieFiles { get; set; }  
     public DbSet<Quality> Qualities { get; set; }  
-    public DbSet<QualityType> QualityTypes { get; set; }  
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-SD5KJ4K;Database=TvTime;Trusted_Connection=True;TrustServerCertificate=True");
-    }
+    public DbSet<QualityType> QualityTypes { get; set; }
+   
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

@@ -68,6 +68,7 @@ using CinemaBox.Service.Shared.Qualities.Qualities;
 using CinemaBox.Service.Shared.Qualities.QualityTypes;
 using CinemaBox.Service.Shared.Statuses;
 using CinemaBox.UnitOfWork.Interface.UOW;
+using CinemaBox.Utilities.Files;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.DependencyInjection;
@@ -78,10 +79,11 @@ namespace CinemaBox.Presentation;
 
 static class Program
 {
+    private static string connectionString;
     [STAThread]
     static void Main()
     {
-
+        connectionString = FileExtension.ReadConnectionString(filePath: Path.Combine(Application.StartupPath, "ConnectionString.txt")); 
         ApplicationConfiguration.Initialize();
         Application.SetCompatibleTextRenderingDefault(false);
 
@@ -89,9 +91,8 @@ static class Program
         IServiceCollection serviceCollection = ConfigureServices();
         ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
         using IServiceScope scope = serviceProvider.CreateScope();
-        CinemaBoxDbContext dbContext =
-                  ServiceProviderServiceExtensions
-                  .GetRequiredService<CinemaBoxDbContext>(scope.ServiceProvider);
+        var dbContext = Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions
+                    .GetRequiredService<CinemaBoxDbContext>(scope.ServiceProvider);
         dbContext.Database.Migrate();
 
 
@@ -109,7 +110,7 @@ static class Program
         ServiceCollection services = new();
 
         // 🔧 اتصال به دیتابیس
-        const string connectionString = @"Server=DESKTOP-SD5KJ4K;Database=TvTime;Trusted_Connection=True;TrustServerCertificate=True";
+
         services.AddDbContext<CinemaBoxDbContext>(options =>
             options.UseSqlServer(connectionString));
 
@@ -167,9 +168,9 @@ static class Program
     {
         public CinemaBoxDbContext CreateDbContext(string[] args)
         {
-            DbContextOptionsBuilder<CinemaBoxDbContext> optionsBuilder = new DbContextOptionsBuilder<CinemaBoxDbContext>();
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-SD5KJ4K;Database=TvTime;Trusted_Connection=True;TrustServerCertificate=True");
-            return new CinemaBoxDbContext(optionsBuilder.Options);
+            DbContextOptionsBuilder<CinemaBoxDbContext> optionsBuilder = new();
+            optionsBuilder.UseSqlServer(connectionString);
+            return new CinemaBoxDbContext(options: optionsBuilder.Options);
         }
     }
 }
