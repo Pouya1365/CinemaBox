@@ -15,7 +15,7 @@ public class MovieTaglineServices(IUnitOfWork unitOfWork, ITranslate translate) 
         List<MovieTagline> MovieTaglines = [];
         foreach (var taglineModel in taglineModels)
         {
-            string faTagline = await GetFa(tagline: taglineModel);
+            string faTagline = taglineModel??await GetFa(tagline: taglineModel);
             MovieTaglines.Add(new MovieTagline
             {
                 FaTagline = faTagline,

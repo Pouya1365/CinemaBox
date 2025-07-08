@@ -53,8 +53,9 @@ public class PeopleServices(
     private async Task<People> CreatePeopleEntity(PeopleModelScrapping peopleModel)
     {
         DeathCause? deathCause = await DeathCause(deathCauseName: peopleModel.DeathCause);
-        string faFullName = await GetFa(peopleModel.EnFullName);
-        string faMiniBiography = await GetFa(peopleModel.EnMiniBiography);
+
+        string faFullName = peopleModel.FaFullName ?? await GetFa(peopleModel.EnFullName);
+        string faMiniBiography = peopleModel.FaMiniBiography?? await GetFa(peopleModel.EnMiniBiography);
         People people = new()
         {
             Id = peopleModel.ImdbId,
