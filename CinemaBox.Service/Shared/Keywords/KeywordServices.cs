@@ -18,7 +18,7 @@ public class KeywordServices(IUnitOfWork unitOfWork, ITranslate translate) : IKe
         if (Keyword == null)
         {
             string faKeyowrdName = await GetFa(keyowrdName: keywordName);
-            Keyword = new Keyword { EnKeyowrdName = keywordName.Trim(), Id = keywordId,FaKeyowrdName=faKeyowrdName };
+            Keyword = new Keyword { EnKeyowrdName = HtmlDecode.HtmlDecoding(keywordName.Trim()), Id = keywordId, FaKeyowrdName = faKeyowrdName };
             await _unitOfWork.Repository<Keyword>().AddAsync(Keyword);
             await _unitOfWork.CompleteAsync();
         }
