@@ -12,7 +12,7 @@ public interface IGenericRepository<T> where T : class
     Task<IEnumerable<T>> GetAllAsync();
     Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> predicate);
     Task<List<T>> GetAllListAsync(Expression<Func<T, bool>> predicate);
-    Task<List<T>> GetAllListAsync();
+ 
     Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate);
     Task<T> FindAsync(Expression<Func<T, bool>> predicate);
     Task AddRangeAsync(List<T> entities);

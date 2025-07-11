@@ -16,16 +16,10 @@ public class MovieCreditServices(IUnitOfWork unitOfWork, IPeopleServices peopleS
     public async Task<List<MovieCredit>> CreateOrGetMovieCredit(List<CreditModel> creditModels, string path)
     {
         List<MovieCredit> movieCredits = [];
-        List<People> peoples = await GetAllPeople();
-        Dictionary<string, People> peopleDict = peoples.ToDictionary(x => x.Id, x => x);
+ 
         foreach (var creditModel in creditModels)
         {
-            People people;
-            if (!peopleDict.TryGetValue(creditModel.ImdbId, out People? existingPerson) ||
-          existingPerson.UpdatedDate <= DateOnly.FromDateTime(DateTime.Today.AddYears(-1)))            
-                people = await GetOrCreatePeople(creditModel, path);            
-            else            
-                people = existingPerson;          
+            People people = await GetOrCreatePeople(creditModel: creditModel, path: path);
             byte creditTypeId = 0;
                 if (EnumExtension.TryGetEnumNumericValue<CreditEnumeration>(creditModel.CreditType, out int value))
                     creditTypeId = byte.Parse(value.ToString());
@@ -43,7 +37,7 @@ public class MovieCreditServices(IUnitOfWork unitOfWork, IPeopleServices peopleS
         return movieCredits;
     }
     private async Task<People> GetOrCreatePeople(CreditModel creditModel, string path) => await _peopleServices.CreateOrUpdatePeople(creditModel: creditModel, path: path);
-    private async Task<List<People>> GetAllPeople() => await _peopleServices.GetAllPeoplel();
+
     public async Task<IEnumerable<MovieCredit>> GetMovieCreditsAsync(string movieId) => await _unitOfWork.Repository<MovieCredit>().GetAllWithPredicateAsync(x => x.MovieId == movieId, x => x.CreditType, x => x.People, x => x.People.PeopleFiles);
     public async Task<bool> ChangeIsLeadRole(string peopleId, string movieId)
     {
