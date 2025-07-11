@@ -12,7 +12,7 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
 
         builder.HasKey(m => m.Id);
         builder.Property(m => m.Id).HasMaxLength(20).IsRequired(required: true).HasColumnName(name: "CompanyId").HasComment(comment: "شناسه شزکت");
-        builder.Property(m => m.EnCompanyName).HasMaxLength(50).IsRequired(true).HasComment(comment: "عنوان شرکت انگلیسی");
-        builder.Property(m => m.FaCompanyName).HasMaxLength(50).IsRequired(false).HasComment(comment: "عنوان شرکت فارسی");
+        builder.Property(m => m.EnCompanyName).HasMaxLength(150).IsRequired(true).HasComment(comment: "عنوان شرکت انگلیسی");
+        builder.Property(m => m.FaCompanyName).HasMaxLength(150).IsRequired(false).HasComment(comment: "عنوان شرکت فارسی");
     }
 }
