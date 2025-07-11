@@ -11,11 +11,20 @@ public class ReleaseDateExtractor : IMovieGeneralInfoExtractor
     {
         JsonElement? data = json.RootElement.GetPropertySafe("props")?
             .GetPropertySafe("pageProps")?
-            .GetPropertySafe("aboveTheFoldData");
-
-        model.ReleaseYear = data.GetPropertySafe("releaseDate").GetPropertySafe("year")?.GetInt64() ?? 0;
-        model.ReleaseMonth = data.GetPropertySafe("releaseDate").GetPropertySafe("month")?.GetInt64() ?? 0;
-        model.ReleaseDay = data.GetPropertySafe("releaseDate").GetPropertySafe("day")?.GetInt64() ?? 0;
+            .GetPropertySafe("aboveTheFoldData")
+            .GetPropertySafe("releaseDate");
+        JsonElement? yearElement = data.GetPropertySafe("year");
+        model.ReleaseYear = (yearElement.HasValue && yearElement.Value.ValueKind == JsonValueKind.Number)
+    ? yearElement.Value.GetInt64()
+    : 0;
+        JsonElement? monthElement = data.GetPropertySafe("month");
+        model.ReleaseMonth = (monthElement.HasValue && monthElement.Value.ValueKind == JsonValueKind.Number)
+            ? monthElement.Value.GetInt64()
+            : 1;
+        JsonElement? dayElement = data.GetPropertySafe("day");
+        model.ReleaseDay = (dayElement.HasValue && dayElement.Value.ValueKind == JsonValueKind.Number)
+            ? dayElement.Value.GetInt64()
+            : 1;
         return model;
     }
 }
