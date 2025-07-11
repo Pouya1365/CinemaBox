@@ -110,6 +110,6 @@ public class PeopleServices(
             await _unitOfWork.CompleteAsync();
     }
 
-    public async Task<IEnumerable<People>?> GetAllPeoplel() => await _unitOfWork.Repository<People>()
-         .GetAllAsync();
+    public async Task<List<People>?> GetAllPeoplel() => await _unitOfWork.Repository<People>()
+         .GetAllListAsync();
 }

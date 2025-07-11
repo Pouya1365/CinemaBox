@@ -91,5 +91,6 @@ public class GenericRepository<T>(CinemaBoxDbContext context) : IGenericReposito
     public async Task<T> GetByIdAsync(byte id) => await _dbSet.FindAsync(id).ConfigureAwait(false);
 
     public Task<List<T>> GetAllListAsync(Expression<Func<T, bool>> predicate)=> _dbSet.Where(predicate).ToListAsync();
+    public Task<List<T>> GetAllListAsync()=> _dbSet.ToListAsync();
 
 }

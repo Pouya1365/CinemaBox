@@ -9,5 +9,5 @@ public interface IPeopleServices
     Task<People> GetPeople(string peopleId);
     Task<List<People>?> GetPeopleFaNull();
     Task UpdateFaPeople(List<People> peoples);
-    Task<IEnumerable<People>?> GetAllPeoplel();
+    Task<List<People>?> GetAllPeoplel();
 }
