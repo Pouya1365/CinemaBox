@@ -1,4 +1,4 @@
-﻿namespace CinemaBox.Model.Entertainment.People;
+﻿namespace CinemaBox.Model.Entertainment.People.PeopleModelScrap;
 
 public class PeopleModelScrapping
 {

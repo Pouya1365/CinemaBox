@@ -55,10 +55,10 @@
             Txt_FullName.CesUnderlineThickness = 1;
             Txt_FullName.CesUnderlineType = System.Drawing.Drawing2D.DashStyle.Solid;
             Txt_FullName.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Txt_FullName.Location = new Point(3, 223);
+            Txt_FullName.Location = new Point(1, 223);
             Txt_FullName.Margin = new Padding(3);
             Txt_FullName.Name = "Txt_FullName";
-            Txt_FullName.Size = new Size(214, 26);
+            Txt_FullName.Size = new Size(216, 26);
             Txt_FullName.TabIndex = 1;
             Txt_FullName.Text = "cesLabel1";
             Txt_FullName.TextAlign = ContentAlignment.TopCenter;
@@ -71,10 +71,10 @@
             Txt_CreditType.CesUnderlineThickness = 1;
             Txt_CreditType.CesUnderlineType = System.Drawing.Drawing2D.DashStyle.Solid;
             Txt_CreditType.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Txt_CreditType.Location = new Point(0, 255);
+            Txt_CreditType.Location = new Point(1, 255);
             Txt_CreditType.Margin = new Padding(3);
             Txt_CreditType.Name = "Txt_CreditType";
-            Txt_CreditType.Size = new Size(214, 26);
+            Txt_CreditType.Size = new Size(216, 26);
             Txt_CreditType.TabIndex = 2;
             Txt_CreditType.Text = "cesLabel1";
             Txt_CreditType.TextAlign = ContentAlignment.TopCenter;
@@ -87,10 +87,10 @@
             Txt_RoleName.CesUnderlineThickness = 1;
             Txt_RoleName.CesUnderlineType = System.Drawing.Drawing2D.DashStyle.Solid;
             Txt_RoleName.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Txt_RoleName.Location = new Point(0, 287);
+            Txt_RoleName.Location = new Point(1, 287);
             Txt_RoleName.Margin = new Padding(3);
             Txt_RoleName.Name = "Txt_RoleName";
-            Txt_RoleName.Size = new Size(214, 26);
+            Txt_RoleName.Size = new Size(216, 26);
             Txt_RoleName.TabIndex = 3;
             Txt_RoleName.Text = "cesLabel1";
             Txt_RoleName.TextAlign = ContentAlignment.TopCenter;
@@ -103,7 +103,7 @@
             Chk_IsLeadRole.CesText = "نقش اصلی";
             Chk_IsLeadRole.CesType = Ces.WinForm.UI.CesCheckBoxTypeEnum.TypeC;
             Chk_IsLeadRole.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Chk_IsLeadRole.Location = new Point(4, 322);
+            Chk_IsLeadRole.Location = new Point(1, 322);
             Chk_IsLeadRole.Margin = new Padding(3, 4, 3, 4);
             Chk_IsLeadRole.Name = "Chk_IsLeadRole";
             Chk_IsLeadRole.RightToLeft = RightToLeft.Yes;

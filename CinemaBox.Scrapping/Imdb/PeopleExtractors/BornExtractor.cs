@@ -1,4 +1,4 @@
-﻿using CinemaBox.Model.Entertainment.People;
+﻿using CinemaBox.Model.Entertainment.People.PeopleModelScrap;
 using CinemaBox.Scrapping.Interface.Imdb.PeopleExtractors;
 using CinemaBox.Utilities.Json;
 using System.Text.Json;

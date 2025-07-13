@@ -12,6 +12,7 @@ using CinemaBox.Libretranslate.Interface;
 using CinemaBox.Model.Entertainment.Movie.Movie;
 using CinemaBox.Model.Entertainment.Movie.ShowMovie;
 using CinemaBox.Presentation.Entertainment.Movies.EditMovie;
+using CinemaBox.Presentation.Person.MainPeople;
 using CinemaBox.Scrapping.Interface.Imdb.Service.Movie;
 using CinemaBox.Service.Interface.Division.CountryParts;
 using CinemaBox.Service.Interface.Entertainment.Certificates;
@@ -191,7 +192,7 @@ public partial class Frm_Movie : CesForm
 
         LoadMovie();
     }
- 
+
     private async Task Languages()
     {
         List<Language>? languages = await GetLanguageAsync();
@@ -204,8 +205,8 @@ public partial class Frm_Movie : CesForm
     {
 
         List<Keyword>? keywords = await GetKeywordAsync();
-        foreach (Keyword keyword in keywords)        
-            keyword.FaKeyowrdName = await _translate.TranslateText(text: keyword.EnKeyowrdName);     
+        foreach (Keyword keyword in keywords)
+            keyword.FaKeyowrdName = await _translate.TranslateText(text: keyword.EnKeyowrdName);
         await SaveFaKeywordAsync(keywords: keywords);
     }
     private async Task DeathCauses()
@@ -230,7 +231,7 @@ public partial class Frm_Movie : CesForm
         foreach (People people in peoples)
         {
             people.FaFullName = HtmlDecode.HtmlDecoding(await _translate.TranslateText(text: people.EnFullName));
-            people.FaMiniBiography = HtmlDecode.HtmlDecoding( await _translate.TranslateText(text: people.EnMiniBiography));
+            people.FaMiniBiography = HtmlDecode.HtmlDecoding(await _translate.TranslateText(text: people.EnMiniBiography));
         }
         await SaveFaPeopleAsync(peoples: peoples);
     }
@@ -238,7 +239,7 @@ public partial class Frm_Movie : CesForm
     {
         List<Genre>? genres = await GetGenreAsync();
         foreach (Genre genre in genres)
-            genre.FaGenreName = await _translate.TranslateText(text: genre.EnGenreName);        
+            genre.FaGenreName = await _translate.TranslateText(text: genre.EnGenreName);
         await SaveFaGenreAsync(genres: genres);
     }
     private async Task CountryPart()
@@ -330,5 +331,11 @@ public partial class Frm_Movie : CesForm
     private void Btn_Search_Click(object sender, EventArgs e)
     {
         LoadMovie();
+    }
+
+    private void Btn_People_Click(object sender, EventArgs e)
+    {
+        Frm_MainPeople frm_MainPeople = new(peopleFileServices:_peopleFileServices,peopleServices: _peopleServices, deathCauseServices: _deathCauseServices);
+        frm_MainPeople.ShowDialog();
     }
 }

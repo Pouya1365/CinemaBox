@@ -1,9 +1,9 @@
-﻿using CinemaBox.Domain.Entertainment.Link.MovieTaglines;
-using CinemaBox.Domain.Person.Peoples;
+﻿using CinemaBox.Domain.Person.Peoples;
 using CinemaBox.Domain.Shared.DeathCauses;
 using CinemaBox.Libretranslate.Interface;
 using CinemaBox.Model.Entertainment.Cast.Credit;
-using CinemaBox.Model.Entertainment.People;
+using CinemaBox.Model.Entertainment.People.PeopleModelScrap;
+using CinemaBox.Model.Entertainment.People.ShowPeople;
 using CinemaBox.Scrapping.Interface.Imdb.Service.People;
 using CinemaBox.Service.Interface.Person.PeopleFiles;
 using CinemaBox.Service.Interface.Person.Peoples;
@@ -109,6 +109,44 @@ public class PeopleServices(
         if (peoples.Any())
             await _unitOfWork.CompleteAsync();
     }
+    public async Task<IEnumerable<ShowPeopleModel>> GetAllPeopleModel(string search)
+    {
+        // Load people with related files and servers
+        IEnumerable<People> peoples = await GetAllPeopleAsync();
 
+        // Filter by search if provided
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+           
+            peoples = peoples.Where(m =>
+                (!string.IsNullOrEmpty(m.EnFullName) && m.EnFullName.Contains(search, StringComparison.OrdinalIgnoreCase)) ||
+                (!string.IsNullOrEmpty(m.FaFullName) && m.FaFullName.Contains(search, StringComparison.OrdinalIgnoreCase)) ||
+                m.Id == search
+            );
+        }
+
+        // Map to ShowPeopleModel
+        IEnumerable<ShowPeopleModel> showPeopleModels = CreateShowPeopleModel(peoples);
+
+        return showPeopleModels;
+    }
+
+    public async Task<IEnumerable<People>> GetAllPeopleAsync() =>
+        await _unitOfWork.Repository<People>()
+            .GetAllWithMultipleIncludesAsync(
+                x => x.PeopleFiles,
+                x => x.File,
+                x => x.Server);
+
+    private IEnumerable<ShowPeopleModel> CreateShowPeopleModel(IEnumerable<People> peoples)=> peoples.Select(x => new ShowPeopleModel
+        {
+            EnFullName = x.EnFullName,
+            FaFullName = x.FaFullName,
+            PeopleId = x.Id,
+            PosterPath =x?.PeopleFiles?.FirstOrDefault()?.File?.FileName!=null? Path.Combine(
+                x?.PeopleFiles?.FirstOrDefault()?.File?.Server?.Path ?? string.Empty,
+                x?.PeopleFiles?.FirstOrDefault()?.File?.FileName ?? string.Empty):null
+        });
+    
 
 }

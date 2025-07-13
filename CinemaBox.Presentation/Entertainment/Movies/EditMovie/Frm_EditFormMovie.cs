@@ -56,15 +56,10 @@ using CinemaBox.Service.Interface.Shared.Languages;
 using CinemaBox.Service.Interface.Shared.Qualities.Qualities;
 using CinemaBox.Service.Interface.Shared.Qualities.QualityTypes;
 using CinemaBox.Service.Interface.Shared.Statuses;
-using CinemaBox.Service.Shared.DeathCauses;
 using CinemaBox.UserController.Entertainment.CreditShow;
 using CinemaBox.Utilities.DateTimeExtension.DateExtensions;
 using CinemaBox.Utilities.DateTimeExtension.TimeExtension;
 using CinemaBox.Utilities.Lables;
-using Microsoft.DotNet.DesignTools.Protocol.Values;
-using Microsoft.VisualBasic.Devices;
-using System.ComponentModel;
-using System.Threading.Tasks;
 
 
 namespace CinemaBox.Presentation.Entertainment.Movies.EditMovie;
