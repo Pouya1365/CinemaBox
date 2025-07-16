@@ -10,4 +10,5 @@ public interface IMovieServices
     Task<Movie?> GeMovieAsync(string? ImdbId);
     Task<List<ShowMovieModel>> GetMovieModelsAsync(string search);
     Task UpdateMovie(Movie movie);
+    Task<List<ShowMovieModel>> GetMovieModelsAsync(List<string> movieId);
 }

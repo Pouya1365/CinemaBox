@@ -47,12 +47,12 @@
             Txt_FaFullName = new Ces.WinForm.UI.CesTextBox();
             Txt_EnFullName = new Ces.WinForm.UI.CesTextBox();
             Pic_Crew = new PictureBox();
-            Tb_Crews = new TabPage();
-            Flw_Crews = new FlowLayoutPanel();
+            Tb_Movies = new TabPage();
+            Flw_Movie = new FlowLayoutPanel();
             Tb_Main.SuspendLayout();
             Tb_MainDetails.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Pic_Crew).BeginInit();
-            Tb_Crews.SuspendLayout();
+            Tb_Movies.SuspendLayout();
             SuspendLayout();
             // 
             // btnOptions
@@ -65,7 +65,7 @@
             // Tb_Main
             // 
             Tb_Main.Controls.Add(Tb_MainDetails);
-            Tb_Main.Controls.Add(Tb_Crews);
+            Tb_Main.Controls.Add(Tb_Movies);
             Tb_Main.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Tb_Main.Location = new Point(5, 35);
             Tb_Main.Name = "Tb_Main";
@@ -869,23 +869,24 @@
             Pic_Crew.TabIndex = 17;
             Pic_Crew.TabStop = false;
             // 
-            // Tb_Crews
+            // Tb_Movies
             // 
-            Tb_Crews.Controls.Add(Flw_Crews);
-            Tb_Crews.Location = new Point(4, 28);
-            Tb_Crews.Name = "Tb_Crews";
-            Tb_Crews.Padding = new Padding(3);
-            Tb_Crews.Size = new Size(1029, 568);
-            Tb_Crews.TabIndex = 1;
-            Tb_Crews.Text = "عوامل";
-            Tb_Crews.UseVisualStyleBackColor = true;
+            Tb_Movies.Controls.Add(Flw_Movie);
+            Tb_Movies.Location = new Point(4, 28);
+            Tb_Movies.Name = "Tb_Movies";
+            Tb_Movies.Padding = new Padding(3);
+            Tb_Movies.Size = new Size(1029, 568);
+            Tb_Movies.TabIndex = 1;
+            Tb_Movies.Text = "فیلم ها";
+            Tb_Movies.UseVisualStyleBackColor = true;
             // 
-            // Flw_Crews
+            // Flw_Movie
             // 
-            Flw_Crews.Location = new Point(6, 15);
-            Flw_Crews.Name = "Flw_Crews";
-            Flw_Crews.Size = new Size(1448, 657);
-            Flw_Crews.TabIndex = 0;
+            Flw_Movie.BackColor = Color.White;
+            Flw_Movie.Location = new Point(6, 6);
+            Flw_Movie.Name = "Flw_Movie";
+            Flw_Movie.Size = new Size(1023, 556);
+            Flw_Movie.TabIndex = 0;
             // 
             // Frm_EditPeople
             // 
@@ -900,7 +901,7 @@
             Tb_Main.ResumeLayout(false);
             Tb_MainDetails.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)Pic_Crew).EndInit();
-            Tb_Crews.ResumeLayout(false);
+            Tb_Movies.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -937,7 +938,7 @@
         private Ces.WinForm.UI.CesTextBox Txt_FaFullName;
         private Ces.WinForm.UI.CesTextBox Txt_EnFullName;
         private PictureBox Pic_Crew;
-        private TabPage Tb_Crews;
-        private FlowLayoutPanel Flw_Crews;
+        private TabPage Tb_Movies;
+        private FlowLayoutPanel Flw_Movie;
     }
 }

@@ -1,18 +1,11 @@
 ﻿using Ces.WinForm.UI.CesForm;
-using CinemaBox.Domain.Entertainment.Link.MovieCredits;
-using CinemaBox.Domain.Person.PeopleFiles;
-using CinemaBox.Enumeration.Entertainment.Crew;
-using CinemaBox.Model.Entertainment.Cast.CreditShow;
-using CinemaBox.Model.Entertainment.Movie.ShowMovie;
 using CinemaBox.Model.Entertainment.People.ShowPeople;
 using CinemaBox.Presentation.Person.Peoples;
+using CinemaBox.Service.Interface.Entertainment.Link.MovieCredits;
+using CinemaBox.Service.Interface.Entertainment.Movies;
 using CinemaBox.Service.Interface.Person.PeopleFiles;
 using CinemaBox.Service.Interface.Person.Peoples;
 using CinemaBox.Service.Interface.Shared.DeathCauses;
-using CinemaBox.Service.Person.Peoples;
-using CinemaBox.Service.Shared.DeathCauses;
-using CinemaBox.UserController.Entertainment.CreditShow;
-using CinemaBox.UserController.Entertainment.Movies;
 using CinemaBox.UserController.People.People;
 
 namespace CinemaBox.Presentation.Person.MainPeople;
@@ -22,16 +15,25 @@ public partial class Frm_MainPeople : CesForm
     private readonly IPeopleFileServices? _peopleFileServices;
     private readonly IPeopleServices? _peopleServices;
     private readonly IDeathCauseServices? _deathCauseServices;
-    private List<ShowPeopleModel> _allPeople = new();
+    private readonly IMovieCreditServices? _movieCreditServices;
+    private readonly IMovieServices? _movieServices;
+
+    private List<ShowPeopleModel> _allPeople = [];
     private int _loadedCount = 0;
     private const int PageSize = 50;
     public Frm_MainPeople(IPeopleFileServices? peopleFileServices,
    IPeopleServices? peopleServices,
-   IDeathCauseServices? deathCauseServices)
+   IDeathCauseServices? deathCauseServices,
+   IMovieCreditServices? movieCreditServices,
+   IMovieServices? movieServices
+
+   )
     {
         _peopleFileServices = peopleFileServices ?? throw new ArgumentNullException(nameof(peopleFileServices));
         _peopleServices = peopleServices ?? throw new ArgumentNullException(nameof(peopleServices));
         _deathCauseServices = deathCauseServices ?? throw new ArgumentNullException(nameof(deathCauseServices));
+        _movieCreditServices = movieCreditServices ?? throw new ArgumentNullException(nameof(movieCreditServices));
+        movieServices = movieServices ?? throw new ArgumentNullException(nameof(movieServices));
         InitializeComponent();
         LoadPeopleAsync();
     }
@@ -93,7 +95,9 @@ public partial class Frm_MainPeople : CesForm
            peopleId: peopleId,
            peopleServices: _peopleServices,
            peopleFileServices: _peopleFileServices,
-           deathCauseServices: _deathCauseServices
+           deathCauseServices: _deathCauseServices,
+           movieCreditServices:_movieCreditServices,
+           movieServices:_movieServices
 
             );
         frm_EditPeople.ShowDialog();

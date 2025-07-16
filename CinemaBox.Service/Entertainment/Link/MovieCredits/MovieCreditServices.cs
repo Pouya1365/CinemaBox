@@ -16,21 +16,21 @@ public class MovieCreditServices(IUnitOfWork unitOfWork, IPeopleServices peopleS
     public async Task<List<MovieCredit>> CreateOrGetMovieCredit(List<CreditModel> creditModels, string path)
     {
         List<MovieCredit> movieCredits = [];
- 
+
         foreach (var creditModel in creditModels)
         {
             People people = await GetOrCreatePeople(creditModel: creditModel, path: path);
             byte creditTypeId = 0;
-                if (EnumExtension.TryGetEnumNumericValue<CreditEnumeration>(creditModel.CreditType, out int value))
-                    creditTypeId = byte.Parse(value.ToString());
-                movieCredits.Add(new MovieCredit
-                {
-                    MovieId = creditModel.MovieId,
-                    RoleName = creditModel.Role,
-                    PeopleId = people.Id,
-                    IsLead = creditModel.IsLead,
-                    CreditTypeId = creditTypeId,
-                });            
+            if (EnumExtension.TryGetEnumNumericValue<CreditEnumeration>(creditModel.CreditType, out int value))
+                creditTypeId = byte.Parse(value.ToString());
+            movieCredits.Add(new MovieCredit
+            {
+                MovieId = creditModel.MovieId,
+                RoleName = creditModel.Role,
+                PeopleId = people.Id,
+                IsLead = creditModel.IsLead,
+                CreditTypeId = creditTypeId,
+            });
         }
         await _unitOfWork.Repository<MovieCredit>().AddRangeAsync(movieCredits);
         await _unitOfWork.CompleteAsync();
@@ -47,5 +47,10 @@ public class MovieCreditServices(IUnitOfWork unitOfWork, IPeopleServices peopleS
         _unitOfWork.Repository<MovieCredit>().Update(movieCredit);
         await _unitOfWork.CompleteAsync();
         return true;
+    }
+    public async Task<List<string>> GetPeopleMovie(string peopleId)
+    {
+        IEnumerable<MovieCredit> movieCredit = await _unitOfWork.Repository<MovieCredit>().GetAllAsync(X => X.PeopleId == peopleId);
+        return [.. movieCredit.Select(x => x.MovieId)];
     }
 }

@@ -328,14 +328,13 @@ public partial class Frm_Movie : CesForm
         frm_EditForm.ShowDialog();
     }
 
-    private void Btn_Search_Click(object sender, EventArgs e)
-    {
+    private void Btn_Search_Click(object sender, EventArgs e)=>
         LoadMovie();
-    }
+    
 
     private void Btn_People_Click(object sender, EventArgs e)
     {
-        Frm_MainPeople frm_MainPeople = new(peopleFileServices:_peopleFileServices,peopleServices: _peopleServices, deathCauseServices: _deathCauseServices);
+        Frm_MainPeople frm_MainPeople = new(peopleFileServices:_peopleFileServices,peopleServices: _peopleServices, deathCauseServices: _deathCauseServices,movieCreditServices:_movieCreditServices,movieServices:_movieServices);
         frm_MainPeople.ShowDialog();
     }
 }

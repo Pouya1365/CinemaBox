@@ -56,6 +56,8 @@ using CinemaBox.Service.Interface.Shared.Languages;
 using CinemaBox.Service.Interface.Shared.Qualities.Qualities;
 using CinemaBox.Service.Interface.Shared.Qualities.QualityTypes;
 using CinemaBox.Service.Interface.Shared.Statuses;
+using CinemaBox.Service.Shared.Qualities.Qualities;
+using CinemaBox.Service.Shared.Qualities.QualityTypes;
 using CinemaBox.UserController.Entertainment.CreditShow;
 using CinemaBox.Utilities.DateTimeExtension.DateExtensions;
 using CinemaBox.Utilities.DateTimeExtension.TimeExtension;
@@ -463,9 +465,11 @@ qualityTypaId);
            peopleId: peopleId,
            peopleServices: _peopleServices,
            peopleFileServices: _peopleFileServices,
-           deathCauseServices: _deathCauseServices
-
-            );
+           deathCauseServices: _deathCauseServices,
+           movieCreditServices:_movieCreditServices,
+           movieServices:_movieServices
+           
+           );
         frm_EditPeople.ShowDialog();
     }
     private async void CheckedBox_Clicked(object sender, string peopleId)=>  await ChangeIsLead(peopleId: peopleId);

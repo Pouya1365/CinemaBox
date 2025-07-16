@@ -153,6 +153,18 @@ public class MovieServices(IUnitOfWork unitOfWork, ICertificateServices certific
         await _unitOfWork.CompleteAsync();
     }
     public async Task<IEnumerable<UserMovieFile>> GetUserMovieFiles() => await _userMovieFileServices.GetAllUserMovieFile();
-
-
+    public async Task<List<ShowMovieModel>> GetMovieModelsAsync(List<string> movieId)
+    {
+        // 1. بارگذاری فیلم‌ها همراه با فایل‌ها و سرورهای مرتبط
+        IEnumerable<Movie> movies = await LoadMoviesAsync();
+        // 2. بارگذاری فایل‌های کاربر برای فیلم‌ها
+        IEnumerable<UserMovieFile> userMovieFiles = await GetUserMovieFilesAsync();
+        movies = movies.Where(m => movieId.Contains(m.Id));
+        // 4. تبدیل لیست فایل‌های کاربر به دیکشنری
+        Dictionary<string, UserMovieFile> userFilesDict = ToMovieUserFileDictionary(userMovieFiles);
+        // 5. ساخت مدل نهایی برای نمایش
+        List<ShowMovieModel> showMovieModels = [.. movies.Select(movie =>
+            CreateShowMovieModel(movie, userFilesDict))];
+        return showMovieModels;
+    }
 }
