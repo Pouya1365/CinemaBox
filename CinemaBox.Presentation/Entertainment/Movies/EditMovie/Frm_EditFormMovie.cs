@@ -298,8 +298,8 @@ public partial class Frm_EditFormMovie : CesForm
     private async Task SetMovieFileAsync()
     {
         MovieFile movieFiles = await GetMovieFileAsync();
-        string filePath = Path.Combine(movieFiles.File.Server.Path, movieFiles.File.FileName);
-        Pic_Poster.Image = Image.FromFile(filePath);
+        string filePath = movieFiles==null? null: Path.Combine(movieFiles.File.Server.Path, movieFiles.File.FileName);
+        Pic_Poster.Image = filePath==null?null: Image.FromFile(filePath);
     }
     private async Task<MovieFile> GetMovieFileAsync() => await _movieFileServices.GetMovieFile(movieId: _movieId);
     private async Task SetUserMovieDisks()
