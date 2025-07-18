@@ -165,9 +165,12 @@ public partial class Frm_Movie : CesForm
         await _movieKeywordServices.CreateOrGetMovieKeyword(keywordkeyValuePairs: movieModelScrapping.KeywordskeyValuePairs, movieId: Txt_Search.CesText);
         string path = Application.StartupPath;
         await _movieCreditServices.CreateOrGetMovieCredit(creditModels: movieModelScrapping.Credits, path: path);
-        string endYear = movie.EndYear != null ? @$"-{movie.EndYear}" : "";
-        string movieName = $@"{movie.EnTitle}_{movie.StartYear}{endYear}";
-        await _movieFileServices.CreateOrUpdateMovieImage(path: path, imageUrl: movieModelScrapping.ImageUrl, movieId: movie.Id, movieName: movieName);
+        if (movieModelScrapping.ImageUrl is not null)
+        {
+            string endYear = movie.EndYear != null ? @$"-{movie.EndYear}" : "";
+            string movieName = $@"{movie.EnTitle}_{movie.StartYear}{endYear}";
+            await _movieFileServices.CreateOrUpdateMovieImage(path: path, imageUrl: movieModelScrapping.ImageUrl, movieId: movie.Id, movieName: movieName);
+        }
         CesMessageBoxOptions cesMessageBoxOptions = new()
         {
             Buttons = CesMessageBoxButtonsEnum.Ok,
@@ -280,7 +283,7 @@ public partial class Frm_Movie : CesForm
         List<ShowMovieIcon> ShowMovieIcons = [];
         ShowMovieIcons.AddRange(from movie in movieModels
                                 let control = new ShowMovieIcon(
-            posterPath: Path.Combine(Application.StartupPath, movie.PosterPath),
+            posterPath: movie.PosterPath!=null ? Path.Combine(Application.StartupPath, movie.PosterPath):"",
             enTitle: movie.EnTitle,
             faTitle: movie.FaTitle,
             year: (long)movie.StartYear,
@@ -328,13 +331,13 @@ public partial class Frm_Movie : CesForm
         frm_EditForm.ShowDialog();
     }
 
-    private void Btn_Search_Click(object sender, EventArgs e)=>
+    private void Btn_Search_Click(object sender, EventArgs e) =>
         LoadMovie();
-    
+
 
     private void Btn_People_Click(object sender, EventArgs e)
     {
-        Frm_MainPeople frm_MainPeople = new(peopleFileServices:_peopleFileServices,peopleServices: _peopleServices, deathCauseServices: _deathCauseServices,movieCreditServices:_movieCreditServices,movieServices:_movieServices);
+        Frm_MainPeople frm_MainPeople = new(peopleFileServices: _peopleFileServices, peopleServices: _peopleServices, deathCauseServices: _deathCauseServices, movieCreditServices: _movieCreditServices, movieServices: _movieServices);
         frm_MainPeople.ShowDialog();
     }
 }

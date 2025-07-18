@@ -22,7 +22,7 @@ public partial class ShowMovieIcon : UserControl
     }
     public void LoadData()
     {
-        Pic_Poster.Image = Image.FromFile(filename: _posterPath);
+        Pic_Poster.Image = string.IsNullOrEmpty(_posterPath)?null: Image.FromFile(filename: _posterPath);
         Lbl_Title.Text = !string.IsNullOrEmpty(_faTitle) ? $"{_enTitle} ( {_faTitle} )" : _enTitle;
         Lbl_Year.Text = _endYear != null ? $"{_year}-{_endYear}" : _year.ToString();
     }
