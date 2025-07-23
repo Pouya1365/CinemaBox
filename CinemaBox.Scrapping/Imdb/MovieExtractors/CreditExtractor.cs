@@ -59,16 +59,12 @@ public class CreditExtractor : IMovieGeneralInfoExtractor
     }
     public static string GetRoleNames(JsonElement credit)
     {
-
-        JsonElement? data = credit.GetPropertySafe("node").GetPropertySafe("characters");
-        List<string> names = [];
-        if (data != null)
-            foreach (var charItem in data.Value.EnumerateArray())
-            {
-                string? charName = charItem.GetPropertySafe("name")?.GetString();
-                if (charName != null)
-                    names.Add(charName);
-            }
-        return string.Join(" / ", names);
+        return credit.GetPropertySafe("node")
+                     .GetPropertySafe("characters") is JsonElement data
+                     && data.ValueKind == JsonValueKind.Array
+            ? string.Join(" / ", data.EnumerateArray()
+                     .Select(c => c.GetPropertySafe("name")?.GetString())
+                     .Where(n => !string.IsNullOrEmpty(n)))
+            : string.Empty;
     }
 }
