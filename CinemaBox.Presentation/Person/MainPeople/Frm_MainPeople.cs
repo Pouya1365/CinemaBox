@@ -29,7 +29,7 @@ public partial class Frm_MainPeople : CesForm
 
    )
     {
-        _peopleFileServices = peopleFileServices ?? throw new ArgumentNullException(nameof(peopleFileServices));
+        //_peopleFileServices = peopleFileServices ?? throw new ArgumentNullException(nameof(peopleFileServices));
         _peopleServices = peopleServices ?? throw new ArgumentNullException(nameof(peopleServices));
         _deathCauseServices = deathCauseServices ?? throw new ArgumentNullException(nameof(deathCauseServices));
         _movieCreditServices = movieCreditServices ?? throw new ArgumentNullException(nameof(movieCreditServices));

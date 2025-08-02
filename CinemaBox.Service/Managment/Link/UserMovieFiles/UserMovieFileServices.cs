@@ -1,6 +1,7 @@
 ﻿using CinemaBox.Domain.Managment.Link.UserMovieFiles;
 using CinemaBox.Domain.Servers.Servers;
 using CinemaBox.Enumeration.Servers.ServersType;
+using CinemaBox.Model.Statestics;
 using CinemaBox.Service.Interface.Files.Files;
 using CinemaBox.Service.Interface.Managment.Link.UserMovieFiles;
 using CinemaBox.Service.Interface.Servers.Servers;
@@ -49,7 +50,13 @@ namespace CinemaBox.Service.Managment.Link.UserMovieFiles
         private async Task<Domain.Files.Files.File?> GetOrCreateUserFile(ServerTypeEnumeration serverTypeEnumeration, string fileName) => await _fileServices.CreateOrGetFileAsync(serverTypeEnumeration: serverTypeEnumeration, fileName);
         public async Task<UserMovieFile> GetUserMovieFile(string movieId) => await unitOfWork.Repository<UserMovieFile>().FindAsync(x => x.MovieId == movieId,x=>x.File,x=>x.File.Server);
         public async Task<IEnumerable<UserMovieFile>> GetAllUserMovieFile() => await unitOfWork.Repository<UserMovieFile>().GetAllWithIncludesAsync(x=>x.File,x=>x.File.Server);
-   
+
+        public async Task<StatesticsModel> GetStatestics(StatesticsModel statesticsModel)
+        {
+            IEnumerable<UserMovieFile> file = await _unitOfWork.Repository<UserMovieFile>().GetAllAsync();
+            statesticsModel.FilesTotalCount = file.Count();
+            return statesticsModel;
+        }
     }
 
 }

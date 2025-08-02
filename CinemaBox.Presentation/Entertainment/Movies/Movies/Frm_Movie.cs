@@ -13,6 +13,7 @@ using CinemaBox.Model.Entertainment.Movie.Movie;
 using CinemaBox.Model.Entertainment.Movie.ShowMovie;
 using CinemaBox.Presentation.Entertainment.Movies.EditMovie;
 using CinemaBox.Presentation.Person.MainPeople;
+using CinemaBox.Presentation.Statestics.Statestics;
 using CinemaBox.Scrapping.Interface.Imdb.Service.Movie;
 using CinemaBox.Service.Interface.Division.CountryParts;
 using CinemaBox.Service.Interface.Entertainment.Certificates;
@@ -283,7 +284,7 @@ public partial class Frm_Movie : CesForm
         List<ShowMovieIcon> ShowMovieIcons = [];
         ShowMovieIcons.AddRange(from movie in movieModels
                                 let control = new ShowMovieIcon(
-            posterPath: movie.PosterPath!=null ? Path.Combine(Application.StartupPath, movie.PosterPath):"",
+            posterPath: movie.PosterPath != null ? Path.Combine(Application.StartupPath, movie.PosterPath) : "",
             enTitle: movie.EnTitle,
             faTitle: movie.FaTitle,
             year: (long)movie.StartYear,
@@ -339,5 +340,14 @@ public partial class Frm_Movie : CesForm
     {
         Frm_MainPeople frm_MainPeople = new(peopleFileServices: _peopleFileServices, peopleServices: _peopleServices, deathCauseServices: _deathCauseServices, movieCreditServices: _movieCreditServices, movieServices: _movieServices);
         frm_MainPeople.ShowDialog();
+    }
+
+    private void Btn_Statestics_Click(object sender, EventArgs e)
+    {
+        Frm_Statestics frm_Statestics = new(movieServices: _movieServices,
+            genreServices: _genreServices, movieCreditServices: _movieCreditServices,
+            collectionServices: _collectionServices, userMovieFileServices: _userMovieFileServices,
+            userMovieAudioServices: _userMovieAudioServices, userMovieDiskServices: _userMovieDiskServices);
+        frm_Statestics.ShowDialog();
     }
 }

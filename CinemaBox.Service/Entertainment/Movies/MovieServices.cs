@@ -2,6 +2,7 @@
 using CinemaBox.Domain.Managment.Link.UserMovieFiles;
 using CinemaBox.Model.Entertainment.Movie.Movie;
 using CinemaBox.Model.Entertainment.Movie.ShowMovie;
+using CinemaBox.Model.Statestics;
 using CinemaBox.Service.Interface.Entertainment.Certificates;
 using CinemaBox.Service.Interface.Entertainment.Movies;
 using CinemaBox.Service.Interface.Managment.Link.UserMovieFiles;
@@ -166,5 +167,13 @@ public class MovieServices(IUnitOfWork unitOfWork, ICertificateServices certific
         List<ShowMovieModel> showMovieModels = [.. movies.Select(movie =>
             CreateShowMovieModel(movie, userFilesDict))];
         return showMovieModels;
+    }
+public async Task<StatesticsModel> GetStatestics(StatesticsModel models)
+    {
+        IEnumerable<Movie> movie = await _unitOfWork.Repository<Movie>().GetAllAsync();
+        models.Total = movie.Count();
+        models.MovieTotalCount = movie.Count(x => x.IsTvShow == false);
+        models.TvSeriesTotalCount = movie.Count(x => x.IsTvShow == true);
+        return models;
     }
 }

@@ -2,6 +2,7 @@
 using CinemaBox.Domain.Person.Peoples;
 using CinemaBox.Enumeration.Entertainment.Crew;
 using CinemaBox.Model.Entertainment.Cast.Credit;
+using CinemaBox.Model.Statestics;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCredits;
 using CinemaBox.Service.Interface.Person.Peoples;
 using CinemaBox.UnitOfWork.Interface.UOW;
@@ -52,5 +53,15 @@ public class MovieCreditServices(IUnitOfWork unitOfWork, IPeopleServices peopleS
     {
         IEnumerable<MovieCredit> movieCredit = await _unitOfWork.Repository<MovieCredit>().GetAllAsync(X => X.PeopleId == peopleId);
         return [.. movieCredit.Select(x => x.MovieId)];
+    }
+
+    public async Task<StatesticsModel> GetStatestics(StatesticsModel statesticsModel)
+    {
+        IEnumerable<MovieCredit> getCredit = await _unitOfWork.Repository<MovieCredit>().GetAllAsync();
+        statesticsModel.ActorsTotalCount=getCredit.Where(x=>x.CreditTypeId==(int)CreditEnumeration.Cast).Distinct().Count();
+        statesticsModel.DirectorsTotalCount=getCredit.Where(x=>x.CreditTypeId==(int)CreditEnumeration.Director).Distinct().Count();
+        statesticsModel.WritersTotalCount=getCredit.Where(x=>x.CreditTypeId==(int)CreditEnumeration.Writer).Distinct().Count();
+        statesticsModel.ProducerTotalCount = getCredit.Where(x=>x.CreditTypeId==(int)CreditEnumeration.Producer).Distinct().Count();
+        return statesticsModel;
     }
 }

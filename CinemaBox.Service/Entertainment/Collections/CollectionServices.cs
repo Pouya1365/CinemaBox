@@ -1,6 +1,8 @@
 ﻿using CinemaBox.Domain.Entertainment.Collections;
+using CinemaBox.Model.Statestics;
 using CinemaBox.Service.Interface.Entertainment.Collections;
 using CinemaBox.UnitOfWork.Interface.UOW;
+
 
 namespace CinemaBox.Service.Entertainment.Collections;
 
@@ -27,5 +29,12 @@ public class CollectionServices(IUnitOfWork unitOfWork) : ICollectionServices
             return null;
         return await _unitOfWork.Repository<Collection>()
             .FindAsync(c => c.EnCollectionName == collectionName||c.FaCollectionName==collectionName);
+    }
+
+    public async Task<StatesticsModel> GetStatestics(StatesticsModel statesticsModel)
+    {
+        IEnumerable<Collection> collection =await _unitOfWork.Repository<Collection>().GetAllAsync();
+        statesticsModel.CollectionsTotalCount = collection.Count();
+        return statesticsModel;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CinemaBox.Domain.Managment.Link.UserMovieDisks;
+using CinemaBox.Model.Statestics;
 using CinemaBox.Service.Interface.Managment.Link.UserMovieDisks;
 using CinemaBox.UnitOfWork.Interface.UOW;
 
@@ -31,4 +32,13 @@ public class UserMovieDiskServices(IUnitOfWork unitOfWork) : IUserMovieDiskServi
         target.IsSubtitle = source.IsSubtitle;
     }
 
+    public async Task<StatesticsModel> GetStatestics(StatesticsModel statesticsModel)
+    {
+        IEnumerable<UserMovieDisk> disk =await _unitOfWork.Repository<UserMovieDisk>().GetAllAsync();
+        statesticsModel.SubtitlesTotalCount = disk.Where(x => x.IsSubtitle == true).Count();
+        statesticsModel.WithoutSubtitlesTotalCount=disk.Where(x => x.IsSubtitle == false).Count();
+        statesticsModel.DubbedMoviesTotalCount=disk.Where(x => x.IsDubbed == true).Count();
+        statesticsModel.NotDubbedMoviesTotalCount=disk.Where(x => x.IsDubbed == false).Count();
+        return statesticsModel;
+    }
 }

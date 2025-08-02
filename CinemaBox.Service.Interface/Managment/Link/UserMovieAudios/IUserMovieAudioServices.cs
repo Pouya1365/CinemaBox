@@ -1,4 +1,5 @@
 ﻿using CinemaBox.Domain.Managment.Link.UserMovieAudios;
+using CinemaBox.Model.Statestics;
 
 namespace CinemaBox.Service.Interface.Managment.Link.UserMovieAudios;
 
@@ -8,6 +9,7 @@ public interface IUserMovieAudioServices
     Task RemoveUserMovieAudio(IEnumerable<UserMovieAudio> userMovieAudios);
     Task CreateUserMovieAudioAsync(List<UserMovieAudio> userMovieAudios);
     Task<IEnumerable<UserMovieAudio>> GetMovieAudiosAsync(string movieId);
+    Task<StatesticsModel> GetStatestics(StatesticsModel statesticsModel);
 }
 
 

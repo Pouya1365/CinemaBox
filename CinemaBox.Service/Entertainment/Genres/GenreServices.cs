@@ -1,8 +1,11 @@
 ﻿using CinemaBox.Domain.Entertainment.Genres;
 using CinemaBox.Libretranslate.Interface;
+using CinemaBox.Model.Statestics;
 using CinemaBox.Service.Interface.Entertainment.Genres;
 using CinemaBox.UnitOfWork.Interface.UOW;
 using CinemaBox.Utilities.Html;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace CinemaBox.Service.Entertainment.Genres;
 
@@ -41,4 +44,22 @@ public class GenreServices(IUnitOfWork unitOfWork, ITranslate translate) : IGenr
         if (genres.Any())
             await _unitOfWork.CompleteAsync();
     }
+    public async Task<StatesticsModel?> GetStatestics(StatesticsModel statesticsModel)
+    {
+        IEnumerable<Genre> genres = await _unitOfWork.Repository<Genre>().GetAllAsync();
+        statesticsModel.GenresTotalCount = genres.Count();
+        return statesticsModel;
+    }
+    public async Task<Dictionary<string, int>> GetMovieCountPerGenre()
+    {
+        IEnumerable<Genre> genre =await _unitOfWork.Repository<Genre>().GetAllWithIncludesAsync(x => x.MovieGenres);
+          return genre.Select(g => new
+            {
+                Name = g.FaGenreName ?? g.EnGenreName,
+                Value = g.MovieGenres.Count()
+            })
+            .OrderByDescending(x => x.Value)
+            .ToDictionary(x => x.Name, x => x.Value);
+    }
+
 }
