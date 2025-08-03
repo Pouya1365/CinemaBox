@@ -20,6 +20,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Entertainment\Movies\Search\**" />
+    <EmbeddedResource Remove="Entertainment\Movies\Search\**" />
+    <None Remove="Entertainment\Movies\Search\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Images\31711_4-78060573-imgingest-3103538789095057540.ico" />
   </ItemGroup>
 
@@ -51,10 +57,6 @@
     <None Update="MediaInfo\MediaInfo.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Entertainment\Movies\Search\" />
   </ItemGroup>
 
 </Project>

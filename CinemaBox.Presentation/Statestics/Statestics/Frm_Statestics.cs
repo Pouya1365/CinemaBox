@@ -1,6 +1,7 @@
 ﻿using Ces.WinForm.UI.CesChart;
 using Ces.WinForm.UI.CesComboBox;
 using Ces.WinForm.UI.CesForm;
+using CinemaBox.Domain.Shared.Languages;
 using CinemaBox.Model.Statestics;
 using CinemaBox.Service.Division.CountryParts;
 using CinemaBox.Service.Interface.Division.CountryParts;
@@ -11,6 +12,7 @@ using CinemaBox.Service.Interface.Entertainment.Movies;
 using CinemaBox.Service.Interface.Managment.Link.UserMovieAudios;
 using CinemaBox.Service.Interface.Managment.Link.UserMovieDisks;
 using CinemaBox.Service.Interface.Managment.Link.UserMovieFiles;
+using CinemaBox.Service.Interface.Shared.Languages;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -26,6 +28,7 @@ public partial class Frm_Statestics : CesForm
     private readonly IUserMovieAudioServices _userMovieAudioServices;
     private readonly IUserMovieDiskServices _userMovieDiskServices;
     private readonly ICountryPartServices _countryPartServices;
+    private readonly ILanguageServices _languageServices;
     public Frm_Statestics(IMovieServices movieServices,
         IGenreServices genreServices,
         IMovieCreditServices movieCreditServices,
@@ -33,7 +36,8 @@ public partial class Frm_Statestics : CesForm
         IUserMovieFileServices userMovieFileServices,
         IUserMovieAudioServices userMovieAudioServices,
         IUserMovieDiskServices userMovieDiskServices,
-        ICountryPartServices countryPartServices
+        ICountryPartServices countryPartServices,
+        ILanguageServices languageServices
         )
     {
         _movieServices = movieServices ?? throw new ArgumentNullException(nameof(movieServices));
@@ -44,6 +48,7 @@ public partial class Frm_Statestics : CesForm
         _userMovieAudioServices = userMovieAudioServices ?? throw new ArgumentNullException(nameof(userMovieAudioServices));
         _userMovieDiskServices = userMovieDiskServices ?? throw new ArgumentNullException(nameof(userMovieDiskServices));
         _countryPartServices = countryPartServices ?? throw new ArgumentNullException(nameof(countryPartServices));
+        _languageServices = languageServices ?? throw new ArgumentNullException(nameof(languageServices));
         InitializeComponent();
         _ = LoadData();
     }
@@ -179,7 +184,6 @@ public partial class Frm_Statestics : CesForm
             new () { Id = 4, Title = "رده بندی سنی" },
             new () { Id = 5, Title = "کالکشن" },
             new () { Id = 6, Title = "زبان" } ,
-            new () { Id = 7, Title = "سال" }
         ];
 
 
@@ -250,6 +254,21 @@ public partial class Frm_Statestics : CesForm
         Chart.CesData = listOfData;
         Chart.GenerateChart();
     }
+    private async Task CreateLanguageChartAsync()
+    {
+        Dictionary<string, int> languages = await _languageServices.GetMovieCountPerLanguage();
+        CesChartSerie serieA = new()
+        {
+            Type = CesChartTypeEnum.Column,
+            Name = "Serie A",
+            SeriColor = Color.Green
+        };
+        List<CesChartData> listOfData = [];
+        foreach (var language in languages)
+            listOfData.Add(new CesChartData { Category = language.Key, Serie = serieA, Value = language.Value });
+        Chart.CesData = listOfData;
+        Chart.GenerateChart();
+    }
     private async void Cmb_LoadChart_CesSelectedItemChanged(object sender, Ces.WinForm.UI.CesComboBox.Events.CesSelectionChangeEvent e)
     {
         if ((int?)Cmb_LoadChart.CesSelectedValue == 1)
@@ -260,6 +279,8 @@ public partial class Frm_Statestics : CesForm
             await CreateCountryPartChartAsync();
         else if ((int?)Cmb_LoadChart.CesSelectedValue == 4)
             await CreateRatedChartAsync();
+        else if ((int?)Cmb_LoadChart.CesSelectedValue == 5)
+            await CreateLanguageChartAsync();
     }
 }
 
