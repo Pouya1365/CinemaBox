@@ -1,4 +1,5 @@
-﻿using CinemaBox.Domain.Shared.Languages;
+﻿using CinemaBox.Domain.Entertainment.Genres;
+using CinemaBox.Domain.Shared.Languages;
 using CinemaBox.Libretranslate.Interface;
 using CinemaBox.Service.Interface.Shared.Languages;
 using CinemaBox.UnitOfWork.Interface.UOW;
@@ -42,5 +43,16 @@ public class LanguageServices(IUnitOfWork unitOfWork, ITranslate translate) : IL
             _unitOfWork.Repository<Language>().Update(lang);
         if (languages.Any())
             await _unitOfWork.CompleteAsync();
+    }
+    public async Task<Dictionary<string, int>> GetMovieCountPerLanguage()
+    {
+        IEnumerable<Language> languages = await _unitOfWork.Repository<Language>().GetAllWithIncludesAsync(x => x.MovieSpokenLanguages);
+        return languages.Select(l => new
+        {
+            Name = l.FaLanguageName ?? l.EnLanguageName,
+            Value = l.MovieSpokenLanguages.Count()
+        })
+          .OrderByDescending(x => x.Value)
+          .ToDictionary(x => x.Name, x => x.Value);
     }
 }

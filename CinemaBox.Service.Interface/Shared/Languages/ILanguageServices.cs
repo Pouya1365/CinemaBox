@@ -8,4 +8,5 @@ public interface ILanguageServices
     Task<Language?> GetLanguageAsync(string languageName);
     Task<List<Language>?> GetAllLanguageFaNull();
     Task UpdateFaLanguge(List<Language> languages);
+    Task<Dictionary<string, int>> GetMovieCountPerLanguage();
 }
