@@ -239,6 +239,21 @@ public partial class Frm_Statestics : CesForm
         Chart.CesData = listOfData;
         Chart.GenerateChart();
     }
+    private async Task CreateCollectionChartAsync()
+    {
+        Dictionary<string, int> collections = await _collectionServices.GetMovieCountPerCollection();
+        CesChartSerie serieA = new()
+        {
+            Type = CesChartTypeEnum.Column,
+            Name = "Serie A",
+            SeriColor = Color.AliceBlue
+        };
+        List<CesChartData> listOfData = [];
+        foreach (var collection in collections)
+            listOfData.Add(new CesChartData { Category = collection.Key, Serie = serieA, Value = collection.Value });
+        Chart.CesData = listOfData;
+        Chart.GenerateChart();
+    }
     private async Task CreateCountryPartChartAsync()
     {
         Dictionary<string, int> countries = await _countryPartServices.GetMovieCountPerCountry();
@@ -280,6 +295,8 @@ public partial class Frm_Statestics : CesForm
         else if ((int?)Cmb_LoadChart.CesSelectedValue == 4)
             await CreateRatedChartAsync();
         else if ((int?)Cmb_LoadChart.CesSelectedValue == 5)
+            await CreateCollectionChartAsync();
+        else if ((int?)Cmb_LoadChart.CesSelectedValue == 6)
             await CreateLanguageChartAsync();
     }
 }

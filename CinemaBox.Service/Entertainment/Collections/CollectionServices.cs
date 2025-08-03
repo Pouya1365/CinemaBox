@@ -1,4 +1,5 @@
 ﻿using CinemaBox.Domain.Entertainment.Collections;
+using CinemaBox.Domain.Entertainment.Genres;
 using CinemaBox.Model.Statestics;
 using CinemaBox.Service.Interface.Entertainment.Collections;
 using CinemaBox.UnitOfWork.Interface.UOW;
@@ -36,5 +37,16 @@ public class CollectionServices(IUnitOfWork unitOfWork) : ICollectionServices
         IEnumerable<Collection> collection =await _unitOfWork.Repository<Collection>().GetAllAsync();
         statesticsModel.CollectionsTotalCount = collection.Count();
         return statesticsModel;
+    }
+    public async Task<Dictionary<string, int>> GetMovieCountPerCollection()
+    {
+        IEnumerable<Collection> collections = await _unitOfWork.Repository<Collection>().GetAllWithIncludesAsync(x => x.Movies);
+        return collections.Select(c => new
+        {
+            Name = c.FaCollectionName ?? c.EnCollectionName,
+            Value = c.Movies.Count()
+        })
+          .OrderByDescending(x => x.Value)
+          .ToDictionary(x => x.Name, x => x.Value);
     }
 }

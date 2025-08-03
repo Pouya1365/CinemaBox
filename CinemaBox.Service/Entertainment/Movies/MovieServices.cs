@@ -196,4 +196,17 @@ public async Task<StatesticsModel> GetStatestics(StatesticsModel models)
           .OrderByDescending(x => x.Value)
           .ToDictionary(x => x.Name, x => x.Value);
     }
+
+    
+    //public async Task<Dictionary<string, int>> GetMovieCountPerCollection()
+    //{
+    //    IEnumerable<Movie> movies = await _unitOfWork.Repository<Movie>().GetAllWithIncludesAsync(x => x.Collection);
+    //    return movies.GroupBy(m => m?.Collection?.FaCollectionName).Select(m => new
+    //    {
+    //        Name = m.Key.ToString(),
+    //        Value = m.Count()
+    //    })
+    //      .OrderByDescending(x => x.Value)
+    //      .ToDictionary(x => x.Name, x => x.Value);
+    //}
 }

@@ -352,7 +352,8 @@ public partial class Frm_Movie : CesForm
             userMovieFileServices: _userMovieFileServices,
             userMovieAudioServices: _userMovieAudioServices, 
             userMovieDiskServices: _userMovieDiskServices,
-            countryPartServices:_countryPartServices);
+            countryPartServices:_countryPartServices,
+            languageServices:_languageServices);
         frm_Statestics.ShowDialog();
     }
 }

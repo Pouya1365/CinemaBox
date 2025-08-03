@@ -9,4 +9,5 @@ public interface ICollectionServices
     Task<Collection?> GetCollectionAsync(string collectionName);
     Task<Collection> CreateOrGetCollectoion(string encollectionName, string faCollectionName);
     Task<StatesticsModel> GetStatestics(StatesticsModel statesticsModel);
+    Task<Dictionary<string, int>> GetMovieCountPerCollection();
 }
