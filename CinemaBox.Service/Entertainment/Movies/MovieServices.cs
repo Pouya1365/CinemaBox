@@ -7,9 +7,7 @@ using CinemaBox.Service.Interface.Entertainment.Certificates;
 using CinemaBox.Service.Interface.Entertainment.Movies;
 using CinemaBox.Service.Interface.Managment.Link.UserMovieFiles;
 using CinemaBox.Service.Interface.Shared.Currencies;
-using CinemaBox.Service.Managment.Link.UserMovieFiles;
 using CinemaBox.UnitOfWork.Interface.UOW;
-using System.Collections.Generic;
 
 namespace CinemaBox.Service.Entertainment.Movies;
 
@@ -175,5 +173,27 @@ public async Task<StatesticsModel> GetStatestics(StatesticsModel models)
         models.MovieTotalCount = movie.Count(x => x.IsTvShow == false);
         models.TvSeriesTotalCount = movie.Count(x => x.IsTvShow == true);
         return models;
+    }
+    public async Task<Dictionary<string, int>> GetMovieCountPerYear()
+    {
+        IEnumerable<Movie> movies = await _unitOfWork.Repository<Movie>().GetAllAsync();
+        return movies.GroupBy(m=>m.StartYear).Select(m => new
+        {
+            Name = m.Key.ToString(),
+            Value = m.Count()
+        })
+          .OrderByDescending(x => x.Value)
+          .ToDictionary(x => x.Name, x => x.Value);
+    }
+    public async Task<Dictionary<string, int>> GetMovieCountPerRated()
+    {
+        IEnumerable<Movie> movies = await _unitOfWork.Repository<Movie>().GetAllWithIncludesAsync(x=>x.Certificate);
+        return movies.GroupBy(m => m.Certificate.CertificateName).Select(m => new
+        {
+            Name = m.Key.ToString(),
+            Value = m.Count()
+        })
+          .OrderByDescending(x => x.Value)
+          .ToDictionary(x => x.Name, x => x.Value);
     }
 }

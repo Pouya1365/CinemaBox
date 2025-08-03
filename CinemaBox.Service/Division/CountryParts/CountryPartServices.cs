@@ -1,4 +1,5 @@
 ﻿using CinemaBox.Domain.Division.CountryParts;
+
 using CinemaBox.Enumeration.Division.CountryPartsType;
 using CinemaBox.Libretranslate.Interface;
 using CinemaBox.Service.Interface.Division.CountryParts;
@@ -39,5 +40,16 @@ public class CountryPartServices(IUnitOfWork unitOfWork, ITranslate translate) :
             _unitOfWork.Repository<CountryPart>().Update(countryPart);
         if (countryParts.Any())
             await _unitOfWork.CompleteAsync();
+    }
+    public async Task<Dictionary<string, int>> GetMovieCountPerCountry()
+    {
+        IEnumerable<CountryPart> countryParts = await _unitOfWork.Repository<CountryPart>().GetAllWithIncludesAsync(x => x.MovieCountries);
+        return countryParts.Select(cp => new
+        {
+            Name = cp.FaCountryPartName ?? cp.EnCountryPartName,
+            Value = cp.MovieCountries.Count()
+        })
+          .OrderByDescending(x => x.Value)
+          .ToDictionary(x => x.Name, x => x.Value);
     }
 }

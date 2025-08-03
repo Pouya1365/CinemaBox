@@ -1,6 +1,9 @@
 ﻿using Ces.WinForm.UI.CesChart;
+using Ces.WinForm.UI.CesComboBox;
 using Ces.WinForm.UI.CesForm;
 using CinemaBox.Model.Statestics;
+using CinemaBox.Service.Division.CountryParts;
+using CinemaBox.Service.Interface.Division.CountryParts;
 using CinemaBox.Service.Interface.Entertainment.Collections;
 using CinemaBox.Service.Interface.Entertainment.Genres;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCredits;
@@ -8,6 +11,8 @@ using CinemaBox.Service.Interface.Entertainment.Movies;
 using CinemaBox.Service.Interface.Managment.Link.UserMovieAudios;
 using CinemaBox.Service.Interface.Managment.Link.UserMovieDisks;
 using CinemaBox.Service.Interface.Managment.Link.UserMovieFiles;
+using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace CinemaBox.Presentation.Statestics.Statestics;
 
@@ -20,13 +25,15 @@ public partial class Frm_Statestics : CesForm
     private readonly IUserMovieFileServices _userMovieFileServices;
     private readonly IUserMovieAudioServices _userMovieAudioServices;
     private readonly IUserMovieDiskServices _userMovieDiskServices;
+    private readonly ICountryPartServices _countryPartServices;
     public Frm_Statestics(IMovieServices movieServices,
         IGenreServices genreServices,
         IMovieCreditServices movieCreditServices,
         ICollectionServices collectionServices,
         IUserMovieFileServices userMovieFileServices,
         IUserMovieAudioServices userMovieAudioServices,
-        IUserMovieDiskServices userMovieDiskServices
+        IUserMovieDiskServices userMovieDiskServices,
+        ICountryPartServices countryPartServices
         )
     {
         _movieServices = movieServices ?? throw new ArgumentNullException(nameof(movieServices));
@@ -36,6 +43,7 @@ public partial class Frm_Statestics : CesForm
         _userMovieFileServices = userMovieFileServices ?? throw new ArgumentNullException(nameof(userMovieFileServices));
         _userMovieAudioServices = userMovieAudioServices ?? throw new ArgumentNullException(nameof(userMovieAudioServices));
         _userMovieDiskServices = userMovieDiskServices ?? throw new ArgumentNullException(nameof(userMovieDiskServices));
+        _countryPartServices = countryPartServices ?? throw new ArgumentNullException(nameof(countryPartServices));
         InitializeComponent();
         _ = LoadData();
     }
@@ -161,11 +169,29 @@ public partial class Frm_Statestics : CesForm
 
     private void Frm_Statestics_Load(object sender, EventArgs e)
     {
-        _=CreateChartAsync();
+
+        //_ = CreateChartAsync();
+        List<ComboStatesticsModel> data =
+        [
+            new () { Id = 1, Title = "ژانر" },
+            new () { Id = 2, Title = "سال" },
+            new () { Id = 3, Title = "کشور" },
+            new () { Id = 4, Title = "رده بندی سنی" },
+            new () { Id = 5, Title = "کالکشن" },
+            new () { Id = 6, Title = "زبان" } ,
+            new () { Id = 7, Title = "سال" }
+        ];
+
+
+        Cmb_LoadChart.CesValueMember = "Id";
+        Cmb_LoadChart.CesDisplayMember = "Title";
+        Cmb_LoadChart.CesDataSource = data;
     }
-    private async Task CreateChartAsync()
+
+
+    private async Task CreateGenreChartAsync()
     {
-        Dictionary<string, int> genres =await _genreServices.GetMovieCountPerGenre();
+        Dictionary<string, int> genres = await _genreServices.GetMovieCountPerGenre();
         CesChartSerie serieA = new()
         {
             Type = CesChartTypeEnum.Column,
@@ -173,11 +199,67 @@ public partial class Frm_Statestics : CesForm
             SeriColor = Color.Red
         };
         List<CesChartData> listOfData = [];
-        foreach (var genre in genres)        
-            listOfData.Add(new CesChartData { Category= genre.Key,Serie=serieA,Value= genre.Value});   
+        foreach (var genre in genres)
+            listOfData.Add(new CesChartData { Category = genre.Key, Serie = serieA, Value = genre.Value });
         Chart.CesData = listOfData;
         Chart.GenerateChart();
     }
 
+    private async Task CreateYearChartAsync()
+    {
+        Dictionary<string, int> movies = await _movieServices.GetMovieCountPerYear();
+        CesChartSerie serieA = new()
+        {
+            Type = CesChartTypeEnum.Column,
+            Name = "Serie A",
+            SeriColor = Color.Blue
+        };
+        List<CesChartData> listOfData = [];
+        foreach (var movie in movies)
+            listOfData.Add(new CesChartData { Category = movie.Key, Serie = serieA, Value = movie.Value });
+        Chart.CesData = listOfData;
+        Chart.GenerateChart();
+    }
+    private async Task CreateRatedChartAsync()
+    {
+        Dictionary<string, int> movies = await _movieServices.GetMovieCountPerRated();
+        CesChartSerie serieA = new()
+        {
+            Type = CesChartTypeEnum.Column,
+            Name = "Serie A",
+            SeriColor = Color.LemonChiffon
+        };
+        List<CesChartData> listOfData = [];
+        foreach (var movie in movies)
+            listOfData.Add(new CesChartData { Category = movie.Key, Serie = serieA, Value = movie.Value });
+        Chart.CesData = listOfData;
+        Chart.GenerateChart();
+    }
+    private async Task CreateCountryPartChartAsync()
+    {
+        Dictionary<string, int> countries = await _countryPartServices.GetMovieCountPerCountry();
+        CesChartSerie serieA = new()
+        {
+            Type = CesChartTypeEnum.Column,
+            Name = "Serie A",
+            SeriColor = Color.Green
+        };
+        List<CesChartData> listOfData = [];
+        foreach (var country in countries)
+            listOfData.Add(new CesChartData { Category = country.Key, Serie = serieA, Value = country.Value });
+        Chart.CesData = listOfData;
+        Chart.GenerateChart();
+    }
+    private async void Cmb_LoadChart_CesSelectedItemChanged(object sender, Ces.WinForm.UI.CesComboBox.Events.CesSelectionChangeEvent e)
+    {
+        if ((int?)Cmb_LoadChart.CesSelectedValue == 1)
+            await CreateGenreChartAsync();
+        else if ((int?)Cmb_LoadChart.CesSelectedValue == 2)
+            await CreateYearChartAsync();
+        else if ((int?)Cmb_LoadChart.CesSelectedValue == 3)
+            await CreateCountryPartChartAsync();
+        else if ((int?)Cmb_LoadChart.CesSelectedValue == 4)
+            await CreateRatedChartAsync();
+    }
 }
 

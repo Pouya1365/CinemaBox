@@ -13,4 +13,6 @@ public interface IMovieServices
     Task UpdateMovie(Movie movie);
     Task<List<ShowMovieModel>> GetMovieModelsAsync(List<string> movieId);
     Task<StatesticsModel> GetStatestics(StatesticsModel models);
+    Task<Dictionary<string, int>> GetMovieCountPerYear();
+    Task<Dictionary<string, int>> GetMovieCountPerRated();
 }

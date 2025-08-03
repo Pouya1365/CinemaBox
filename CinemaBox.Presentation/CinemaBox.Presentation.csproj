@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ces.WinForm.UI" Version="1.21.4" />
+    <PackageReference Include="Ces.WinForm.UI" Version="1.22.0" />
     <PackageReference Include="MediaInfo.Native" Version="21.9.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.7">
       <PrivateAssets>all</PrivateAssets>

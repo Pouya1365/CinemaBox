@@ -344,10 +344,15 @@ public partial class Frm_Movie : CesForm
 
     private void Btn_Statestics_Click(object sender, EventArgs e)
     {
-        Frm_Statestics frm_Statestics = new(movieServices: _movieServices,
-            genreServices: _genreServices, movieCreditServices: _movieCreditServices,
-            collectionServices: _collectionServices, userMovieFileServices: _userMovieFileServices,
-            userMovieAudioServices: _userMovieAudioServices, userMovieDiskServices: _userMovieDiskServices);
+        Frm_Statestics frm_Statestics = new(
+            movieServices: _movieServices,
+            genreServices: _genreServices,
+            movieCreditServices: _movieCreditServices,
+            collectionServices: _collectionServices, 
+            userMovieFileServices: _userMovieFileServices,
+            userMovieAudioServices: _userMovieAudioServices, 
+            userMovieDiskServices: _userMovieDiskServices,
+            countryPartServices:_countryPartServices);
         frm_Statestics.ShowDialog();
     }
 }

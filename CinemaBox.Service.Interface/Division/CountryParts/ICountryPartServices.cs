@@ -8,4 +8,5 @@ public interface ICountryPartServices
     Task<CountryPart> GetCountryPart(string CountryPartName);
     Task<List<CountryPart>?> GetAllCountryPartFaNull();
     Task UpdateFaCountryPart(List<CountryPart> countryParts);
+    Task<Dictionary<string, int>> GetMovieCountPerCountry();
 }

@@ -849,6 +849,7 @@
             Cmb_QualityType.CesHasFocus = false;
             Cmb_QualityType.CesHasNotification = false;
             Cmb_QualityType.CesIcon = null;
+            Cmb_QualityType.CesImageMember = null;
             Cmb_QualityType.CesImageWidth = 24;
             Cmb_QualityType.CesItemHeight = 30;
             Cmb_QualityType.CesKeepPreviousSelection = false;
@@ -870,6 +871,7 @@
             Cmb_QualityType.CesShowSearchBox = true;
             Cmb_QualityType.CesShowStatusBar = true;
             Cmb_QualityType.CesShowTitle = true;
+            Cmb_QualityType.CesStopSelectedItemChangedEvent = false;
             Cmb_QualityType.CesTheme = Ces.WinForm.UI.Infrastructure.ThemeEnum.White;
             Cmb_QualityType.CesTitleAutoHeight = false;
             Cmb_QualityType.CesTitleAutoWidth = false;
@@ -907,6 +909,7 @@
             Cmb_Quality.CesHasFocus = false;
             Cmb_Quality.CesHasNotification = false;
             Cmb_Quality.CesIcon = null;
+            Cmb_Quality.CesImageMember = null;
             Cmb_Quality.CesImageWidth = 24;
             Cmb_Quality.CesItemHeight = 30;
             Cmb_Quality.CesKeepPreviousSelection = false;
@@ -928,6 +931,7 @@
             Cmb_Quality.CesShowSearchBox = true;
             Cmb_Quality.CesShowStatusBar = true;
             Cmb_Quality.CesShowTitle = true;
+            Cmb_Quality.CesStopSelectedItemChangedEvent = false;
             Cmb_Quality.CesTheme = Ces.WinForm.UI.Infrastructure.ThemeEnum.White;
             Cmb_Quality.CesTitleAutoHeight = false;
             Cmb_Quality.CesTitleAutoWidth = false;
@@ -1272,6 +1276,7 @@
             Dgv_Audio.CesDataSource = null;
             Dgv_Audio.CesEnableFiltering = Ces.WinForm.UI.CesGridView.CesGridFilterActionModeEnum.LeftClick;
             Dgv_Audio.CesRowSizeMode = Ces.WinForm.UI.CesGridView.CesGridViewRowSizeModeEnum.Normal;
+            Dgv_Audio.CesStopCerrentCellChangedEventInCurrentRow = false;
             Dgv_Audio.CesTheme = Ces.WinForm.UI.Infrastructure.ThemeEnum.White;
             Dgv_Audio.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -1676,6 +1681,7 @@
             Cmb_MyStatus.CesHasFocus = false;
             Cmb_MyStatus.CesHasNotification = false;
             Cmb_MyStatus.CesIcon = null;
+            Cmb_MyStatus.CesImageMember = null;
             Cmb_MyStatus.CesImageWidth = 24;
             Cmb_MyStatus.CesItemHeight = 30;
             Cmb_MyStatus.CesKeepPreviousSelection = false;
@@ -1697,6 +1703,7 @@
             Cmb_MyStatus.CesShowSearchBox = true;
             Cmb_MyStatus.CesShowStatusBar = true;
             Cmb_MyStatus.CesShowTitle = true;
+            Cmb_MyStatus.CesStopSelectedItemChangedEvent = false;
             Cmb_MyStatus.CesTheme = Ces.WinForm.UI.Infrastructure.ThemeEnum.White;
             Cmb_MyStatus.CesTitleAutoHeight = false;
             Cmb_MyStatus.CesTitleAutoWidth = false;
@@ -1734,6 +1741,7 @@
             Cmb_Collection.CesHasFocus = false;
             Cmb_Collection.CesHasNotification = false;
             Cmb_Collection.CesIcon = null;
+            Cmb_Collection.CesImageMember = null;
             Cmb_Collection.CesImageWidth = 24;
             Cmb_Collection.CesItemHeight = 30;
             Cmb_Collection.CesKeepPreviousSelection = false;
@@ -1755,6 +1763,7 @@
             Cmb_Collection.CesShowSearchBox = true;
             Cmb_Collection.CesShowStatusBar = true;
             Cmb_Collection.CesShowTitle = true;
+            Cmb_Collection.CesStopSelectedItemChangedEvent = false;
             Cmb_Collection.CesTheme = Ces.WinForm.UI.Infrastructure.ThemeEnum.White;
             Cmb_Collection.CesTitleAutoHeight = false;
             Cmb_Collection.CesTitleAutoWidth = false;
@@ -1963,6 +1972,7 @@
             Cmb_Certificate.CesHasFocus = false;
             Cmb_Certificate.CesHasNotification = false;
             Cmb_Certificate.CesIcon = null;
+            Cmb_Certificate.CesImageMember = null;
             Cmb_Certificate.CesImageWidth = 24;
             Cmb_Certificate.CesItemHeight = 30;
             Cmb_Certificate.CesKeepPreviousSelection = false;
@@ -1984,6 +1994,7 @@
             Cmb_Certificate.CesShowSearchBox = true;
             Cmb_Certificate.CesShowStatusBar = true;
             Cmb_Certificate.CesShowTitle = true;
+            Cmb_Certificate.CesStopSelectedItemChangedEvent = false;
             Cmb_Certificate.CesTheme = Ces.WinForm.UI.Infrastructure.ThemeEnum.White;
             Cmb_Certificate.CesTitleAutoHeight = false;
             Cmb_Certificate.CesTitleAutoWidth = false;
