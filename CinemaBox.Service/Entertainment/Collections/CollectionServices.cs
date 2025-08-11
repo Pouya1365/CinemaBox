@@ -41,12 +41,20 @@ public class CollectionServices(IUnitOfWork unitOfWork) : ICollectionServices
     public async Task<Dictionary<string, int>> GetMovieCountPerCollection()
     {
         IEnumerable<Collection> collections = await _unitOfWork.Repository<Collection>().GetAllWithIncludesAsync(x => x.Movies);
-        return collections.Select(c => new
-        {
-            Name = c.FaCollectionName ?? c.EnCollectionName,
-            Value = c.Movies.Count()
-        })
-          .OrderByDescending(x => x.Value)
-          .ToDictionary(x => x.Name, x => x.Value);
+        return collections
+      .Select(c => new
+      {
+          Name = c.FaCollectionName ?? c.EnCollectionName,
+          Value = c.Movies?.Count ?? 0
+      })
+      .GroupBy(x => x.Name)
+      .Select(g => new
+      {
+          Name = g.Key,
+          Value = g.Sum(x => x.Value)  // یا می‌تونی g.Max(x => x.Value) یا g.First().Value استفاده کنی
+      })
+      .OrderByDescending(x => x.Value)
+      .ToDictionary(x => x.Name, x => x.Value);
+
     }
 }

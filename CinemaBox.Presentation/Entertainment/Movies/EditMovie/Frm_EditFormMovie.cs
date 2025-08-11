@@ -56,8 +56,6 @@ using CinemaBox.Service.Interface.Shared.Languages;
 using CinemaBox.Service.Interface.Shared.Qualities.Qualities;
 using CinemaBox.Service.Interface.Shared.Qualities.QualityTypes;
 using CinemaBox.Service.Interface.Shared.Statuses;
-using CinemaBox.Service.Shared.Qualities.Qualities;
-using CinemaBox.Service.Shared.Qualities.QualityTypes;
 using CinemaBox.UserController.Entertainment.CreditShow;
 using CinemaBox.Utilities.DateTimeExtension.DateExtensions;
 using CinemaBox.Utilities.DateTimeExtension.TimeExtension;
@@ -364,8 +362,6 @@ qualityTypaId);
 
     private async Task<IEnumerable<Quality>> GetQualityAsync() => await _qualityServices.GetAllQualities();
     private async Task<IEnumerable<QualityType>> GetQualityTypeAsync() => await _qualityTypeServices.GetAllQualityTypes();
-
-
     private async Task SetUserMovieFileAsync()
     {
         UserMovieFile usermovieFiles = await GetUserMovieFileAsync();

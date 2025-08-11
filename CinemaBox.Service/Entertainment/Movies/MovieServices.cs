@@ -188,25 +188,13 @@ public async Task<StatesticsModel> GetStatestics(StatesticsModel models)
     public async Task<Dictionary<string, int>> GetMovieCountPerRated()
     {
         IEnumerable<Movie> movies = await _unitOfWork.Repository<Movie>().GetAllWithIncludesAsync(x=>x.Certificate);
-        return movies.GroupBy(m => m.Certificate.CertificateName).Select(m => new
+        return movies.GroupBy(m => m?.Certificate?.CertificateName).Select(m => new
         {
-            Name = m.Key.ToString(),
+            Name = m.Key??"نا مشخص",
             Value = m.Count()
         })
           .OrderByDescending(x => x.Value)
           .ToDictionary(x => x.Name, x => x.Value);
     }
 
-    
-    //public async Task<Dictionary<string, int>> GetMovieCountPerCollection()
-    //{
-    //    IEnumerable<Movie> movies = await _unitOfWork.Repository<Movie>().GetAllWithIncludesAsync(x => x.Collection);
-    //    return movies.GroupBy(m => m?.Collection?.FaCollectionName).Select(m => new
-    //    {
-    //        Name = m.Key.ToString(),
-    //        Value = m.Count()
-    //    })
-    //      .OrderByDescending(x => x.Value)
-    //      .ToDictionary(x => x.Name, x => x.Value);
-    //}
 }

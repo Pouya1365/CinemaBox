@@ -33,6 +33,7 @@
             Col_Count = new ColumnHeader();
             Chart = new Ces.WinForm.UI.CesChart.CesChart();
             Cmb_LoadChart = new Ces.WinForm.UI.CesComboBox.CesComboBox();
+            Flw_Crews = new FlowLayoutPanel();
             SuspendLayout();
             // 
             // btnOptions
@@ -53,7 +54,7 @@
             Lst_Statestics.Name = "Lst_Statestics";
             Lst_Statestics.RightToLeft = RightToLeft.Yes;
             Lst_Statestics.RightToLeftLayout = true;
-            Lst_Statestics.Size = new Size(250, 522);
+            Lst_Statestics.Size = new Size(250, 842);
             Lst_Statestics.TabIndex = 0;
             Lst_Statestics.UseCompatibleStateImageBehavior = false;
             Lst_Statestics.View = View.Details;
@@ -90,14 +91,14 @@
             Chart.CesScaleIndicatorWidth = 5F;
             Chart.CesScaleTitle = null;
             Chart.CesScaleVisible = true;
-            Chart.CesScaleWidth = 50F;
+            Chart.CesScaleWidth = 100F;
             Chart.CesSeries = null;
             Chart.CesTitleFont = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Chart.CesTitleHeight = 50F;
             Chart.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Chart.Location = new Point(258, 73);
             Chart.Name = "Chart";
-            Chart.Size = new Size(728, 483);
+            Chart.Size = new Size(1500, 483);
             Chart.TabIndex = 7;
             // 
             // Cmb_LoadChart
@@ -163,11 +164,19 @@
             Cmb_LoadChart.TabIndex = 8;
             Cmb_LoadChart.CesSelectedItemChanged += Cmb_LoadChart_CesSelectedItemChanged;
             // 
+            // Flw_Crews
+            // 
+            Flw_Crews.Location = new Point(258, 559);
+            Flw_Crews.Name = "Flw_Crews";
+            Flw_Crews.Size = new Size(1500, 312);
+            Flw_Crews.TabIndex = 9;
+            // 
             // Frm_Statestics
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(988, 556);
+            ClientSize = new Size(1763, 876);
+            Controls.Add(Flw_Crews);
             Controls.Add(Cmb_LoadChart);
             Controls.Add(Chart);
             Controls.Add(Lst_Statestics);
@@ -177,6 +186,7 @@
             Controls.SetChildIndex(Lst_Statestics, 0);
             Controls.SetChildIndex(Chart, 0);
             Controls.SetChildIndex(Cmb_LoadChart, 0);
+            Controls.SetChildIndex(Flw_Crews, 0);
             ResumeLayout(false);
         }
 
@@ -187,5 +197,6 @@
         private ColumnHeader Col_Count;
         private Ces.WinForm.UI.CesChart.CesChart Chart;
         private Ces.WinForm.UI.CesComboBox.CesComboBox Cmb_LoadChart;
+        private FlowLayoutPanel Flw_Crews;
     }
 }

@@ -11,4 +11,5 @@ public interface IMovieCreditServices
     Task<bool> ChangeIsLeadRole(string peopleId, string movieId);
     Task<List<string>> GetPeopleMovie(string peopleId);
     Task<StatesticsModel> GetStatestics(StatesticsModel statesticsModel);
+    Task<IEnumerable<MovieCredit>> GetMaxCrews();
 }

@@ -53,13 +53,21 @@ public class GenreServices(IUnitOfWork unitOfWork, ITranslate translate) : IGenr
     public async Task<Dictionary<string, int>> GetMovieCountPerGenre()
     {
         IEnumerable<Genre> genre =await _unitOfWork.Repository<Genre>().GetAllWithIncludesAsync(x => x.MovieGenres);
-          return genre.Select(g => new
-            {
-                Name = g.FaGenreName ?? g.EnGenreName,
-                Value = g.MovieGenres.Count()
-            })
-            .OrderByDescending(x => x.Value)
-            .ToDictionary(x => x.Name, x => x.Value);
+        return genre
+    .Select(g => new
+    {
+        Name = !string.IsNullOrEmpty(g.FaGenreName) ? g.FaGenreName : g.EnGenreName,
+        Value = g.MovieGenres?.Count ?? 0
+    })
+    .GroupBy(x => x.Name)
+    .Select(g => new
+    {
+        Name = g.Key,
+        Value = g.Sum(x => x.Value) // جمع تعداد تکراری‌ها
+    })
+    .OrderByDescending(x => x.Value)
+    .ToDictionary(x => x.Name, x => x.Value);
+
     }
 
 }

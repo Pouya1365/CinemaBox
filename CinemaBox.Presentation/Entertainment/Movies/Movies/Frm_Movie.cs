@@ -353,7 +353,12 @@ public partial class Frm_Movie : CesForm
             userMovieAudioServices: _userMovieAudioServices, 
             userMovieDiskServices: _userMovieDiskServices,
             countryPartServices:_countryPartServices,
-            languageServices:_languageServices);
+            languageServices:_languageServices,
+            peopleFileServices:_peopleFileServices,
+            peopleServices:_peopleServices,
+            deathCauseServices:_deathCauseServices
+            
+            );
         frm_Statestics.ShowDialog();
     }
 }
