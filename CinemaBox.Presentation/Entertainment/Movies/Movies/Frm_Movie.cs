@@ -43,6 +43,7 @@ using CinemaBox.Service.Interface.Shared.Languages;
 using CinemaBox.Service.Interface.Shared.Qualities.Qualities;
 using CinemaBox.Service.Interface.Shared.Qualities.QualityTypes;
 using CinemaBox.Service.Interface.Shared.Statuses;
+using CinemaBox.TvMaz.Interfaces.TvMaz;
 using CinemaBox.UserController.Entertainment.Movies;
 using CinemaBox.Utilities.Html;
 namespace CinemaBox.Presentation;
@@ -79,6 +80,7 @@ public partial class Frm_Movie : CesForm
     private readonly IKeywordServices? _keywordServices;
     private readonly IGenreServices? _genreServices;
     private readonly ICountryPartServices? _countryPartServices;
+    private readonly ITvMazServices? _tvMazServices;
     public Frm_Movie(IImdbMovieScrapperServices imdbScrapperServices,
         IMovieServices movieServices,
         IMovieCompanyServices movieCompanyServices,
@@ -109,7 +111,8 @@ public partial class Frm_Movie : CesForm
         ITranslate? translate,
         IKeywordServices? keywordServices,
         IGenreServices? genreServices,
-        ICountryPartServices? countryPartServices
+        ICountryPartServices? countryPartServices,
+        ITvMazServices? tvMazServices
         )
     {
         InitializeComponent();
@@ -144,6 +147,7 @@ public partial class Frm_Movie : CesForm
         _keywordServices = keywordServices ?? throw new ArgumentNullException(nameof(keywordServices));
         _genreServices = genreServices ?? throw new ArgumentNullException(nameof(genreServices));
         _countryPartServices = countryPartServices ?? throw new ArgumentNullException(nameof(countryPartServices));
+        _tvMazServices = tvMazServices ?? throw new ArgumentNullException(nameof(tvMazServices));
     }
     private async Task<Movie?> GetMovie() => await _movieServices.GeMovieAsync(ImdbId: Txt_Search.CesText);
 
@@ -348,17 +352,22 @@ public partial class Frm_Movie : CesForm
             movieServices: _movieServices,
             genreServices: _genreServices,
             movieCreditServices: _movieCreditServices,
-            collectionServices: _collectionServices, 
+            collectionServices: _collectionServices,
             userMovieFileServices: _userMovieFileServices,
-            userMovieAudioServices: _userMovieAudioServices, 
+            userMovieAudioServices: _userMovieAudioServices,
             userMovieDiskServices: _userMovieDiskServices,
-            countryPartServices:_countryPartServices,
-            languageServices:_languageServices,
-            peopleFileServices:_peopleFileServices,
-            peopleServices:_peopleServices,
-            deathCauseServices:_deathCauseServices
-            
+            countryPartServices: _countryPartServices,
+            languageServices: _languageServices,
+            peopleFileServices: _peopleFileServices,
+            peopleServices: _peopleServices,
+            deathCauseServices: _deathCauseServices
+
             );
         frm_Statestics.ShowDialog();
+    }
+
+    private void cesRoundedButton1_Click(object sender, EventArgs e)
+    {
+        var f=_tvMazServices.IsTvSchedule();
     }
 }

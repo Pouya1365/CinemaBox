@@ -481,6 +481,8 @@ qualityTypaId);
         try
         {
             LoadAndDisplayMediaInfo(open.FileName);
+            if (open.FileName.Contains("265"))
+                Chk_X265.CesCheck = true;
         }
         catch (Exception ex)
         {

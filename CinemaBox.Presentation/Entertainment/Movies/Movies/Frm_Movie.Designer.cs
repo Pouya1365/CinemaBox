@@ -30,13 +30,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Movie));
             Pnl_Search = new Ces.WinForm.UI.CesPanel();
+            Btn_Statestics = new Ces.WinForm.UI.CesButton.CesRoundedButton();
             Btn_People = new Ces.WinForm.UI.CesButton.CesRoundedButton();
             Btn_GetInfo = new Ces.WinForm.UI.CesButton.CesRoundedButton();
             Btn_Search = new Ces.WinForm.UI.CesButton.CesRoundedButton();
             Txt_Search = new Ces.WinForm.UI.CesTextBox();
             cesPanel2 = new Ces.WinForm.UI.CesPanel();
             Flw_ShowMovie = new FlowLayoutPanel();
-            Btn_Statestics = new Ces.WinForm.UI.CesButton.CesRoundedButton();
+            cesRoundedButton1 = new Ces.WinForm.UI.CesButton.CesRoundedButton();
             Pnl_Search.SuspendLayout();
             cesPanel2.SuspendLayout();
             SuspendLayout();
@@ -59,6 +60,7 @@
             Pnl_Search.CesVisibleLeftBorder = true;
             Pnl_Search.CesVisibleRightBorder = true;
             Pnl_Search.CesVisibleTopBorder = true;
+            Pnl_Search.Controls.Add(cesRoundedButton1);
             Pnl_Search.Controls.Add(Btn_Statestics);
             Pnl_Search.Controls.Add(Btn_People);
             Pnl_Search.Controls.Add(Btn_GetInfo);
@@ -69,6 +71,34 @@
             Pnl_Search.Name = "Pnl_Search";
             Pnl_Search.Size = new Size(1147, 100);
             Pnl_Search.TabIndex = 7;
+            // 
+            // Btn_Statestics
+            // 
+            Btn_Statestics.BackColor = Color.Olive;
+            Btn_Statestics.CesBackColor = Color.FromArgb(120, 209, 160);
+            Btn_Statestics.CesBorderColor = Color.MediumSeaGreen;
+            Btn_Statestics.CesBorderRadius = 15;
+            Btn_Statestics.CesBorderThickness = 1;
+            Btn_Statestics.CesBorderVisible = false;
+            Btn_Statestics.CesCircular = false;
+            Btn_Statestics.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.LightGreen;
+            Btn_Statestics.CesFont = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Btn_Statestics.CesForeColor = Color.Black;
+            Btn_Statestics.CesIcon = null;
+            Btn_Statestics.CesIconAlignment = ContentAlignment.MiddleCenter;
+            Btn_Statestics.CesMouseDownColor = Color.FromArgb(120, 209, 160);
+            Btn_Statestics.CesMouseOverColor = Color.MediumSeaGreen;
+            Btn_Statestics.CesShowIcon = false;
+            Btn_Statestics.CesShowText = true;
+            Btn_Statestics.CesText = "آمار";
+            Btn_Statestics.CesTextAlignment = ContentAlignment.MiddleCenter;
+            Btn_Statestics.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Btn_Statestics.Location = new Point(1002, 3);
+            Btn_Statestics.Margin = new Padding(3, 4, 3, 4);
+            Btn_Statestics.Name = "Btn_Statestics";
+            Btn_Statestics.Size = new Size(134, 44);
+            Btn_Statestics.TabIndex = 4;
+            Btn_Statestics.Click += Btn_Statestics_Click;
             // 
             // Btn_People
             // 
@@ -226,33 +256,33 @@
             Flw_ShowMovie.Size = new Size(1133, 485);
             Flw_ShowMovie.TabIndex = 0;
             // 
-            // Btn_Statestics
+            // cesRoundedButton1
             // 
-            Btn_Statestics.BackColor = Color.Olive;
-            Btn_Statestics.CesBackColor = Color.FromArgb(120, 209, 160);
-            Btn_Statestics.CesBorderColor = Color.MediumSeaGreen;
-            Btn_Statestics.CesBorderRadius = 15;
-            Btn_Statestics.CesBorderThickness = 1;
-            Btn_Statestics.CesBorderVisible = false;
-            Btn_Statestics.CesCircular = false;
-            Btn_Statestics.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.LightGreen;
-            Btn_Statestics.CesFont = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Btn_Statestics.CesForeColor = Color.Black;
-            Btn_Statestics.CesIcon = null;
-            Btn_Statestics.CesIconAlignment = ContentAlignment.MiddleCenter;
-            Btn_Statestics.CesMouseDownColor = Color.FromArgb(120, 209, 160);
-            Btn_Statestics.CesMouseOverColor = Color.MediumSeaGreen;
-            Btn_Statestics.CesShowIcon = false;
-            Btn_Statestics.CesShowText = true;
-            Btn_Statestics.CesText = "آمار";
-            Btn_Statestics.CesTextAlignment = ContentAlignment.MiddleCenter;
-            Btn_Statestics.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Btn_Statestics.Location = new Point(1002, 3);
-            Btn_Statestics.Margin = new Padding(3, 4, 3, 4);
-            Btn_Statestics.Name = "Btn_Statestics";
-            Btn_Statestics.Size = new Size(134, 44);
-            Btn_Statestics.TabIndex = 4;
-            Btn_Statestics.Click += Btn_Statestics_Click;
+            cesRoundedButton1.BackColor = Color.Olive;
+            cesRoundedButton1.CesBackColor = Color.FromArgb(120, 209, 160);
+            cesRoundedButton1.CesBorderColor = Color.MediumSeaGreen;
+            cesRoundedButton1.CesBorderRadius = 15;
+            cesRoundedButton1.CesBorderThickness = 1;
+            cesRoundedButton1.CesBorderVisible = false;
+            cesRoundedButton1.CesCircular = false;
+            cesRoundedButton1.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.LightGreen;
+            cesRoundedButton1.CesFont = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cesRoundedButton1.CesForeColor = Color.Black;
+            cesRoundedButton1.CesIcon = null;
+            cesRoundedButton1.CesIconAlignment = ContentAlignment.MiddleCenter;
+            cesRoundedButton1.CesMouseDownColor = Color.FromArgb(120, 209, 160);
+            cesRoundedButton1.CesMouseOverColor = Color.MediumSeaGreen;
+            cesRoundedButton1.CesShowIcon = false;
+            cesRoundedButton1.CesShowText = true;
+            cesRoundedButton1.CesText = "آمار";
+            cesRoundedButton1.CesTextAlignment = ContentAlignment.MiddleCenter;
+            cesRoundedButton1.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cesRoundedButton1.Location = new Point(834, 4);
+            cesRoundedButton1.Margin = new Padding(3, 4, 3, 4);
+            cesRoundedButton1.Name = "cesRoundedButton1";
+            cesRoundedButton1.Size = new Size(134, 27);
+            cesRoundedButton1.TabIndex = 5;
+            cesRoundedButton1.Click += cesRoundedButton1_Click;
             // 
             // Frm_Movie
             // 
@@ -282,5 +312,6 @@
         private FlowLayoutPanel Flw_ShowMovie;
         private Ces.WinForm.UI.CesButton.CesRoundedButton Btn_People;
         private Ces.WinForm.UI.CesButton.CesRoundedButton Btn_Statestics;
+        private Ces.WinForm.UI.CesButton.CesRoundedButton cesRoundedButton1;
     }
 }

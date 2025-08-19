@@ -67,6 +67,8 @@ using CinemaBox.Service.Shared.Languages;
 using CinemaBox.Service.Shared.Qualities.Qualities;
 using CinemaBox.Service.Shared.Qualities.QualityTypes;
 using CinemaBox.Service.Shared.Statuses;
+using CinemaBox.TvMaz.Interfaces.TvMaz;
+using CinemaBox.TvMaz.TvMaz;
 using CinemaBox.UnitOfWork.Interface.UOW;
 using CinemaBox.Utilities.Files;
 using Microsoft.EntityFrameworkCore;
@@ -151,6 +153,7 @@ static class Program
         services.AddScoped<IQualityTypeServices, QualityTypeServices>();
         services.AddScoped<IImdbOtherScrapperServices, ImdbOtherScrapperServices>();
         services.AddScoped<ITranslate, Translate>();
+        services.AddScoped<ITvMazServices, TvMazServices>();
         // 📦 رجیستر کردن فرم‌ها
         services.AddTransient<Frm_Movie>();
 
