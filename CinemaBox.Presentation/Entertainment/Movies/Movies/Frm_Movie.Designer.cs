@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Movie));
             Pnl_Search = new Ces.WinForm.UI.CesPanel();
+            Btn_ShowTvSchedule = new Ces.WinForm.UI.CesButton.CesRoundedButton();
             Btn_Statestics = new Ces.WinForm.UI.CesButton.CesRoundedButton();
             Btn_People = new Ces.WinForm.UI.CesButton.CesRoundedButton();
             Btn_GetInfo = new Ces.WinForm.UI.CesButton.CesRoundedButton();
@@ -37,7 +38,6 @@
             Txt_Search = new Ces.WinForm.UI.CesTextBox();
             cesPanel2 = new Ces.WinForm.UI.CesPanel();
             Flw_ShowMovie = new FlowLayoutPanel();
-            cesRoundedButton1 = new Ces.WinForm.UI.CesButton.CesRoundedButton();
             Pnl_Search.SuspendLayout();
             cesPanel2.SuspendLayout();
             SuspendLayout();
@@ -60,7 +60,7 @@
             Pnl_Search.CesVisibleLeftBorder = true;
             Pnl_Search.CesVisibleRightBorder = true;
             Pnl_Search.CesVisibleTopBorder = true;
-            Pnl_Search.Controls.Add(cesRoundedButton1);
+            Pnl_Search.Controls.Add(Btn_ShowTvSchedule);
             Pnl_Search.Controls.Add(Btn_Statestics);
             Pnl_Search.Controls.Add(Btn_People);
             Pnl_Search.Controls.Add(Btn_GetInfo);
@@ -71,6 +71,34 @@
             Pnl_Search.Name = "Pnl_Search";
             Pnl_Search.Size = new Size(1147, 100);
             Pnl_Search.TabIndex = 7;
+            // 
+            // Btn_ShowTvSchedule
+            // 
+            Btn_ShowTvSchedule.BackColor = Color.Olive;
+            Btn_ShowTvSchedule.CesBackColor = Color.FromArgb(120, 209, 160);
+            Btn_ShowTvSchedule.CesBorderColor = Color.MediumSeaGreen;
+            Btn_ShowTvSchedule.CesBorderRadius = 15;
+            Btn_ShowTvSchedule.CesBorderThickness = 1;
+            Btn_ShowTvSchedule.CesBorderVisible = false;
+            Btn_ShowTvSchedule.CesCircular = false;
+            Btn_ShowTvSchedule.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.LightGreen;
+            Btn_ShowTvSchedule.CesFont = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Btn_ShowTvSchedule.CesForeColor = Color.Black;
+            Btn_ShowTvSchedule.CesIcon = null;
+            Btn_ShowTvSchedule.CesIconAlignment = ContentAlignment.MiddleCenter;
+            Btn_ShowTvSchedule.CesMouseDownColor = Color.FromArgb(120, 209, 160);
+            Btn_ShowTvSchedule.CesMouseOverColor = Color.MediumSeaGreen;
+            Btn_ShowTvSchedule.CesShowIcon = false;
+            Btn_ShowTvSchedule.CesShowText = true;
+            Btn_ShowTvSchedule.CesText = "برنامه سریال";
+            Btn_ShowTvSchedule.CesTextAlignment = ContentAlignment.MiddleCenter;
+            Btn_ShowTvSchedule.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Btn_ShowTvSchedule.Location = new Point(834, 4);
+            Btn_ShowTvSchedule.Margin = new Padding(3, 4, 3, 4);
+            Btn_ShowTvSchedule.Name = "Btn_ShowTvSchedule";
+            Btn_ShowTvSchedule.Size = new Size(134, 27);
+            Btn_ShowTvSchedule.TabIndex = 5;
+            Btn_ShowTvSchedule.Click += Btn_ShowTvSchedule_Click;
             // 
             // Btn_Statestics
             // 
@@ -256,34 +284,6 @@
             Flw_ShowMovie.Size = new Size(1133, 485);
             Flw_ShowMovie.TabIndex = 0;
             // 
-            // cesRoundedButton1
-            // 
-            cesRoundedButton1.BackColor = Color.Olive;
-            cesRoundedButton1.CesBackColor = Color.FromArgb(120, 209, 160);
-            cesRoundedButton1.CesBorderColor = Color.MediumSeaGreen;
-            cesRoundedButton1.CesBorderRadius = 15;
-            cesRoundedButton1.CesBorderThickness = 1;
-            cesRoundedButton1.CesBorderVisible = false;
-            cesRoundedButton1.CesCircular = false;
-            cesRoundedButton1.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.LightGreen;
-            cesRoundedButton1.CesFont = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            cesRoundedButton1.CesForeColor = Color.Black;
-            cesRoundedButton1.CesIcon = null;
-            cesRoundedButton1.CesIconAlignment = ContentAlignment.MiddleCenter;
-            cesRoundedButton1.CesMouseDownColor = Color.FromArgb(120, 209, 160);
-            cesRoundedButton1.CesMouseOverColor = Color.MediumSeaGreen;
-            cesRoundedButton1.CesShowIcon = false;
-            cesRoundedButton1.CesShowText = true;
-            cesRoundedButton1.CesText = "آمار";
-            cesRoundedButton1.CesTextAlignment = ContentAlignment.MiddleCenter;
-            cesRoundedButton1.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            cesRoundedButton1.Location = new Point(834, 4);
-            cesRoundedButton1.Margin = new Padding(3, 4, 3, 4);
-            cesRoundedButton1.Name = "cesRoundedButton1";
-            cesRoundedButton1.Size = new Size(134, 27);
-            cesRoundedButton1.TabIndex = 5;
-            cesRoundedButton1.Click += cesRoundedButton1_Click;
-            // 
             // Frm_Movie
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -312,6 +312,6 @@
         private FlowLayoutPanel Flw_ShowMovie;
         private Ces.WinForm.UI.CesButton.CesRoundedButton Btn_People;
         private Ces.WinForm.UI.CesButton.CesRoundedButton Btn_Statestics;
-        private Ces.WinForm.UI.CesButton.CesRoundedButton cesRoundedButton1;
+        private Ces.WinForm.UI.CesButton.CesRoundedButton Btn_ShowTvSchedule;
     }
 }

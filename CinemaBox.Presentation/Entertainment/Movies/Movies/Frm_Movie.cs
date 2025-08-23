@@ -14,6 +14,7 @@ using CinemaBox.Model.Entertainment.Movie.ShowMovie;
 using CinemaBox.Presentation.Entertainment.Movies.EditMovie;
 using CinemaBox.Presentation.Person.MainPeople;
 using CinemaBox.Presentation.Statestics.Statestics;
+using CinemaBox.Presentation.TvMaz;
 using CinemaBox.Scrapping.Interface.Imdb.Service.Movie;
 using CinemaBox.Service.Interface.Division.CountryParts;
 using CinemaBox.Service.Interface.Entertainment.Certificates;
@@ -366,8 +367,11 @@ public partial class Frm_Movie : CesForm
         frm_Statestics.ShowDialog();
     }
 
-    private void cesRoundedButton1_Click(object sender, EventArgs e)
+
+
+    private void Btn_ShowTvSchedule_Click(object sender, EventArgs e)
     {
-        var f=_tvMazServices.IsTvSchedule();
+        Frm_TvMaz frm_TvMaz = new(_tvMazServices);
+        frm_TvMaz.ShowDialog();
     }
 }
