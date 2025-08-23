@@ -71,6 +71,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CinemaBox.TvMaz", "CinemaBo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CinemaBox.TvMaz.Interfaces", "CinemaBox.TvMaz.Interfaces\CinemaBox.TvMaz.Interfaces.csproj", "{BA8DBD8A-148F-42AA-A3FA-895F30333943}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BackUp", "BackUp", "{443310B0-2675-484A-AD78-E4F887DDE7CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CinemaBox.BackUp", "CinemaBox.BackUp\CinemaBox.BackUp.csproj", "{BAF11646-3F78-428E-81E9-971AE4A94ED0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CinemaBox.BackUp.Interface", "CinemaBox.BackUp.Interface\CinemaBox.BackUp.Interface.csproj", "{C661F67B-C808-460E-93F3-DBCE7C6B6AD2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -157,6 +163,14 @@ Global
 		{BA8DBD8A-148F-42AA-A3FA-895F30333943}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA8DBD8A-148F-42AA-A3FA-895F30333943}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA8DBD8A-148F-42AA-A3FA-895F30333943}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAF11646-3F78-428E-81E9-971AE4A94ED0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAF11646-3F78-428E-81E9-971AE4A94ED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAF11646-3F78-428E-81E9-971AE4A94ED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAF11646-3F78-428E-81E9-971AE4A94ED0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C661F67B-C808-460E-93F3-DBCE7C6B6AD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C661F67B-C808-460E-93F3-DBCE7C6B6AD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C661F67B-C808-460E-93F3-DBCE7C6B6AD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C661F67B-C808-460E-93F3-DBCE7C6B6AD2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -182,6 +196,8 @@ Global
 		{71910AD6-A82C-45AD-B187-E92DE467283A} = {24F0CB88-C12D-49AF-816E-432D7A3ABAAB}
 		{F0338A34-A582-40A7-9EBD-8456115134AF} = {2271B0C1-5260-4D1E-9A8C-BCF65BBC09D7}
 		{BA8DBD8A-148F-42AA-A3FA-895F30333943} = {2271B0C1-5260-4D1E-9A8C-BCF65BBC09D7}
+		{BAF11646-3F78-428E-81E9-971AE4A94ED0} = {443310B0-2675-484A-AD78-E4F887DDE7CC}
+		{C661F67B-C808-460E-93F3-DBCE7C6B6AD2} = {443310B0-2675-484A-AD78-E4F887DDE7CC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {35D7A348-96DA-4C7C-AA87-67F20B3FDB40}

@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Movie));
             Pnl_Search = new Ces.WinForm.UI.CesPanel();
+            Btn_Backup = new Ces.WinForm.UI.CesButton.CesRoundedButton();
             Btn_ShowTvSchedule = new Ces.WinForm.UI.CesButton.CesRoundedButton();
             Btn_Statestics = new Ces.WinForm.UI.CesButton.CesRoundedButton();
             Btn_People = new Ces.WinForm.UI.CesButton.CesRoundedButton();
@@ -60,6 +61,7 @@
             Pnl_Search.CesVisibleLeftBorder = true;
             Pnl_Search.CesVisibleRightBorder = true;
             Pnl_Search.CesVisibleTopBorder = true;
+            Pnl_Search.Controls.Add(Btn_Backup);
             Pnl_Search.Controls.Add(Btn_ShowTvSchedule);
             Pnl_Search.Controls.Add(Btn_Statestics);
             Pnl_Search.Controls.Add(Btn_People);
@@ -71,6 +73,34 @@
             Pnl_Search.Name = "Pnl_Search";
             Pnl_Search.Size = new Size(1147, 100);
             Pnl_Search.TabIndex = 7;
+            // 
+            // Btn_Backup
+            // 
+            Btn_Backup.BackColor = Color.Olive;
+            Btn_Backup.CesBackColor = Color.FromArgb(120, 209, 160);
+            Btn_Backup.CesBorderColor = Color.MediumSeaGreen;
+            Btn_Backup.CesBorderRadius = 15;
+            Btn_Backup.CesBorderThickness = 1;
+            Btn_Backup.CesBorderVisible = false;
+            Btn_Backup.CesCircular = false;
+            Btn_Backup.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.LightGreen;
+            Btn_Backup.CesFont = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Btn_Backup.CesForeColor = Color.Black;
+            Btn_Backup.CesIcon = null;
+            Btn_Backup.CesIconAlignment = ContentAlignment.MiddleCenter;
+            Btn_Backup.CesMouseDownColor = Color.FromArgb(120, 209, 160);
+            Btn_Backup.CesMouseOverColor = Color.MediumSeaGreen;
+            Btn_Backup.CesShowIcon = false;
+            Btn_Backup.CesShowText = true;
+            Btn_Backup.CesText = "بک آپ";
+            Btn_Backup.CesTextAlignment = ContentAlignment.MiddleCenter;
+            Btn_Backup.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Btn_Backup.Location = new Point(680, 4);
+            Btn_Backup.Margin = new Padding(3, 4, 3, 4);
+            Btn_Backup.Name = "Btn_Backup";
+            Btn_Backup.Size = new Size(134, 27);
+            Btn_Backup.TabIndex = 5;
+            Btn_Backup.Click += Btn_Backup_ClickAsync;
             // 
             // Btn_ShowTvSchedule
             // 
@@ -313,5 +343,6 @@
         private Ces.WinForm.UI.CesButton.CesRoundedButton Btn_People;
         private Ces.WinForm.UI.CesButton.CesRoundedButton Btn_Statestics;
         private Ces.WinForm.UI.CesButton.CesRoundedButton Btn_ShowTvSchedule;
+        private Ces.WinForm.UI.CesButton.CesRoundedButton Btn_Backup;
     }
 }

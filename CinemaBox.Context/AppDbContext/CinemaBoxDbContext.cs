@@ -66,11 +66,20 @@ using CinemaBox.Domain.Shared.Qualities.Qualities;
 using CinemaBox.Domain.Shared.Qualities.QualityTypes;
 using CinemaBox.Domain.Shared.Statuses;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 namespace CinemaBox.Context.AppDbContext;
 public class CinemaBoxDbContext : DbContext
 {
     public CinemaBoxDbContext(DbContextOptions<CinemaBoxDbContext> options) : base(options)
     {
+    }
+    public void BackupDatabase(string backupFilePath)
+    {
+        System.Data.Common.DbConnection connection = Database.GetDbConnection();
+        string databaseName = connection.Database;
+        string backupFile = Path.Combine(backupFilePath, $"{databaseName}_{DateTime.Now:yyyyMMdd_HHmmss}.bak");
+        string query = $@"BACKUP DATABASE [{databaseName}] TO DISK = '{backupFile}' WITH INIT, STATS = 10";
+        Database.ExecuteSqlRaw(query);
     }
     public DbSet<Movie> Movies { get; set; }
     public DbSet<Certificate> Certificates { get; set; }
@@ -102,11 +111,11 @@ public class CinemaBoxDbContext : DbContext
     public DbSet<UserMovieDisk> UserMovieDisks { get; set; }
     public DbSet<Format> Formats { get; set; }
     public DbSet<UserMovieAudio> UserMovieAudios { get; set; }
-    public DbSet<UserMovieVideo> UserMovieVideos { get; set; }  
-    public DbSet<UserMovieFile> UserMovieFiles { get; set; }  
-    public DbSet<Quality> Qualities { get; set; }  
+    public DbSet<UserMovieVideo> UserMovieVideos { get; set; }
+    public DbSet<UserMovieFile> UserMovieFiles { get; set; }
+    public DbSet<Quality> Qualities { get; set; }
     public DbSet<QualityType> QualityTypes { get; set; }
-   
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

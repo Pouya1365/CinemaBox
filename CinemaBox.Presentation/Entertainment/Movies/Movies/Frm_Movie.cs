@@ -1,5 +1,7 @@
 ﻿using Ces.WinForm.UI.CesForm;
 using Ces.WinForm.UI.CesMessageBox;
+using CinemaBox.BackUp.Interface.BackUp;
+using CinemaBox.Context.AppDbContext;
 using CinemaBox.Domain.Division.CountryParts;
 using CinemaBox.Domain.Entertainment.Genres;
 using CinemaBox.Domain.Entertainment.Link.MovieTaglines;
@@ -47,6 +49,7 @@ using CinemaBox.Service.Interface.Shared.Statuses;
 using CinemaBox.TvMaz.Interfaces.TvMaz;
 using CinemaBox.UserController.Entertainment.Movies;
 using CinemaBox.Utilities.Html;
+using System;
 namespace CinemaBox.Presentation;
 public partial class Frm_Movie : CesForm
 {
@@ -82,6 +85,7 @@ public partial class Frm_Movie : CesForm
     private readonly IGenreServices? _genreServices;
     private readonly ICountryPartServices? _countryPartServices;
     private readonly ITvMazServices? _tvMazServices;
+    private readonly IBackupService? _backupService;
     public Frm_Movie(IImdbMovieScrapperServices imdbScrapperServices,
         IMovieServices movieServices,
         IMovieCompanyServices movieCompanyServices,
@@ -113,7 +117,8 @@ public partial class Frm_Movie : CesForm
         IKeywordServices? keywordServices,
         IGenreServices? genreServices,
         ICountryPartServices? countryPartServices,
-        ITvMazServices? tvMazServices
+        ITvMazServices? tvMazServices,
+        IBackupService? backupService
         )
     {
         InitializeComponent();
@@ -149,6 +154,7 @@ public partial class Frm_Movie : CesForm
         _genreServices = genreServices ?? throw new ArgumentNullException(nameof(genreServices));
         _countryPartServices = countryPartServices ?? throw new ArgumentNullException(nameof(countryPartServices));
         _tvMazServices = tvMazServices ?? throw new ArgumentNullException(nameof(tvMazServices));
+        _backupService = backupService ?? throw new ArgumentNullException(nameof(backupService));
     }
     private async Task<Movie?> GetMovie() => await _movieServices.GeMovieAsync(ImdbId: Txt_Search.CesText);
 
@@ -373,5 +379,32 @@ public partial class Frm_Movie : CesForm
     {
         Frm_TvMaz frm_TvMaz = new(_tvMazServices);
         frm_TvMaz.ShowDialog();
+    }
+
+    private async void Btn_Backup_ClickAsync(object sender, EventArgs e)
+    {
+        try
+        {
+            using FolderBrowserDialog dialog = new();
+            dialog.Description = "مسیر ذخیره بکاپ را انتخاب کنید";
+            dialog.ShowNewFolderButton = true;
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                string backupPath = dialog.SelectedPath;
+                string programFolder = Application.StartupPath;
+
+                await _backupService.BackupAsync(backupPath, programFolder);
+
+                MessageBox.Show("بکاپ دیتابیس و برنامه با موفقیت گرفته شد ✅",
+                                "Backup",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"خطا در بکاپ گیری: {ex.Message}");
+        }
     }
 }

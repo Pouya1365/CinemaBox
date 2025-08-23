@@ -1,4 +1,6 @@
-﻿using CinemaBox.Context.AppDbContext;
+﻿using CinemaBox.BackUp.BackUp;
+using CinemaBox.BackUp.Interface.BackUp;
+using CinemaBox.Context.AppDbContext;
 using CinemaBox.Libretranslate;
 using CinemaBox.Libretranslate.Interface;
 using CinemaBox.Scrapping.Interface.Imdb.Service.Movie;
@@ -154,6 +156,7 @@ static class Program
         services.AddScoped<IImdbOtherScrapperServices, ImdbOtherScrapperServices>();
         services.AddScoped<ITranslate, Translate>();
         services.AddScoped<ITvMazServices, TvMazServices>();
+        services.AddScoped<IBackupService, BackupService>();
         // 📦 رجیستر کردن فرم‌ها
         services.AddTransient<Frm_Movie>();
 
