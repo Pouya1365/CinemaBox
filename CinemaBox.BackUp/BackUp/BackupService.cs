@@ -25,11 +25,10 @@ public class BackupService : IBackupService
     {
         DbConnection connection = _db.Database.GetDbConnection();
         string databaseName = connection.Database;
-        string backupFile = Path.Combine(backupFolder, $"{databaseName}_{DateTime.Now:yyyyMMdd_HHmmss}.bak");
-
+        string backupFile = Path.Combine(backupFolder, $"{databaseName}_{DateTime.Now:yyyyMMdd_HHmmss}.bak"); 
         string query = $@"BACKUP DATABASE [{databaseName}] 
                               TO DISK = '{backupFile}' 
-                              WITH INIT, STATS = 10";
+                              WITH NOFORMAT, NOINIT,SKIP, NOREWIND, NOUNLOAD, COMPRESSION, STATS = 10";
 
         await _db.Database.ExecuteSqlRawAsync(query);
     }
