@@ -25,14 +25,15 @@ public class MovieCreditServices(IUnitOfWork unitOfWork, IPeopleServices peopleS
             byte creditTypeId = 0;
             if (EnumExtension.TryGetEnumNumericValue<CreditEnumeration>(creditModel.CreditType, out int value))
                 creditTypeId = byte.Parse(value.ToString());
-            movieCredits.Add(new MovieCredit
-            {
-                MovieId = creditModel.MovieId,
-                RoleName = creditModel.Role,
-                PeopleId = people.Id,
-                IsLead = creditModel.IsLead,
-                CreditTypeId = creditTypeId,
-            });
+            if (!movieCredits.Any(x => x.PeopleId == people.Id && x.CreditTypeId == creditTypeId))
+                movieCredits.Add(new MovieCredit
+                {
+                    MovieId = creditModel.MovieId,
+                    RoleName = creditModel.Role,
+                    PeopleId = people.Id,
+                    IsLead = creditModel.IsLead,
+                    CreditTypeId = creditTypeId,
+                });
         }
         await _unitOfWork.Repository<MovieCredit>().AddRangeAsync(movieCredits);
         await _unitOfWork.CompleteAsync();
@@ -57,10 +58,10 @@ public class MovieCreditServices(IUnitOfWork unitOfWork, IPeopleServices peopleS
     public async Task<StatesticsModel> GetStatestics(StatesticsModel statesticsModel)
     {
         IEnumerable<MovieCredit> getCredit = await _unitOfWork.Repository<MovieCredit>().GetAllAsync();
-        statesticsModel.ActorsTotalCount=getCredit.Where(x=>x.CreditTypeId==(int)CreditEnumeration.Cast).Distinct().Count();
-        statesticsModel.DirectorsTotalCount=getCredit.Where(x=>x.CreditTypeId==(int)CreditEnumeration.Director).Distinct().Count();
-        statesticsModel.WritersTotalCount=getCredit.Where(x=>x.CreditTypeId==(int)CreditEnumeration.Writer).Distinct().Count();
-        statesticsModel.ProducerTotalCount = getCredit.Where(x=>x.CreditTypeId==(int)CreditEnumeration.Producer).Distinct().Count();
+        statesticsModel.ActorsTotalCount = getCredit.Where(x => x.CreditTypeId == (int)CreditEnumeration.Cast).Distinct().Count();
+        statesticsModel.DirectorsTotalCount = getCredit.Where(x => x.CreditTypeId == (int)CreditEnumeration.Director).Distinct().Count();
+        statesticsModel.WritersTotalCount = getCredit.Where(x => x.CreditTypeId == (int)CreditEnumeration.Writer).Distinct().Count();
+        statesticsModel.ProducerTotalCount = getCredit.Where(x => x.CreditTypeId == (int)CreditEnumeration.Producer).Distinct().Count();
         return statesticsModel;
     }
     public async Task<IEnumerable<MovieCredit>> GetMaxCrews()
