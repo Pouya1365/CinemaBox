@@ -4,6 +4,7 @@ using CinemaBox.Context.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaBox.Context.Migrations
 {
     [DbContext(typeof(CinemaBoxDbContext))]
-    partial class CinemaBoxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250901120421_InitialDb_V3")]
+    partial class InitialDb_V3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1055,13 +1058,13 @@ namespace CinemaBox.Context.Migrations
                         .HasColumnName("KeywordId")
                         .HasComment("شناسه کلمه کلیدی");
 
-                    b.Property<string>("EnKeywordName")
+                    b.Property<string>("EnKeyowrdName")
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)")
                         .HasComment("کلمه کلیدی انگلیسی");
 
-                    b.Property<string>("FaKeywordName")
+                    b.Property<string>("FaKeyowrdName")
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)")
                         .HasComment("کلمه کلیدی فارسی");

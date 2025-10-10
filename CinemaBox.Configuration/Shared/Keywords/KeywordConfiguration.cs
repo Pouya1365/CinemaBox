@@ -13,7 +13,7 @@ public class KeywordConfiguration : IEntityTypeConfiguration<Keyword>
 
         builder.HasKey(k => k.Id);
         builder.Property(k => k.Id).HasMaxLength(20).IsRequired(required: true).HasColumnName(name: "KeywordId").HasComment(comment: "شناسه کلمه کلیدی");
-        builder.Property(k => k.EnKeyowrdName).IsRequired(true).HasMaxLength(150).HasComment(comment: "کلمه کلیدی انگلیسی");
-        builder.Property(k => k.FaKeyowrdName).IsRequired(false).HasMaxLength(150).HasComment(comment: "کلمه کلیدی فارسی");
+        builder.Property(k => k.EnKeywordName).IsRequired(true).HasMaxLength(150).HasComment(comment: "کلمه کلیدی انگلیسی");
+        builder.Property(k => k.FaKeywordName).IsRequired(false).HasMaxLength(150).HasComment(comment: "کلمه کلیدی فارسی");
     }
 }

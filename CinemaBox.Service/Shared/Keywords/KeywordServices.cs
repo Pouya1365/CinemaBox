@@ -18,7 +18,7 @@ public class KeywordServices(IUnitOfWork unitOfWork, ITranslate translate) : IKe
         if (Keyword == null)
         {
             string faKeyowrdName = await GetFa(keyowrdName: keywordName);
-            Keyword = new Keyword { EnKeyowrdName = HtmlDecode.HtmlDecoding(keywordName.Trim()), Id = keywordId, FaKeyowrdName = faKeyowrdName };
+            Keyword = new Keyword { EnKeywordName = HtmlDecode.HtmlDecoding(keywordName.Trim()), Id = keywordId, FaKeywordName = faKeyowrdName };
             await _unitOfWork.Repository<Keyword>().AddAsync(Keyword);
             await _unitOfWork.CompleteAsync();
         }
@@ -33,7 +33,7 @@ public class KeywordServices(IUnitOfWork unitOfWork, ITranslate translate) : IKe
             .FindAsync(c => c.Id == keywordId);
     }
     public async Task<List<Keyword>?> GetKeywordFaNulllAsync() => await _unitOfWork.Repository<Keyword>()
-            .GetAllListAsync(k => k.FaKeyowrdName == null);
+            .GetAllListAsync(k => k.FaKeywordName == null);
     public async Task UpdateKeyword(List<Keyword>? keywords)
     {
         foreach (Keyword keyword in keywords)

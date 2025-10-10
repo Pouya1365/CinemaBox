@@ -221,7 +221,7 @@ public partial class Frm_Movie : CesForm
 
         List<Keyword>? keywords = await GetKeywordAsync();
         foreach (Keyword keyword in keywords)
-            keyword.FaKeyowrdName = await _translate.TranslateText(text: keyword.EnKeyowrdName);
+            keyword.FaKeywordName = await _translate.TranslateText(text: keyword.EnKeywordName);
         await SaveFaKeywordAsync(keywords: keywords);
     }
     private async Task DeathCauses()

@@ -249,7 +249,7 @@ public partial class Frm_EditFormMovie : CesForm
     private async Task SetMovieKeyword()
     {
         IEnumerable<MovieKeyword?> movieKeyword = await GetMovieKeywordAsync();
-        CreateDynamicLabels<MovieKeyword>([.. movieKeyword], Flw_Keyword, g => g.Keyword.FaKeyowrdName ?? g.Keyword.EnKeyowrdName, 5);
+        CreateDynamicLabels<MovieKeyword>([.. movieKeyword], Flw_Keyword, g => g.Keyword.FaKeywordName ?? g.Keyword.EnKeywordName, 5);
     }
     private async Task<IEnumerable<MovieKeyword?>> GetMovieKeywordAsync() => await _movieKeywordServices.GetMovieKeywordAsync(movieId: _movieId);
     private async Task SeMovieTaglineAsync()

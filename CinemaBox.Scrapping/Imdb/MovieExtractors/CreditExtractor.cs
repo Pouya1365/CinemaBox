@@ -21,39 +21,40 @@ public class CreditExtractor : IMovieGeneralInfoExtractor
           .GetPropertySafe("title")
           .GetPropertySafe("creditCategories");
         int leadCount = 0;
-        foreach (var category in data.Value.EnumerateArray())
-        {
-            string? categoryId = category.GetPropertySafe("category")?.GetPropertySafe("id")?.GetString();
-
-            if (!Enum.TryParse(categoryId, ignoreCase: true, out CreditEnumeration creditType))
-                continue;
-            JsonElement? credits = category.GetPropertySafe("credits").GetPropertySafe("edges");
-            foreach (var credit in credits.Value.EnumerateArray())
+        if (data.HasValue)
+            foreach (var category in data.Value.EnumerateArray())
             {
-                string? name = credit.GetPropertySafe("node").GetPropertySafe("name").GetPropertySafe("nameText").GetPropertySafe("text")?.GetString();
-                if (string.IsNullOrWhiteSpace(name))
+                string? categoryId = category.GetPropertySafe("category")?.GetPropertySafe("id")?.GetString();
+
+                if (!Enum.TryParse(categoryId, ignoreCase: true, out CreditEnumeration creditType))
                     continue;
-                string? imdbId = credit.GetPropertySafe("node").GetPropertySafe("name").GetPropertySafe("id")?.GetString();
-                string? imageUrl = null;
-                imageUrl = credit.GetPropertySafe("node").GetPropertySafe("name").GetPropertySafe("primaryImage").GetPropertySafe("url")?.GetString();
-                // شخصیت‌ها
-                string? roleName = GetRoleNames(credit) == "" ? null : GetRoleNames(credit);
-
-                model.Credits.Add(new CreditModel
+                JsonElement? credits = category.GetPropertySafe("credits").GetPropertySafe("edges");
+                foreach (var credit in credits.Value.EnumerateArray())
                 {
-                    CreditType = categoryId,
-                    EnFullName = name,
-                    ImdbId = imdbId,
-                    Role = HtmlDecode.HtmlDecoding(roleName),
-                    ImageUrl = imageUrl,
-                    MovieId = model.ImdbId,
-                    IsLead = creditType == CreditEnumeration.Cast && leadCount < 3
-                });
+                    string? name = credit.GetPropertySafe("node").GetPropertySafe("name").GetPropertySafe("nameText").GetPropertySafe("text")?.GetString();
+                    if (string.IsNullOrWhiteSpace(name))
+                        continue;
+                    string? imdbId = credit.GetPropertySafe("node").GetPropertySafe("name").GetPropertySafe("id")?.GetString();
+                    string? imageUrl = null;
+                    imageUrl = credit.GetPropertySafe("node").GetPropertySafe("name").GetPropertySafe("primaryImage").GetPropertySafe("url")?.GetString();
+                    // شخصیت‌ها
+                    string? roleName = GetRoleNames(credit) == "" ? null : GetRoleNames(credit);
 
-                if (creditType == CreditEnumeration.Cast)
-                    leadCount++;
+                    model.Credits.Add(new CreditModel
+                    {
+                        CreditType = categoryId,
+                        EnFullName = name,
+                        ImdbId = imdbId,
+                        Role = HtmlDecode.HtmlDecoding(roleName),
+                        ImageUrl = imageUrl,
+                        MovieId = model.ImdbId,
+                        IsLead = creditType == CreditEnumeration.Cast && leadCount < 3
+                    });
+
+                    if (creditType == CreditEnumeration.Cast)
+                        leadCount++;
+                }
             }
-        }
 
         return model;
     }
