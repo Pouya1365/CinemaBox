@@ -1,4 +1,5 @@
-﻿using CinemaBox.Domain.Division.CountryParts;
+﻿
+using CinemaBox.Domain.Division.CountryParts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
