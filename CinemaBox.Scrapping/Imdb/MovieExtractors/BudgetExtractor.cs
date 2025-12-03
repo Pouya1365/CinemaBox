@@ -1,7 +1,6 @@
 ﻿using CinemaBox.Model.Entertainment.Movie.Movie;
 using CinemaBox.Scrapping.Interface.Imdb.MovieExtractors;
 using CinemaBox.Utilities.Json;
-using System.Text;
 using System.Text.Json;
 
 namespace CinemaBox.Scrapping.Imdb.MovieExtractors;
