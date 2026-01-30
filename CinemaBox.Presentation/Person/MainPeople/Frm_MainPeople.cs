@@ -7,6 +7,7 @@ using CinemaBox.Service.Interface.Person.PeopleFiles;
 using CinemaBox.Service.Interface.Person.Peoples;
 using CinemaBox.Service.Interface.Shared.DeathCauses;
 using CinemaBox.UserController.People.People;
+using System.Threading.Tasks;
 
 namespace CinemaBox.Presentation.Person.MainPeople;
 
@@ -17,7 +18,7 @@ public partial class Frm_MainPeople : CesForm
     private readonly IDeathCauseServices? _deathCauseServices;
     private readonly IMovieCreditServices? _movieCreditServices;
     private readonly IMovieServices? _movieServices;
-
+    private readonly string? _path;
     private List<ShowPeopleModel> _allPeople = [];
     private int _loadedCount = 0;
     private const int PageSize = 50;
@@ -25,8 +26,8 @@ public partial class Frm_MainPeople : CesForm
    IPeopleServices? peopleServices,
    IDeathCauseServices? deathCauseServices,
    IMovieCreditServices? movieCreditServices,
-   IMovieServices? movieServices
-
+   IMovieServices? movieServices,
+   string? path
    )
     {
         //_peopleFileServices = peopleFileServices ?? throw new ArgumentNullException(nameof(peopleFileServices));
@@ -34,15 +35,16 @@ public partial class Frm_MainPeople : CesForm
         _deathCauseServices = deathCauseServices ?? throw new ArgumentNullException(nameof(deathCauseServices));
         _movieCreditServices = movieCreditServices ?? throw new ArgumentNullException(nameof(movieCreditServices));
         movieServices = movieServices ?? throw new ArgumentNullException(nameof(movieServices));
+        _path = path;
         InitializeComponent();
-        LoadPeopleAsync();
+       _= LoadPeopleAsync(Txt_Search.CesText);
     }
-    private async Task LoadPeopleAsync()
+    private async Task LoadPeopleAsync(string?search)
     {
         var peopleModels = await GetPeopleModels();
 
         _allPeople = peopleModels
-            .Where(x => x != null)
+            .Where(x => search != null ?x.PeopleId.Contains(search)||x.EnFullName.Contains(search)||x.FaFullName.Contains(search):x!=null)
             .Select(x => new ShowPeopleModel
             {
                 EnFullName = x.EnFullName,
@@ -96,8 +98,9 @@ public partial class Frm_MainPeople : CesForm
            peopleServices: _peopleServices,
            peopleFileServices: _peopleFileServices,
            deathCauseServices: _deathCauseServices,
-           movieCreditServices:_movieCreditServices,
-           movieServices:_movieServices
+           movieCreditServices: _movieCreditServices,
+           movieServices: _movieServices,
+           path: _path
 
             );
         frm_EditPeople.ShowDialog();
@@ -119,5 +122,10 @@ public partial class Frm_MainPeople : CesForm
         Flw_ShowPeople.Layout += (s, e) => CheckLoadMore();
 
 
+    }
+
+    private async void Btn_Search_Click(object sender, EventArgs e)
+    {
+        await LoadPeopleAsync(Txt_Search.CesText);
     }
 }

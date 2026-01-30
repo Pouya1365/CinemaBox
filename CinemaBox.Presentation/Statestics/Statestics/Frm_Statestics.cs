@@ -36,6 +36,7 @@ public partial class Frm_Statestics : CesForm
     private readonly IPeopleFileServices _peopleFileServices;
     private readonly IPeopleServices _peopleServices;
     private readonly IDeathCauseServices? _deathCauseServices;
+    private readonly string? _path;
     public Frm_Statestics(IMovieServices movieServices,
         IGenreServices genreServices,
         IMovieCreditServices movieCreditServices,
@@ -47,7 +48,8 @@ public partial class Frm_Statestics : CesForm
         ILanguageServices languageServices,
         IPeopleFileServices peopleFileServices,
         IPeopleServices peopleServices,
-        IDeathCauseServices? deathCauseServices
+        IDeathCauseServices? deathCauseServices,
+        string? path
         )
     {
         _movieServices = movieServices ?? throw new ArgumentNullException(nameof(movieServices));
@@ -62,6 +64,7 @@ public partial class Frm_Statestics : CesForm
         _peopleFileServices = peopleFileServices ?? throw new ArgumentNullException(nameof(peopleFileServices));
         _peopleServices = peopleServices ?? throw new ArgumentNullException(nameof(peopleServices));
         _deathCauseServices = deathCauseServices ?? throw new ArgumentNullException(nameof(deathCauseServices));
+        _path = path;
         InitializeComponent();
         _ = LoadData();
 
@@ -360,7 +363,8 @@ public partial class Frm_Statestics : CesForm
            peopleFileServices: _peopleFileServices,
            deathCauseServices: _deathCauseServices,
            movieCreditServices: _movieCreditServices,
-           movieServices: _movieServices
+           movieServices: _movieServices,
+           path:_path
 
            );
         frm_EditPeople.ShowDialog();

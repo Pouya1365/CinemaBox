@@ -86,6 +86,7 @@ public partial class Frm_Movie : CesForm
     private readonly ICountryPartServices? _countryPartServices;
     private readonly ITvMazServices? _tvMazServices;
     private readonly IBackupService? _backupService;
+    private readonly string? _path;
     public Frm_Movie(IImdbMovieScrapperServices imdbScrapperServices,
         IMovieServices movieServices,
         IMovieCompanyServices movieCompanyServices,
@@ -119,6 +120,7 @@ public partial class Frm_Movie : CesForm
         ICountryPartServices? countryPartServices,
         ITvMazServices? tvMazServices,
         IBackupService? backupService
+       
         )
     {
         InitializeComponent();
@@ -155,6 +157,7 @@ public partial class Frm_Movie : CesForm
         _countryPartServices = countryPartServices ?? throw new ArgumentNullException(nameof(countryPartServices));
         _tvMazServices = tvMazServices ?? throw new ArgumentNullException(nameof(tvMazServices));
         _backupService = backupService ?? throw new ArgumentNullException(nameof(backupService));
+        _path =  Application.StartupPath; 
     }
     private async Task<Movie?> GetMovie() => await _movieServices.GeMovieAsync(ImdbId: Txt_Search.CesText);
 
@@ -175,13 +178,13 @@ public partial class Frm_Movie : CesForm
         await _movieTaglineServices.CreateMovieTagline(taglineModels: movieModelScrapping.Taglines, movieId: Txt_Search.CesText);
         await _movieLocationServices.CreateMovieLocation(locationModels: movieModelScrapping.Locations, movieId: Txt_Search.CesText);
         await _movieKeywordServices.CreateOrGetMovieKeyword(keywordkeyValuePairs: movieModelScrapping.KeywordskeyValuePairs, movieId: Txt_Search.CesText);
-        string path = Application.StartupPath;
-        await _movieCreditServices.CreateOrGetMovieCredit(creditModels: movieModelScrapping.Credits, path: path);
+        
+        await _movieCreditServices.CreateOrGetMovieCredit(creditModels: movieModelScrapping.Credits, path: _path);
         if (movieModelScrapping.ImageUrl is not null)
         {
             string endYear = movie.EndYear != null ? @$"-{movie.EndYear}" : "";
             string movieName = $@"{movie.EnTitle}_{movie.StartYear}{endYear}";
-            await _movieFileServices.CreateOrUpdateMovieImage(path: path, imageUrl: movieModelScrapping.ImageUrl, movieId: movie.Id, movieName: movieName);
+            await _movieFileServices.CreateOrUpdateMovieImage(path: _path, imageUrl: movieModelScrapping.ImageUrl, movieId: movie.Id, movieName: movieName);
         }
         CesMessageBoxOptions cesMessageBoxOptions = new()
         {
@@ -337,8 +340,9 @@ public partial class Frm_Movie : CesForm
             collectionServices: _collectionServices,
             qualityServices: _qualityService,
             qualityTypeServices: _qualityTypeService,
-            deathCauseServices: _deathCauseServices
-
+            deathCauseServices: _deathCauseServices,
+            path:_path
+            
             );
         frm_EditForm.ShowDialog();
     }
@@ -349,7 +353,8 @@ public partial class Frm_Movie : CesForm
 
     private void Btn_People_Click(object sender, EventArgs e)
     {
-        Frm_MainPeople frm_MainPeople = new(peopleFileServices: _peopleFileServices, peopleServices: _peopleServices, deathCauseServices: _deathCauseServices, movieCreditServices: _movieCreditServices, movieServices: _movieServices);
+        Frm_MainPeople frm_MainPeople = new(peopleFileServices: _peopleFileServices, peopleServices: _peopleServices, deathCauseServices: _deathCauseServices, 
+            movieCreditServices: _movieCreditServices, movieServices: _movieServices,path:_path);
         frm_MainPeople.ShowDialog();
     }
 
@@ -367,8 +372,8 @@ public partial class Frm_Movie : CesForm
             languageServices: _languageServices,
             peopleFileServices: _peopleFileServices,
             peopleServices: _peopleServices,
-            deathCauseServices: _deathCauseServices
-
+            deathCauseServices: _deathCauseServices,
+             path: _path
             );
         frm_Statestics.ShowDialog();
     }

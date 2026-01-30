@@ -4,14 +4,21 @@ using Ces.WinForm.UI.CesListBox;
 using CinemaBox.Domain.Person.PeopleFiles;
 using CinemaBox.Domain.Person.Peoples;
 using CinemaBox.Domain.Shared.DeathCauses;
+using CinemaBox.Model.Entertainment.Cast.Credit;
 using CinemaBox.Model.Entertainment.Movie.ShowMovie;
+using CinemaBox.Model.Entertainment.People.PeopleModelScrap;
+using CinemaBox.Scrapping.Interface.Imdb.Service.People;
+using CinemaBox.Scrapping.Service.People;
 using CinemaBox.Service.Interface.Entertainment.Link.MovieCredits;
 using CinemaBox.Service.Interface.Entertainment.Movies;
 using CinemaBox.Service.Interface.Person.PeopleFiles;
 using CinemaBox.Service.Interface.Person.Peoples;
 using CinemaBox.Service.Interface.Shared.DeathCauses;
 using CinemaBox.UserController.Entertainment.Movies;
+using System;
 using System.Globalization;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace CinemaBox.Presentation.Person.Peoples;
 
@@ -23,12 +30,14 @@ public partial class Frm_EditPeople : CesForm
     private readonly IMovieCreditServices? _movieCreditServices;
     private readonly IMovieServices? _movieServices;
     private readonly string? _peopleId;
+    private readonly string? _path;
     public Frm_EditPeople(string? peopleId,
         IPeopleServices? peopleServices,
         IPeopleFileServices peopleFileServices,
         IDeathCauseServices? deathCauseServices,
         IMovieCreditServices? movieCreditServices,
-        IMovieServices? movieServices
+        IMovieServices? movieServices,
+        string path
         )
     {
         _peopleId = peopleId;
@@ -37,10 +46,10 @@ public partial class Frm_EditPeople : CesForm
         _deathCauseServices = deathCauseServices ?? throw new ArgumentNullException(nameof(deathCauseServices));
         _movieCreditServices = movieCreditServices ?? throw new ArgumentNullException(nameof(movieCreditServices));
         _movieServices = movieServices ?? throw new ArgumentNullException(nameof(movieServices));
+        _path = path;
         InitializeComponent();
         _ = IntialData();
     }
-
     public async Task IntialData()
     {
         await SetMovieBasicFields();
@@ -54,9 +63,9 @@ public partial class Frm_EditPeople : CesForm
         Txt_EnFullName.CesText = people.EnFullName;
         Txt_FaFullName.CesText = people.FaFullName;
         Txt_Imdb.CesText = people.Id;
-        Txt_BirthDate.CesText = people.BornDate.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+        Txt_BirthDate.CesText = people?.BornDate!=null? people?.BornDate.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture):null;
         Txt_BirthDateShamsiYear.CesText = people.BornDate.ToString();
-        Txt_DeathDate.CesText = people?.DeathDate != null ? people?.DeathDate.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) : "";
+        Txt_DeathDate.CesText = people?.DeathDate != null ? people?.DeathDate.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) : null;
         Txt_ShamsiDeadDate.CesText = people?.DeathDate.ToString();
         Txt_BornPlace.CesText = people.BornPlace;
         Txt_DeadPlace.CesText = people.DeathPlace;
@@ -94,28 +103,22 @@ deathId);
     {
         IEnumerable<TModel> itemsSource = await dataFetcher();
         List<CesListBoxItemProperty> items = [.. itemsSource.Select(selector)];
-
         // اضافه کردن آیتم خالی به ابتدای لیست
-
-
         comboBox.CesDataSource = null;
         comboBox.CesValueMember = "Value";
         comboBox.CesDisplayMember = "Text";
         comboBox.CesDataSource = items;
         comboBox.Refresh();
-
         if (selectedId.HasValue)
         {
             CesListBoxItemProperty? selectedItem = items
                 .FirstOrDefault(x => int.TryParse(x.Value.ToString(), out int val) && val == selectedId.Value);
-
             if (selectedItem != null)
                 comboBox.CesSelectedItem = selectedItem;
         }
         else
             // اگر selectedId نداشت، هیچ چیزی انتخاب نکن
             comboBox.CesSelectedItem = null; // انتخاب آیتم خالی
-
     }
     public async Task LoadMovie()
     {
@@ -139,4 +142,10 @@ deathId);
         Flw_Movie.Controls.AddRange([.. ShowMovieIcons]);
     }
     private async Task<List<ShowMovieModel>> GetMovieModels(List<string> movieId) => await _movieServices.GetMovieModelsAsync(movieId: movieId);
+
+    private async void Btn_Update_Click(object sender, EventArgs e)
+    {
+      var  peopleModel = await _peopleServices.UpdatePeople(Txt_Imdb.CesText,path:_path);
+    
+    }
 }

@@ -92,6 +92,7 @@
             Btn_Search.Name = "Btn_Search";
             Btn_Search.Size = new Size(134, 44);
             Btn_Search.TabIndex = 1;
+            Btn_Search.Click += Btn_Search_Click;
             // 
             // Txt_Search
             // 
@@ -99,7 +100,7 @@
             Txt_Search.BackColor = Color.White;
             Txt_Search.CesAutoHeight = true;
             Txt_Search.CesBackColor = Color.White;
-            Txt_Search.CesBorderColor = Color.DeepSkyBlue;
+            Txt_Search.CesBorderColor = SystemColors.ActiveCaption;
             Txt_Search.CesBorderRadius = 0;
             Txt_Search.CesBorderThickness = 1;
             Txt_Search.CesCharacterCasing = CharacterCasing.Normal;

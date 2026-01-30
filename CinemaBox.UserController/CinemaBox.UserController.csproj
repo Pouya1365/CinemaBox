@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ces.WinForm.UI" Version="1.28.0" />
+    <PackageReference Include="Ces.WinForm.UI" Version="1.29.5" />
   </ItemGroup>
 
   <ItemGroup>

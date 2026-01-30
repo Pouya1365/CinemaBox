@@ -95,7 +95,7 @@ public class PeopleServices(
         existing.UpdatedDate = DateOnly.FromDateTime(DateTime.Today);
         existing.DeathDate = !string.IsNullOrWhiteSpace(model.DeathDate) ? Pcal.ToGeorgian(model.DeathDate) : null;
         existing.DeathPlace = !string.IsNullOrWhiteSpace(model.DeathPlace) ? model.DeathPlace : null;
-        existing.DeathCauseId = !string.IsNullOrWhiteSpace(deathCause.EnDeathCauseName) ? deathCause.Id : null;
+        existing.DeathCauseId = !string.IsNullOrWhiteSpace(deathCause?.EnDeathCauseName) ? deathCause.Id : null;
         _unitOfWork.Repository<People>().Update(existing);
         await _unitOfWork.CompleteAsync();
     }
@@ -130,14 +130,12 @@ public class PeopleServices(
 
         return showPeopleModels;
     }
-
     public async Task<IEnumerable<People>> GetAllPeopleAsync() =>
         await _unitOfWork.Repository<People>()
             .GetAllWithMultipleIncludesAsync(
                 x => x.PeopleFiles,
                 x => x.File,
                 x => x.Server);
-
     private IEnumerable<ShowPeopleModel> CreateShowPeopleModel(IEnumerable<People> peoples)=> peoples.Select(x => new ShowPeopleModel
         {
             EnFullName = x.EnFullName,
@@ -147,6 +145,18 @@ public class PeopleServices(
                 x?.PeopleFiles?.FirstOrDefault()?.File?.Server?.Path ?? string.Empty,
                 x?.PeopleFiles?.FirstOrDefault()?.File?.FileName ?? string.Empty):null
         });
-    
+    public async Task<People> UpdatePeople(string imdbId, string path)
+    {
+        People existingPerson = await GetPeople(imdbId);
+        PeopleModelScrapping peopleModel;
+       
+            peopleModel = await GetPeopleModelFromImdb(imdbId);
+            if (peopleModel == null)
+                return null;
+            await UpdatePeopleEntity(existingPerson, peopleModel);
+            await GetOrCreatePeopleFile(path: path, imageUrl: peopleModel?.ImageUrl, peopleId: existingPerson.Id, peopleName: existingPerson.EnFullName);
+            return existingPerson;
+  
+    }
 
 }

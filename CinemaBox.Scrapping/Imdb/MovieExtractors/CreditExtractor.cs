@@ -273,28 +273,15 @@ public class CreditExtractor : IMovieGeneralInfoExtractor
                                 MovieId = model.ImdbId,
                                 IsLead = isCast && leadCount < 3 // 🟢 تعداد را افزایش دهید
                             });
-
                             if (isCast)
                                 leadCount++;
-
-
                         }
-
-
                     }
                 }
-
-
             }
-
-
-
         }
-
         return model;
     }
-
-
     public static string GetRoleNames(JsonElement credit)
     {
         try
@@ -338,6 +325,4 @@ public class CreditExtractor : IMovieGeneralInfoExtractor
             return string.Empty;
         }
     }
-
-
 }

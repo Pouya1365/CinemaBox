@@ -10,5 +10,6 @@ public interface IPeopleServices
     Task<People> GetPeople(string peopleId);
     Task<List<People>?> GetPeopleFaNull();
     Task UpdateFaPeople(List<People> peoples);
-     Task<IEnumerable<ShowPeopleModel>> GetAllPeopleModel(string search);
+    Task<IEnumerable<ShowPeopleModel>> GetAllPeopleModel(string search);
+    Task<People> UpdatePeople(string imdbId, string path);
 }

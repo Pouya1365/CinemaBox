@@ -49,6 +49,7 @@
             Pic_Crew = new PictureBox();
             Tb_Movies = new TabPage();
             Flw_Movie = new FlowLayoutPanel();
+            Btn_Update = new Ces.WinForm.UI.CesButton.CesButton();
             Tb_Main.SuspendLayout();
             Tb_MainDetails.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Pic_Crew).BeginInit();
@@ -470,6 +471,7 @@
             Cmb_DeathCuase.CesHasFocus = false;
             Cmb_DeathCuase.CesHasNotification = false;
             Cmb_DeathCuase.CesIcon = null;
+            Cmb_DeathCuase.CesImageMember = null;
             Cmb_DeathCuase.CesImageWidth = 24;
             Cmb_DeathCuase.CesItemHeight = 30;
             Cmb_DeathCuase.CesKeepPreviousSelection = false;
@@ -491,6 +493,7 @@
             Cmb_DeathCuase.CesShowSearchBox = true;
             Cmb_DeathCuase.CesShowStatusBar = true;
             Cmb_DeathCuase.CesShowTitle = true;
+            Cmb_DeathCuase.CesStopSelectedItemChangedEvent = false;
             Cmb_DeathCuase.CesTheme = Ces.WinForm.UI.Infrastructure.ThemeEnum.White;
             Cmb_DeathCuase.CesTitleAutoHeight = false;
             Cmb_DeathCuase.CesTitleAutoWidth = false;
@@ -888,16 +891,40 @@
             Flw_Movie.Size = new Size(1023, 556);
             Flw_Movie.TabIndex = 0;
             // 
+            // Btn_Update
+            // 
+            Btn_Update.BackColor = Color.LightGray;
+            Btn_Update.CesBorderThickness = 1;
+            Btn_Update.CesBorderVisible = false;
+            Btn_Update.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.Silver;
+            Btn_Update.CesEnableToolTip = false;
+            Btn_Update.CesToolTipText = null;
+            Btn_Update.FlatAppearance.BorderColor = Color.Gray;
+            Btn_Update.FlatAppearance.BorderSize = 0;
+            Btn_Update.FlatAppearance.MouseDownBackColor = Color.LightGray;
+            Btn_Update.FlatAppearance.MouseOverBackColor = Color.Silver;
+            Btn_Update.FlatStyle = FlatStyle.Flat;
+            Btn_Update.ForeColor = Color.Black;
+            Btn_Update.Location = new Point(205, 637);
+            Btn_Update.Name = "Btn_Update";
+            Btn_Update.Size = new Size(90, 35);
+            Btn_Update.TabIndex = 10;
+            Btn_Update.Text = "بروز رسانی";
+            Btn_Update.UseVisualStyleBackColor = false;
+            Btn_Update.Click += Btn_Update_Click;
+            // 
             // Frm_EditPeople
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1047, 679);
+            Controls.Add(Btn_Update);
             Controls.Add(Tb_Main);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Frm_EditPeople";
             Text = "Frm_EditPeople";
             Controls.SetChildIndex(Tb_Main, 0);
+            Controls.SetChildIndex(Btn_Update, 0);
             Tb_Main.ResumeLayout(false);
             Tb_MainDetails.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)Pic_Crew).EndInit();
@@ -940,5 +967,6 @@
         private PictureBox Pic_Crew;
         private TabPage Tb_Movies;
         private FlowLayoutPanel Flw_Movie;
+        private Ces.WinForm.UI.CesButton.CesButton Btn_Update;
     }
 }

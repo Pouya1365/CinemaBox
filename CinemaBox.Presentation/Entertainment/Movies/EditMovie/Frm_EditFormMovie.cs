@@ -93,6 +93,7 @@ public partial class Frm_EditFormMovie : CesForm
     private readonly IDeathCauseServices? _deathCauseServices;
     private readonly string? _movieId;
     private bool changeImageUser = false;
+    private readonly string? _path;
     public Frm_EditFormMovie(IMovieServices movieServices,
         string? movieId,
         ICurrencyServices? currencyServices,
@@ -118,7 +119,8 @@ public partial class Frm_EditFormMovie : CesForm
         ICollectionServices? collectionServices,
         IQualityServices? qualityServices,
         IQualityTypeServices? qualityTypeServices,
-        IDeathCauseServices? deathCauseServices
+        IDeathCauseServices? deathCauseServices,
+        string? path
         )
     {
         _movieServices = movieServices ?? throw new ArgumentNullException(nameof(movieServices));
@@ -147,6 +149,7 @@ public partial class Frm_EditFormMovie : CesForm
         _qualityTypeServices = qualityTypeServices ?? throw new ArgumentNullException(nameof(qualityTypeServices));
         _deathCauseServices = deathCauseServices ?? throw new ArgumentNullException(nameof(deathCauseServices));
         _movieId = movieId;
+        _path = path;
         InitializeComponent();
         _ = IntialData();
 
@@ -400,7 +403,7 @@ qualityTypaId);
     private async Task SetMovieCreditAsync()
     {
         IEnumerable<MovieCredit?> credits = await GetMovieCreditsAsync();
-        List<string> peopleIds = credits.Select(x => x.PeopleId).Distinct().ToList();
+        List<string> peopleIds = [.. credits.Select(x => x.PeopleId).Distinct()];
         IEnumerable<PeopleFile?> peopleFiles = await GetPeopleFileAsync(peopleIds);
         Dictionary<string, PeopleFile?> peoplePicture = peopleFiles
             .Where(x => x != null)
@@ -463,7 +466,8 @@ qualityTypaId);
            peopleFileServices: _peopleFileServices,
            deathCauseServices: _deathCauseServices,
            movieCreditServices:_movieCreditServices,
-           movieServices:_movieServices
+           movieServices:_movieServices,
+           path:_path
            
            );
         frm_EditPeople.ShowDialog();
@@ -508,7 +512,7 @@ qualityTypaId);
     private double GetDurationInSeconds(Track videoTrack)
     {
         if (!double.TryParse(videoTrack.Duration, out double duration))
-            throw new FormatException("خطا در خواندن مدت زمان ویدیو (Duration).");
+            return 0;
         return duration;
     }
     private void SetGeneralVideoInfo(Track videoTrack, string filePath)
@@ -557,7 +561,6 @@ qualityTypaId);
     #endregion
     private async void Btn_Save_Click(object sender, EventArgs e) =>
         await SaveMovieDataAsync();
-
     public async Task SaveMovieDataAsync()
     {
         await SaveMovieInfoAsync();
@@ -568,7 +571,6 @@ qualityTypaId);
             await SaveUserMovieFilesAsync();
         this.Close();
     }
-
     private async Task SaveUserMovieFilesAsync()
     {
         if (Pic_UserMovie.Image is null)

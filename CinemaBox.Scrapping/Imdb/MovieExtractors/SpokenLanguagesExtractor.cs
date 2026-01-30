@@ -14,12 +14,13 @@ public class SpokenLanguagesExtractor : IMovieGeneralInfoExtractor
       .GetPropertySafe("pageProps")?
       .GetPropertySafe("mainColumnData");
         JsonElement? spokenLanguages = data.GetPropertySafe("spokenLanguages").GetPropertySafe("spokenLanguages");
-        foreach ((string id, string text) in from JsonElement spokenLanguageitem in spokenLanguages.Value.EnumerateArray()
-                                             let id = spokenLanguageitem.GetProperty("id").GetString()
-                                             where !string.IsNullOrEmpty(id)
-                                             let text = spokenLanguageitem.GetProperty("text").GetString()
-                                             select (id, text))
-            model.SpokenLanguageskeyValuePairs.Add(id, text);
+        if (spokenLanguages != null)
+            foreach ((string id, string text) in from JsonElement spokenLanguageitem in spokenLanguages.Value.EnumerateArray()
+                                                 let id = spokenLanguageitem.GetPropertySafe("id")?.GetString()
+                                                 where !string.IsNullOrEmpty(id)
+                                                 let text = spokenLanguageitem.GetPropertySafe("text")?.GetString()
+                                                 select (id, text))
+                model.SpokenLanguageskeyValuePairs.Add(id, text);
         return model;
     }
 }

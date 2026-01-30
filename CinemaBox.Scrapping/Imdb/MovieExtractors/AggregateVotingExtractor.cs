@@ -12,7 +12,24 @@ public class AggregateVotingExtractor : IMovieGeneralInfoExtractor
         JsonElement? data = json.RootElement.GetPropertySafe("props")?
           .GetPropertySafe("pageProps")?
           .GetPropertySafe("aboveTheFoldData");
-        model.AggregateRating = data.GetPropertySafe("ratingsSummary").GetPropertySafe("aggregateRating")?.GetDecimal();
+        decimal rating = 0;
+
+        var el =
+            data?
+                .GetPropertySafe("ratingsSummary")?
+                .GetPropertySafe("aggregateRating");
+
+        if (el is not null)
+        {
+            if (el.Value.ValueKind == JsonValueKind.Number)
+                rating = el.Value.GetDecimal();
+
+            else if (el.Value.ValueKind == JsonValueKind.String &&
+                     decimal.TryParse(el.Value.GetString(), out var parsed))
+                rating = parsed;
+        }
+
+        model.AggregateRating = rating;
         model.VoteCount = data.GetPropertySafe("ratingsSummary").GetPropertySafe("voteCount")?.GetInt64();
         return model;
     }
