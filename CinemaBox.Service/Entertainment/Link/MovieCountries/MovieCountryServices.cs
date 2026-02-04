@@ -6,27 +6,31 @@ using CinemaBox.UnitOfWork.Interface.UOW;
 
 namespace CinemaBox.Service.Entertainment.Link.MovieCountries;
 
-public class MovieCountryServices(IUnitOfWork unitOfWork,ICountryPartServices countryPartServices) : IMovieCountryServices
+public class MovieCountryServices(IUnitOfWork unitOfWork, ICountryPartServices countryPartServices) : IMovieCountryServices
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     private readonly ICountryPartServices _countryPartServices = countryPartServices ?? throw new ArgumentNullException(nameof(countryPartServices));
     public async Task<List<MovieCountry>> CreateOrGetMovieCountry(Dictionary<string, string> countryModels, string movieId)
     {
         List<MovieCountry> movieCountries = [];
-        foreach (var countryModel in countryModels)
+        if (countryModels != null)
         {
-            CountryPart Country =await GetCountryPartAsync( countryPartName: countryModel.Value,isoCode: countryModel.Key);
-            if (Country != null)
-                movieCountries.Add(new MovieCountry
-                {
-                    CountryPartId = Country.Id,
-                    MovieId = movieId
-                });
+            foreach (var countryModel in countryModels)
+            {
+                CountryPart Country = await GetCountryPartAsync(countryPartName: countryModel.Value, isoCode: countryModel.Key);
+                if (Country != null)
+                    movieCountries.Add(new MovieCountry
+                    {
+                        CountryPartId = Country.Id,
+                        MovieId = movieId
+                    });
+            }
+            await _unitOfWork.Repository<MovieCountry>().AddRangeAsync([.. movieCountries.Distinct()]);
+            await _unitOfWork.CompleteAsync();
         }
-        await _unitOfWork.Repository<MovieCountry>().AddRangeAsync([.. movieCountries.Distinct()]);
-        await _unitOfWork.CompleteAsync();
+
         return movieCountries;
     }
-    public async Task<CountryPart> GetCountryPartAsync(string countryPartName, string isoCode) =>await _countryPartServices.CreateOrGetCountryPart(CountryPartName: countryPartName, isoCode: isoCode);
+    public async Task<CountryPart> GetCountryPartAsync(string countryPartName, string isoCode) => await _countryPartServices.CreateOrGetCountryPart(CountryPartName: countryPartName, isoCode: isoCode);
     public async Task<IEnumerable<MovieCountry>> GetMovieCountry(string movieId) => await _unitOfWork.Repository<MovieCountry>().GetAllWithPredicateAsync(x => x.MovieId == movieId, x => x.CountryPart);
 }
