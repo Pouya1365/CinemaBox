@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CinemaBox.Configuration\CinemaBox.Configuration.csproj" />
+    <ProjectReference Include="..\CinemaBox.Domain\CinemaBox.Domain.csproj" />
   </ItemGroup>
 
 </Project>

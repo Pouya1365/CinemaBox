@@ -95,6 +95,7 @@
     <ProjectReference Include="..\CinemaBox.Context\CinemaBox.Context.csproj" />
     <ProjectReference Include="..\CinemaBox.Libretranslate.Interface\CinemaBox.Libretranslate.Interface.csproj" />
     <ProjectReference Include="..\CinemaBox.Libretranslate\CinemaBox.Libretranslate.csproj" />
+    <ProjectReference Include="..\CinemaBox.Scrapping.Interface\CinemaBox.Scrapping.Interface.csproj" />
     <ProjectReference Include="..\CinemaBox.Scrapping\CinemaBox.Scrapping.csproj" />
     <ProjectReference Include="..\CinemaBox.Service.Interface\CinemaBox.Service.Interface.csproj" />
     <ProjectReference Include="..\CinemaBox.Service\CinemaBox.Service.csproj" />
@@ -102,6 +103,7 @@
     <ProjectReference Include="..\CinemaBox.TvMaz.Services\CinemaBox.TvMaz.csproj" />
     <ProjectReference Include="..\CinemaBox.UnitOfWork\CinemaBox.UnitOfWork.csproj" />
     <ProjectReference Include="..\CinemaBox.UserController\CinemaBox.UserController.csproj" />
+    <ProjectReference Include="..\CinemaBox.Utilities\CinemaBox.Utilities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
