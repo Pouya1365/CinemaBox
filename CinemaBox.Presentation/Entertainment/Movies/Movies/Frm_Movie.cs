@@ -48,9 +48,11 @@ using CinemaBox.Service.Interface.Shared.Qualities.QualityTypes;
 using CinemaBox.Service.Interface.Shared.Statuses;
 using CinemaBox.TvMaz.Interfaces.TvMaz;
 using CinemaBox.UserController.Entertainment.Movies;
+using CinemaBox.Utilities.Files;
 using CinemaBox.Utilities.Html;
 using System;
 namespace CinemaBox.Presentation;
+
 public partial class Frm_Movie : CesForm
 {
     private readonly IImdbMovieScrapperServices _imdbScrapperServices;
@@ -120,7 +122,7 @@ public partial class Frm_Movie : CesForm
         ICountryPartServices? countryPartServices,
         ITvMazServices? tvMazServices,
         IBackupService? backupService
-       
+
         )
     {
         InitializeComponent();
@@ -157,17 +159,23 @@ public partial class Frm_Movie : CesForm
         _countryPartServices = countryPartServices ?? throw new ArgumentNullException(nameof(countryPartServices));
         _tvMazServices = tvMazServices ?? throw new ArgumentNullException(nameof(tvMazServices));
         _backupService = backupService ?? throw new ArgumentNullException(nameof(backupService));
-        _path =  Application.StartupPath; 
+        _path = Application.StartupPath;
     }
     private async Task<Movie?> GetMovie() => await _movieServices.GeMovieAsync(ImdbId: Txt_Search.CesText);
 
     private async void Btn_GetInfo_Click(object sender, EventArgs e)
     {
         if (Txt_Search.CesText is null)
+        {
+            _posterClickedTaskCompletionSource?.TrySetResult(true);
             return;
+        }
         Movie? getMovie = await GetMovie();
         if (getMovie.EnTitle is not null)
+        {
+            _posterClickedTaskCompletionSource?.TrySetResult(true);
             return;
+        }
         MovieModelScrapping movieModelScrapping = await _imdbScrapperServices.ImdbScrapperServicesAsync(imdbId: Txt_Search.CesText);
         movieModelScrapping = await _imdbOtherScrapperServices.ImdbScrapperServicesAsync(movieModelScrapping);
         Movie movie = await _movieServices.CreateOrUpdate(model: movieModelScrapping);
@@ -178,7 +186,7 @@ public partial class Frm_Movie : CesForm
         await _movieTaglineServices.CreateMovieTagline(taglineModels: movieModelScrapping.Taglines, movieId: Txt_Search.CesText);
         await _movieLocationServices.CreateMovieLocation(locationModels: movieModelScrapping.Locations, movieId: Txt_Search.CesText);
         await _movieKeywordServices.CreateOrGetMovieKeyword(keywordkeyValuePairs: movieModelScrapping.KeywordskeyValuePairs, movieId: Txt_Search.CesText);
-        
+
         await _movieCreditServices.CreateOrGetMovieCredit(creditModels: movieModelScrapping.Credits, path: _path);
         if (movieModelScrapping.ImageUrl is not null)
         {
@@ -196,6 +204,7 @@ public partial class Frm_Movie : CesForm
 
         CesMessage.Show("عملیات با موفقیت به پایان رسید", cesMessageBoxOptions);
         LoadMovie();
+        _posterClickedTaskCompletionSource?.TrySetResult(true);
     }
 
     private async void Frm_Movie_Load(object sender, EventArgs e)
@@ -284,13 +293,8 @@ public partial class Frm_Movie : CesForm
 
     private async Task<List<Genre>?> GetGenreAsync() => await _genreServices.GetAllGenreFaNull();
     private async Task SaveFaGenreAsync(List<Genre> genres) => await _genreServices.UpdateFaGenre(genres: genres);
-
-
     private async Task<List<CountryPart>?> GetCountryPartAsync() => await _countryPartServices.GetAllCountryPartFaNull();
     private async Task SaveFaCountryPartAsync(List<CountryPart> countryParts) => await _countryPartServices.UpdateFaCountryPart(countryParts: countryParts);
-
-
-
     private async void LoadMovie()
     {
         Flw_ShowMovie.Controls.Clear();
@@ -341,20 +345,18 @@ public partial class Frm_Movie : CesForm
             qualityServices: _qualityService,
             qualityTypeServices: _qualityTypeService,
             deathCauseServices: _deathCauseServices,
-            path:_path
-            
+            path: _path
+
             );
         frm_EditForm.ShowDialog();
     }
 
     private void Btn_Search_Click(object sender, EventArgs e) =>
         LoadMovie();
-
-
     private void Btn_People_Click(object sender, EventArgs e)
     {
-        Frm_MainPeople frm_MainPeople = new(peopleFileServices: _peopleFileServices, peopleServices: _peopleServices, deathCauseServices: _deathCauseServices, 
-            movieCreditServices: _movieCreditServices, movieServices: _movieServices,path:_path);
+        Frm_MainPeople frm_MainPeople = new(peopleFileServices: _peopleFileServices, peopleServices: _peopleServices, deathCauseServices: _deathCauseServices,
+            movieCreditServices: _movieCreditServices, movieServices: _movieServices, path: _path);
         frm_MainPeople.ShowDialog();
     }
 
@@ -377,15 +379,11 @@ public partial class Frm_Movie : CesForm
             );
         frm_Statestics.ShowDialog();
     }
-
-
-
     private void Btn_ShowTvSchedule_Click(object sender, EventArgs e)
     {
         Frm_TvMaz frm_TvMaz = new(_tvMazServices);
         frm_TvMaz.ShowDialog();
     }
-
     private async void Btn_Backup_ClickAsync(object sender, EventArgs e)
     {
         try
@@ -412,4 +410,63 @@ public partial class Frm_Movie : CesForm
             MessageBox.Show($"خطا در بکاپ گیری: {ex.Message}");
         }
     }
+
+    private async void Btn_AddMovieFromHDD_Click(object sender, EventArgs e)
+    {
+        using FolderBrowserDialog dialog = new();
+        dialog.Description = "مسیر را انتخاب کنید";
+        dialog.ShowNewFolderButton = true;
+
+        if (dialog.ShowDialog() == DialogResult.OK)
+        {
+            List<string> allFolders = FileExtension.GetAllFolders(dialog.SelectedPath);
+            foreach (var folder in allFolders)
+            {
+                List<ShowMovieModel> movieModelScrapping = [];
+                
+                movieModelScrapping = await _imdbScrapperServices.ImdbScrpperSearchServicesAsync(movieName: folder);
+
+
+                if (movieModelScrapping.Count >= 1)
+                {
+                    Flw_ShowMovie.Controls.Clear();
+                    List<ShowMovieIcon> ShowMovieIcons = [];
+                    ShowMovieIcons.AddRange(from movie in movieModelScrapping
+                                            let control = new ShowMovieIcon(
+                        posterPath: movie.PosterPath ?? "",
+                        enTitle: movie.EnTitle,
+                        faTitle: movie.FaTitle,
+                        year: (long)movie.StartYear,
+                        endYear: movie.EndYear, movieId: movie.MovieId)
+                                            select AttachHandler(control));
+                    ShowMovieIcon AttachHandler(ShowMovieIcon ctrl)
+                    {
+                        ctrl.PosterClicked += MovieBox_Clicked;
+                        return ctrl;
+                    }
+                    Flw_ShowMovie.Controls.AddRange([.. ShowMovieIcons]);
+                    await WaitForPosterClickAsync();
+                }
+
+            }
+        }
+    }
+    private void MovieBox_Clicked(object sender, string movieId)
+    {
+        Txt_Search.CesText = movieId;
+        Btn_GetInfo_Click(sender, new EventArgs());
+
+    }
+
+    // تعریف یک TaskCompletionSource در سطح کلاس
+    private TaskCompletionSource<bool>? _posterClickedTaskCompletionSource;
+
+    private async Task WaitForPosterClickAsync()
+    {
+        _posterClickedTaskCompletionSource = new TaskCompletionSource<bool>();
+        await _posterClickedTaskCompletionSource.Task;
+    }
+
+
 }
+

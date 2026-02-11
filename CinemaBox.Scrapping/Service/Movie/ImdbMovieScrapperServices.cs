@@ -1,4 +1,5 @@
 ﻿using CinemaBox.Model.Entertainment.Movie.Movie;
+using CinemaBox.Model.Entertainment.Movie.ShowMovie;
 using CinemaBox.Scrapping.Imdb.MovieExtractors;
 using CinemaBox.Scrapping.Interface.Imdb.MovieExtractors;
 using CinemaBox.Scrapping.Interface.Imdb.Service.Movie;
@@ -52,5 +53,19 @@ public class ImdbMovieScrapperServices: IImdbMovieScrapperServices
         }
 
         return moviesModel;
+    }
+    public async Task<List<ShowMovieModel>> ImdbScrpperSearchServicesAsync(string movieName)
+    {
+        string url = ImdbUrlBuilder.BuildSearchUrl(movieName: movieName);
+        HtmlDocument loader = await HtmlLoader.LoadDocumentAsync(url: url);
+        JsonDocument? jsonDocument = NextDataJsonParser.Parse(document: loader);
+        List<ShowMovieModel> movieModels = [];
+        List<IMovieSearchExtractor> extractorsFromMainJson =
+     [
+     new SearchExtractor(),
+ ];
+        foreach (IMovieSearchExtractor extractor in extractorsFromMainJson)
+            movieModels = extractor.Extract( json: jsonDocument);
+        return movieModels;
     }
 }

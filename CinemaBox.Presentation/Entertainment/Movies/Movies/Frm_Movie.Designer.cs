@@ -39,6 +39,7 @@
             Txt_Search = new Ces.WinForm.UI.CesTextBox();
             cesPanel2 = new Ces.WinForm.UI.CesPanel();
             Flw_ShowMovie = new FlowLayoutPanel();
+            Btn_AddMovieFromHDD = new Ces.WinForm.UI.CesButton.CesRoundedButton();
             Pnl_Search.SuspendLayout();
             cesPanel2.SuspendLayout();
             SuspendLayout();
@@ -61,6 +62,7 @@
             Pnl_Search.CesVisibleLeftBorder = true;
             Pnl_Search.CesVisibleRightBorder = true;
             Pnl_Search.CesVisibleTopBorder = true;
+            Pnl_Search.Controls.Add(Btn_AddMovieFromHDD);
             Pnl_Search.Controls.Add(Btn_Backup);
             Pnl_Search.Controls.Add(Btn_ShowTvSchedule);
             Pnl_Search.Controls.Add(Btn_Statestics);
@@ -244,7 +246,7 @@
             Txt_Search.BackColor = Color.White;
             Txt_Search.CesAutoHeight = true;
             Txt_Search.CesBackColor = Color.White;
-            Txt_Search.CesBorderColor = Color.DeepSkyBlue;
+            Txt_Search.CesBorderColor = SystemColors.ActiveCaption;
             Txt_Search.CesBorderRadius = 0;
             Txt_Search.CesBorderThickness = 1;
             Txt_Search.CesCharacterCasing = CharacterCasing.Normal;
@@ -314,6 +316,34 @@
             Flw_ShowMovie.Size = new Size(1133, 485);
             Flw_ShowMovie.TabIndex = 0;
             // 
+            // Btn_AddMovieFromHDD
+            // 
+            Btn_AddMovieFromHDD.BackColor = Color.Olive;
+            Btn_AddMovieFromHDD.CesBackColor = Color.FromArgb(120, 209, 160);
+            Btn_AddMovieFromHDD.CesBorderColor = Color.MediumSeaGreen;
+            Btn_AddMovieFromHDD.CesBorderRadius = 15;
+            Btn_AddMovieFromHDD.CesBorderThickness = 1;
+            Btn_AddMovieFromHDD.CesBorderVisible = false;
+            Btn_AddMovieFromHDD.CesCircular = false;
+            Btn_AddMovieFromHDD.CesColorTemplate = Ces.WinForm.UI.CesButton.ColorTemplateEnum.LightGreen;
+            Btn_AddMovieFromHDD.CesFont = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Btn_AddMovieFromHDD.CesForeColor = Color.Black;
+            Btn_AddMovieFromHDD.CesIcon = null;
+            Btn_AddMovieFromHDD.CesIconAlignment = ContentAlignment.MiddleCenter;
+            Btn_AddMovieFromHDD.CesMouseDownColor = Color.FromArgb(120, 209, 160);
+            Btn_AddMovieFromHDD.CesMouseOverColor = Color.MediumSeaGreen;
+            Btn_AddMovieFromHDD.CesShowIcon = false;
+            Btn_AddMovieFromHDD.CesShowText = true;
+            Btn_AddMovieFromHDD.CesText = "اضافه کردن فیلم از روی هارد";
+            Btn_AddMovieFromHDD.CesTextAlignment = ContentAlignment.MiddleCenter;
+            Btn_AddMovieFromHDD.Font = new Font("IRANSans", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Btn_AddMovieFromHDD.Location = new Point(83, 5);
+            Btn_AddMovieFromHDD.Margin = new Padding(3, 4, 3, 4);
+            Btn_AddMovieFromHDD.Name = "Btn_AddMovieFromHDD";
+            Btn_AddMovieFromHDD.Size = new Size(260, 27);
+            Btn_AddMovieFromHDD.TabIndex = 6;
+            Btn_AddMovieFromHDD.Click += Btn_AddMovieFromHDD_Click;
+            // 
             // Frm_Movie
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -344,5 +374,6 @@
         private Ces.WinForm.UI.CesButton.CesRoundedButton Btn_Statestics;
         private Ces.WinForm.UI.CesButton.CesRoundedButton Btn_ShowTvSchedule;
         private Ces.WinForm.UI.CesButton.CesRoundedButton Btn_Backup;
+        private Ces.WinForm.UI.CesButton.CesRoundedButton Btn_AddMovieFromHDD;
     }
 }

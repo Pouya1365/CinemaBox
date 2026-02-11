@@ -63,5 +63,28 @@ public static class FileExtension
             return null;
         }
     }
+    public static List<string> GetAllFolders(string path)
+    {
+        List<string> folders = [];
 
+        try
+        {
+            // اضافه کردن فولدرهای سطح جاری
+            folders.AddRange(Directory.GetDirectories(path).Where(x => !x.Contains(".BIN")));
+            // بررسی بازگشتی زیرفولدرها
+         
+
+        }
+        catch (UnauthorizedAccessException)
+        {
+            // دسترسی به برخی فولدرها ممکن نیست
+            Console.WriteLine($"دسترسی به {path} امکان‌پذیر نیست");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"خطا در {path}: {ex.Message}");
+        }
+
+        return folders;
+    }
 }

@@ -22,10 +22,13 @@ public partial class ShowMovieIcon : UserControl
     }
     public void LoadData()
     {
-        Pic_Poster.Image = string.IsNullOrEmpty(_posterPath)?null: Image.FromFile(filename: _posterPath);
+        if (!_posterPath.Contains("https"))
+            Pic_Poster.Image = string.IsNullOrEmpty(_posterPath) ? null : Image.FromFile(filename: _posterPath);
+        else if (_posterPath.Contains("https"))
+            Pic_Poster.Load(_posterPath);
         Lbl_Title.Text = !string.IsNullOrEmpty(_faTitle) ? $"{_enTitle} ( {_faTitle} )" : _enTitle;
         Lbl_Year.Text = _endYear != null ? $"{_year}-{_endYear}" : _year.ToString();
     }
-    private void Pic_Poster_Click(object sender, EventArgs e)=>
+    private void Pic_Poster_Click(object sender, EventArgs e) =>
         PosterClicked?.Invoke(this, _movieId);
 }

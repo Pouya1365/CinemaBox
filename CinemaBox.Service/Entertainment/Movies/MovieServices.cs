@@ -55,7 +55,7 @@ public class MovieServices(IUnitOfWork unitOfWork, ICertificateServices certific
         movie.VoteCount = model.VoteCount;
         movie.StartYear = model.StartYear;
         movie.RunTimeMinutes = model.RunTimeMinutes;
-        movie.ReleaseYear = model.ReleaseYear??model.StartYear;
+        movie.ReleaseYear = (model.ReleaseYear==null || model.ReleaseYear==0)?model.StartYear: model.ReleaseYear;
         movie.ReleaseMonth = model.ReleaseMonth;
         movie.TopRank = model.TopRank;
         movie.OscarNominations = model.OscarNominations;
