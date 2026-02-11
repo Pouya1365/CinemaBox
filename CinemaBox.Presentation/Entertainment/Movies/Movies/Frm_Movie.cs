@@ -423,7 +423,7 @@ public partial class Frm_Movie : CesForm
             foreach (var folder in allFolders)
             {
                 List<ShowMovieModel> movieModelScrapping = [];
-                
+
                 movieModelScrapping = await _imdbScrapperServices.ImdbScrpperSearchServicesAsync(movieName: folder);
 
 
@@ -436,7 +436,7 @@ public partial class Frm_Movie : CesForm
                         posterPath: movie.PosterPath ?? "",
                         enTitle: movie.EnTitle,
                         faTitle: movie.FaTitle,
-                        year: (long)movie.StartYear,
+                        year: (long)movie?.StartYear==null? (long)1900: (long)movie.StartYear,
                         endYear: movie.EndYear, movieId: movie.MovieId)
                                             select AttachHandler(control));
                     ShowMovieIcon AttachHandler(ShowMovieIcon ctrl)
@@ -467,6 +467,9 @@ public partial class Frm_Movie : CesForm
         await _posterClickedTaskCompletionSource.Task;
     }
 
-
+    private void Btn_Next_Click(object sender, EventArgs e)
+    {
+        _posterClickedTaskCompletionSource?.TrySetResult(true);
+    }
 }
 
