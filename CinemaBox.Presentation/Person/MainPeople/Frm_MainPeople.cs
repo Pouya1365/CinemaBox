@@ -43,7 +43,7 @@ public partial class Frm_MainPeople : CesForm
     {
         var peopleModels = await GetPeopleModels();
 
-        _allPeople = peopleModels
+        _allPeople = [.. peopleModels
             .Where(x => search != null ?x.PeopleId.Contains(search)||x.EnFullName.Contains(search)||x.FaFullName.Contains(search):x!=null)
             .Select(x => new ShowPeopleModel
             {
@@ -55,8 +55,7 @@ public partial class Frm_MainPeople : CesForm
                         ? x.PosterPath
                         : Path.Combine(Application.StartupPath, x.PosterPath)
                     : null
-            })
-            .ToList();
+            })];
 
         Flw_ShowPeople.Controls.Clear();
         _loadedCount = 0;

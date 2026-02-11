@@ -373,6 +373,8 @@
             Flw_ShowMovie.Name = "Flw_ShowMovie";
             Flw_ShowMovie.Size = new Size(1133, 485);
             Flw_ShowMovie.TabIndex = 0;
+            Flw_ShowMovie.Scroll += Flw_ShowMovie_Scroll;
+            Flw_ShowMovie.Layout += Flw_ShowMovie_Layout;
             // 
             // Frm_Movie
             // 

@@ -13,6 +13,7 @@ using CinemaBox.Domain.Shared.Languages;
 using CinemaBox.Libretranslate.Interface;
 using CinemaBox.Model.Entertainment.Movie.Movie;
 using CinemaBox.Model.Entertainment.Movie.ShowMovie;
+using CinemaBox.Model.Entertainment.People.ShowPeople;
 using CinemaBox.Presentation.Entertainment.Movies.EditMovie;
 using CinemaBox.Presentation.Person.MainPeople;
 using CinemaBox.Presentation.Statestics.Statestics;
@@ -48,6 +49,7 @@ using CinemaBox.Service.Interface.Shared.Qualities.QualityTypes;
 using CinemaBox.Service.Interface.Shared.Statuses;
 using CinemaBox.TvMaz.Interfaces.TvMaz;
 using CinemaBox.UserController.Entertainment.Movies;
+using CinemaBox.UserController.People.People;
 using CinemaBox.Utilities.Files;
 using CinemaBox.Utilities.Html;
 using System;
@@ -89,6 +91,10 @@ public partial class Frm_Movie : CesForm
     private readonly ITvMazServices? _tvMazServices;
     private readonly IBackupService? _backupService;
     private readonly string? _path;
+    private int _loadedCount = 0;
+    private const int PageSize = 50;
+    List<ShowMovieModel> movieModels = [];
+
     public Frm_Movie(IImdbMovieScrapperServices imdbScrapperServices,
         IMovieServices movieServices,
         IMovieCompanyServices movieCompanyServices,
@@ -160,6 +166,7 @@ public partial class Frm_Movie : CesForm
         _tvMazServices = tvMazServices ?? throw new ArgumentNullException(nameof(tvMazServices));
         _backupService = backupService ?? throw new ArgumentNullException(nameof(backupService));
         _path = Application.StartupPath;
+
     }
     private async Task<Movie?> GetMovie() => await _movieServices.GeMovieAsync(ImdbId: Txt_Search.CesText);
 
@@ -298,22 +305,57 @@ public partial class Frm_Movie : CesForm
     private async void LoadMovie()
     {
         Flw_ShowMovie.Controls.Clear();
-        List<ShowMovieModel> movieModels = await GetMovieModels();
-        List<ShowMovieIcon> ShowMovieIcons = [];
-        ShowMovieIcons.AddRange(from movie in movieModels
-                                let control = new ShowMovieIcon(
-            posterPath: movie.PosterPath != null ? Path.Combine(Application.StartupPath, movie.PosterPath) : "",
-            enTitle: movie.EnTitle,
-            faTitle: movie.FaTitle,
-            year: (long)movie.StartYear,
-            endYear: movie.EndYear, movieId: movie.MovieId)
-                                select AttachHandler(control));
-        ShowMovieIcon AttachHandler(ShowMovieIcon ctrl)
+        movieModels = await GetMovieModels();
+        //List<ShowMovieIcon> ShowMovieIcons = [];
+        //ShowMovieIcons.AddRange(from movie in movieModels
+        //                        let control = new ShowMovieIcon(
+        //    posterPath: movie.PosterPath != null ? Path.Combine(Application.StartupPath, movie.PosterPath) : "",
+        //    enTitle: movie.EnTitle,
+        //    faTitle: movie.FaTitle,
+        //    year: (long)movie.StartYear,
+        //    endYear: movie.EndYear, movieId: movie.MovieId)
+        //                        select AttachHandler(control));
+
+        //Flw_ShowMovie.Controls.AddRange([.. ShowMovieIcons]);
+        _loadedCount = 0;
+        LoadNextMoviePage();
+    }
+    private ShowMovieIcon AttachHandler(ShowMovieIcon ctrl)
+    {
+        ctrl.PosterClicked += MovieBox_PosterClicked;
+        return ctrl;
+    }
+    private void CheckLoadMore()
+    {
+        if (Flw_ShowMovie.VerticalScroll.Value + Flw_ShowMovie.ClientSize.Height >= Flw_ShowMovie.VerticalScroll.Maximum - 100)
         {
-            ctrl.PosterClicked += MovieBox_PosterClicked;
-            return ctrl;
+            LoadNextMoviePage();
         }
-        Flw_ShowMovie.Controls.AddRange([.. ShowMovieIcons]);
+    }
+    private void LoadNextMoviePage()
+    {
+        int takeCount = Math.Min(PageSize, movieModels.Count - _loadedCount);
+
+        var nextControls = movieModels
+            .Skip(_loadedCount)
+            .Take(takeCount)
+            .Select(movie =>
+            {
+                var control = new ShowMovieIcon(
+                    posterPath: movie.PosterPath != null ? Path.Combine(Application.StartupPath, movie.PosterPath) : "",
+                    enTitle: movie.EnTitle,
+                    faTitle: movie.FaTitle,
+                    year: (long)movie.StartYear,
+                    endYear: movie.EndYear,
+                    movieId: movie.MovieId);
+
+                control.PosterClicked += MovieBox_PosterClicked;
+                return control;
+            })
+            .ToArray();
+
+        Flw_ShowMovie.Controls.AddRange(nextControls);
+        _loadedCount += takeCount;
     }
     private async Task<List<ShowMovieModel>> GetMovieModels() => await _movieServices.GetMovieModelsAsync(search: Txt_Search.CesText);
     private void MovieBox_PosterClicked(object sender, string movieId)
@@ -359,7 +401,6 @@ public partial class Frm_Movie : CesForm
             movieCreditServices: _movieCreditServices, movieServices: _movieServices, path: _path);
         frm_MainPeople.ShowDialog();
     }
-
     private void Btn_Statestics_Click(object sender, EventArgs e)
     {
         Frm_Statestics frm_Statestics = new(
@@ -410,7 +451,6 @@ public partial class Frm_Movie : CesForm
             MessageBox.Show($"خطا در بکاپ گیری: {ex.Message}");
         }
     }
-
     private async void Btn_AddMovieFromHDD_Click(object sender, EventArgs e)
     {
         using FolderBrowserDialog dialog = new();
@@ -436,7 +476,7 @@ public partial class Frm_Movie : CesForm
                         posterPath: movie.PosterPath ?? "",
                         enTitle: movie.EnTitle,
                         faTitle: movie.FaTitle,
-                        year: (long)movie?.StartYear==null? (long)1900: (long)movie.StartYear,
+                        year: (long?)movie?.StartYear == null ? (long)1900 : (long)movie.StartYear,
                         endYear: movie.EndYear, movieId: movie.MovieId)
                                             select AttachHandler(control));
                     ShowMovieIcon AttachHandler(ShowMovieIcon ctrl)
@@ -455,21 +495,27 @@ public partial class Frm_Movie : CesForm
     {
         Txt_Search.CesText = movieId;
         Btn_GetInfo_Click(sender, new EventArgs());
-
     }
-
     // تعریف یک TaskCompletionSource در سطح کلاس
     private TaskCompletionSource<bool>? _posterClickedTaskCompletionSource;
-
     private async Task WaitForPosterClickAsync()
     {
         _posterClickedTaskCompletionSource = new TaskCompletionSource<bool>();
         await _posterClickedTaskCompletionSource.Task;
     }
-
     private void Btn_Next_Click(object sender, EventArgs e)
     {
         _posterClickedTaskCompletionSource?.TrySetResult(true);
+    }
+
+    private void Flw_ShowMovie_Scroll(object sender, ScrollEventArgs e)
+    {
+        CheckLoadMore();
+    }
+
+    private void Flw_ShowMovie_Layout(object sender, LayoutEventArgs e)
+    {
+        Flw_ShowMovie.Layout += (s, e) => CheckLoadMore();
     }
 }
 
