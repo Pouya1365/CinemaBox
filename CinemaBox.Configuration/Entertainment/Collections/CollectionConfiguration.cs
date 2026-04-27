@@ -12,6 +12,8 @@ public class CollectionConfiguration : IEntityTypeConfiguration<Collection>
         builder.Property(c => c.Id).UseIdentityColumn().ValueGeneratedOnAdd().IsRequired().HasColumnName("CollectionId").HasComment(comment: "شناسه کالکشن");
         builder.Property(c => c.EnCollectionName).HasMaxLength(50).IsRequired(true).HasComment(comment: "نام کالکشن انگلیسی");
         builder.Property(c => c.FaCollectionName).HasMaxLength(50).IsRequired(true).HasComment(comment: "نام کالکشن فارسی");
+        builder.Property(c => c.TotalCount).HasComment(comment: "تعداد کل فیلم های کالکشن");
+        builder.Property(c => c.CountCollection).HasComment(comment: "تعداد فیلم های کالکشن موجود");
         builder.HasMany(c => c.Movies).WithOne(c => c.Collection).HasForeignKey(c => c.CollectionId);
     }
 }
