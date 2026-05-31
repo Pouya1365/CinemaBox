@@ -603,7 +603,8 @@ qualityTypaId);
             movie.IsTvShow = Chk_IsTv.CesToggle;
             if (Cmb_Collection.CesSelectedValue is not null)
                 movie.CollectionId = (int)Cmb_Collection.CesSelectedValue;
-
+            movie.EnTitle = Txt_EnTitle.CesText;
+            movie.OriginalTitle=Txt_OriginalTitle.CesText;
             await UpdateMovie(movie);
         }
     }

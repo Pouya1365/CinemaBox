@@ -169,7 +169,6 @@ public partial class Frm_Movie : CesForm
 
     }
     private async Task<Movie?> GetMovie() => await _movieServices.GeMovieAsync(ImdbId: Txt_Search.CesText);
-
     private async void Btn_GetInfo_Click(object sender, EventArgs e)
     {
         if (Txt_Search.CesText is null)
@@ -213,7 +212,6 @@ public partial class Frm_Movie : CesForm
         LoadMovie();
         _posterClickedTaskCompletionSource?.TrySetResult(true);
     }
-
     private async void Frm_Movie_Load(object sender, EventArgs e)
     {
         await Languages();
@@ -226,7 +224,6 @@ public partial class Frm_Movie : CesForm
 
         LoadMovie();
     }
-
     private async Task Languages()
     {
         List<Language>? languages = await GetLanguageAsync();
@@ -285,19 +282,14 @@ public partial class Frm_Movie : CesForm
     }
     private async Task<List<Language>?> GetLanguageAsync() => await _languageServices.GetAllLanguageFaNull();
     private async Task SaveFaLanguageAsync(List<Language> languages) => await _languageServices.UpdateFaLanguge(languages: languages);
-
     private async Task<List<Keyword>?> GetKeywordAsync() => await _keywordServices.GetKeywordFaNulllAsync();
     private async Task SaveFaKeywordAsync(List<Keyword> keywords) => await _keywordServices.UpdateKeyword(keywords: keywords);
-
     private async Task<List<DeathCause>?> GetDeathCauseAsync() => await _deathCauseServices.GetAllDeathCauseFaNull();
     private async Task SaveFaDeathCauseAsync(List<DeathCause> deathCauses) => await _deathCauseServices.UpdateFaDeathCause(deathCauses: deathCauses);
-
     private async Task<List<MovieTagline>?> GetMovieTaglineAsync() => await _movieTaglineServices.GetAllMovieTaglineFaNull();
     private async Task SaveFaMovieTaglineAsync(List<MovieTagline> movieTaglines) => await _movieTaglineServices.UpdateFaMovieTagline(movieTaglines: movieTaglines);
-
     private async Task<List<People>?> GetPeopleAsync() => await _peopleServices.GetPeopleFaNull();
     private async Task SaveFaPeopleAsync(List<People> peoples) => await _peopleServices.UpdateFaPeople(peoples: peoples);
-
     private async Task<List<Genre>?> GetGenreAsync() => await _genreServices.GetAllGenreFaNull();
     private async Task SaveFaGenreAsync(List<Genre> genres) => await _genreServices.UpdateFaGenre(genres: genres);
     private async Task<List<CountryPart>?> GetCountryPartAsync() => await _countryPartServices.GetAllCountryPartFaNull();
@@ -392,7 +384,6 @@ public partial class Frm_Movie : CesForm
             );
         frm_EditForm.ShowDialog();
     }
-
     private void Btn_Search_Click(object sender, EventArgs e) =>
         LoadMovie();
     private void Btn_People_Click(object sender, EventArgs e)
@@ -507,12 +498,10 @@ public partial class Frm_Movie : CesForm
     {
         _posterClickedTaskCompletionSource?.TrySetResult(true);
     }
-
     private void Flw_ShowMovie_Scroll(object sender, ScrollEventArgs e)
     {
         CheckLoadMore();
     }
-
     private void Flw_ShowMovie_Layout(object sender, LayoutEventArgs e)
     {
         Flw_ShowMovie.Layout += (s, e) => CheckLoadMore();
