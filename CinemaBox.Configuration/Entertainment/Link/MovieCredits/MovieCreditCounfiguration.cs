@@ -15,7 +15,7 @@ public class MovieCreditCounfiguration : IEntityTypeConfiguration<MovieCredit>
         builder.Property(mc => mc.MovieId).HasMaxLength(20).IsRequired().HasColumnName("MovieId").HasComment(comment: "شناسه فیلم");
         builder.Property(mc => mc.CreditTypeId).IsRequired().HasComment(comment: "خلاصه نوع عامل");
         builder.Property(mc => mc.IsLead).IsRequired(false).HasComment(comment: "بازیگر اصلی");
-        builder.Property(mc => mc.RoleName).HasMaxLength(150).IsRequired(false).HasComment(comment: "نام نقش");
+        builder.Property(mc => mc.RoleName).HasMaxLength(500).IsRequired(false).HasComment(comment: "نام نقش");
         builder.HasOne(mc => mc.People).WithMany(mc => mc.MovieCredits).HasForeignKey(mc => mc.PeopleId);
         builder.HasOne(mc => mc.Movie).WithMany(mc => mc.MovieCredits).HasForeignKey(mc => mc.MovieId);
         builder.HasOne(mc => mc.CreditType).WithMany(mc => mc.MovieCredits).HasForeignKey(mc => mc.CreditTypeId);

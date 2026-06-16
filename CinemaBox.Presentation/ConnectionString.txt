@@ -1,1 +1,1 @@
-﻿Server=DESKTOP-4MP0C36;Database=TvTime;User Id=sa;Password=44658290;Trusted_Connection=True;TrustServerCertificate=True
+﻿Server=DESKTOP-0VD3A5I;Database=TvTime;User Id=sa;Password=44658290;Trusted_Connection=True;TrustServerCertificate=True

@@ -198,7 +198,7 @@
             Txt_Currency.BackColor = Color.White;
             Txt_Currency.CesAutoHeight = true;
             Txt_Currency.CesBackColor = Color.White;
-            Txt_Currency.CesBorderColor = Color.DeepSkyBlue;
+            Txt_Currency.CesBorderColor = SystemColors.ActiveCaption;
             Txt_Currency.CesBorderRadius = 0;
             Txt_Currency.CesBorderThickness = 1;
             Txt_Currency.CesCharacterCasing = CharacterCasing.Normal;
@@ -248,7 +248,7 @@
             Txt_Budget.BackColor = Color.White;
             Txt_Budget.CesAutoHeight = true;
             Txt_Budget.CesBackColor = Color.White;
-            Txt_Budget.CesBorderColor = Color.DeepSkyBlue;
+            Txt_Budget.CesBorderColor = SystemColors.ActiveCaption;
             Txt_Budget.CesBorderRadius = 0;
             Txt_Budget.CesBorderThickness = 1;
             Txt_Budget.CesCharacterCasing = CharacterCasing.Normal;
@@ -298,7 +298,7 @@
             Txt_ReleaseDay.BackColor = Color.White;
             Txt_ReleaseDay.CesAutoHeight = true;
             Txt_ReleaseDay.CesBackColor = Color.White;
-            Txt_ReleaseDay.CesBorderColor = Color.DeepSkyBlue;
+            Txt_ReleaseDay.CesBorderColor = SystemColors.ActiveCaption;
             Txt_ReleaseDay.CesBorderRadius = 0;
             Txt_ReleaseDay.CesBorderThickness = 1;
             Txt_ReleaseDay.CesCharacterCasing = CharacterCasing.Normal;
@@ -348,7 +348,7 @@
             Txt_ReleaseMonth.BackColor = Color.White;
             Txt_ReleaseMonth.CesAutoHeight = true;
             Txt_ReleaseMonth.CesBackColor = Color.White;
-            Txt_ReleaseMonth.CesBorderColor = Color.DeepSkyBlue;
+            Txt_ReleaseMonth.CesBorderColor = SystemColors.ActiveCaption;
             Txt_ReleaseMonth.CesBorderRadius = 0;
             Txt_ReleaseMonth.CesBorderThickness = 1;
             Txt_ReleaseMonth.CesCharacterCasing = CharacterCasing.Normal;
@@ -398,7 +398,7 @@
             Txt_ReleaseYear.BackColor = Color.White;
             Txt_ReleaseYear.CesAutoHeight = true;
             Txt_ReleaseYear.CesBackColor = Color.White;
-            Txt_ReleaseYear.CesBorderColor = Color.DeepSkyBlue;
+            Txt_ReleaseYear.CesBorderColor = SystemColors.ActiveCaption;
             Txt_ReleaseYear.CesBorderRadius = 0;
             Txt_ReleaseYear.CesBorderThickness = 1;
             Txt_ReleaseYear.CesCharacterCasing = CharacterCasing.Normal;
@@ -448,7 +448,7 @@
             Txt_Nominate.BackColor = Color.White;
             Txt_Nominate.CesAutoHeight = true;
             Txt_Nominate.CesBackColor = Color.White;
-            Txt_Nominate.CesBorderColor = Color.DeepSkyBlue;
+            Txt_Nominate.CesBorderColor = SystemColors.ActiveCaption;
             Txt_Nominate.CesBorderRadius = 0;
             Txt_Nominate.CesBorderThickness = 1;
             Txt_Nominate.CesCharacterCasing = CharacterCasing.Normal;
@@ -498,7 +498,7 @@
             Txt_Wins.BackColor = Color.White;
             Txt_Wins.CesAutoHeight = true;
             Txt_Wins.CesBackColor = Color.White;
-            Txt_Wins.CesBorderColor = Color.DeepSkyBlue;
+            Txt_Wins.CesBorderColor = SystemColors.ActiveCaption;
             Txt_Wins.CesBorderRadius = 0;
             Txt_Wins.CesBorderThickness = 1;
             Txt_Wins.CesCharacterCasing = CharacterCasing.Normal;
@@ -548,7 +548,7 @@
             Txt_OscarWins.BackColor = Color.White;
             Txt_OscarWins.CesAutoHeight = true;
             Txt_OscarWins.CesBackColor = Color.White;
-            Txt_OscarWins.CesBorderColor = Color.DeepSkyBlue;
+            Txt_OscarWins.CesBorderColor = SystemColors.ActiveCaption;
             Txt_OscarWins.CesBorderRadius = 0;
             Txt_OscarWins.CesBorderThickness = 1;
             Txt_OscarWins.CesCharacterCasing = CharacterCasing.Normal;
@@ -598,7 +598,7 @@
             Txt_OscarNominate.BackColor = Color.White;
             Txt_OscarNominate.CesAutoHeight = true;
             Txt_OscarNominate.CesBackColor = Color.White;
-            Txt_OscarNominate.CesBorderColor = Color.DeepSkyBlue;
+            Txt_OscarNominate.CesBorderColor = SystemColors.ActiveCaption;
             Txt_OscarNominate.CesBorderRadius = 0;
             Txt_OscarNominate.CesBorderThickness = 1;
             Txt_OscarNominate.CesCharacterCasing = CharacterCasing.Normal;
@@ -808,10 +808,10 @@
             Tb_Video.Controls.Add(Txt_AspectRatio);
             Tb_Video.Controls.Add(Txt_Resolution);
             Tb_Video.Controls.Add(Txt_Format);
-            Tb_Video.Location = new Point(4, 24);
+            Tb_Video.Location = new Point(4, 28);
             Tb_Video.Name = "Tb_Video";
             Tb_Video.Padding = new Padding(3);
-            Tb_Video.Size = new Size(778, 357);
+            Tb_Video.Size = new Size(778, 353);
             Tb_Video.TabIndex = 7;
             Tb_Video.Text = "مشخصات ویدیو";
             Tb_Video.UseVisualStyleBackColor = true;
@@ -839,7 +839,7 @@
             Cmb_QualityType.CesAlignToRight = false;
             Cmb_QualityType.CesAutoHeight = true;
             Cmb_QualityType.CesBackColor = Color.White;
-            Cmb_QualityType.CesBorderColor = Color.DeepSkyBlue;
+            Cmb_QualityType.CesBorderColor = SystemColors.ActiveCaption;
             Cmb_QualityType.CesBorderRadius = 0;
             Cmb_QualityType.CesBorderThickness = 1;
             Cmb_QualityType.CesDataSource = null;
@@ -851,6 +851,7 @@
             Cmb_QualityType.CesIcon = null;
             Cmb_QualityType.CesImageMember = null;
             Cmb_QualityType.CesImageWidth = 24;
+            Cmb_QualityType.CesIndicatorColor = Color.DodgerBlue;
             Cmb_QualityType.CesItemHeight = 30;
             Cmb_QualityType.CesKeepPreviousSelection = false;
             Cmb_QualityType.CesLoadingMode = false;
@@ -872,6 +873,7 @@
             Cmb_QualityType.CesShowStatusBar = true;
             Cmb_QualityType.CesShowTitle = true;
             Cmb_QualityType.CesStopSelectedItemChangedEvent = false;
+            Cmb_QualityType.CesTextAlignment = HorizontalAlignment.Center;
             Cmb_QualityType.CesTheme = Ces.WinForm.UI.Infrastructure.ThemeEnum.White;
             Cmb_QualityType.CesTitleAutoHeight = false;
             Cmb_QualityType.CesTitleAutoWidth = false;
@@ -888,6 +890,7 @@
             Cmb_QualityType.Margin = new Padding(3, 8, 3, 8);
             Cmb_QualityType.Name = "Cmb_QualityType";
             Cmb_QualityType.Padding = new Padding(3, 8, 3, 8);
+            Cmb_QualityType.RightToLeft = RightToLeft.No;
             Cmb_QualityType.Size = new Size(415, 44);
             Cmb_QualityType.TabIndex = 33;
             // 
@@ -899,7 +902,7 @@
             Cmb_Quality.CesAlignToRight = false;
             Cmb_Quality.CesAutoHeight = true;
             Cmb_Quality.CesBackColor = Color.White;
-            Cmb_Quality.CesBorderColor = Color.DeepSkyBlue;
+            Cmb_Quality.CesBorderColor = SystemColors.ActiveCaption;
             Cmb_Quality.CesBorderRadius = 0;
             Cmb_Quality.CesBorderThickness = 1;
             Cmb_Quality.CesDataSource = null;
@@ -911,6 +914,7 @@
             Cmb_Quality.CesIcon = null;
             Cmb_Quality.CesImageMember = null;
             Cmb_Quality.CesImageWidth = 24;
+            Cmb_Quality.CesIndicatorColor = Color.DodgerBlue;
             Cmb_Quality.CesItemHeight = 30;
             Cmb_Quality.CesKeepPreviousSelection = false;
             Cmb_Quality.CesLoadingMode = false;
@@ -932,6 +936,7 @@
             Cmb_Quality.CesShowStatusBar = true;
             Cmb_Quality.CesShowTitle = true;
             Cmb_Quality.CesStopSelectedItemChangedEvent = false;
+            Cmb_Quality.CesTextAlignment = HorizontalAlignment.Center;
             Cmb_Quality.CesTheme = Ces.WinForm.UI.Infrastructure.ThemeEnum.White;
             Cmb_Quality.CesTitleAutoHeight = false;
             Cmb_Quality.CesTitleAutoWidth = false;
@@ -948,6 +953,7 @@
             Cmb_Quality.Margin = new Padding(3, 6, 3, 6);
             Cmb_Quality.Name = "Cmb_Quality";
             Cmb_Quality.Padding = new Padding(3, 6, 3, 6);
+            Cmb_Quality.RightToLeft = RightToLeft.No;
             Cmb_Quality.Size = new Size(415, 44);
             Cmb_Quality.TabIndex = 32;
             // 
@@ -957,7 +963,7 @@
             Txt_Description.BackColor = Color.White;
             Txt_Description.CesAutoHeight = true;
             Txt_Description.CesBackColor = Color.White;
-            Txt_Description.CesBorderColor = Color.DeepSkyBlue;
+            Txt_Description.CesBorderColor = SystemColors.ActiveCaption;
             Txt_Description.CesBorderRadius = 0;
             Txt_Description.CesBorderThickness = 1;
             Txt_Description.CesCharacterCasing = CharacterCasing.Normal;
@@ -1007,7 +1013,7 @@
             Txt_Bitrate.BackColor = Color.White;
             Txt_Bitrate.CesAutoHeight = true;
             Txt_Bitrate.CesBackColor = Color.White;
-            Txt_Bitrate.CesBorderColor = Color.DeepSkyBlue;
+            Txt_Bitrate.CesBorderColor = SystemColors.ActiveCaption;
             Txt_Bitrate.CesBorderRadius = 0;
             Txt_Bitrate.CesBorderThickness = 1;
             Txt_Bitrate.CesCharacterCasing = CharacterCasing.Normal;
@@ -1057,7 +1063,7 @@
             Txt_FPS.BackColor = Color.White;
             Txt_FPS.CesAutoHeight = true;
             Txt_FPS.CesBackColor = Color.White;
-            Txt_FPS.CesBorderColor = Color.DeepSkyBlue;
+            Txt_FPS.CesBorderColor = SystemColors.ActiveCaption;
             Txt_FPS.CesBorderRadius = 0;
             Txt_FPS.CesBorderThickness = 1;
             Txt_FPS.CesCharacterCasing = CharacterCasing.Normal;
@@ -1107,7 +1113,7 @@
             Txt_AspectRatio.BackColor = Color.White;
             Txt_AspectRatio.CesAutoHeight = true;
             Txt_AspectRatio.CesBackColor = Color.White;
-            Txt_AspectRatio.CesBorderColor = Color.DeepSkyBlue;
+            Txt_AspectRatio.CesBorderColor = SystemColors.ActiveCaption;
             Txt_AspectRatio.CesBorderRadius = 0;
             Txt_AspectRatio.CesBorderThickness = 1;
             Txt_AspectRatio.CesCharacterCasing = CharacterCasing.Normal;
@@ -1157,7 +1163,7 @@
             Txt_Resolution.BackColor = Color.White;
             Txt_Resolution.CesAutoHeight = true;
             Txt_Resolution.CesBackColor = Color.White;
-            Txt_Resolution.CesBorderColor = Color.DeepSkyBlue;
+            Txt_Resolution.CesBorderColor = SystemColors.ActiveCaption;
             Txt_Resolution.CesBorderRadius = 0;
             Txt_Resolution.CesBorderThickness = 1;
             Txt_Resolution.CesCharacterCasing = CharacterCasing.Normal;
@@ -1208,7 +1214,7 @@
             Txt_Format.BackColor = Color.White;
             Txt_Format.CesAutoHeight = true;
             Txt_Format.CesBackColor = Color.White;
-            Txt_Format.CesBorderColor = Color.DeepSkyBlue;
+            Txt_Format.CesBorderColor = SystemColors.ActiveCaption;
             Txt_Format.CesBorderRadius = 0;
             Txt_Format.CesBorderThickness = 1;
             Txt_Format.CesCharacterCasing = CharacterCasing.Normal;
@@ -1325,10 +1331,10 @@
             Tb_UserDiskInfo.Controls.Add(Txt_FileName);
             Tb_UserDiskInfo.Controls.Add(Txt_MyRunTime);
             Tb_UserDiskInfo.Controls.Add(Cmb_MyStatus);
-            Tb_UserDiskInfo.Location = new Point(4, 24);
+            Tb_UserDiskInfo.Location = new Point(4, 28);
             Tb_UserDiskInfo.Name = "Tb_UserDiskInfo";
             Tb_UserDiskInfo.Padding = new Padding(3);
-            Tb_UserDiskInfo.Size = new Size(778, 357);
+            Tb_UserDiskInfo.Size = new Size(778, 353);
             Tb_UserDiskInfo.TabIndex = 9;
             Tb_UserDiskInfo.Text = "وضعیت فیلم";
             Tb_UserDiskInfo.UseVisualStyleBackColor = true;
@@ -1369,7 +1375,7 @@
             Txt_MovieNumber.BackColor = Color.White;
             Txt_MovieNumber.CesAutoHeight = true;
             Txt_MovieNumber.CesBackColor = Color.White;
-            Txt_MovieNumber.CesBorderColor = Color.DeepSkyBlue;
+            Txt_MovieNumber.CesBorderColor = SystemColors.ActiveCaption;
             Txt_MovieNumber.CesBorderRadius = 0;
             Txt_MovieNumber.CesBorderThickness = 1;
             Txt_MovieNumber.CesCharacterCasing = CharacterCasing.Normal;
@@ -1419,7 +1425,7 @@
             Txt_MyHourTime.BackColor = Color.White;
             Txt_MyHourTime.CesAutoHeight = true;
             Txt_MyHourTime.CesBackColor = Color.White;
-            Txt_MyHourTime.CesBorderColor = Color.DeepSkyBlue;
+            Txt_MyHourTime.CesBorderColor = SystemColors.ActiveCaption;
             Txt_MyHourTime.CesBorderRadius = 0;
             Txt_MyHourTime.CesBorderThickness = 1;
             Txt_MyHourTime.CesCharacterCasing = CharacterCasing.Normal;
@@ -1469,7 +1475,7 @@
             Txt_PositionMovie.BackColor = Color.White;
             Txt_PositionMovie.CesAutoHeight = true;
             Txt_PositionMovie.CesBackColor = Color.White;
-            Txt_PositionMovie.CesBorderColor = Color.DeepSkyBlue;
+            Txt_PositionMovie.CesBorderColor = SystemColors.ActiveCaption;
             Txt_PositionMovie.CesBorderRadius = 0;
             Txt_PositionMovie.CesBorderThickness = 1;
             Txt_PositionMovie.CesCharacterCasing = CharacterCasing.Normal;
@@ -1519,7 +1525,7 @@
             Txt_FileSize.BackColor = Color.White;
             Txt_FileSize.CesAutoHeight = true;
             Txt_FileSize.CesBackColor = Color.White;
-            Txt_FileSize.CesBorderColor = Color.DeepSkyBlue;
+            Txt_FileSize.CesBorderColor = SystemColors.ActiveCaption;
             Txt_FileSize.CesBorderRadius = 0;
             Txt_FileSize.CesBorderThickness = 1;
             Txt_FileSize.CesCharacterCasing = CharacterCasing.Normal;
@@ -1569,7 +1575,7 @@
             Txt_FileName.BackColor = Color.White;
             Txt_FileName.CesAutoHeight = true;
             Txt_FileName.CesBackColor = Color.White;
-            Txt_FileName.CesBorderColor = Color.DeepSkyBlue;
+            Txt_FileName.CesBorderColor = SystemColors.ActiveCaption;
             Txt_FileName.CesBorderRadius = 0;
             Txt_FileName.CesBorderThickness = 1;
             Txt_FileName.CesCharacterCasing = CharacterCasing.Normal;
@@ -1619,7 +1625,7 @@
             Txt_MyRunTime.BackColor = Color.White;
             Txt_MyRunTime.CesAutoHeight = true;
             Txt_MyRunTime.CesBackColor = Color.White;
-            Txt_MyRunTime.CesBorderColor = Color.DeepSkyBlue;
+            Txt_MyRunTime.CesBorderColor = SystemColors.ActiveCaption;
             Txt_MyRunTime.CesBorderRadius = 0;
             Txt_MyRunTime.CesBorderThickness = 1;
             Txt_MyRunTime.CesCharacterCasing = CharacterCasing.Normal;
@@ -1671,7 +1677,7 @@
             Cmb_MyStatus.CesAlignToRight = false;
             Cmb_MyStatus.CesAutoHeight = true;
             Cmb_MyStatus.CesBackColor = Color.White;
-            Cmb_MyStatus.CesBorderColor = Color.DeepSkyBlue;
+            Cmb_MyStatus.CesBorderColor = SystemColors.ActiveCaption;
             Cmb_MyStatus.CesBorderRadius = 0;
             Cmb_MyStatus.CesBorderThickness = 1;
             Cmb_MyStatus.CesDataSource = null;
@@ -1683,6 +1689,7 @@
             Cmb_MyStatus.CesIcon = null;
             Cmb_MyStatus.CesImageMember = null;
             Cmb_MyStatus.CesImageWidth = 24;
+            Cmb_MyStatus.CesIndicatorColor = Color.DodgerBlue;
             Cmb_MyStatus.CesItemHeight = 30;
             Cmb_MyStatus.CesKeepPreviousSelection = false;
             Cmb_MyStatus.CesLoadingMode = false;
@@ -1704,6 +1711,7 @@
             Cmb_MyStatus.CesShowStatusBar = true;
             Cmb_MyStatus.CesShowTitle = true;
             Cmb_MyStatus.CesStopSelectedItemChangedEvent = false;
+            Cmb_MyStatus.CesTextAlignment = HorizontalAlignment.Center;
             Cmb_MyStatus.CesTheme = Ces.WinForm.UI.Infrastructure.ThemeEnum.White;
             Cmb_MyStatus.CesTitleAutoHeight = false;
             Cmb_MyStatus.CesTitleAutoWidth = false;
@@ -1731,7 +1739,7 @@
             Cmb_Collection.CesAlignToRight = false;
             Cmb_Collection.CesAutoHeight = true;
             Cmb_Collection.CesBackColor = Color.White;
-            Cmb_Collection.CesBorderColor = Color.DeepSkyBlue;
+            Cmb_Collection.CesBorderColor = SystemColors.ActiveCaption;
             Cmb_Collection.CesBorderRadius = 0;
             Cmb_Collection.CesBorderThickness = 1;
             Cmb_Collection.CesDataSource = null;
@@ -1743,6 +1751,7 @@
             Cmb_Collection.CesIcon = null;
             Cmb_Collection.CesImageMember = null;
             Cmb_Collection.CesImageWidth = 24;
+            Cmb_Collection.CesIndicatorColor = Color.DodgerBlue;
             Cmb_Collection.CesItemHeight = 30;
             Cmb_Collection.CesKeepPreviousSelection = false;
             Cmb_Collection.CesLoadingMode = false;
@@ -1764,6 +1773,7 @@
             Cmb_Collection.CesShowStatusBar = true;
             Cmb_Collection.CesShowTitle = true;
             Cmb_Collection.CesStopSelectedItemChangedEvent = false;
+            Cmb_Collection.CesTextAlignment = HorizontalAlignment.Left;
             Cmb_Collection.CesTheme = Ces.WinForm.UI.Infrastructure.ThemeEnum.White;
             Cmb_Collection.CesTitleAutoHeight = false;
             Cmb_Collection.CesTitleAutoWidth = false;
@@ -1790,7 +1800,7 @@
             Txt_EnStoryline.BackColor = Color.White;
             Txt_EnStoryline.CesAutoHeight = true;
             Txt_EnStoryline.CesBackColor = Color.White;
-            Txt_EnStoryline.CesBorderColor = Color.DeepSkyBlue;
+            Txt_EnStoryline.CesBorderColor = SystemColors.ActiveCaption;
             Txt_EnStoryline.CesBorderRadius = 0;
             Txt_EnStoryline.CesBorderThickness = 1;
             Txt_EnStoryline.CesCharacterCasing = CharacterCasing.Normal;
@@ -1840,7 +1850,7 @@
             Txt_FaStoryline.BackColor = Color.White;
             Txt_FaStoryline.CesAutoHeight = true;
             Txt_FaStoryline.CesBackColor = Color.White;
-            Txt_FaStoryline.CesBorderColor = Color.DeepSkyBlue;
+            Txt_FaStoryline.CesBorderColor = SystemColors.ActiveCaption;
             Txt_FaStoryline.CesBorderRadius = 0;
             Txt_FaStoryline.CesBorderThickness = 1;
             Txt_FaStoryline.CesCharacterCasing = CharacterCasing.Normal;
@@ -1891,7 +1901,7 @@
             Txt_Plot.BackColor = Color.White;
             Txt_Plot.CesAutoHeight = true;
             Txt_Plot.CesBackColor = Color.White;
-            Txt_Plot.CesBorderColor = Color.DeepSkyBlue;
+            Txt_Plot.CesBorderColor = SystemColors.ActiveCaption;
             Txt_Plot.CesBorderRadius = 0;
             Txt_Plot.CesBorderThickness = 1;
             Txt_Plot.CesCharacterCasing = CharacterCasing.Normal;
@@ -1962,7 +1972,7 @@
             Cmb_Certificate.CesAlignToRight = false;
             Cmb_Certificate.CesAutoHeight = true;
             Cmb_Certificate.CesBackColor = Color.White;
-            Cmb_Certificate.CesBorderColor = Color.DeepSkyBlue;
+            Cmb_Certificate.CesBorderColor = SystemColors.ActiveCaption;
             Cmb_Certificate.CesBorderRadius = 0;
             Cmb_Certificate.CesBorderThickness = 1;
             Cmb_Certificate.CesDataSource = null;
@@ -1974,6 +1984,7 @@
             Cmb_Certificate.CesIcon = null;
             Cmb_Certificate.CesImageMember = null;
             Cmb_Certificate.CesImageWidth = 24;
+            Cmb_Certificate.CesIndicatorColor = Color.DodgerBlue;
             Cmb_Certificate.CesItemHeight = 30;
             Cmb_Certificate.CesKeepPreviousSelection = false;
             Cmb_Certificate.CesLoadingMode = false;
@@ -1995,6 +2006,7 @@
             Cmb_Certificate.CesShowStatusBar = true;
             Cmb_Certificate.CesShowTitle = true;
             Cmb_Certificate.CesStopSelectedItemChangedEvent = false;
+            Cmb_Certificate.CesTextAlignment = HorizontalAlignment.Left;
             Cmb_Certificate.CesTheme = Ces.WinForm.UI.Infrastructure.ThemeEnum.White;
             Cmb_Certificate.CesTitleAutoHeight = false;
             Cmb_Certificate.CesTitleAutoWidth = false;
@@ -2039,7 +2051,7 @@
             Txt_VoteCount.BackColor = Color.White;
             Txt_VoteCount.CesAutoHeight = true;
             Txt_VoteCount.CesBackColor = Color.White;
-            Txt_VoteCount.CesBorderColor = Color.DeepSkyBlue;
+            Txt_VoteCount.CesBorderColor = SystemColors.ActiveCaption;
             Txt_VoteCount.CesBorderRadius = 0;
             Txt_VoteCount.CesBorderThickness = 1;
             Txt_VoteCount.CesCharacterCasing = CharacterCasing.Normal;
@@ -2089,7 +2101,7 @@
             Txt_AggregateRating.BackColor = Color.White;
             Txt_AggregateRating.CesAutoHeight = true;
             Txt_AggregateRating.CesBackColor = Color.White;
-            Txt_AggregateRating.CesBorderColor = Color.DeepSkyBlue;
+            Txt_AggregateRating.CesBorderColor = SystemColors.ActiveCaption;
             Txt_AggregateRating.CesBorderRadius = 0;
             Txt_AggregateRating.CesBorderThickness = 1;
             Txt_AggregateRating.CesCharacterCasing = CharacterCasing.Normal;
@@ -2139,7 +2151,7 @@
             Txt_HourTime.BackColor = Color.White;
             Txt_HourTime.CesAutoHeight = true;
             Txt_HourTime.CesBackColor = Color.White;
-            Txt_HourTime.CesBorderColor = Color.DeepSkyBlue;
+            Txt_HourTime.CesBorderColor = SystemColors.ActiveCaption;
             Txt_HourTime.CesBorderRadius = 0;
             Txt_HourTime.CesBorderThickness = 1;
             Txt_HourTime.CesCharacterCasing = CharacterCasing.Normal;
@@ -2189,7 +2201,7 @@
             Txt_RunTime.BackColor = Color.White;
             Txt_RunTime.CesAutoHeight = true;
             Txt_RunTime.CesBackColor = Color.White;
-            Txt_RunTime.CesBorderColor = Color.DeepSkyBlue;
+            Txt_RunTime.CesBorderColor = SystemColors.ActiveCaption;
             Txt_RunTime.CesBorderRadius = 0;
             Txt_RunTime.CesBorderThickness = 1;
             Txt_RunTime.CesCharacterCasing = CharacterCasing.Normal;
@@ -2239,7 +2251,7 @@
             Txt_TopRanking.BackColor = Color.White;
             Txt_TopRanking.CesAutoHeight = true;
             Txt_TopRanking.CesBackColor = Color.White;
-            Txt_TopRanking.CesBorderColor = Color.DeepSkyBlue;
+            Txt_TopRanking.CesBorderColor = SystemColors.ActiveCaption;
             Txt_TopRanking.CesBorderRadius = 0;
             Txt_TopRanking.CesBorderThickness = 1;
             Txt_TopRanking.CesCharacterCasing = CharacterCasing.Normal;
@@ -2289,7 +2301,7 @@
             cesTextBox2.BackColor = Color.White;
             cesTextBox2.CesAutoHeight = true;
             cesTextBox2.CesBackColor = Color.White;
-            cesTextBox2.CesBorderColor = Color.DeepSkyBlue;
+            cesTextBox2.CesBorderColor = SystemColors.ActiveCaption;
             cesTextBox2.CesBorderRadius = 0;
             cesTextBox2.CesBorderThickness = 1;
             cesTextBox2.CesCharacterCasing = CharacterCasing.Normal;
@@ -2339,7 +2351,7 @@
             Txt_ShamsiYear.BackColor = Color.White;
             Txt_ShamsiYear.CesAutoHeight = true;
             Txt_ShamsiYear.CesBackColor = Color.White;
-            Txt_ShamsiYear.CesBorderColor = Color.DeepSkyBlue;
+            Txt_ShamsiYear.CesBorderColor = SystemColors.ActiveCaption;
             Txt_ShamsiYear.CesBorderRadius = 0;
             Txt_ShamsiYear.CesBorderThickness = 1;
             Txt_ShamsiYear.CesCharacterCasing = CharacterCasing.Normal;
@@ -2389,7 +2401,7 @@
             Txt_EndYear.BackColor = Color.White;
             Txt_EndYear.CesAutoHeight = true;
             Txt_EndYear.CesBackColor = Color.White;
-            Txt_EndYear.CesBorderColor = Color.DeepSkyBlue;
+            Txt_EndYear.CesBorderColor = SystemColors.ActiveCaption;
             Txt_EndYear.CesBorderRadius = 0;
             Txt_EndYear.CesBorderThickness = 1;
             Txt_EndYear.CesCharacterCasing = CharacterCasing.Normal;
@@ -2439,7 +2451,7 @@
             Txt_Year.BackColor = Color.White;
             Txt_Year.CesAutoHeight = true;
             Txt_Year.CesBackColor = Color.White;
-            Txt_Year.CesBorderColor = Color.DeepSkyBlue;
+            Txt_Year.CesBorderColor = SystemColors.ActiveCaption;
             Txt_Year.CesBorderRadius = 0;
             Txt_Year.CesBorderThickness = 1;
             Txt_Year.CesCharacterCasing = CharacterCasing.Normal;
@@ -2489,7 +2501,7 @@
             Txt_Imdb.BackColor = Color.White;
             Txt_Imdb.CesAutoHeight = true;
             Txt_Imdb.CesBackColor = Color.White;
-            Txt_Imdb.CesBorderColor = Color.DeepSkyBlue;
+            Txt_Imdb.CesBorderColor = SystemColors.ActiveCaption;
             Txt_Imdb.CesBorderRadius = 0;
             Txt_Imdb.CesBorderThickness = 1;
             Txt_Imdb.CesCharacterCasing = CharacterCasing.Normal;
@@ -2539,7 +2551,7 @@
             Txt_FaTitle.BackColor = Color.White;
             Txt_FaTitle.CesAutoHeight = true;
             Txt_FaTitle.CesBackColor = Color.White;
-            Txt_FaTitle.CesBorderColor = Color.DeepSkyBlue;
+            Txt_FaTitle.CesBorderColor = SystemColors.ActiveCaption;
             Txt_FaTitle.CesBorderRadius = 0;
             Txt_FaTitle.CesBorderThickness = 1;
             Txt_FaTitle.CesCharacterCasing = CharacterCasing.Normal;
@@ -2589,7 +2601,7 @@
             Txt_OriginalTitle.BackColor = Color.White;
             Txt_OriginalTitle.CesAutoHeight = true;
             Txt_OriginalTitle.CesBackColor = Color.White;
-            Txt_OriginalTitle.CesBorderColor = Color.DeepSkyBlue;
+            Txt_OriginalTitle.CesBorderColor = SystemColors.ActiveCaption;
             Txt_OriginalTitle.CesBorderRadius = 0;
             Txt_OriginalTitle.CesBorderThickness = 1;
             Txt_OriginalTitle.CesCharacterCasing = CharacterCasing.Normal;
@@ -2639,7 +2651,7 @@
             Txt_EnTitle.BackColor = Color.White;
             Txt_EnTitle.CesAutoHeight = true;
             Txt_EnTitle.CesBackColor = Color.White;
-            Txt_EnTitle.CesBorderColor = Color.DeepSkyBlue;
+            Txt_EnTitle.CesBorderColor = SystemColors.ActiveCaption;
             Txt_EnTitle.CesBorderRadius = 0;
             Txt_EnTitle.CesBorderThickness = 1;
             Txt_EnTitle.CesCharacterCasing = CharacterCasing.Normal;
