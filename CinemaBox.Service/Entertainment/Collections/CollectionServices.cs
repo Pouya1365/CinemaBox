@@ -3,6 +3,7 @@ using CinemaBox.Domain.Entertainment.Genres;
 using CinemaBox.Model.Statestics;
 using CinemaBox.Service.Interface.Entertainment.Collections;
 using CinemaBox.UnitOfWork.Interface.UOW;
+using System.Collections;
 
 
 namespace CinemaBox.Service.Entertainment.Collections;
@@ -11,14 +12,16 @@ public class CollectionServices(IUnitOfWork unitOfWork) : ICollectionServices
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     public async Task<IEnumerable<Collection>> GetAllCollection() => await _unitOfWork.Repository<Collection>().GetAllAsync();
-    public async Task<Collection> CreateOrGetCollectoion(string encollectionName,string faCollectionName)
+    public async Task<Collection> CreateOrGetCollectoion(string encollectionName,string faCollectionName,int?countCollection,int? totalCount)
     {
         if (string.IsNullOrWhiteSpace(encollectionName))
             return null;
         Collection? collection = await GetCollectionAsync(collectionName: encollectionName);
         if (collection == null)
         {
-            collection = new Collection { EnCollectionName = encollectionName.Trim(),FaCollectionName= faCollectionName.Trim() };
+            collection = new Collection { EnCollectionName = encollectionName.Trim(),
+                FaCollectionName= faCollectionName.Trim(),CountCollection= countCollection
+            ,TotalCount=totalCount};
             await _unitOfWork.Repository<Collection>().AddAsync(collection);
             await _unitOfWork.CompleteAsync();
         }
@@ -56,5 +59,13 @@ public class CollectionServices(IUnitOfWork unitOfWork) : ICollectionServices
       .OrderByDescending(x => x.Value)
       .ToDictionary(x => x.Name, x => x.Value);
 
+    }
+    public async Task UpdateCountCollection(int? collectionId)
+    {
+        Collection collection = await _unitOfWork.Repository<Collection>()
+            .FindAsync(c => c.Id==collectionId);
+        collection.CountCollection++;
+         _unitOfWork.Repository<Collection>().Update(collection);
+        await _unitOfWork.CompleteAsync();
     }
 }

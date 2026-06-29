@@ -602,7 +602,11 @@ qualityTypaId);
                 movie.FaStoryline = Txt_FaStoryline.CesText;
             movie.IsTvShow = Chk_IsTv.CesToggle;
             if (Cmb_Collection.CesSelectedValue is not null)
+            {
                 movie.CollectionId = (int)Cmb_Collection.CesSelectedValue;
+                await UpdateCountCollection((int)movie.CollectionId);
+            }
+       
             movie.EnTitle = Txt_EnTitle.CesText;
             movie.OriginalTitle=Txt_OriginalTitle.CesText;
             await UpdateMovie(movie);
@@ -691,6 +695,7 @@ qualityTypaId);
             await CreateUserMovieAudio(newAudios);
     }
     private async Task UpdateMovie(Movie movie) => await _movieServices.UpdateMovie(movie: movie);
+    private async Task UpdateCountCollection(int collectionId) => await _collectionServices.UpdateCountCollection(collectionId: collectionId);
     private async Task<UserMovieDisk?> GetUserMovieDiskAsync() => await _userMovieDiskServices.GetMovieDiskAsync(movieId: _movieId) ?? new();
     private async Task CreateOrUpdateUserMovieDisk(UserMovieDisk userMovieDisk) => await _userMovieDiskServices.CreateOrUpdateUserMovieDiskAsync(userMovieDisk: userMovieDisk);
     private async Task<UserMovieVideo?> GetUserMovieVideoAsync() => await _userMovieVideoServices.GetMovieVideoAsync(movieId: _movieId) ?? new();
