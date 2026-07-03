@@ -1,6 +1,5 @@
 ﻿using CinemaBox.Domain.Entertainment.Link.MovieCredits;
 using CinemaBox.Domain.Persistent;
-using CinemaBox.Domain.Person.PeopleFiles;
 using CinemaBox.Domain.Shared.DeathCauses;
 using CinemaBox.Domain.Shared.Genders;
 
