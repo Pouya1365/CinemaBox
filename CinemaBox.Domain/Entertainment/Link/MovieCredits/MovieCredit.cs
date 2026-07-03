@@ -7,7 +7,7 @@ namespace CinemaBox.Domain.Entertainment.Link.MovieCredits;
 public class MovieCredit
 {
     public required int MovieId { get; set; }
-    public required int PeopleId { get; set; }
+    public required long PeopleId { get; set; }
     public required byte CreditTypeId { get; set; }
     public bool? IsLead { get; set; }
     public string? CharacterName { get; set; }
