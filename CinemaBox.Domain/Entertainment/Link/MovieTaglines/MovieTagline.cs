@@ -5,8 +5,8 @@ namespace CinemaBox.Domain.Entertainment.Link.MovieTaglines;
 
 public class MovieTagline : PersistentObject<long>
 {
-    public required string MovieId { get; set; }
-    public required string EnTagline { get; set; }
-    public string? FaTagline { get; set; }
+    public required int MovieId { get; set; }
+    public required string Tagline { get; set; }
+    public string? PersianTagline { get; set; }
     public Movie? Movie { get; set; }
 }
