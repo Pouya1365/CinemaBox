@@ -4,11 +4,11 @@ using CinemaBox.Domain.Persistent;
 
 namespace CinemaBox.Domain.Division.CountryParts;
 
-public class CountryPart : PersistentObject<long>
+public class CountryPart : PersistentObject<int>
 {
     public required string CountryPartName { get; set; }
     public string? PersianCountryPartName { get; set; }
-    public long? ParentId { get; set; }
+    public int? ParentId { get; set; }
     public string? IsoCode { get; set; }
     public byte? CountryPartTypeId { get; set; }
     public ICollection<CountryPart> Children { get; set; } = [];
