@@ -3,9 +3,9 @@ using CinemaBox.Domain.Persistent;
 
 namespace CinemaBox.Domain.Entertainment.Link.MovieLocations;
 
-public class MovieLocation : PersistentObject<long>
+public class MovieLocation : PersistentObject<int>
 {
-    public required string MovieId { get; set; }
+    public required int MovieId { get; set; }
     public required string LocationName { get; set; }
     public Movie? Movie { get; set; }
 }
