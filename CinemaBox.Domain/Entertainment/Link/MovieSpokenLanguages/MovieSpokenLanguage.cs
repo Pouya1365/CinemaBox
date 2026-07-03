@@ -5,7 +5,7 @@ namespace CinemaBox.Domain.Entertainment.Link.MovieSpokenLanguages;
 
 public class MovieSpokenLanguage
 {
-    public required string MovieId { get; set; }
+    public required int MovieId { get; set; }
     public required byte LanguageId { get; set; }
     public Language? Language { get; set; }
     public Movie? Movie { get; set; }
