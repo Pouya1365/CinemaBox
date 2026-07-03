@@ -30,6 +30,9 @@ public class UserMovieDisk : PersistentObject<int>
     public DateTime? LastVerifiedAt { get; set; } // آخرین بار که وجود فیزیکی تایید شد
     public int ViewCount { get; set; }
     public DateTime? LastViewedAt { get; set; }
+    public DateTime? AddedAt { get; set; }
+    public DateTime? LastPlayedAt { get; set; }
+    public int PlayCount { get; set; }
 
     // ===== Navigation Properties =====
     public Movie? Movie { get; set; }
