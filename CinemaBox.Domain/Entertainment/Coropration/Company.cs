@@ -1,7 +1,6 @@
 ﻿using CinemaBox.Domain.Division.CountryParts;
 using CinemaBox.Domain.Entertainment.Link.MovieCompanies;
 using CinemaBox.Domain.Persistent;
-using System.Diagnostics.Metrics;
 
 namespace CinemaBox.Domain.Entertainment.Coropration;
 
