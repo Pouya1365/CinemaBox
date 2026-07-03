@@ -5,7 +5,8 @@ namespace CinemaBox.Domain.Shared.Qualities.Qualities
 {
     public class Quality:PersistentObject<byte>
     {
-        public required string QualityName { get; set; }
+        public required string Name { get; set; }
+        public required string PersianName { get; set; }
         public ICollection<UserMovieVideo> UserMovieVideos = [];
     }
 }
